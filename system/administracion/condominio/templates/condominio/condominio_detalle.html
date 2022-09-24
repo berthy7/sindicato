@@ -1,0 +1,28 @@
+{% extends '../../../../../server/templates/layout.html' %}
+
+{% block content %}
+   <h1>Detalle Condominio</h1>
+ <h1>{{ condominio.nombre }}</h1>
+
+    {{ error }}
+    <form method="POST">
+       {% csrf_token %}
+       {{ form.as_p }}
+       <button>
+           Actualizar
+       </button>
+    </form>
+
+    <form action="{% url 'condominio_eliminar' condominio.id %}" method="POST">
+    {% csrf_token %}
+        <button>
+            Delete
+        </button>
+
+
+    </form>
+
+{% endblock %}
+
+
+

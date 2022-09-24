@@ -1,0 +1,112 @@
+{% load static %}
+
+<a href="/" class="logo text-center logo-light">
+  <span class="logo-lg">
+      <img src='{% static "template/assets/images/logo.png" %}' alt='' height='16' />
+  </span>
+  <span class="logo-sm">
+      <img src='{% static "template/assets/images/logo_sm.png" %}' alt='' height='16' />
+  </span>
+</a>
+
+<a href="/" class="logo text-center logo-dark">
+  <span class="logo-lg">
+      <img src='{% static "template/assets/images/logo-dark.png" %}' alt='' height='16' />
+  </span>
+  <span class="logo-sm">
+      <img src='{% static "template/assets/images/logo_sm_dark.png" %}' alt='' height='16' />
+  </span>
+</a>
+
+<div class="h-100" id="leftside-menu-container" data-simplebar>
+  <ul class="side-nav">
+
+    <li class="side-nav-title side-nav-item">Navigación</li>
+      <li class="side-nav-item">
+      <a data-bs-toggle="collapse" href="#ad" aria-expanded="false"
+        aria-controls="ad" class="side-nav-link">
+        <i class="mdi mdi-security"></i>
+        <span>Seguridad</span>
+        <span class="menu-arrow"></span>
+      </a>
+      <div class="collapse" id="ad">
+        <ul class="side-nav-second-level">
+          <li>
+            <a href="/usuario">Usuarios</a>
+          </li>
+            <li>
+            <a href="/rol">Rol</a>
+          </li>
+            <li>
+            <a href="/bitacora">Bitacora</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li class="side-nav-item">
+      <a  href="/bus/"
+        aria-controls="ad" class="side-nav-link">
+        <i class="mdi mdi-train-car-passenger"></i>
+        <span>Buses</span>
+      </a>
+     </li>
+
+      <li class="side-nav-item">
+      <a  href="/linea/"
+        aria-controls="ad" class="side-nav-link">
+{#        <i class="mdi mdi-store-check-outline"></i>#}
+          <i class="mdi mdi-store"></i>
+
+        <span>Linea</span>
+      </a>
+     </li>
+
+      <li class="side-nav-item">
+      <a  href="/conductor/"
+        aria-controls="ad" class="side-nav-link">
+        <i class="mdi mdi-account-tie-hat"></i>
+        <span>Conductor</span>
+      </a>
+     </li>
+      <li class="side-nav-item">
+      <a  href="/socio/"
+        aria-controls="ad" class="side-nav-link">
+        <i class="mdi mdi-account-tie"></i>
+        <span>Socio</span>
+      </a>
+     </li>
+    <li class="side-nav-item">
+      <a  href="/incidente/"
+        aria-controls="ad" class="side-nav-link">
+        <i class="mdi mdi-ambulance"></i>
+        <span>Incidentes</span>
+      </a>
+     </li>
+      <li class="side-nav-item">
+      <a  href="/evento/"
+        aria-controls="ad" class="side-nav-link">
+        <i class="uil-clipboard-alt"></i>
+        <span>Evento</span>
+      </a>
+     </li>
+      <li class="side-nav-item">
+      <a  href="/redsocial/"
+        aria-controls="ad" class="side-nav-link">
+        <i class="mdi mdi-facebook"></i>
+        <span>Redes Sociales</span>
+      </a>
+     </li>
+
+  </ul>
+
+  <div class="help-box text-white text-center">
+    <a href="javascript: void(0);" class="float-end close-btn text-white">
+      {# <i class="mdi mdi-close"></i> #}
+    </a>
+       <img src='{% static "app/assets/images/version.png" %}' alt='' height='40' />
+    <h5 class="mt-3">Hyper</h5>
+    <p class="mb-3">Version 0.0.1</p>
+  </div>
+
+  <div class="clearfix"></div>
+</div>

@@ -1,0 +1,108 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+
+{#     {% include "_form.html" %}#}
+
+ <div class="container-fluid">
+    <div class="row">
+{#      {% if 'ciudad_query' in privileges %}#}
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+
+            <h4 class="header-title mb-3">Buses</h4>
+
+{#            {% if 'ciudad_insert' in privileges %}#}
+{#            <button id="new" onclick="location.href='form';" type="button" class="btn btn-info mb-3" data-toggle="modal"#}
+{#              data-target="#modal" title="Nuevo">#}
+{#              <i class="mdi mdi-plus"></i>#}
+{#            </button>#}
+{#            {% end %}#}
+
+              <button id="new" type="button" class="btn btn-info mb-3" data-toggle="modal"
+                data-target="#modal" title="Nuevo">
+                <i class="mdi mdi-plus"></i>
+              </button>
+
+            <div class="content">
+              <table id="data_table" class="table table-striped dt-responsive nowrap w-100"></table>
+            </div>
+          </div>
+        </div>
+      </div>
+{#      {% else %}#}
+      <div class="col-12"></div>
+{#      {% end %}#}
+    </div>
+</div>
+
+ <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Registrar Bus</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+      </div>
+      <div class="modal-body">
+        <form id="submit_form" class="pl-3 pr-3 needs-validation" novalidate>
+          <div class="form-group mb-3">
+            <input id="id" name="id" type="hidden" />
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-6">
+                <div class="form-group mb-3">
+                    <label for="placa">Placa *</label>
+                    <input id="placa" name="placa" type="text" class="form-control form-control-sm"
+                        placeholder="" required />
+                </div>
+            </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group mb-3">
+                    <label for="modelo">Modelo *</label>
+                    <input id="modelo" name="modelo" type="text" class="form-control form-control-sm"
+                        placeholder="" required />
+                </div>
+            </div>
+          </div>
+            <div class="row">
+            <div class="col-12 col-sm-6">
+                <div class="form-group mb-3">
+                    <label for="tipo">Tipo *</label>
+                    <input id="tipo" name="tipo" type="text" class="form-control form-control-sm"
+                        placeholder="" required />
+                </div>
+            </div>
+                <div class="col-12 col-sm-6">
+                <div class="form-group mb-3">
+                    <label for="año">Año *</label>
+                    <input id="año" name="año" type="number" class="form-control form-control-sm"
+                        placeholder="" required />
+                </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+          <i class="mdi mdi-close-box mr-1"></i> <span>Cerrar</span>
+        </button>
+        <button id="insert" type="button" class="btn btn-primary">
+          <i class="mdi mdi-content-save mr-1"></i> <span>Guardar</span>
+        </button>
+        <button id="update" type="button" class="btn btn-primary">
+          <i class="mdi mdi-content-save mr-1"></i> <span>Actualizar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extrajs %}
+    <script src='{% static "js/bus/index.js" %}'></script>
+{% endblock %}

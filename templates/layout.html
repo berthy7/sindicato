@@ -1,0 +1,83 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title >Hyper</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Coderthemes" name="author" />
+    <link rel='icon' href='{% static "favicon.ico" %}' type='image/x-icon'>
+
+    <link href='{% static "favicon.ico" %}' rel='stylesheet' type='text/css'/>
+    <link href='{% static "template/assets/css/icons.min.css" %}'  rel='stylesheet' type='text/css'/>
+    <link href='{% static "template/assets/css/vendor/dataTables.bootstrap5.css" %}'  rel='stylesheet' type='text/css'/>
+    <link href='{% static "template/assets/css/vendor/responsive.bootstrap5.css" %}'  rel='stylesheet' type='text/css'/>
+    <link href='{% static "app/plugins/sweetalert2-9.15.2/sweetalert2.css" %}'  rel='stylesheet' type='text/css'/>
+    <link href='{% static "template/assets/css/vendor/buttons.bootstrap5.css" %}'  rel='stylesheet' type='text/css'/>
+    <link href='{% static "template/assets/css/app.min.css" %}'  rel='stylesheet' type='text/css'/>
+
+{#    <link href='{% static "css/site.css" %}'  rel='stylesheet' type='text/css'/>#}
+</head>
+
+<body class="loading" data-layout-color="light" data-leftbar-theme="dark"
+    data-layout-mode="fluid" data-rightbar-onstart="true">
+    <div class="wrapper">
+      <div class="leftside-menu">{% include "_leftbar.html" %}</div>
+      <div class="content-page">
+        <div class="content">
+          {% include "_topbar.html" %}
+
+          <div class="container-fluid">{% block content %}{% endblock %}</div>
+
+        </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-6">2022 Sigas - sigas.com</div>
+              <div class="col-md-6">
+                <div class="text-md-end footer-links d-none d-md-block">
+                  <a href="javascript: void(0);">Acerca de</a>
+                  <a href="javascript: void(0);">Contacto</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <script src='{% static "template/assets/js/vendor.min.js" %}'></script>
+    <script src='{% static "template/assets/js/app.min.js" %}'></script>
+    <script src='{% static "template/assets/js/vendor/jquery.dataTables.min.js" %}'></script>
+    <script src='{% static "template/assets/js/vendor/dataTables.bootstrap5.js" %}'></script>
+    <script src='{% static "template/assets/js/vendor/dataTables.responsive.min.js" %}'></script>
+    <script src='{% static "template/assets/js/vendor/responsive.bootstrap5.min.js" %}'></script>
+
+    <script src='{% static "template/assets/js/vendor/dataTables.buttons.min.js" %}'></script>
+    <script src='{% static "template/assets/js/vendor/buttons.bootstrap5.min.js" %}'></script>
+    <script src='{% static "template/assets/js/vendor/buttons.html5.min.js" %}'></script>
+    <script src='{% static "template/assets/js/vendor/buttons.flash.min.js" %}'></script>
+    <script src='{% static "template/assets/js/vendor/buttons.print.min.js" %}'></script>
+    <script src='{% static "app/plugins/jquery-datatable/extensions/export/jszip.min.js" %}'></script>
+    <script src='{% static "app/plugins/jquery-datatable/extensions/export/pdfmake.min.js" %}'></script>
+    <script src='{% static "app/plugins/jquery-datatable/extensions/export/vfs_fonts.js" %}'></script>
+    <script src='{% static "app/assets/js/helper.js" %}'></script>
+
+
+    <!--plugins agregados a los recursos de la app-->
+    <script src='{% static "app/plugins/sweetalert2-9.15.2/sweetalert2.js" %}'></script>
+    <script src='{% static "app/assets/js/notification.js" %}'></script>
+    <script src='{% static "app/assets/js/functions.js" %}'></script>
+    <script src='{% static "js/layout.js" %}'></script>
+
+{#    <script src="common/layout.js"></script>#}
+
+    {% block extrajs %}{% endblock %}
+  </body>
+
+
+
+
+</html>

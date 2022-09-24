@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+   <h1>Condominio</h1>
+
+
+    {% for condominio in condominios %}
+{#        <a href="{% url 'condominio_detalle' condominio.id %}">#}
+
+        <li>{{ condominio.nombre }}</li>
+        </a>
+    {% endfor %}
+
+
+{% endblock %}

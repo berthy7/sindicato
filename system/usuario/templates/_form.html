@@ -1,0 +1,63 @@
+
+<div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Registrar Usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+      </div>
+      <div class="modal-body">
+        <form id="submit_form" class="pl-3 pr-3 needs-validation" novalidate>
+          <div class="form-group mb-3">
+            <input id="id" name="id" type="hidden" />
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-6">
+                <div class="form-group mb-3">
+                    <label for="usuario">Usuario *</label>
+                    <input id="usuario" name="usuario" type="text" class="form-control form-control-sm"
+                        placeholder="" required />
+                </div>
+            </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group mb-3">
+                    <label for="contraseña">Contraseña *</label>
+                    <input id="contraseña" name="contraseña" type="password" class="form-control form-control-sm"
+                        placeholder="" required />
+                </div>
+            </div>
+          </div>
+            <div class="row">
+            <div class="col-12 col-sm-6">
+                <div class="form-group mb-3">
+                    <label for="nombre">Nombre *</label>
+                    <input id="nombre" name="nombre" type="text" class="form-control form-control-sm"
+                        placeholder="" required />
+                </div>
+            </div>
+                <div class="col-12 col-sm-6">
+                <div class="form-group mb-3">
+                    <label for="apellidos">Apellidos *</label>
+                    <input id="apellidos" name="apellidos" type="text" class="form-control form-control-sm"
+                        placeholder="" required />
+                </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+          <i class="mdi mdi-close-box mr-1"></i> <span>Cerrar</span>
+        </button>
+        <button id="insert" type="button" class="btn btn-primary">
+          <i class="mdi mdi-content-save mr-1"></i> <span>Guardar</span>
+        </button>
+        <button id="update" type="button" class="btn btn-primary">
+          <i class="mdi mdi-content-save mr-1"></i> <span>Actualizar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
