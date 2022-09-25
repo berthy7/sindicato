@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
 'system.bus',
 'system.linea',
+'system.conductor',
 
 ]
 
@@ -83,13 +84,26 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'sindicato',
+#         'USER': 'postgres',
+#         'PASSWORD': 'root',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
+
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sindicato',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
+        'NAME': 'd2ckeua95dat64',
+        'USER': 'zebvlmojanoxeb',
+        'PASSWORD': '3fd0436eff7009011901082f995a311db423dc05d5b4770a74fa934613fdc6b2',
+        'HOST': 'ec2-3-219-19-205.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }

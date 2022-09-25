@@ -1,30 +1,27 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from .models import Conductor
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 import json
 
 # Create your views here.
 @login_required
 def index(request):
-    # return render(request, 'index.html')
-    return render(request, '../../usuario/templates/index.html')
+    return render(request, '../../conductor/templates/index.html')
 
 @login_required
 def list(request):
     dt_list = []
-    datos = User.objects.filter(is_active=True).all().order_by('-id')
+    datos = Conductor.objects.filter(habilitado=True).all().order_by('-id')
     for item in datos:
-        dt_list.append(dict(id=item.id,usuario=item.username,nombre=item.first_name,apellidos=item.last_name))
+        dt_list.append(dict(id=item.id,ci=item.ci,nombre=item.nombre,apellidos=item.apellidos))
     return JsonResponse(dt_list, safe=False)
 
 @login_required
 def insert(request):
     try:
         dicc = json.load(request)['obj']
-        print(dicc)
-        user = User.objects.create_user(username=dicc["usuario"],password=dicc["contraseña"] ,first_name=dicc["nombre"],last_name=dicc["apellidos"],email="")
-        user.save()
+        Conductor.objects.create(ci=dicc["ci"],nombre=dicc["nombre"],apellidos=dicc["apellidos"])
         return JsonResponse(dict(success=True,mensaje="Registrado Correctamente"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
@@ -33,15 +30,24 @@ def insert(request):
 def update(request):
     try:
         dicc = json.load(request)['obj']
-        usuario = User.objects.get(id=dicc["id"])
-
-        usuario.username =dicc["usuario"]
-        usuario.password=dicc["contraseña"]
-        usuario.nombre=dicc["nombre"]
-        usuario.apellidos=dicc["apellidos"]
-
-        usuario.save()
+        obj = Conductor.objects.get(id=dicc["id"])
+        obj.placa =dicc["placa"]
+        obj.modelo=dicc["modelo"]
+        obj.tipo=dicc["tipo"]
+        obj.año=dicc["año"]
+        obj.save()
         return JsonResponse(dict(success=True,mensaje="Modificado Correctamente"), safe=False)
+    except Exception as e:
+        return JsonResponse(dict(success=False, mensaje=e), safe=False)
+
+@login_required
+def state(request):
+    try:
+        dicc = json.load(request)['obj']
+        obj = Conductor.objects.get(id=dicc["id"])
+        obj.estado = dicc["estado"]
+        obj.save()
+        return JsonResponse(dict(success=True,mensaje="cambio de estado"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
 
@@ -50,9 +56,10 @@ def update(request):
 def delete(request):
     try:
         dicc = json.load(request)['obj']
-        domicilio = User.objects.get(id=dicc["id"])
-        domicilio.is_active = False
-        domicilio.save()
+        obj = Conductor.objects.get(id=dicc["id"])
+        obj.estado = False
+        obj.habilitado = False
+        obj.save()
         return JsonResponse(dict(success=True,mensaje="se Eliminio"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)

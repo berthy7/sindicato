@@ -1,3 +1,17 @@
 .color{
     color:red;
 }
+
+.app-fs-70 {
+    font-size: 70px;
+  }
+  .bg-preview {
+    padding: 12px;
+    height: 100%;
+  }
+  .content-preview {
+    display: grid;
+    place-items: center;
+    background-color: lightgrey;
+    border-radius: 0.5rem;
+  }

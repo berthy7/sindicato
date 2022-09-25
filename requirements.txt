@@ -1,0 +1,5 @@
+setuptools
+configparser
+psycopg2-binary
+Django==4.1.1
+

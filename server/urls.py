@@ -30,7 +30,8 @@ path('domicilio/', include(('system.administracion.domicilio.urls','domicilio'))
 path('usuario/', include(('system.usuario.urls','usuario'))),
 
 path('bus/', include(('system.bus.urls','bus'))),
-path('linea/', include(('system.linea.urls','linea')))
+path('linea/', include(('system.linea.urls','linea'))),
+path('conductor/', include(('system.conductor.urls','conductor')))
 
 
 ]
