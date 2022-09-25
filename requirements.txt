@@ -2,4 +2,5 @@ setuptools
 configparser
 psycopg2-binary
 Django
+django-heroku
 
