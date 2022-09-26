@@ -13,6 +13,7 @@ function load_table(data_tb) {
         scroller:       true,
         columns: [
             { title: "ID", data: "id" },
+            { title: "Categoria", data: "categoria" },
             { title: "Placa", data: "placa" },
             { title: "Modelo", data: "modelo" },
             { title: "Tipo", data: "tipo" },
@@ -65,11 +66,53 @@ function load_table(data_tb) {
 function reload_table() {
     $.ajax({
         method: "GET",
-        url: '/bus/list',
+        url: '/vehiculo/list',
         dataType: 'json',
         async: false,
         success: function (response) {
             load_table(response)
+        },
+        error: function (jqXHR, status, err) {
+        }
+    });
+}
+
+$('#fkcategoria').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione una opción'
+});
+
+$("#recargar").click(function () {
+    reload_select_categoria()
+});
+
+function reload_select_categoria() {
+    $.ajax({
+        method: "GET",
+        url: '/vehiculoCategoria/list',
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+
+        // $('#fkcategoria').html('');
+
+        $('#fkcategoria').find().remove();
+
+
+        var select = document.getElementById("fkcategoria")
+
+
+
+        for (var i = 0; i < response.length; i++) {
+            var option = document.createElement("OPTION");
+            option.innerHTML = response[i]['nombre'];
+            option.value = response[i]['id'];
+            select.appendChild(option);
+        }
+        $('#fkcategoria').selectpicker('refresh');
+
         },
         error: function (jqXHR, status, err) {
         }
@@ -90,14 +133,17 @@ $('#insert').on('click', function() {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
         return;
       }
+
       objeto ={
             placa: $("#placa").val(),
             modelo: $("#modelo").val(),
             tipo: $("#tipo").val(),
-            año: $("#año").val()
+            año: $("#año").val(),
+          fkcategoria: parseInt($("#fkcategoria").val())
       }
+    console.log(objeto)
        const response = fetchData(
-            "/bus/insert/",
+            "/vehiculo/insert/",
             "POST",
             JSON.stringify({'obj':objeto})
        );
@@ -116,6 +162,7 @@ function edit_item(e) {
     $('#modelo').val(self.modelo)
     $('#tipo').val(self.tipo)
     $('#año').val(self.año)
+    $('#fkcategoria').val(self.fkcategoria)
     
     $('.item-form').parent().addClass('focused')
     $('#insert').hide()
@@ -135,10 +182,11 @@ $('#update').click(function() {
             placa: $("#placa").val(),
             modelo: $("#modelo").val(),
             tipo: $("#tipo").val(),
-            año: $("#año").val()
+            año: $("#año").val(),
+          fkcategoria: parseInt($("#fkcategoria").val())
       }
        const response = fetchData(
-            "/bus/update/",
+            "/vehiculo/update/",
             "POST",
             JSON.stringify({'obj':objeto})
        );
@@ -185,7 +233,7 @@ function set_enable(e) {
                 estado: b
             }
 
-            fetch("/bus/state/",{
+            fetch("/vehiculo/state/",{
                 method: "POST",
                 body:JSON.stringify({'obj':objeto}),
                 headers:{
@@ -221,7 +269,7 @@ function delete_item(e) {
             objeto ={
                 id: parseInt(JSON.parse($(e).attr('data-json')))
             }
-            fetch("/bus/delete/",{
+            fetch("/vehiculo/delete/",{
                 method: "POST",
                 body:JSON.stringify({'obj':objeto}),
                 headers:{

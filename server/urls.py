@@ -25,5 +25,7 @@ path('', views.home, name='home'),
 path('login/', include(('login.urls','login'))),
 
 path('vehiculo/', include(('vehiculo.urls','vehiculo'))),
+path('vehiculoCategoria/', include(('vehiculoCategoria.urls','vehiculoCategoria'))),
+path('usuario/', include(('usuario.urls','usuario'))),
 
 ]

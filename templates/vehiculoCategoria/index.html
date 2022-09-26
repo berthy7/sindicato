@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+
+     {% include "vehiculoCategoria/_form.html" %}
+
+ <div class="container-fluid">
+    <div class="row">
+{#      {% if 'ciudad_query' in privileges %}#}
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+
+            <h4 class="header-title mb-3">Categorias de Vehiculo</h4>
+
+
+              <button id="new" type="button" class="btn btn-info mb-3" data-toggle="modal"
+                data-target="#modal" title="Nuevo">
+                <i class="mdi mdi-plus"></i>
+              </button>
+
+            <div class="content">
+              <table id="data_table" class="table table-striped dt-responsive nowrap w-100"></table>
+            </div>
+          </div>
+        </div>
+      </div>
+{#      {% else %}#}
+      <div class="col-12"></div>
+{#      {% end %}#}
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block extrajs %}
+    <script src='{% static "js/vehiculoCategoria/index.js" %}'></script>
+{% endblock %}

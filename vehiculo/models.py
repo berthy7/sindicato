@@ -1,4 +1,5 @@
 from django.db import models
+from vehiculoCategoria.models import VehiculoCategoria
 
 # Create your models here.
 
@@ -9,6 +10,9 @@ class Vehiculo(models.Model):
     modelo = models.CharField(max_length=50)
     tipo = models.CharField(max_length=25)
     año = models.IntegerField(null=True)
+    fkcategoria = models.ForeignKey(VehiculoCategoria, on_delete=models.CASCADE)
+    # fkcategoria = models.ForeignKey(VehiculoCategoria, on_delete=models.CASCADE)
+
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)
 

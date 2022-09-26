@@ -1,16 +1,36 @@
 
-<div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+ <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalLabel">Registrar Bus</h5>
+        <h5 class="modal-title" id="modalLabel">Registrar Vehiculo</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
       </div>
       <div class="modal-body">
         <form id="submit_form" class="pl-3 pr-3 needs-validation" novalidate>
           <div class="form-group mb-3">
             <input id="id" name="id" type="hidden" />
+          </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="form-group mb-3">
+                        <label for="fkcategoria">Categoria *</label>
+                        <select id="fkcategoria" name="fkcategoria" class="form-control show-tick" required>
+                       {% for i in categorias %}
+                          <option value="{{ i.id }}">{{ i.nombre }}</option>
+                       {% endfor %}
+                        </select>
+                    </div>
+                </div>
+{#                <div class="col-12 col-sm-6">#}
+{#                    <label for="recargar">Recargar</label>#}
+{#                    <div class="form-group mb-3">#}
+{#                         <button id="recargar" type="button" class="btn btn-info mb-3" title="Recargar">#}
+{#                            <i class="mdi mdi-reload"></i>#}
+{#                          </button>#}
+{#                    </div>#}
+{#                </div>#}
           </div>
           <div class="row">
             <div class="col-12 col-sm-6">
