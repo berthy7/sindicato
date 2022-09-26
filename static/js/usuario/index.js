@@ -114,28 +114,27 @@ function edit_item(e) {
 
 $('#update').click(function() {
     const validationData = formValidation('submit_form');
-    if (validationData.error) {
+      if (validationData.error) {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
         return;
-    }
-    objeto ={
+      }
+      objeto ={
             id: $("#id").val(),
             usuario: $("#usuario").val(),
             contraseña: $("#contraseña").val(),
             nombre: $("#nombre").val(),
             apellidos: $("#apellidos").val()
-    }
-    
-    const response = fetchData(
+      }
+       const response = fetchData(
             "/usuario/update/",
             "POST",
             JSON.stringify({'obj':objeto})
-    );
-    showSmallMessage("success" , "Modificado Correctamente", "center");
+       );
+       showSmallMessage("success" , "Modificado Correctamente", "center");
         setTimeout(function () {
             $('#modal').modal('hide')
             reload_table()
-    }, 2000);
+        }, 2000);
 })
 
 function delete_item(e) {

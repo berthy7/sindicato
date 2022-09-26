@@ -1,7 +1,7 @@
 """server URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.1/topics/http/urls/
+    https://docs.djangoproject.com/en/4.1/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -15,23 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from system.administracion.condominio import views
+from login import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
+path('', views.home, name='home'),
 
-path('login/', include(('system.login.urls','login'))),
-path('condominio/', include(('system.administracion.condominio.urls','condominio'))),
-path('domicilio/', include(('system.administracion.domicilio.urls','domicilio'))),
+path('login/', include(('login.urls','login'))),
 
-# path('usuario/', include(('system.seguridad.usuario.urls','usuario'))),
-
-path('usuario/', include(('system.usuario.urls','usuario'))),
-
-path('bus/', include(('system.bus.urls','bus'))),
-path('linea/', include(('system.linea.urls','linea'))),
-path('conductor/', include(('system.conductor.urls','conductor')))
-
+path('vehiculo/', include(('vehiculo.urls','vehiculo'))),
 
 ]
