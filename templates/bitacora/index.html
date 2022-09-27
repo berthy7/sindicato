@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+
+
+ <div class="container-fluid">
+    <div class="row">
+{#      {% if 'ciudad_query' in privileges %}#}
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+
+              <img src='{% static "imagen/sitioencontruccion.jpg" %}'>
+
+          </div>
+        </div>
+      </div>
+{#      {% else %}#}
+      <div class="col-12"></div>
+{#      {% end %}#}
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block extrajs %}
+    <script src='{% static "js/bitacora/index.js" %}'></script>
+{% endblock %}

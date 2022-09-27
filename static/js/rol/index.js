@@ -13,11 +13,7 @@ function load_table(data_tb) {
         scroller:       true,
         columns: [
             { title: "ID", data: "id" },
-            { title: "Categoria", data: "categoria" },
-            { title: "Placa", data: "placa" },
-            { title: "Modelo", data: "modelo" },
-            { title: "Tipo", data: "tipo" },
-            { title: "Año", data: "año" },
+            { title: "Nombre", data: "nombre" },
             { title: "Estado", data: "estado",
                 render: function(data, type, row) {
                     let check = data ? 'checked' : ''
@@ -57,7 +53,7 @@ function load_table(data_tb) {
         dom: "Bfrtip",
         buttons: [],
         "order": [ [0, 'desc'] ],
-        columnDefs: [ { width: '10%', targets: [0] }, { width: '27.5%', targets: [1, 2] }, { width: '20%', targets: [3] }, { width: '15%', targets: [4] } ],
+        columnDefs: [ { width: '10%', targets: [0,1,2,3] }],
         "initComplete": function() {}
     });
     tabla.draw()
@@ -66,56 +62,11 @@ function load_table(data_tb) {
 function reload_table() {
     $.ajax({
         method: "GET",
-        url: '/vehiculo/list',
+        url: '/rol/list',
         dataType: 'json',
         async: false,
         success: function (response) {
             load_table(response)
-        },
-        error: function (jqXHR, status, err) {
-        }
-    });
-}
-
-$('#fkcategoria').selectpicker({
-  size: 10,
-  liveSearch: true,
-  liveSearchPlaceholder: 'Buscar',
-  title: 'Seleccione una opción'
-});
-
-$("#recargar").click(function () {
-    reload_select_categoria()
-});
-
-function reload_select_categoria() {
-    $.ajax({
-        method: "GET",
-        url: '/vehiculoCategoria/list',
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-
-        $('#fkcategoria').html('');
-
-        $('#fkcategoria').selectpicker('destroy');
-
-        $('#fkcategoria').selectpicker({
-          size: 10,
-          liveSearch: true,
-          liveSearchPlaceholder: 'Buscar',
-          title: 'Seleccione una opción'
-        });
-            
-        var select = document.getElementById("fkcategoria")
-        for (var i = 0; i < response.length; i++) {
-            var option = document.createElement("OPTION");
-            option.innerHTML = response[i]['nombre'];
-            option.value = response[i]['id'];
-            select.appendChild(option);
-        }
-        $('#fkcategoria').selectpicker('refresh');
-
         },
         error: function (jqXHR, status, err) {
         }
@@ -136,17 +87,11 @@ $('#insert').on('click', function() {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
         return;
       }
-
       objeto ={
-            placa: $("#placa").val(),
-            modelo: $("#modelo").val(),
-            tipo: $("#tipo").val(),
-            año: $("#año").val(),
-          fkcategoria: parseInt($("#fkcategoria").val())
+            nombre: $("#nombre").val()
       }
-    console.log(objeto)
        const response = fetchData(
-            "/vehiculo/insert/",
+            "/rol/insert/",
             "POST",
             JSON.stringify({'obj':objeto})
        );
@@ -161,11 +106,7 @@ function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
     // clean_data()
     $('#id').val(self.id)
-    $('#placa').val(self.placa)
-    $('#modelo').val(self.modelo)
-    $('#tipo').val(self.tipo)
-    $('#año').val(self.año)
-    $('#fkcategoria').val(self.fkcategoria)
+    $('#nombre').val(self.nombre)
     
     $('.item-form').parent().addClass('focused')
     $('#insert').hide()
@@ -182,14 +123,10 @@ $('#update').click(function() {
       }
       objeto ={
             id: $("#id").val(),
-            placa: $("#placa").val(),
-            modelo: $("#modelo").val(),
-            tipo: $("#tipo").val(),
-            año: $("#año").val(),
-          fkcategoria: parseInt($("#fkcategoria").val())
+            nombre: $("#nombre").val()
       }
        const response = fetchData(
-            "/vehiculo/update/",
+            "/rol/update/",
             "POST",
             JSON.stringify({'obj':objeto})
        );
@@ -236,7 +173,7 @@ function set_enable(e) {
                 estado: b
             }
 
-            fetch("/vehiculo/state/",{
+            fetch("/rol/state/",{
                 method: "POST",
                 body:JSON.stringify({'obj':objeto}),
                 headers:{
@@ -272,7 +209,7 @@ function delete_item(e) {
             objeto ={
                 id: parseInt(JSON.parse($(e).attr('data-json')))
             }
-            fetch("/vehiculo/delete/",{
+            fetch("/rol/delete/",{
                 method: "POST",
                 body:JSON.stringify({'obj':objeto}),
                 headers:{

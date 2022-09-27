@@ -27,5 +27,7 @@ path('login/', include(('login.urls','login'))),
 path('vehiculo/', include(('vehiculo.urls','vehiculo'))),
 path('vehiculoCategoria/', include(('vehiculoCategoria.urls','vehiculoCategoria'))),
 path('usuario/', include(('usuario.urls','usuario'))),
+path('rol/', include(('rol.urls','rol'))),
+path('bitacora/', include(('bitacora.urls','bitacora'))),
 
 ]
