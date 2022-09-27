@@ -1,0 +1,119 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>GDatos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="" name="description" />
+    <meta content="Coderthemes" name="author" />
+    <link rel='shortcut icon' href='{% static "favicon.ico" %}' />
+    <link href='{% static "app/plugins/sweetalert2-9.15.2/sweetalert2.css" %}' rel='stylesheet' type='text/css' />
+    <link href='{% static "template/assets/css/icons.min.css" %}' rel='stylesheet' type='text/css' />
+    <link href='{% static "template/assets/css/app.min.css" %}' rel='stylesheet' type='text/css' id='app-style' />
+    <link href='{% static "css/login.css" %}' rel='stylesheet' type='text/css'/>
+
+  </head>
+
+  <body class="authentication-bg pb-0" data-layout-config='{"darkMode":false}'>
+    <div class="auth-fluid">
+      <div class="auth-fluid-form-box">
+        <div class="align-items-center d-flex h-100">
+          <div class="card-body">
+{#            <div class="auth-brand text-center text-lg-start">#}
+{#              <a href="index.html" class="logo-dark">#}
+{#                <span>#}
+{#                     <img src='{% static "template/assets/images/logo-dark.png" %}' alt='' height='18' />#}
+{#                </span>#}
+{#              </a>#}
+{#              <a href="index.html" class="logo-light">#}
+{#                <span>#}
+{#                    <img src='{% static "template/assets/images/logo.png" %}' alt='' height='18' />#}
+{#                </span>#}
+{#              </a>#}
+{#            </div>#}
+            <h4 class="mt-0">GDatos</h4>
+            <p class="text-muted mb-4">
+              Ingresa tus credenciales.
+            </p>
+
+<div class="alert alert-danger d-none" role="alert">
+  <button type="button" class="btn-close btn-close-white app-close-icon" aria-label="Close"></button>
+  <i class="dripicons-warning me-2"></i>
+  <span class="content-message">Datos incorrectos.</span>
+</div>
+
+<form method="POST">
+{#  <div class="mb-3">#}
+{#    <label class="form-label">Usuario</label>#}
+{#    <input class="form-control" type="text"  required=""#}
+{#      placeholder="Ingresa tu usuario" />#}
+{#        {% csrf_token %}#}
+{#  </div>#}
+{#  <div class="mb-3">#}
+{#    <a href="pages-recoverpw-2.html" class="text-muted float-end"#}
+{#      ><small>¿Olvidaste tu contraseña?</small>#}
+{#    </a>#}
+{#    <label class="form-label">Contraseña</label>#}
+{#    <div class="input-group input-group-merge">#}
+{#      <input type="password"  class="form-control" placeholder="Ingresa tu password" required>#}
+{#      <div class="input-group-text" data-password="false">#}
+{#          <span class="password-eye"></span>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+
+    {{ error }}
+
+        {% csrf_token %}
+        {{ form.as_p }}
+{#        <button>#}
+{#            Ingresar#}
+{#        </button>#}
+
+
+  <div class="d-grid mb-0 text-center">
+{#    <button id="btn-login"  class="btn btn-primary" type="button">#}
+{#      <i class="mdi mdi-login"></i> Iniciar#}
+{#    </button>#}
+
+        <button class="btn btn-primary">
+           <i class="mdi mdi-login"></i> Ingresar
+        </button>
+   </div>
+    </form>
+  </div>
+</form>
+
+            <footer class="footer footer-alt">
+                <div class="col-md-6 align-center">
+                    2022 GDatos
+                </div>
+            </footer>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-fluid-right text-center">
+        <div class="auth-user-testimonial">
+          <h2 class="mb-3">¿Tienes alguna emergencia?</h2>
+          <p class="lead">
+
+          </p>
+        </div>
+      </div>
+    </div>
+    <script src='{% static "app/plugins/sweetalert2-9.15.2/sweetalert2.js" %}'></script>
+    <script src='{% static "template/assets/js/vendor.min.js" %}'></script>
+    <script src='{% static "template/assets/js/app.min.js" %}'></script>
+    <script src='{% static "app/plugins/bootstrap-notify-3.1.3/bootstrap-notify.min.js" %}'></script>
+    <script src='{% static "app/assets/js/notification.js" %}'></script>
+    <script src='{% static "app/assets/js/functions.js" %}'></script>
+    <script src='{% static "js/login.js" %}'></script>
+
+  </body>
+</html>
+
+

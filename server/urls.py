@@ -15,19 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from login import views
+from system.login import views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 path('', views.home, name='home'),
 
-path('login/', include(('login.urls','login'))),
+path('login/', include(('system.login.urls', 'system.login'))),
 
-path('vehiculo/', include(('vehiculo.urls','vehiculo'))),
-path('vehiculoCategoria/', include(('vehiculoCategoria.urls','vehiculoCategoria'))),
-path('usuario/', include(('usuario.urls','usuario'))),
-path('rol/', include(('rol.urls','rol'))),
-path('bitacora/', include(('bitacora.urls','bitacora'))),
+path('vehiculo/', include(('system.vehiculo.urls', 'system.vehiculo'))),
+path('vehiculoCategoria/', include(('system.vehiculoCategoria.urls', 'system.vehiculoCategoria'))),
+path('usuario/', include(('system.usuario.urls', 'system.usuario'))),
+path('rol/', include(('system.rol.urls', 'system.rol'))),
+path('bitacora/', include(('system.bitacora.urls', 'system.bitacora'))),
 
 ]

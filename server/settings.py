@@ -40,20 +40,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-'login',
-'usuario',
-'rol',
-'bitacora',
+    'system.login',
+    'system.usuario',
+    'system.rol',
+    'system.bitacora',
 
-'vehiculo',
-'vehiculoCategoria',
+    'system.vehiculo',
+    'system.vehiculoCategoria',
 
-'conductor',
-'socio',
-'linea',
-
-
-
+    'system.conductor',
+    'system.socio',
+    'system.linea',
 
 ]
 
