@@ -1,3 +1,22 @@
 .color{
     color:red;
 }
+
+
+/* image container */
+.app-fs-70 {
+  font-size: 70px;
+}
+.bg-preview {
+  padding: 12px;
+  height: 100%;
+}
+.content-preview {
+  display: grid;
+  place-items: center;
+  background-color: lightgrey;
+  border-radius: 0.5rem;
+}
+.app-table td img {
+  max-width: 7rem;
+}

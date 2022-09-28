@@ -11,7 +11,6 @@ class Vehiculo(models.Model):
     tipo = models.CharField(max_length=25)
     año = models.IntegerField(null=True)
     fkcategoria = models.ForeignKey(VehiculoCategoria, on_delete=models.CASCADE)
-    # fkcategoria = models.ForeignKey(VehiculoCategoria, on_delete=models.CASCADE)
 
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)

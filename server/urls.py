@@ -26,6 +26,11 @@ path('login/', include(('system.login.urls', 'system.login'))),
 
 path('vehiculo/', include(('system.vehiculo.urls', 'system.vehiculo'))),
 path('vehiculoCategoria/', include(('system.vehiculoCategoria.urls', 'system.vehiculoCategoria'))),
+path('linea/', include(('system.linea.urls', 'system.linea'))),
+
+path('persona/', include(('system.persona.urls', 'system.persona'))),
+
+
 path('usuario/', include(('system.usuario.urls', 'system.usuario'))),
 path('rol/', include(('system.rol.urls', 'system.rol'))),
 path('bitacora/', include(('system.bitacora.urls', 'system.bitacora'))),

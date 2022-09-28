@@ -111,7 +111,7 @@ const editItem = async (params) => {
   } else showSmallMessage("warning", response.message, "center");
 };
 
-const upsertItem = async (params) => {
+const upsertItem = (params) => {
   const route =
     params.actionId == "update" ? params.routes[1] : params.routes[0];
 

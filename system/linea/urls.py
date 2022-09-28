@@ -1,4 +1,6 @@
-from django.urls import path
+
+from django.shortcuts import render
+from django.urls import path,include
 from system.linea import views
 
 urlpatterns = [

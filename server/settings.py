@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'system.conductor',
     'system.socio',
     'system.linea',
+    'system.persona',
 
 ]
 

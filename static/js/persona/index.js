@@ -4,6 +4,40 @@ $(document).ready( function () {
     reload_table();
 });
 
+$(".app-file").fileinput({
+  language: "es",
+  showCaption: false,
+  showBrowse: true,
+  showUpload: false,
+  showUploadedThumbs: false,
+  showPreview: true,
+  previewFileType: "any",
+  // allowedFileExtensions: ext_image
+});
+
+$('#tipo').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione una opción'
+});
+
+$('#genero').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione'
+});
+
+$('#licenciaCategoria').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione'
+});
+
+
+
 function load_table(data_tb) {
     var tabla = $(id_table).DataTable({
         destroy: true,
@@ -13,7 +47,11 @@ function load_table(data_tb) {
         scroller:       true,
         columns: [
             { title: "ID", data: "id" },
+            { title: "Tipo", data: "tipo" },
+            { title: "Ci", data: "ci" },
             { title: "Nombre", data: "nombre" },
+            { title: "Apellidos", data: "apellidos" },
+            { title: "Domicilio", data: "domicilio" },
             { title: "Estado", data: "estado",
                 render: function(data, type, row) {
                     let check = data ? 'checked' : ''
@@ -62,7 +100,7 @@ function load_table(data_tb) {
 function reload_table() {
     $.ajax({
         method: "GET",
-        url: '/vehiculoCategoria/list',
+        url: '/persona/list',
         dataType: 'json',
         async: false,
         success: function (response) {
@@ -81,29 +119,97 @@ $("#new").click(function () {
   $("#modal").modal("show");
 });
 
-$('#insert').on('click', function() {
-      const validationData = formValidation('submit_form');
-      if (validationData.error) {
-        showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
-        return;
-      }
-      objeto ={
-            nombre: $("#nombre").val()
-      }
-    
-       const response = fetchData(
-            "/vehiculoCategoria/insert/",
-            "POST",
-            JSON.stringify({'obj':objeto})
-       );
-    
-    
-       showSmallMessage("success" , "Insertado Correctamente", "center");
-        setTimeout(function () {
-            $('#modal').modal('hide')
-            reload_table()
-        }, 2000);
+$("#insert").on("click", function () {
+  const objectData = {
+    ci: $("#ci").val(),
+    nombre: $("#nombre").val(),
+    apellidos: $("#apellidos").val(),
+    genero: $("#genero").val(),
+    licenciaNro: $("#licenciaNro").val(),
+    licenciaCategoria: $("#licenciaCategoria").val(),
+    licenciaFechaVencimiento: $("#licenciaFechaVencimiento").val(),
+    lugarNacimiento: $("#lugarNacimiento").val(),
+    domicilio: $("#domicilio").val(),
+    tipo: $("#tipo").val(),
+    // fkciudad: $("#fkciudad").val() ? $("#fkciudad").val() : null,
+
+  };
+
+  const validationData = formValidation('submit_form');
+
+  if (validationData.error) {
+    showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+    return;
+  }
+
+   const response = fetchData(
+        "/persona/insert/",
+        "POST",
+        JSON.stringify({'obj':objectData})
+   );
+   showSmallMessage("success" , "Insertado Correctamente", "center");
+    setTimeout(function () {
+        $('#modal').modal('hide')
+        reload_table()
+    }, 2000);
+
 });
+
+
+// $('#insert').on('click', function() {
+//       const validationData = formValidation('submit_form');
+//       if (validationData.error) {
+//         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+//         return;
+//       }
+//       objeto ={
+//             nombre: $("#nombre").val()
+//       }
+//        const response = fetchData(
+//             "/persona/insert/",
+//             "POST",
+//             JSON.stringify({'obj':objeto})
+//        );
+//        showSmallMessage("success" , "Insertado Correctamente", "center");
+//         setTimeout(function () {
+//             $('#modal').modal('hide')
+//             reload_table()
+//         }, 2000);
+// });
+
+// $("#insert").on("click", function() {
+//   const objectData = {
+//     ci: $("#ci").val(),
+//     nombre: $("#nombre").val(),
+//     apellidos: $("#apellidos").val(),
+//     genero: $("#genero").val(),
+//     licenciaNro: $("#licenciaNro").val(),
+//     licenciaCategoria: $("#licenciaCategoria").val(),
+//     licenciaFechaVencimiento: $("#licenciaFechaVencimiento").val(),
+//     lugarNacimiento: $("#lugarNacimiento").val(),
+//     domicilio: $("#domicilio").val(),
+//     tipo: $("#tipo").val(),
+//     // fkciudad: $("#fkciudad").val() ? $("#fkciudad").val() : null,
+//
+//   };
+//
+//   const validationData = formValidation('submit_form');
+//
+//   if (validationData.error) {
+//     showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+//     return;
+//   }
+//
+//   upsertItem({
+//     id: Number($("#id").val()),
+//     actionId: this.id,
+//     objectData,
+//     routes: ["/persona/insert/"],
+//     method: "POST",
+//     formId: "submit_form",
+//     callback: () => reloadTable(),
+//   });
+// });
 
 function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
@@ -129,7 +235,7 @@ $('#update').click(function() {
             nombre: $("#nombre").val()
       }
        const response = fetchData(
-            "/vehiculoCategoria/update/",
+            "/persona/update/",
             "POST",
             JSON.stringify({'obj':objeto})
        );
@@ -176,7 +282,7 @@ function set_enable(e) {
                 estado: b
             }
 
-            fetch("/vehiculoCategoria/state/",{
+            fetch("/persona/state/",{
                 method: "POST",
                 body:JSON.stringify({'obj':objeto}),
                 headers:{
@@ -212,7 +318,7 @@ function delete_item(e) {
             objeto ={
                 id: parseInt(JSON.parse($(e).attr('data-json')))
             }
-            fetch("/vehiculoCategoria/delete/",{
+            fetch("/persona/delete/",{
                 method: "POST",
                 body:JSON.stringify({'obj':objeto}),
                 headers:{

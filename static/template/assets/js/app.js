@@ -1312,6 +1312,8 @@
                     document.getElementsByTagName('html')[0].dir="rtl";
                 }
 
+              
+
             },
 
             $.App = new App, $.App.Constructor = App
@@ -1321,6 +1323,9 @@
     function ($) {
         "use strict";
         $.App.init();
+
+
+
 
 
     }(window.jQuery);
