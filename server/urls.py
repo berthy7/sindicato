@@ -29,6 +29,7 @@ path('vehiculoCategoria/', include(('system.vehiculoCategoria.urls', 'system.veh
 path('linea/', include(('system.linea.urls', 'system.linea'))),
 
 path('persona/', include(('system.persona.urls', 'system.persona'))),
+path('conductor/', include(('system.conductor.urls', 'system.conductor'))),
 
 
 path('usuario/', include(('system.usuario.urls', 'system.usuario'))),

@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'system.vehiculoCategoria',
 
     'system.conductor',
-    'system.socio',
     'system.linea',
     'system.persona',
 

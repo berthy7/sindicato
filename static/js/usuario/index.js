@@ -61,6 +61,20 @@ function reload_table() {
     });
 }
 
+$('#fkrol').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione una opción'
+});
+
+$('#fklinea').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione una opción'
+});
+
 $("#new").click(function () {
   $("#update").hide();
   $("#insert").show();
@@ -75,18 +89,29 @@ $('#insert').on('click', function() {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
         return;
       }
-      objeto ={
-          usuario: $("#usuario").val(),
-          contraseña: $("#contraseña").val(),
-          nombre: $("#nombre").val(),
-          apellidos: $("#apellidos").val()
-      }
-     console.log(objeto)
+
+        let req = {
+            usuario : {
+                  username: $("#username").val(),
+                  password: $("#contraseña").val(),
+                  first_name: $("#nombre").val(),
+                  last_name: $("#apellidos").val(),
+                  email: $("#email").val()
+              },
+            persona : {
+                  nombre: $("#nombre").val(),
+                  apellidos: $("#apellidos").val(),
+                  fkrol: $("#fkrol").val(),
+                  tipo: "Usuario"
+              },
+              fklinea: $("#fklinea").val(),
+
+        }
 
        const response = fetchData(
             "/usuario/insert/",
             "POST",
-            JSON.stringify({'obj':objeto})
+            JSON.stringify({'obj':req})
        );
        showSmallMessage("success" , "Insertado Correctamente", "center");
         setTimeout(function () {

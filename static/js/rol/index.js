@@ -13,17 +13,7 @@ function load_table(data_tb) {
         scroller:       true,
         columns: [
             { title: "ID", data: "id" },
-            { title: "Nombre", data: "nombre" },
-            { title: "Estado", data: "estado",
-                render: function(data, type, row) {
-                    let check = data ? 'checked' : ''
-                    return '\
-                    <div title="' + row.estado + '">\
-                        <input id="enabled' + row.id + '" type="checkbox" class="chk-col-indigo enabled" onclick="set_enable(this)" data-id="' + row.id + '" ' + check + ' ' + row.disable + '>\
-                        <label for="enabled' + row.id + '"></label>\
-                    </div>'
-                }
-            },
+            { title: "Nombre", data: "name" },
             { title: "Acciones", data: "id",
                 render: function(data, type, row) {
                      const dataObject = JSON.stringify(row);
@@ -43,17 +33,12 @@ function load_table(data_tb) {
                     if (a === '') a = 'Sin permisos';
                     return a
                 }
-            },
-            { title: "Estado", visible: false, data: "estado",
-                render: function(data, type, row) {
-                    return data? 'Activo': 'Inactivo'
-                }
             }
         ],
         dom: "Bfrtip",
         buttons: [],
         "order": [ [0, 'desc'] ],
-        columnDefs: [ { width: '10%', targets: [0,1,2,3] }],
+        columnDefs: [ { width: '10%', targets: [0,1,2] }],
         "initComplete": function() {}
     });
     tabla.draw()

@@ -98,7 +98,8 @@ $('#insert').on('click', function() {
             denominacion: $("#denominacion").val(),
             fechaFundacion: $("#fechaFundacion").val(),
               nroAutorizacion: $("#nroAutorizacion").val(),
-              descripcionRuta: $("#descripcionRuta").val()
+              descripcionRuta: $("#descripcionRuta").val(),
+          internos: $("#internos").val()
       }
        const response = fetchData(
             "/linea/insert/",
@@ -122,6 +123,7 @@ function edit_item(e) {
     $('#fechaFundacion').val(self.fechaFundacion)
     $('#nroAutorizacion').val(self.nroAutorizacion)
     $('#descripcionRuta').val(self.descripcionRuta)
+    $('#internos').val(self.internos)
     
     $('.item-form').parent().addClass('focused')
     $('#insert').hide()
@@ -143,7 +145,8 @@ $('#update').click(function() {
             denominacion: $("#denominacion").val(),
             fechaFundacion: $("#fechaFundacion").val(),
               nroAutorizacion: $("#nroAutorizacion").val(),
-              descripcionRuta: $("#descripcionRuta").val()
+              descripcionRuta: $("#descripcionRuta").val(),
+          internos: $("#internos").val()
       }
        const response = fetchData(
             "/linea/update/",

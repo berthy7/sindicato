@@ -4,7 +4,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalLabel">Socio</h5>
+        <h5 class="modal-title" id="modalLabel">Conductor</h5>
           <h5 class="modal-title" id="modalLabelRefencia" hidden>Registrar Referencia</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
       </div>
@@ -15,7 +15,7 @@
                 <div class="form-group mb-3">
                     <input id="id" name="id" type="hidden" />
                     <label for="tipo">Es Socio Conductor</label>
-                    <select id="tipo" name="tipo" class="form-control show-tick">
+                    <select id="tipo" name="tipo" class="form-control show-tick" >
                       <option value="">No</option>
                       <option value="Socio/Conductor">Si</option>
                     </select>
@@ -41,7 +41,7 @@
           <div class="row">
             <div class="col-12 col-sm-3">
                 <div class="form-group mb-3">
-                    <label for="nombre">Nombres *</label>
+                    <label for="nombre">Nombre *</label>
                     <input id="nombre" name="nombre" type="text" class="form-control form-control-sm"
                         placeholder="" required />
                 </div>
@@ -74,6 +74,14 @@
             </div>
               <div class="col-12 col-sm-3">
                 <div class="form-group mb-3">
+                    <label for="ciFechaVencimiento">Fecha de Vencimiento *</label>
+                    <input id="ciFechaVencimiento" name="ciFechaVencimiento" type="date" class="form-control form-control-sm"
+                        placeholder="" required />
+                </div>
+            </div>
+
+              <div class="col-12 col-sm-3">
+                <div class="form-group mb-3">
                     <label for="lugarNacimiento">Lugar de Nacimiento *</label>
                     <select id="lugarNacimiento" name="lugarNacimiento" class="form-control show-tick" required>
                       <option value="Beni">Beni</option>
@@ -88,15 +96,6 @@
                     </select>
                 </div>
             </div>
-              <div class="col-12 col-sm-3">
-                <div class="form-group mb-3">
-                    <label for="ciFechaVencimiento">Fecha de Vencimiento *</label>
-                    <input id="ciFechaVencimiento" name="ciFechaVencimiento" type="date" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-
-
               <div class="col-12 col-sm-3">
                 <div class="form-group mb-3">
                     <label for="telefono">Teléfono *</label>
@@ -172,14 +171,14 @@
                     <div class="form-group mb-3">
                         <input id="referencia-id" name="referencia-id" type="hidden" />
                         <label for="referencia-Categoria">Categoria *</label>
-                        <input id="referencia-Categoria" name="referencia-Categoria" type="text" class="form-control referencia form-control-sm"
+                        <input id="referencia-Categoria" name="referencia-Categoria" type="text" class="form-control form-control-sm"
                             placeholder="" required />
                     </div>
                 </div>
                 <div class="col-12 col-sm-6">
                     <div class="form-group mb-3">
                         <label for="referencia-Genero">Género *</label>
-                        <select id="referencia-Genero" name="referencia-Genero" class="form-control referencia show-tick" required>
+                        <select id="referencia-Genero" name="referencia-Genero" class="form-control show-tick" required>
                           <option value="Masculino">Masculino</option>
                           <option value="Femenino">Femenino</option>
                         </select>
@@ -190,14 +189,14 @@
                 <div class="col-12 col-sm-3">
                     <div class="form-group mb-3">
                         <label for="referencia-Nombre">Nombre *</label>
-                        <input id="referencia-Nombre" name="referencia-Nombre" type="text" class="form-control referencia form-control-sm"
+                        <input id="referencia-Nombre" name="referencia-Nombre" type="text" class="form-control form-control-sm"
                             placeholder="" required />
                     </div>
                 </div>
                 <div class="col-12 col-sm-6">
                     <div class="form-group mb-3">
                         <label for="referencia-Apellido">Apellidos *</label>
-                        <input id="referencia-Apellido" name="referencia-Apellidos" type="text" class="form-control referencia form-control-sm"
+                        <input id="referencia-Apellido" name="referencia-Apellidos" type="text" class="form-control form-control-sm"
                             placeholder="" required />
                     </div>
                 </div>
@@ -206,14 +205,14 @@
                 <div class="col-12 col-sm-3">
                     <div class="form-group mb-3">
                         <label for="referencia-Carnet">Carnet *</label>
-                        <input id="referencia-Carnet" name="referencia-Carnet" type="text" class="form-control referencia form-control-sm"
+                        <input id="referencia-Carnet" name="referencia-Carnet" type="text" class="form-control form-control-sm"
                             placeholder="" required />
                     </div>
                 </div>
                 <div class="col-12 col-sm-6">
                     <div class="form-group mb-3">
                         <label for="referencia-Telefono">Teléfono *</label>
-                        <input id="referencia-Telefono" name="referencia-Telefono" type="text" class="form-control referencia form-control-sm"
+                        <input id="referencia-Telefono" name="referencia-Telefono" type="text" class="form-control form-control-sm"
                             placeholder="" required />
                     </div>
                 </div>
@@ -243,6 +242,59 @@
         </button>
         <button id="update" type="button" class="btn btn-primary">
           <i class="mdi mdi-content-save mr-1"></i> <span>Actualizar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+ <div class="modal fade" id="modal_asignacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Linea</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+      </div>
+      <div class="modal-body">
+        <form id="submit_form_asignacion" class="pl-3 pr-3 needs-validation" novalidate>
+
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                <div class="form-group mb-3">
+                    <label for="fklinea">Linea *</label>
+                    <input id="lineapersonaid" name="lineapersonaid" type="hidden" />
+                    <select id="fklinea" name="fklinea" class="form-control show-tick" required>
+                   {% for i in lineas %}
+                      <option value="{{ i.id }}">{{ i.codigo }}</option>
+                   {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+          </div>
+        <div class="row">
+         <div class="col-12 col-sm-4">
+                <div class="form-group mb-3">
+                    <label for="fecha">Fecha *</label>
+                    <input id="fecha" name="fecha" type="date" class="form-control form-control-sm"
+                        placeholder="" required />
+                </div>
+            </div>
+        </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+          <i class="mdi mdi-close-box mr-1"></i> <span>Cerrar</span>
+        </button>
+        <button id="asignar" type="button" class="btn btn-primary">
+          <i class="mdi mdi-content-save mr-1"></i> <span>Asignar</span>
+        </button>
+        <button id="retirar" type="button" class="btn btn-primary">
+          <i class="mdi mdi-content-save mr-1"></i> <span>Retirar</span>
         </button>
       </div>
     </div>

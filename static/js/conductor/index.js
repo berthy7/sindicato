@@ -53,6 +53,12 @@ $('#lugarNacimiento').selectpicker({
   title: 'Seleccione'
 });
 
+$('#fklinea').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione'
+});
 
 function add_columns_referencia() {
     let a_cols = []
@@ -64,7 +70,7 @@ function add_columns_referencia() {
         { title: "Telefono", data: "telefono" }
     );
     a_cols.push(
-        { title: "Acciones", data: "ci",
+        { title: "Acciones", data: "id",
                 render: function(data, type, row) {
                      const dataObject = JSON.stringify(row);
                     a = ''
@@ -80,8 +86,15 @@ function add_columns_referencia() {
                                 <i class="mdi mdi-delete"></i>\
                             </button>'
                     // }
+
+
                     if (a === '') a = 'Sin permisos';
                     return a
+                }
+            },
+            { title: "Estado", visible: false, data: "estado",
+                render: function(data, type, row) {
+                    return data? 'Activo': 'Inactivo'
                 }
             }
     );
@@ -150,6 +163,13 @@ function load_table(data_tb) {
                                 <i class="mdi mdi-delete"></i>\
                             </button>'
                     // }
+
+
+                       a += `\
+                        <button data-object='${dataObject}'  type="button" class="btn btn-primary" title="Asignar a linea" onclick="asignacion_item(this)">\
+                            <i class="mdi mdi-store"></i>\
+                        </button>`
+
                     if (a === '') a = 'Sin permisos';
                     return a
                 }
@@ -172,7 +192,7 @@ function load_table(data_tb) {
 function reload_table() {
     $.ajax({
         method: "GET",
-        url: '/persona/list',
+        url: '/conductor/list',
         dataType: 'json',
         async: false,
         success: function (response) {
@@ -206,12 +226,6 @@ $("#new").click(function () {
 });
 
 $("#newReferencia").click(function () {
-
-
-    $(".referencia").val("");
-
-
-
   $("#submit_form").attr("hidden", true);
   $("#submit_form-referencia").attr("hidden", false);
   limpiar();
@@ -267,9 +281,10 @@ $("#referencia-insert").on("click", function () {
 });
 
 $("#insert").on("click", function () {
-        let tipo = "";
+
+    let tipo = "";
     if($("#tipo").val() == "")
-        tipo = "Socio"
+        tipo = "Conductor"
     else
          tipo = $("#tipo").val()
 
@@ -300,7 +315,7 @@ $("#insert").on("click", function () {
   }
 
    const response = fetchData(
-        "/persona/insert/",
+        "/conductor/insert/",
         "POST",
         JSON.stringify({'response':obj})
    );
@@ -323,7 +338,7 @@ $("#insert").on("click", function () {
 //             nombre: $("#nombre").val()
 //       }
 //        const response = fetchData(
-//             "/persona/insert/",
+//             "/conductor/insert/",
 //             "POST",
 //             JSON.stringify({'obj':objeto})
 //        );
@@ -361,7 +376,7 @@ $("#insert").on("click", function () {
 //     id: Number($("#id").val()),
 //     actionId: this.id,
 //     objectData,
-//     routes: ["/persona/insert/"],
+//     routes: ["/conductor/insert/"],
 //     method: "POST",
 //     formId: "submit_form",
 //     callback: () => reloadTable(),
@@ -373,7 +388,7 @@ $("#insert").on("click", function () {
 
      $.ajax({
         method: "GET",
-        url: '/persona/'+self.id,
+        url: '/conductor/'+self.id,
         dataType: 'json',
         async: false,
         success: function (response) {
@@ -426,7 +441,7 @@ $('#update').click(function() {
             tipo: $("#tipo").val(),
       }
        const response = fetchData(
-            "/persona/update/",
+            "/conductor/update/",
             "POST",
             JSON.stringify({'obj':objeto})
        );
@@ -473,7 +488,7 @@ function set_enable(e) {
                 estado: b
             }
 
-            fetch("/persona/state/",{
+            fetch("/conductor/state/",{
                 method: "POST",
                 body:JSON.stringify({'obj':objeto}),
                 headers:{
@@ -509,7 +524,7 @@ function delete_item(e) {
             objeto ={
                 id: parseInt(JSON.parse($(e).attr('data-json')))
             }
-            fetch("/persona/delete/",{
+            fetch("/conductor/delete/",{
                 method: "POST",
                 body:JSON.stringify({'obj':objeto}),
                 headers:{
@@ -526,3 +541,70 @@ function delete_item(e) {
         }
     })
 }
+
+function asignacion_item(e) {
+
+    const self = JSON.parse(e.dataset.object);
+    // clean_data()
+    $('#id').val(self.id)
+    $('#lineapersonaid').val(self.lineapersonaid)
+    $('#fklinea').selectpicker("val", String(self.fklinea));
+
+
+    //$('#fecha').val(fechahoy)
+
+    $('.item-form').parent().addClass('focused')
+    $('#modal_asignacion').modal('show')
+}
+
+$('#asignar').click(function() {
+
+    const validationData = formValidation('submit_form_asignacion');
+      if (validationData.error) {
+        showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+        return;
+      }
+
+      objeto ={
+            fkpersona: parseInt($("#id").val()),
+          fklinea: parseInt($("#fklinea").val()),
+          fechaAsignacion: $("#fecha").val()
+      }
+
+       const response = fetchData(
+            "/conductor/asignacion/",
+            "POST",
+            JSON.stringify({'obj':objeto})
+       );
+       showSmallMessage("success" , "Asignado Correctamente", "center");
+        setTimeout(function () {
+            $('#modal_asignacion').modal('hide')
+            reload_table()
+        }, 2000);
+})
+
+
+$('#retirar').click(function() {
+
+    const validationData = formValidation('submit_form_asignacion');
+      if (validationData.error) {
+        showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+        return;
+      }
+
+      objeto ={
+          lineapersonaid: parseInt($("#lineapersonaid").val()),
+          fechaRetiro: $("#fecha").val()
+      }
+
+       const response = fetchData(
+            "/conductor/retiro/",
+            "POST",
+            JSON.stringify({'obj':objeto})
+       );
+       showSmallMessage("success" , "Retirado Correctamente", "center");
+        setTimeout(function () {
+            $('#modal_asignacion').modal('hide')
+            reload_table()
+        }, 2000);
+})

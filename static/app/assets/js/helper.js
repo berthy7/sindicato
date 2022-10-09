@@ -99,7 +99,7 @@ const editItem = async (params) => {
   const objectData = {
     id: params.id,
   };
-  const responseData = await fetchData(
+  const responseData = fetchData(
     params.route,
     params.method,
     getFormData(objectData)

@@ -1,8 +1,69 @@
 let id_table = '#data_table';
+let fechahoy = new Date();
 
 $(document).ready( function () {
     reload_table();
 });
+
+function add_columns() {
+    let a_cols = []
+    a_cols.push(
+        { title: "ID", data: "id" },
+        { title: "Linea", data: "linea" },
+        { title: "Categoria", data: "categoria" },
+        { title: "Placa", data: "placa" },
+        { title: "Modelo", data: "modelo" },
+        { title: "Tipo", data: "tipo" },
+        { title: "Año", data: "año" }
+    );
+
+    a_cols.push(
+        { title: "Estado", data: "estado",
+            render: function(data, type, row) {
+                let check = data ? 'checked' : ''
+                return '\
+                <div title="' + row.estado + '">\
+                    <input id="enabled' + row.id + '" type="checkbox" class="chk-col-indigo enabled" onclick="set_enable(this)" data-id="' + row.id + '" ' + check + ' ' + row.disable + '>\
+                    <label for="enabled' + row.id + '"></label>\
+                </div>'
+            }
+        },
+        { title: "Acciones", data: "id",
+            render: function(data, type, row) {
+                 const dataObject = JSON.stringify(row);
+                a = ''
+                // if (row.disable === '') {
+                    a += `\
+                        <button data-object='${dataObject}'  type="button" class="btn btn-primary edit" title="Editar" onclick="edit_item(this)">\
+                            <i class="mdi mdi-file-document-edit"></i>\
+                        </button>`
+                // }
+                // if (row.delete) {
+                    a += '\
+                        <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="delete_item(this)">\
+                            <i class="mdi mdi-delete"></i>\
+                        </button>'
+                // }
+
+                    a += `\
+                        <button data-object='${dataObject}'  type="button" class="btn btn-primary" title="Asignar a linea" onclick="asignacion_item(this)">\
+                            <i class="mdi mdi-store"></i>\
+                        </button>`
+
+                if (a === '') a = 'Sin permisos';
+                return a
+            }
+        },
+        { title: "Estado", visible: false, data: "estado",
+            render: function(data, type, row) {
+                return data? 'Activo': 'Inactivo'
+            }
+        }
+    );
+
+    return a_cols;
+
+}
 
 function load_table(data_tb) {
     var tabla = $(id_table).DataTable({
@@ -11,49 +72,7 @@ function load_table(data_tb) {
         deferRender:    true,
         scrollCollapse: true,
         scroller:       true,
-        columns: [
-            { title: "ID", data: "id" },
-            { title: "Categoria", data: "categoria" },
-            { title: "Placa", data: "placa" },
-            { title: "Modelo", data: "modelo" },
-            { title: "Tipo", data: "tipo" },
-            { title: "Año", data: "año" },
-            { title: "Estado", data: "estado",
-                render: function(data, type, row) {
-                    let check = data ? 'checked' : ''
-                    return '\
-                    <div title="' + row.estado + '">\
-                        <input id="enabled' + row.id + '" type="checkbox" class="chk-col-indigo enabled" onclick="set_enable(this)" data-id="' + row.id + '" ' + check + ' ' + row.disable + '>\
-                        <label for="enabled' + row.id + '"></label>\
-                    </div>'
-                }
-            },
-            { title: "Acciones", data: "id",
-                render: function(data, type, row) {
-                     const dataObject = JSON.stringify(row);
-                    a = ''
-                    // if (row.disable === '') {
-                        a += `\
-                            <button data-object='${dataObject}'  type="button" class="btn btn-primary edit" title="Editar" onclick="edit_item(this)">\
-                                <i class="mdi mdi-file-document-edit"></i>\
-                            </button>`
-                    // }
-                    // if (row.delete) {
-                        a += '\
-                            <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="delete_item(this)">\
-                                <i class="mdi mdi-delete"></i>\
-                            </button>'
-                    // }
-                    if (a === '') a = 'Sin permisos';
-                    return a
-                }
-            },
-            { title: "Estado", visible: false, data: "estado",
-                render: function(data, type, row) {
-                    return data? 'Activo': 'Inactivo'
-                }
-            }
-        ],
+        columns: add_columns(),
         dom: "Bfrtip",
         buttons: [],
         "order": [ [0, 'desc'] ],
@@ -78,6 +97,20 @@ function reload_table() {
 }
 
 $('#fkcategoria').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione una opción'
+});
+
+$('#fklinea').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione una opción'
+});
+
+$('#fkinterno').selectpicker({
   size: 10,
   liveSearch: true,
   liveSearchPlaceholder: 'Buscar',
@@ -123,6 +156,8 @@ function reload_select_categoria() {
 }
 
 $("#new").click(function () {
+
+
   $("#update").hide();
   $("#insert").show();
   $(".form-control").val("");
@@ -160,18 +195,34 @@ $('#insert').on('click', function() {
 function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
     // clean_data()
+    console.log(self)
+
     $('#id').val(self.id)
     $('#placa').val(self.placa)
     $('#modelo').val(self.modelo)
     $('#tipo').val(self.tipo)
     $('#año').val(self.año)
-    $('#fkcategoria').val(self.fkcategoria)
+    $('#fkcategoria').selectpicker("val", String(self.fkcategoria));
     
     $('.item-form').parent().addClass('focused')
     $('#insert').hide()
     $('#update').show()
     $('#modal').modal('show')
 
+}
+
+function asignacion_item(e) {
+    const self = JSON.parse(e.dataset.object);
+    // clean_data()
+    $('#id').val(self.id)
+    $('#lineavehiculoid').val(self.lineavehiculoid)
+    $('#fklinea').selectpicker("val", String(self.fklinea));
+
+
+    $('#fecha').val(fechahoy)
+
+    $('.item-form').parent().addClass('focused')
+    $('#modal_asignacion').modal('show')
 }
 
 $('#update').click(function() {
@@ -289,3 +340,56 @@ function delete_item(e) {
         }
     })
 }
+
+
+$('#asignar').click(function() {
+
+    const validationData = formValidation('submit_form_asignacion');
+      if (validationData.error) {
+        showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+        return;
+      }
+
+      objeto ={
+            fkvehiculo: parseInt($("#id").val()),
+          fklinea: parseInt($("#fklinea").val()),
+          fklineaInterno: parseInt($("#fkinterno").val()),
+      }
+
+       const response = fetchData(
+            "/vehiculo/asignacion/",
+            "POST",
+            JSON.stringify({'obj':objeto})
+       );
+       showSmallMessage("success" , "Asignado Correctamente", "center");
+        setTimeout(function () {
+            $('#modal_asignacion').modal('hide')
+            reload_table()
+        }, 2000);
+})
+
+
+$('#retirar').click(function() {
+
+    const validationData = formValidation('submit_form_asignacion');
+      if (validationData.error) {
+        showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+        return;
+      }
+
+      objeto ={
+          lineavehiculoid: parseInt($("#lineavehiculoid").val()),
+          fechaRetiro: $("#fecha").val()
+      }
+
+       const response = fetchData(
+            "/vehiculo/retiro/",
+            "POST",
+            JSON.stringify({'obj':objeto})
+       );
+       showSmallMessage("success" , "Retirado Correctamente", "center");
+        setTimeout(function () {
+            $('#modal_asignacion').modal('hide')
+            reload_table()
+        }, 2000);
+})

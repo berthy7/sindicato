@@ -14,14 +14,14 @@ def list(request):
     dt_list = []
     datos = Group.objects.all().order_by('id')
     for item in datos:
-        dt_list.append(dict(id=item.id,nombre=item.name))
+        dt_list.append(dict(id=item.id,name=item.name))
     return JsonResponse(dt_list, safe=False)
 
 @login_required
 def insert(request):
     try:
         dicc = json.load(request)['obj']
-        Group.objects.create(nombre=dicc["nombre"])
+        Group.objects.create(name=dicc["nombre"])
         return JsonResponse(dict(success=True,mensaje="Registrado Correctamente"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)

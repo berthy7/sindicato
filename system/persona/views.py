@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Persona
+from .models import Persona, PersonaReferencia
+from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 import json
 
@@ -12,21 +13,36 @@ def index(request):
 @login_required
 def list(request):
     dt_list = []
-    datos = Persona.objects.filter(habilitado=True).all().order_by('-id')
+    datos = Persona.objects.filter(habilitado=True).filter(tipo="Socio").all().order_by('-id')
     for item in datos:
         dt_list.append(dict(id=item.id,tipo=item.tipo,ci=item.ci,nombre=item.nombre,apellidos=item.apellidos,domicilio=item.domicilio,estado=item.estado))
-
     return JsonResponse(dt_list, safe=False)
+
+@login_required
+def obtain(request,id):
+
+    persona = Persona.objects.get(id=id)
+
+    referencias = []
+
+    for ref in PersonaReferencia.objects.filter(fkpersona=persona.id).all().order_by('id'):
+        referencias.append(model_to_dict(ref))
+
+    dicc = model_to_dict(persona)
+    response = dict(obj=dicc,referencias=referencias)
+
+    return JsonResponse(response, safe=False)
 
 @login_required
 def insert(request):
     try:
-        dicc = json.load(request)['obj']
+        dicc = json.load(request)['response']
+        persona = Persona.objects.create(**dicc["obj"])
 
-        Persona.objects.create(ci=dicc["ci"],nombre=dicc["nombre"],apellidos=dicc["apellidos"],
-                               genero=dicc["genero"],licenciaNro=dicc["licenciaNro"],licenciaCategoria=dicc["licenciaCategoria"],
-                               licenciaFechaVencimiento=dicc["licenciaFechaVencimiento"], lugarNacimiento=dicc["lugarNacimiento"],
-                               domicilio=dicc["domicilio"],tipo=dicc["tipo"])
+        for ref in dicc["referencias"]:
+            ref["fkpersona"] =  persona
+            PersonaReferencia.objects.create(**ref)
+
         return JsonResponse(dict(success=True,mensaje="Registrado Correctamente"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
@@ -35,14 +51,7 @@ def insert(request):
 def update(request):
     try:
         dicc = json.load(request)['obj']
-        obj = Persona.objects.get(id=dicc["id"])
-        obj.codigo =dicc["codigo"]
-        obj.razonSocial=dicc["razonSocial"]
-        obj.denominacion=dicc["denominacion"]
-        obj.nroAutorizacion=dicc["nroAutorizacion"]
-        obj.descripcionRuta = dicc["descripcionRuta"]
-        obj.fechaFundacion = dicc["fechaFundacion"]
-        obj.save()
+        Persona.objects.filter(pk=dicc["id"]).update(**dicc)
         return JsonResponse(dict(success=True,mensaje="Modificado Correctamente"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
