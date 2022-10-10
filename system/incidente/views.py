@@ -18,7 +18,7 @@ def list(request):
     datos = Incidente.objects.filter(habilitado=True).all().order_by('-id')
     for item in datos:
         dt_list.append(dict(id=item.id,nroIncidente=item.nroIncidente,
-                            fechaIncidente=item.fechaIncidente, persona = item.fkpersona.nombre, fkpersona = item.fkpersona.id,
+                            fechaIncidente=item.fechaIncidente, persona = item.fkpersona.nombre + " " + item.fkpersona.apellidos, fkpersona = item.fkpersona.id,
                             codigoUnidad=item.codigoUnidad,clasificacion=item.clasificacion,
                             descripcion=item.descripcion, acciones=item.acciones,
                             costo=item.costo,estado=item.estado))
