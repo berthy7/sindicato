@@ -110,7 +110,7 @@ $('#insert').on('click', function() {
             clasificacion: $("#clasificacion").val(),
             descripcion: $("#descripcion").val(),
             acciones: $("#codigoUnidad").val(),
-            costo: $("#clasificacion").val()
+            costo: $("#costo").val()
       }
        const response = fetchData(
             "/incidente/insert/",
@@ -159,7 +159,7 @@ $('#update').click(function() {
             clasificacion: $("#clasificacion").val(),
             descripcion: $("#descripcion").val(),
             acciones: $("#codigoUnidad").val(),
-            costo: $("#clasificacion").val()
+            costo: $("#costo").val()
       }
        const response = fetchData(
             "/incidente/update/",
