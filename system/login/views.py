@@ -16,7 +16,13 @@ from system.persona.models import Persona
 def home(request):
     user = request.user
     persona = Persona.objects.filter(fkusuario=user.id)
-    return render(request, 'home.html', {'usuario': user.username,'rol': persona[0].fkrol.name})
+
+    if persona:
+        rol = persona[0].fkrol.name
+    else:
+        rol = "Administrador"
+
+    return render(request, 'home.html', {'usuario': user.username,'rol': rol})
 
 def logon(request):
     if request.method == 'GET':
