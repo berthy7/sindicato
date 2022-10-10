@@ -9,12 +9,13 @@ function add_columns() {
     let a_cols = []
     a_cols.push(
         { title: "ID", data: "id" },
-        { title: "Linea", data: "linea" },
         { title: "Categoria", data: "categoria" },
         { title: "Placa", data: "placa" },
         { title: "Modelo", data: "modelo" },
         { title: "Tipo", data: "tipo" },
-        { title: "Año", data: "año" }
+        { title: "Año", data: "año" },
+        { title: "Linea", data: "linea" },
+        { title: "Interno", data: "interno" }
     );
 
     a_cols.push(
@@ -172,18 +173,23 @@ $('#insert').on('click', function() {
         return;
       }
 
-      objeto ={
+    let req = {
+        objeto : {
             placa: $("#placa").val(),
             modelo: $("#modelo").val(),
             tipo: $("#tipo").val(),
             año: $("#año").val(),
           fkcategoria: parseInt($("#fkcategoria").val())
-      }
-    console.log(objeto)
+      },
+      fklinea:parseInt($("#fklinea").val()),
+      fkinterno: parseInt($("#fkinterno").val())
+    }
+
+
        const response = fetchData(
             "/vehiculo/insert/",
             "POST",
-            JSON.stringify({'obj':objeto})
+            JSON.stringify({'obj':req})
        );
        showSmallMessage("success" , "Insertado Correctamente", "center");
         setTimeout(function () {

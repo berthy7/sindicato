@@ -18,6 +18,13 @@ $(".app-file").fileinput({
   // allowedFileExtensions: ext_image
 });
 
+$('#referencia-Categoria').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione'
+});
+
 $('#tipo').selectpicker({
   size: 10,
   liveSearch: true,

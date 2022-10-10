@@ -18,6 +18,13 @@ $(".app-file").fileinput({
   // allowedFileExtensions: ext_image
 });
 
+$('#fkinterno').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione una opción'
+});
+
 $('#tipo').selectpicker({
   size: 10,
   liveSearch: true,
@@ -54,6 +61,13 @@ $('#lugarNacimiento').selectpicker({
 });
 
 $('#fklinea').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione'
+});
+
+$('#referencia-Categoria').selectpicker({
   size: 10,
   liveSearch: true,
   liveSearchPlaceholder: 'Buscar',
@@ -137,6 +151,8 @@ function load_table(data_tb) {
             { title: "Nombre", data: "nombre" },
             { title: "Apellidos", data: "apellidos" },
             { title: "Domicilio", data: "domicilio" },
+                            { title: "Linea", data: "linea" },
+        { title: "Interno", data: "interno" },
             { title: "Estado", data: "estado",
                 render: function(data, type, row) {
                     let check = data ? 'checked' : ''
@@ -304,7 +320,9 @@ $("#insert").on("click", function () {
 
     const obj ={
         obj:objectData,
-        referencias:referencias
+        referencias:referencias,
+        fklinea:parseInt($("#fklinea").val()),
+        fkinterno: parseInt($("#fkinterno").val())
     }
 
   const validationData = formValidation('submit_form');

@@ -167,25 +167,21 @@
 
         </form>
        <form id="submit_form-referencia" class="pl-3 pr-3 needs-validation" hidden>
-            <div class="row">
+           <div class="row">
+
                 <div class="col-12 col-sm-3">
-                    <div class="form-group mb-3">
-                        <input id="referencia-id" name="referencia-id" type="hidden" />
-                        <label for="referencia-Categoria">Categoria *</label>
-                        <input id="referencia-Categoria" name="referencia-Categoria" type="text" class="form-control referencia form-control-sm"
-                            placeholder="" required />
-                    </div>
+                <div class="form-group mb-3">
+                    <input id="referencia-id" name="referencia-id" type="hidden" />
+                    <label for="referencia-Categoria">Categoria *</label>
+                    <select id="referencia-Categoria" name="referencia-Categoria" class="form-control show-tick" required>
+                      <option value="Esposa">Esposa</option>
+                      <option value="Esposo">Esposo</option>
+                      <option value="Hijo">Hijo</option>
+                      <option value="Hija">Hija</option>
+                    </select>
                 </div>
-                <div class="col-12 col-sm-6">
-                    <div class="form-group mb-3">
-                        <label for="referencia-Genero">Género *</label>
-                        <select id="referencia-Genero" name="referencia-Genero" class="form-control referencia show-tick" required>
-                          <option value="Masculino">Masculino</option>
-                          <option value="Femenino">Femenino</option>
-                        </select>
-                    </div>
                 </div>
-              </div>
+          </div>
             <div class="row">
                 <div class="col-12 col-sm-3">
                     <div class="form-group mb-3">

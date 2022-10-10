@@ -8,12 +8,15 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import render
+from system.persona.models import Persona
 
 # Create your views here.
 
 @login_required
 def home(request):
-    return render(request, 'home.html')
+    user = request.user
+    persona = Persona.objects.filter(fkusuario=user.id)
+    return render(request, 'home.html', {'usuario': user.username,'rol': persona[0].fkrol.name})
 
 def logon(request):
     if request.method == 'GET':

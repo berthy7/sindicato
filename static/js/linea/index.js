@@ -15,7 +15,6 @@ function load_table(data_tb) {
             { title: "ID", data: "id" },
             { title: "Codigo", data: "codigo" },
             { title: "Razon Social", data: "razonSocial" },
-            { title: "Denominacion", data: "denominacion" },
             { title: "Fecha Fundacion", data: "fechaFundacion" },
             { title: "Nro. Autorizacion", data: "nroAutorizacion" },
             { title: "Descripcion Ruta", data: "descripcionRuta" },
@@ -95,7 +94,6 @@ $('#insert').on('click', function() {
       objeto ={
             codigo: $("#codigo").val(),
             razonSocial: $("#razonSocial").val(),
-            denominacion: $("#denominacion").val(),
             fechaFundacion: $("#fechaFundacion").val(),
               nroAutorizacion: $("#nroAutorizacion").val(),
               descripcionRuta: $("#descripcionRuta").val(),
@@ -119,7 +117,6 @@ function edit_item(e) {
     $('#id').val(self.id)
     $('#codigo').val(self.codigo)
     $('#razonSocial').val(self.razonSocial)
-    $('#denominacion').val(self.denominacion)
     $('#fechaFundacion').val(self.fechaFundacion)
     $('#nroAutorizacion').val(self.nroAutorizacion)
     $('#descripcionRuta').val(self.descripcionRuta)
@@ -142,7 +139,6 @@ $('#update').click(function() {
             id: $("#id").val(),
             codigo: $("#codigo").val(),
             razonSocial: $("#razonSocial").val(),
-            denominacion: $("#denominacion").val(),
             fechaFundacion: $("#fechaFundacion").val(),
               nroAutorizacion: $("#nroAutorizacion").val(),
               descripcionRuta: $("#descripcionRuta").val(),

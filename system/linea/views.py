@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Linea,LineaInterno
+from .models import Linea,Interno
 from django.contrib.auth.decorators import login_required
 import json
 
@@ -15,8 +15,7 @@ def list(request):
     datos = Linea.objects.filter(habilitado=True).all().order_by('-id')
     for item in datos:
         dt_list.append(dict(id=item.id,codigo=item.codigo,
-                            razonSocial=item.razonSocial,denominacion=item.denominacion,
-                            fechaFundacion=item.fechaFundacion,nroAutorizacion=item.nroAutorizacion,
+                            razonSocial=item.razonSocial,fechaFundacion=item.fechaFundacion,nroAutorizacion=item.nroAutorizacion,
                             descripcionRuta=item.descripcionRuta,estado=item.estado))
     return JsonResponse(dt_list, safe=False)
 
@@ -28,7 +27,7 @@ def insert(request):
 
         for i in range(int(linea.internos)):
             nro = i + 1
-            LineaInterno.objects.create(numero=int(nro), fklinea=linea)
+            Interno.objects.create(numero=int(nro), fklinea=linea)
 
         return JsonResponse(dict(success=True,mensaje="Registrado Correctamente"), safe=False)
     except Exception as e:
