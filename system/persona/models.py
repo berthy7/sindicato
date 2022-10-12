@@ -14,6 +14,8 @@ class Persona(models.Model):
     licenciaNro = models.CharField(max_length=25,null=True)
     licenciaCategoria = models.CharField(max_length=1,null=True)
     licenciaFechaVencimiento = models.DateField(null=True)
+
+    lugarNacimiento = models.CharField(max_length=25, null=True)
     telefono = models.CharField(max_length=15, null=True)
     domicilio = models.CharField(max_length=50,null=True)
     latitud = models.CharField(max_length=50,null=True)

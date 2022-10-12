@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'system.conductor',
     'system.linea',
     'system.persona',
-'system.incidente',
+    'system.incidente',
+    # 'system.evento',
 
 ]
 
@@ -91,7 +92,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'sindicato2',
+#         'NAME': 'sindicato',
 #         'USER': 'postgres',
 #         'PASSWORD': 'root',
 #         'HOST': '127.0.0.1',

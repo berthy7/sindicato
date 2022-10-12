@@ -90,9 +90,10 @@ def insert(request):
         interno.save()
         InternoVehiculo.objects.create(**dict(fkvehiculo=vehiculo,fkinterno=interno))
 
-        return JsonResponse(dict(success=True,mensaje="Registrado Correctamente"), safe=False)
+        return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
     except Exception as e:
-        return JsonResponse(dict(success=False, mensaje=e), safe=False)
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
 
 @login_required
 def update(request):

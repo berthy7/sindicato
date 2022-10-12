@@ -4,6 +4,7 @@ from .models import Incidente
 from django.contrib.auth.decorators import login_required
 from system.persona.models import Persona
 import json
+import datetime
 
 # Create your views here.
 @login_required
@@ -18,7 +19,7 @@ def list(request):
     datos = Incidente.objects.filter(habilitado=True).all().order_by('-id')
     for item in datos:
         dt_list.append(dict(id=item.id,nroIncidente=item.nroIncidente,
-                            fechaIncidente=item.fechaIncidente, persona = item.fkpersona.nombre + " " + item.fkpersona.apellidos, fkpersona = item.fkpersona.id,
+                            fechaIncidente=item.fechaIncidente.strftime('%d/%m/%Y'), persona = item.fkpersona.nombre + " " + item.fkpersona.apellidos, fkpersona = item.fkpersona.id,
                             codigoUnidad=item.codigoUnidad,clasificacion=item.clasificacion,
                             descripcion=item.descripcion, acciones=item.acciones,
                             costo=item.costo,estado=item.estado))
@@ -31,27 +32,25 @@ def insert(request):
         dicc = json.load(request)['obj']
         dicc["fkpersona"] = Persona.objects.get(id=dicc["fkpersona"])
         dicc["fkusuario"] = user
-        linea = Incidente.objects.create(**dicc)
+        dicc['fechaIncidente'] = datetime.datetime.strptime(dicc['fechaIncidente'], '%d/%m/%Y')
+        Incidente.objects.create(**dicc)
 
-        return JsonResponse(dict(success=True,mensaje="Registrado Correctamente"), safe=False)
+        return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
     except Exception as e:
-        return JsonResponse(dict(success=False, mensaje=e), safe=False)
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
 
 @login_required
 def update(request):
     try:
         dicc = json.load(request)['obj']
-        obj = Incidente.objects.get(id=dicc["id"])
-        obj.codigo =dicc["codigo"]
-        obj.razonSocial=dicc["razonSocial"]
-        obj.denominacion=dicc["denominacion"]
-        obj.nroAutorizacion=dicc["nroAutorizacion"]
-        obj.descripcionRuta = dicc["descripcionRuta"]
-        obj.fechaFundacion = dicc["fechaFundacion"]
-        obj.save()
-        return JsonResponse(dict(success=True,mensaje="Modificado Correctamente"), safe=False)
+        dicc["fkpersona"] = Persona.objects.get(id=dicc["fkpersona"])
+        dicc['fechaIncidente'] = datetime.datetime.strptime(dicc['fechaIncidente'],'%d/%m/%Y')
+        Incidente.objects.filter(pk=dicc["id"]).update(**dicc)
+        return JsonResponse(dict(success=True, mensaje="Modificado Correctamente", tipo="success"), safe=False)
     except Exception as e:
-        return JsonResponse(dict(success=False, mensaje=e), safe=False)
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
 
 @login_required
 def state(request):

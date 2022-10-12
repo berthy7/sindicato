@@ -10,4 +10,6 @@ urlpatterns = [
     path('update/', views.update, name='linea_update'),
     path('state/', views.state, name='linea_state'),
     path('delete/', views.delete, name='linea_delete'),
+    path('agregarInternos/', views.agregarInternos, name='linea_agregarInternos'),
+
 ]

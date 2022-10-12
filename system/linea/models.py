@@ -53,6 +53,7 @@ class Interno(models.Model):
     fklinea = models.ForeignKey(Linea, on_delete=models.CASCADE)
     fkpersona = models.ForeignKey(Persona,null=True, on_delete=models.CASCADE)
     fkvehiculo = models.ForeignKey(Vehiculo, null=True,on_delete=models.CASCADE)
+    observacion = models.CharField(max_length=50, null= True)
 
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)

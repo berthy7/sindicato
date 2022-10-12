@@ -4,6 +4,7 @@ from .models import Persona, PersonaReferencia
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 import json
+import datetime
 
 # Create your views here.
 @login_required
@@ -15,14 +16,17 @@ def list(request):
     dt_list = []
     datos = Persona.objects.filter(habilitado=True).filter(tipo="Socio").all().order_by('-id')
     for item in datos:
-        dt_list.append(dict(id=item.id,tipo=item.tipo,ci=item.ci,nombre=item.nombre,apellidos=item.apellidos,domicilio=item.domicilio,estado=item.estado))
+        dt_list.append(dict(id=item.id,tipo=item.tipo,ci=item.ci,
+                            nombre=item.nombre,apellidos=item.apellidos,
+                            domicilio=item.domicilio,estado=item.estado))
     return JsonResponse(dt_list, safe=False)
 
 @login_required
 def obtain(request,id):
 
     persona = Persona.objects.get(id=id)
-
+    persona.ciFechaVencimiento = persona.ciFechaVencimiento.strftime('%d/%m/%Y')
+    persona.licenciaFechaVencimiento = persona.licenciaFechaVencimiento.strftime('%d/%m/%Y')
     referencias = []
 
     for ref in PersonaReferencia.objects.filter(fkpersona=persona.id).all().order_by('id'):
@@ -37,24 +41,32 @@ def obtain(request,id):
 def insert(request):
     try:
         dicc = json.load(request)['response']
+        dicc["obj"]['ciFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['ciFechaVencimiento'],'%d/%m/%Y')
+        dicc["obj"]['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['licenciaFechaVencimiento'], '%d/%m/%Y')
         persona = Persona.objects.create(**dicc["obj"])
 
         for ref in dicc["referencias"]:
             ref["fkpersona"] =  persona
             PersonaReferencia.objects.create(**ref)
 
-        return JsonResponse(dict(success=True,mensaje="Registrado Correctamente"), safe=False)
+        return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
     except Exception as e:
-        return JsonResponse(dict(success=False, mensaje=e), safe=False)
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
 
 @login_required
 def update(request):
     try:
         dicc = json.load(request)['obj']
+
+        dicc['ciFechaVencimiento'] = datetime.datetime.strptime(dicc['ciFechaVencimiento'],'%d/%m/%Y')
+        dicc['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc['licenciaFechaVencimiento'], '%d/%m/%Y')
+
         Persona.objects.filter(pk=dicc["id"]).update(**dicc)
-        return JsonResponse(dict(success=True,mensaje="Modificado Correctamente"), safe=False)
+        return JsonResponse(dict(success=True, mensaje="Modificado Correctamente", tipo="success"), safe=False)
     except Exception as e:
-        return JsonResponse(dict(success=False, mensaje=e), safe=False)
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
 
 @login_required
 def state(request):

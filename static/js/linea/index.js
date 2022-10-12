@@ -1,7 +1,16 @@
 let id_table = '#data_table';
 
+let hoy = get_current_date(new Date());
+
 $(document).ready( function () {
     reload_table();
+});
+
+
+$('#fechaFundacion').datepicker({
+    format: 'dd/mm/yyyy',
+    language: "es",
+    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
 });
 
 function load_table(data_tb) {
@@ -18,6 +27,7 @@ function load_table(data_tb) {
             { title: "Fecha Fundacion", data: "fechaFundacion" },
             { title: "Nro. Autorizacion", data: "nroAutorizacion" },
             { title: "Descripcion Ruta", data: "descripcionRuta" },
+            { title: "Cant. de Internos", data: "internos" },
             { title: "Estado", data: "estado",
                 render: function(data, type, row) {
                     let check = data ? 'checked' : ''
@@ -43,6 +53,7 @@ function load_table(data_tb) {
                             <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="delete_item(this)">\
                                 <i class="mdi mdi-delete"></i>\
                             </button>'
+
                     // }
                     if (a === '') a = 'Sin permisos';
                     return a
@@ -77,7 +88,21 @@ function reload_table() {
     });
 }
 
+function abrir_form_interno(){
+
+    $('#form_interno').prop("hidden", false);
+    $('#cantInternos').val('');
+
+    // $("#form_interno").show();
+}
+
 $("#new").click(function () {
+  $('#div_internos').show()
+  $('#div_btn_internos').hide()
+     $('#form_interno').prop("hidden", true);
+    $('#cantInternos').val('');
+
+  $('#internos').prop("required", true);
   $("#update").hide();
   $("#insert").show();
   $(".form-control").val("");
@@ -85,34 +110,70 @@ $("#new").click(function () {
   $("#modal").modal("show");
 });
 
-$('#insert').on('click', function() {
+
+
+$('#btn_guardar_internos').on('click', async function() {
+      const validationData = formValidation('submit_form_interno');
+      if (validationData.error) {
+        showSmallMessage("error", 'Por favor, ingresa la cantidad de Internos a crear');
+        return;
+      }
+      objeto ={
+          id: $("#id").val(),
+          internos: $("#internos").val(),
+          internosAlguiler: $("#internosAlguiler").val()
+      }
+       const response = await fetchData(
+            "/linea/agregarInternos/",
+            "POST",
+            JSON.stringify({'obj':objeto})
+       );
+        if(response.success){
+           showSmallMessage(response.tipo,response.mensaje,"center");
+            setTimeout(function () {
+                $('#modal').modal('hide')
+                reload_table()
+            }, 2000);
+        }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+});
+
+
+$('#insert').on('click', async function() {
       const validationData = formValidation('submit_form');
       if (validationData.error) {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
         return;
       }
-      objeto ={
-            codigo: $("#codigo").val(),
-            razonSocial: $("#razonSocial").val(),
-            fechaFundacion: $("#fechaFundacion").val(),
-              nroAutorizacion: $("#nroAutorizacion").val(),
-              descripcionRuta: $("#descripcionRuta").val(),
+      const objeto ={
+          codigo: $("#codigo").val(),
+          razonSocial: $("#razonSocial").val(),
+          fechaFundacion: $("#fechaFundacion").val(),
+          nroAutorizacion: $("#nroAutorizacion").val(),
+          descripcionRuta: $("#descripcionRuta").val(),
           internos: $("#internos").val()
       }
-       const response = fetchData(
+       const response = await fetchData(
             "/linea/insert/",
             "POST",
             JSON.stringify({'obj':objeto})
        );
-       showSmallMessage("success" , "Insertado Correctamente", "center");
-        setTimeout(function () {
-            $('#modal').modal('hide')
-            reload_table()
-        }, 2000);
+        if(response.success){
+           showSmallMessage(response.tipo,response.mensaje,"center");
+            setTimeout(function () {
+                $('#modal').modal('hide')
+                reload_table()
+            }, 2000);
+        }else showSmallMessage(response.tipo,response.mensaje,"center");
+
 });
+
+
 
 function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
+
+    console.log(self)
     // clean_data()
     $('#id').val(self.id)
     $('#codigo').val(self.codigo)
@@ -121,21 +182,30 @@ function edit_item(e) {
     $('#nroAutorizacion').val(self.nroAutorizacion)
     $('#descripcionRuta').val(self.descripcionRuta)
     $('#internos').val(self.internos)
+    $('#label_internos').html(self.internos)
     
     $('.item-form').parent().addClass('focused')
+    $('#div_internos').hide()
+    $('#div_btn_internos').show()
+    $('#internos').prop("required", false);
+    
+    $('#form_interno').prop("hidden", true);
+    $('#cantInternos').val('');
+
+    
     $('#insert').hide()
     $('#update').show()
     $('#modal').modal('show')
 
 }
 
-$('#update').click(function() {
+$('#update').on('click', async function() {
     const validationData = formValidation('submit_form');
       if (validationData.error) {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
         return;
       }
-      objeto ={
+      const objeto ={
             id: $("#id").val(),
             codigo: $("#codigo").val(),
             razonSocial: $("#razonSocial").val(),
@@ -144,16 +214,21 @@ $('#update').click(function() {
               descripcionRuta: $("#descripcionRuta").val(),
           internos: $("#internos").val()
       }
-       const response = fetchData(
+
+    const response = await fetchData(
             "/linea/update/",
             "POST",
             JSON.stringify({'obj':objeto})
        );
-       showSmallMessage("success" , "Modificado Correctamente", "center");
-        setTimeout(function () {
-            $('#modal').modal('hide')
-            reload_table()
-        }, 2000);
+
+        if(response.success){
+           showSmallMessage(response.tipo,response.mensaje,"center");
+            setTimeout(function () {
+                $('#modal').modal('hide')
+                reload_table()
+            }, 2000);
+        }else showSmallMessage(response.tipo,response.mensaje,"center");
+
 })
 
 function set_enable(e) {

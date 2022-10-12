@@ -166,7 +166,7 @@ $("#new").click(function () {
   $("#modal").modal("show");
 });
 
-$('#insert').on('click', function() {
+$('#insert').on('click',async function() {
       const validationData = formValidation('submit_form');
       if (validationData.error) {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
@@ -179,23 +179,23 @@ $('#insert').on('click', function() {
             modelo: $("#modelo").val(),
             tipo: $("#tipo").val(),
             año: $("#año").val(),
-          fkcategoria: parseInt($("#fkcategoria").val())
+            fkcategoria: parseInt($("#fkcategoria").val())
       },
       fklinea:parseInt($("#fklinea").val()),
       fkinterno: parseInt($("#fkinterno").val())
     }
-
-
-       const response = fetchData(
+       const response =await fetchData(
             "/vehiculo/insert/",
             "POST",
             JSON.stringify({'obj':req})
        );
-       showSmallMessage("success" , "Insertado Correctamente", "center");
-        setTimeout(function () {
-            $('#modal').modal('hide')
-            reload_table()
-        }, 2000);
+        if(response.success){
+           showSmallMessage(response.tipo,response.mensaje,"center");
+            setTimeout(function () {
+                $('#modal').modal('hide')
+                reload_table()
+            }, 2000);
+        }else showSmallMessage(response.tipo,response.mensaje,"center");
 });
 
 function edit_item(e) {

@@ -2,9 +2,35 @@ let id_table = '#data_table';
 let id_table_referencia = '#data_table_referencia';
 
 let referencias = []
+let btn_active = '';
 
 $(document).ready( function () {
     reload_table();
+});
+
+// $('#progressbarwizard').bootstrapWizard({
+//     onTabShow: function (t, r, a) {
+//         var o = ((a + 1) / r.find('li').length) * 100;
+//
+//         if (o === 100) $(btn_active).removeClass('d-none');
+//         else $(btn_active).addClass('d-none');
+//
+//         $('#progressbarwizard').find('.bar').css({ width: o + '%' });
+//         // calculate_order();
+//     },
+// });
+
+$('#ciFechaVencimiento').datepicker({
+    format: 'dd/mm/yyyy',
+    language: "es",
+    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+});
+
+
+$('#licenciaFechaVencimiento').datepicker({
+    format: 'dd/mm/yyyy',
+    language: "es",
+    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
 });
 
 $(".app-file").fileinput({
@@ -84,7 +110,7 @@ function add_columns_referencia() {
         { title: "Telefono", data: "telefono" }
     );
     a_cols.push(
-        { title: "Acciones", data: "id",
+        { title: "Acciones", data: "ci",
                 render: function(data, type, row) {
                      const dataObject = JSON.stringify(row);
                     a = ''
@@ -96,7 +122,7 @@ function add_columns_referencia() {
                     // }
                     // if (row.delete) {
                         a += '\
-                            <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="delete_item(this)">\
+                            <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar" >\
                                 <i class="mdi mdi-delete"></i>\
                             </button>'
                     // }
@@ -104,11 +130,6 @@ function add_columns_referencia() {
 
                     if (a === '') a = 'Sin permisos';
                     return a
-                }
-            },
-            { title: "Estado", visible: false, data: "estado",
-                render: function(data, type, row) {
-                    return data? 'Activo': 'Inactivo'
                 }
             }
     );
@@ -230,6 +251,7 @@ function limpiar(){
 
 $("#new").click(function () {
     limpiar();
+    $('#tab-form a[href="#tb-general"]').tab('show')
 
     referencias = []
     load_table_referencia(referencias)
@@ -242,9 +264,11 @@ $("#new").click(function () {
 });
 
 $("#newReferencia").click(function () {
+    $(".referencia").val("");
+    $('#referencia-Categoria').selectpicker("val", "");
   $("#submit_form").attr("hidden", true);
   $("#submit_form-referencia").attr("hidden", false);
-  limpiar();
+
   $("#referencia-atras").attr("hidden", false);
   $("#update").hide();
   $("#insert").hide();
@@ -283,8 +307,6 @@ $("#referencia-insert").on("click", function () {
         telefono: $("#referencia-Telefono").val()
   });
 
-    console.log(referencias)
-
     load_table_referencia(referencias);
 
     $("#submit_form").attr("hidden", false);
@@ -296,7 +318,13 @@ $("#referencia-insert").on("click", function () {
 
 });
 
-$("#insert").on("click", function () {
+$("#insert").on("click", async function () {
+  const validationData = formValidation('submit_form');
+
+  if (validationData.error) {
+    showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+    return;
+  }
 
     let tipo = "";
     if($("#tipo").val() == "")
@@ -311,9 +339,11 @@ $("#insert").on("click", function () {
     genero: $("#genero").val(),
     licenciaNro: $("#licenciaNro").val(),
     licenciaCategoria: $("#licenciaCategoria").val(),
+    ciFechaVencimiento: $("#ciFechaVencimiento").val(),
     licenciaFechaVencimiento: $("#licenciaFechaVencimiento").val(),
     telefono: $("#telefono").val(),
     domicilio: $("#domicilio").val(),
+    lugarNacimiento: $("#lugarNacimiento").val(),
     tipo: tipo
     // fkciudad: $("#fkciudad").val() ? $("#fkciudad").val() : null,
   };
@@ -325,23 +355,18 @@ $("#insert").on("click", function () {
         fkinterno: parseInt($("#fkinterno").val())
     }
 
-  const validationData = formValidation('submit_form');
-
-  if (validationData.error) {
-    showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
-    return;
-  }
-
-   const response = fetchData(
+   const response = await fetchData(
         "/conductor/insert/",
         "POST",
         JSON.stringify({'response':obj})
    );
-   showSmallMessage("success" , "Insertado Correctamente", "center");
-    setTimeout(function () {
-        $('#modal').modal('hide')
-        reload_table()
-    }, 2000);
+    if(response.success){
+       showSmallMessage(response.tipo,response.mensaje,"center");
+        setTimeout(function () {
+            $('#modal').modal('hide')
+            reload_table()
+        }, 2000);
+    }else showSmallMessage(response.tipo,response.mensaje,"center");
 
 });
 
@@ -419,10 +444,14 @@ $("#insert").on("click", function () {
             $('#genero').selectpicker("val", String(self.genero));
             $('#licenciaNro').val(self.licenciaNro)
             $('#licenciaCategoria').selectpicker("val", String(self.licenciaCategoria));
-            $('#licenciaFechaVencimiento').val(self.licenciaFechaVencimiento)
-            $('#telefono').selectpicker("val", String(self.telefono));
+            $('#ciFechaVencimiento').val(self.ciFechaVencimiento)
+            $('#licenciaFechaVencimiento').val(self.licenciaFechaVencimiento);
+            $('#lugarNacimiento').selectpicker("val", String(self.lugarNacimiento));
             $('#domicilio').val(self.domicilio)
             $('#tipo').selectpicker("val", String(self.tipo));
+
+            $('#fklinea').selectpicker("val", String(self.fklinea));
+            $('#fkinterno').selectpicker("val", String(self.fkinterno));
 
             load_table_referencia(response.referencias)
 
@@ -439,13 +468,15 @@ $("#insert").on("click", function () {
     // clean_data()
 }
 
-$('#update').click(function() {
+$('#update').on('click', async function() {
     const validationData = formValidation('submit_form');
       if (validationData.error) {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
         return;
       }
-      objeto ={
+    let tipo = "Conductor";
+
+     const objeto ={
             id: parseInt($("#id").val()),
             ci: $("#ci").val(),
             nombre: $("#nombre").val(),
@@ -453,21 +484,25 @@ $('#update').click(function() {
             genero: $("#genero").val(),
             licenciaNro: $("#licenciaNro").val(),
             licenciaCategoria: $("#licenciaCategoria").val(),
+            ciFechaVencimiento: $("#ciFechaVencimiento").val(),
             licenciaFechaVencimiento: $("#licenciaFechaVencimiento").val(),
             telefono: $("#telefono").val(),
             domicilio: $("#domicilio").val(),
-            tipo: $("#tipo").val(),
+            lugarNacimiento: $("#lugarNacimiento").val(),
+            tipo: tipo,
       }
-       const response = fetchData(
+       const response =await fetchData(
             "/conductor/update/",
             "POST",
             JSON.stringify({'obj':objeto})
        );
-       showSmallMessage("success" , "Modificado Correctamente", "center");
-        setTimeout(function () {
-            $('#modal').modal('hide')
-            reload_table()
-        }, 2000);
+        if(response.success){
+           showSmallMessage(response.tipo,response.mensaje,"center");
+            setTimeout(function () {
+                $('#modal').modal('hide')
+                reload_table()
+            }, 2000);
+        }else showSmallMessage(response.tipo,response.mensaje,"center");
 })
 
 function set_enable(e) {

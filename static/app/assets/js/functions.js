@@ -2,6 +2,9 @@
 const ajaxCall = (url, data, render, callback) => {
     $.ajax({
         method: "POST",
+        body: data,headers:{
+            "X-CSRFToken" : getCookie('csrftoken')
+        },
         url: url,
         data: data,
         success: function (response) {
@@ -13,6 +16,7 @@ const ajaxCall = (url, data, render, callback) => {
         }
     });
 }
+
 
 const ajaxCallGet = (url, data, callback) => {
     $.ajax({
@@ -48,17 +52,16 @@ const ajaxCallLogin = (url, data, callback) => {
     });
 }
 
-const fetchData = (url, method, data) => {
+const fetchData = async (url, method, data) => {
   try {
-    const resquest = fetch(url, {
+    const resquest = await fetch(url, {
       method: method,
       body: data,headers:{
             "X-CSRFToken" : getCookie('csrftoken')
         }
-
     });
 
-    return resquest.json();
+    return await resquest.json();
   } catch (error) {
     showSmallMessage("error", error);
   }
@@ -167,3 +170,35 @@ const formValidation = (id) => {
 
   return { error: flag, message: message, labels };
 };
+
+function get_current_date(date_obj) {
+    return format_dmy(date_obj.getDate() + "/" + (date_obj.getMonth() + 1) + "/" + date_obj.getFullYear());
+}
+
+function get_current_hour(date_obj) {
+    return date_obj.getHours() + ":" + date_obj.getMinutes();
+}
+
+function get_current_time(date_obj) {
+    return date_obj.getFullYear() + "-" + (date_obj.getMonth() + 1) + "-" + date_obj.getDate() + ' ' + date_obj.getHours() + ":" + date_obj.getMinutes();
+}
+
+function str_to_date(cadena) {
+    var partd = cadena.split("/");
+    return new Date(partd[1] + '/' + partd[0] + '/' + partd[2]);
+}
+
+function format_dmy(valor) {
+    var res = '';
+
+    if (!['', null].includes(valor)) {
+        var partd = valor.split("/")
+
+        vlm = (parseInt(partd[1]) < 10)? '0' + partd[1]: vlm = partd[1];
+        vld = (parseInt(partd[0]) < 10)? '0' + partd[0]: vld = partd[0];
+
+        res = vld + '/' + vlm + '/' + partd[2];
+    }
+
+    return res;
+}

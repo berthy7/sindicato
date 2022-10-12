@@ -8,7 +8,7 @@ from system.persona.models import Persona
 class Incidente(models.Model):
 
     nroIncidente = models.IntegerField(null=True)
-    fechaIncidente = models.DateTimeField()
+    fechaIncidente = models.DateTimeField(null=True)
     fkpersona = models.ForeignKey(Persona, on_delete=models.CASCADE)
     codigoUnidad = models.CharField(max_length=25)
     clasificacion = models.CharField(max_length=25)

@@ -31,8 +31,7 @@
                 <div class="col-12 col-sm-6">
                 <div class="form-group mb-3">
                     <label for="fechaFundacion">Fecha Fundacion *</label>
-                    <input id="fechaFundacion" name="fechaFundacion" type="date" class="form-control form-control-sm"
-                        placeholder="" required />
+                    <input id="fechaFundacion" name="fechaFundacion" type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="" required autocomplete="off">
                 </div>
             </div>
           </div>
@@ -52,7 +51,7 @@
                 </div>
             </div>
           </div>
-            <div class="row">
+        <div id="div_internos" class="row">
             <div class="col-12 col-sm-6">
                 <div class="form-group mb-3">
                     <label for="internos">Cant. de Internos *</label>
@@ -62,7 +61,39 @@
             </div>
 
           </div>
+           <div id="div_btn_internos" class="row">
+            <div class="col-12 col-sm-6">
+                 <label>Cant. de Internos Actual </label> <label id="label_internos"></label>
+                <div class="form-group mb-3">
 
+                     <button id="btn_agregar_internos" type="button" class="btn btn-primary" onclick="abrir_form_interno()">
+                      <span>Agregar Internos</span>
+                    </button>
+                </div>
+            </div>
+          </div>
+        </form>
+          <form id="submit_form_interno" class="pl-3 pr-3 needs-validation" novalidate >
+             <div id="form_interno" hidden>
+                  <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group mb-3">
+                            <label for="internosAlguiler">Cantidad de Internos de Alquiler</label>
+                            <input id="internosAlguiler" name="internosAlguiler" type="number" class="form-control form-control-sm"
+                                placeholder="" required />
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group mb-3">
+                            <button id="btn_guardar_internos" type="button" class="btn btn-primary">
+                              <i class="mdi mdi-content-save mr-1"></i> <span>Guardar</span>
+                            </button>
+                        </div>
+                    </div>
+                  </div>
+             </div>
         </form>
       </div>
       <div class="modal-footer">

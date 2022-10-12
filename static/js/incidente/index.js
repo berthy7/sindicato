@@ -12,6 +12,13 @@ $('#fkpersona').selectpicker({
   title: 'Seleccione'
 });
 
+$('#fechaIncidente').datepicker({
+    format: 'dd/mm/yyyy',
+    language: "es",
+    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+});
+
+
 function load_table(data_tb) {
     var tabla = $(id_table).DataTable({
         destroy: true,
@@ -96,32 +103,34 @@ $("#new").click(function () {
   $("#modal").modal("show");
 });
 
-$('#insert').on('click', function() {
+$('#insert').on('click',async function() {
       const validationData = formValidation('submit_form');
       if (validationData.error) {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
         return;
       }
-      objeto ={
+      const objeto ={
             nroIncidente: $("#nroIncidente").val(),
             fechaIncidente: $("#fechaIncidente").val(),
             fkpersona: $("#fkpersona").val(),
             codigoUnidad: $("#codigoUnidad").val(),
             clasificacion: $("#clasificacion").val(),
             descripcion: $("#descripcion").val(),
-            acciones: $("#codigoUnidad").val(),
+            acciones: $("#acciones").val(),
             costo: $("#costo").val()
       }
-       const response = fetchData(
+       const response = await fetchData(
             "/incidente/insert/",
             "POST",
             JSON.stringify({'obj':objeto})
        );
-       showSmallMessage("success" , "Insertado Correctamente", "center");
-        setTimeout(function () {
-            $('#modal').modal('hide')
-            reload_table()
-        }, 2000);
+        if(response.success){
+           showSmallMessage(response.tipo,response.mensaje,"center");
+            setTimeout(function () {
+                $('#modal').modal('hide')
+                reload_table()
+            }, 2000);
+        }else showSmallMessage(response.tipo,response.mensaje,"center");
 });
 
 function edit_item(e) {
@@ -144,7 +153,7 @@ function edit_item(e) {
 
 }
 
-$('#update').click(function() {
+$('#update').on('click', async function() {
     const validationData = formValidation('submit_form');
       if (validationData.error) {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
@@ -158,19 +167,21 @@ $('#update').click(function() {
             codigoUnidad: $("#codigoUnidad").val(),
             clasificacion: $("#clasificacion").val(),
             descripcion: $("#descripcion").val(),
-            acciones: $("#codigoUnidad").val(),
+            acciones: $("#acciones").val(),
             costo: $("#costo").val()
       }
-       const response = fetchData(
+       const response = await fetchData(
             "/incidente/update/",
             "POST",
             JSON.stringify({'obj':objeto})
        );
-       showSmallMessage("success" , "Modificado Correctamente", "center");
-        setTimeout(function () {
-            $('#modal').modal('hide')
-            reload_table()
-        }, 2000);
+        if(response.success){
+           showSmallMessage(response.tipo,response.mensaje,"center");
+            setTimeout(function () {
+                $('#modal').modal('hide')
+                reload_table()
+            }, 2000);
+        }else showSmallMessage(response.tipo,response.mensaje,"center");
 })
 
 function set_enable(e) {

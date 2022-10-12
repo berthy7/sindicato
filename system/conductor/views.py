@@ -6,6 +6,7 @@ from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 import json
 from system.linea.models import Linea,LineaPersona
+import datetime
 
 # Create your views here.
 @login_required
@@ -23,7 +24,7 @@ def index(request):
             lineas = Linea.objects.filter(id=lineaPersona.fklinea.id).all().order_by('id')
 
         else:
-            internos = Interno.objects.filter(fkvehiculo=None).all().order_by('id')
+            internos = Interno.objects.filter(fkpersona=None).all().order_by('id')
             lineas = Linea.objects.all().order_by('id')
 
     except Exception as e:
@@ -61,13 +62,27 @@ def list(request):
 def obtain(request,id):
 
     persona = Persona.objects.get(id=id)
-
+    persona.ciFechaVencimiento = persona.ciFechaVencimiento.strftime('%d/%m/%Y')
+    persona.licenciaFechaVencimiento = persona.licenciaFechaVencimiento.strftime('%d/%m/%Y')
     referencias = []
+
+    lineas = persona.lineapersona_set.filter(fkpersona=persona.id).filter(estado=True)
+    linId = 0
+    if lineas.count() > 0:
+        linId = lineas[0].fklinea.id
+
+    interno = Interno.objects.get(fkpersona=persona.id)
+    interId = 0
+    if interno:
+        interId = interno.id
 
     for ref in PersonaReferencia.objects.filter(fkpersona=persona.id).all().order_by('id'):
         referencias.append(model_to_dict(ref))
 
     dicc = model_to_dict(persona)
+
+    dicc["fkinterno"] = interId
+    dicc["fklinea"] = linId
     response = dict(obj=dicc,referencias=referencias)
 
     return JsonResponse(response, safe=False)
@@ -76,12 +91,13 @@ def obtain(request,id):
 def insert(request):
     try:
         dicc = json.load(request)['response']
+        dicc["obj"]['ciFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['ciFechaVencimiento'],'%d/%m/%Y')
+        dicc["obj"]['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['licenciaFechaVencimiento'], '%d/%m/%Y')
         persona = Persona.objects.create(**dicc["obj"])
 
         for ref in dicc["referencias"]:
             ref["fkpersona"] =  persona
             PersonaReferencia.objects.create(**ref)
-
 
         # registrar linea
         linea = Linea.objects.get(id=dicc["fklinea"])
@@ -104,18 +120,23 @@ def insert(request):
         interno.save()
         InternoPersona.objects.create(**dict(fkpersona=persona,fkinterno=interno))
 
-        return JsonResponse(dict(success=True,mensaje="Registrado Correctamente"), safe=False)
+        return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
     except Exception as e:
-        return JsonResponse(dict(success=False, mensaje=e), safe=False)
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
 
 @login_required
 def update(request):
     try:
         dicc = json.load(request)['obj']
+        dicc['ciFechaVencimiento'] = datetime.datetime.strptime(dicc['ciFechaVencimiento'],'%d/%m/%Y')
+        dicc['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc['licenciaFechaVencimiento'], '%d/%m/%Y')
+
         Persona.objects.filter(pk=dicc["id"]).update(**dicc)
-        return JsonResponse(dict(success=True,mensaje="Modificado Correctamente"), safe=False)
+        return JsonResponse(dict(success=True, mensaje="Modificado Correctamente", tipo="success"), safe=False)
     except Exception as e:
-        return JsonResponse(dict(success=False, mensaje=e), safe=False)
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
 
 @login_required
 def state(request):
