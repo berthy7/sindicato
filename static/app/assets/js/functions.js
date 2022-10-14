@@ -54,6 +54,7 @@ const ajaxCallLogin = (url, data, callback) => {
 
 const fetchData = async (url, method, data) => {
   try {
+      
     const resquest = await fetch(url, {
       method: method,
       body: data,headers:{
@@ -62,6 +63,7 @@ const fetchData = async (url, method, data) => {
     });
 
     return await resquest.json();
+      
   } catch (error) {
     showSmallMessage("error", error);
   }

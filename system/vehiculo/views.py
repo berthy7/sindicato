@@ -45,24 +45,22 @@ def list(request):
 
     for item in datos:
 
-        lineas = item.lineavehiculo_set.filter(fkvehiculo= item.id).filter(estado= True)
         linId = 0
-        linvehiId = 0
         lin = "Sin linea"
-        if lineas.count() > 0:
-            linvehiId = lineas[0].id
-            linId = lineas[0].fklinea.id
-            lin = lineas[0].fklinea.codigo
+        if item.fklinea != None:
+            linea = Linea.objects.get(id=item.fklinea)
+            linId = linea.id
+            lin = linea.codigo
 
-
-        interno = Interno.objects.get(fkvehiculo= item.id)
         interId = 0
         inter = "Sin Interno"
-        if interno:
+
+        if item.fkinterno != None:
+            interno = Interno.objects.get(id=item.fkinterno)
             interId = interno.id
             inter = interno.numero
 
-        dt_list.append(dict(id=item.id,lineavehiculoid=linvehiId,fklinea=linId,linea=lin,fkinterno=interId,interno=inter,placa=item.placa,
+        dt_list.append(dict(id=item.id,fklinea=linId,linea=lin,fkinterno=interId,interno=inter,placa=item.placa,
                             modelo=item.modelo,tipo=item.tipo,año=item.año, categoria = item.fkcategoria.nombre, fkcategoria = item.fkcategoria.id, estado=item.estado))
     return JsonResponse(dt_list, safe=False)
 

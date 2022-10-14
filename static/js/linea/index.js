@@ -97,6 +97,7 @@ $("#new").click(function () {
   $('#internos').prop("required", true);
   $("#update").hide();
   $("#insert").show();
+     $("#cerrar").show();
   $(".form-control").val("");
   $("#submit_form").removeClass('was-validated');
   $("#modal").modal("show");
@@ -130,7 +131,6 @@ $('#btn_guardar_internos').on('click', async function() {
 
 });
 
-
 $('#insert').on('click', async function() {
       const validationData = formValidation('submit_form');
       if (validationData.error) {
@@ -147,11 +147,20 @@ $('#insert').on('click', async function() {
           celular: $("#celular").val(),
           internos: $("#internos").val()
       }
+
+        $("#insert").hide();
+        $("#update").hide();
+        $("#cerrar").hide();
+
        const response = await fetchData(
             "/linea/insert/",
             "POST",
             JSON.stringify({'obj':objeto})
        );
+
+
+
+
         if(response.success){
            showSmallMessage(response.tipo,response.mensaje,"center");
             setTimeout(function () {
@@ -161,6 +170,60 @@ $('#insert').on('click', async function() {
         }else showSmallMessage(response.tipo,response.mensaje,"center");
 
 });
+
+// $('#insert').on('click', async function() {
+//       const validationData = formValidation('submit_form');
+//       if (validationData.error) {
+//         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+//         return;
+//       }
+//       const objeto ={
+//           codigo: $("#codigo").val(),
+//           razonSocial: $("#razonSocial").val(),
+//           fechaFundacion: $("#fechaFundacion").val(),
+//           ubicacion: $("#ubicacion").val(),
+//           nombre: $("#nombre").val(),
+//           apellidos: $("#apellidos").val(),
+//           celular: $("#celular").val(),
+//           internos: $("#internos").val()
+//       }
+//
+//         $.ajax({
+//             method: "POST",
+//             url: "/linea/insert/",
+//             data: objeto,
+//             async: true,
+//               body: objeto,headers:{
+//             "X-CSRFToken" : getCookie('csrftoken')
+//         },
+//             beforeSend: function () {
+//                 // $("#rproc-loader").fadeIn(800);
+//                 $("#insert").hide();
+//                 $("#update").hide();
+//                 $("#cerrar").hide();
+//             },
+//             success: function () {
+//                 // $("#rproc-loader").fadeOut(800);
+//                 $("#insert").show();
+//                 $("#update").show();
+//                 $("#cerrar").show();
+//             }
+//         }).done(function (response) {
+//             if (response.success) {
+//                 if(response.success){
+//
+//                    showSmallMessage(response.tipo,response.mensaje,"center");
+//                     setTimeout(function () {
+//                         $('#modal').modal('hide')
+//                         reload_table()
+//                     }, 2000);
+//                 }else showSmallMessage(response.tipo,response.mensaje,"center");
+//
+//             } else {
+//                 Swal.fire(response.message, '', 'error')
+//             }
+//         })
+// });
 
 
 
@@ -191,6 +254,7 @@ function edit_item(e) {
     
     $('#insert').hide()
     $('#update').show()
+    $("#cerrar").show();
     $('#modal').modal('show')
 
 }
@@ -212,6 +276,10 @@ $('#update').on('click', async function() {
           celular: $("#celular").val(),
           internos: $("#internos").val()
       }
+
+    $("#insert").hide();
+    $("#update").hide();
+    $("#cerrar").hide();
 
     const response = await fetchData(
             "/linea/update/",
