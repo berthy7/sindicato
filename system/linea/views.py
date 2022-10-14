@@ -1,26 +1,54 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.http import JsonResponse
 from .models import Linea,Interno
 from django.contrib.auth.decorators import login_required
 import json
 import datetime
+from system.persona.models import Persona
+from system.linea.models import Linea
 
 # Create your views here.
 @login_required
 def index(request):
-    return render(request, 'linea/index.html')
+
+    user = request.user
+    try:
+        # persona = get_object_or_404(Persona, fkusuario=user.id)
+        persona = Persona.objects.filter(fkusuario=user.id)
+        rol = persona[0].fkrol.name
+        if persona[0].fklinea:
+            linea = get_object_or_404(Linea, id=persona[0].fklinea)
+            lineaUser = linea.codigo
+        else:
+            lineaUser = ""
+
+    except Exception as e:
+        print(e)
+
+    return render(request, 'linea/index.html', { 'usuario': user.first_name + " " + user.last_name,
+                                                   'rol': rol, 'lineaUser': lineaUser})
+
+
 
 @login_required
 def list(request):
+    user = request.user
     dt_list = []
-    datos = Linea.objects.filter(habilitado=True).all().order_by('-id')
-    for item in datos:
-        internos = Interno.objects.filter(habilitado=True).count()
-        dt_list.append(dict(id=item.id,codigo=item.codigo,
-                            razonSocial=item.razonSocial,fechaFundacion=item.fechaFundacion.strftime('%d/%m/%Y'),nroAutorizacion=item.nroAutorizacion,
-                            descripcionRuta=item.descripcionRuta,internos=internos,estado=item.estado))
+    try:
+        persona = Persona.objects.filter(fkusuario=user.id)
+        if persona[0].fklinea:
+            datos = Linea.objects.filter(habilitado=True).filter(id=persona[0].fklinea).all().order_by('-id')
+        else:
+            datos = Linea.objects.filter(habilitado=True).all().order_by('-id')
 
-
+        for item in datos:
+            internos = Interno.objects.filter(habilitado=True).filter(fklinea=item.id).count()
+            dt_list.append(dict(id=item.id,codigo=item.codigo,
+                                razonSocial=item.razonSocial,fechaFundacion=item.fechaFundacion.strftime('%d/%m/%Y'),
+                                nombre=item.nombre, apellidos=item.apellidos,celular=item.celular,
+                                ubicacion=item.ubicacion,internos=internos,estado=item.estado))
+    except Exception as e:
+        print(e)
     return JsonResponse(dt_list, safe=False)
 
 
@@ -89,3 +117,14 @@ def agregarInternos(request):
     except Exception as e:
         print("error: ", e.args[0])
         return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
+
+
+@login_required
+def listarInternosXLineaNoVehiculo(request,id):
+
+    dt_list = []
+    datos = Interno.objects.filter(habilitado=True).filter(fkvehiculo=None).filter(fklinea=int(id)).all().order_by('numero')
+    for item in datos:
+        dt_list.append(dict(id=item.id, numero=item.numero))
+
+    return JsonResponse(dt_list, safe=False)

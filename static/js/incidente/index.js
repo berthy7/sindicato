@@ -3,7 +3,12 @@ let id_table = '#data_table';
 $(document).ready( function () {
     reload_table();
 });
-
+$('#tipo').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione'
+});
 
 $('#fkpersona').selectpicker({
   size: 10,
@@ -96,11 +101,54 @@ function reload_table() {
 }
 
 $("#new").click(function () {
+    $('#tipo').selectpicker("val", '');
+    $('#fkpersona').selectpicker("val", '');
   $("#update").hide();
   $("#insert").show();
   $(".form-control").val("");
   $("#submit_form").removeClass('was-validated');
   $("#modal").modal("show");
+});
+
+$('#tipo').change(function () {
+
+     $.ajax({
+        method: "GET",
+        url: '/persona/listarPersonaXTipo/'+$(this).val(),
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+
+            $('#fkpersona').html('');
+            $('#fkpersona').selectpicker('destroy');
+            $('#fkpersona').selectpicker({
+              size: 10,
+              liveSearch: true,
+              liveSearchPlaceholder: 'Buscar',
+              title: 'Seleccione una opción'
+            });
+
+            var select = document.getElementById("fkpersona")
+            var option = document.createElement("OPTION");
+            // option.innerHTML = "Seleccione una opcióna";
+            // option.value = 0;
+            // select.appendChild(option);
+
+            for (i of response) {
+                option = document.createElement("OPTION");
+                option.innerHTML = i.nombre;
+                option.value = i.id;
+                // option.setAttribute('data-state', '')
+                select.appendChild(option);
+            }
+            $('#fkpersona').selectpicker('refresh');
+
+
+        },
+        error: function (jqXHR, status, err) {
+        }
+    });
+
 });
 
 $('#insert').on('click',async function() {

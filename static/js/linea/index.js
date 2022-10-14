@@ -25,19 +25,11 @@ function load_table(data_tb) {
             { title: "Codigo", data: "codigo" },
             { title: "Razon Social", data: "razonSocial" },
             { title: "Fecha Fundacion", data: "fechaFundacion" },
-            { title: "Nro. Autorizacion", data: "nroAutorizacion" },
-            { title: "Descripcion Ruta", data: "descripcionRuta" },
+            { title: "Nombre Presidente", data: "nombre" },
+            { title: "Apellidos Presidente", data: "apellidos" },
+            { title: "Celular", data: "celular" },
+            { title: "Ubicación Oficina", data: "ubicacion" },
             { title: "Cant. de Internos", data: "internos" },
-            { title: "Estado", data: "estado",
-                render: function(data, type, row) {
-                    let check = data ? 'checked' : ''
-                    return '\
-                    <div title="' + row.estado + '">\
-                        <input id="enabled' + row.id + '" type="checkbox" class="chk-col-indigo enabled" onclick="set_enable(this)" data-id="' + row.id + '" ' + check + ' ' + row.disable + '>\
-                        <label for="enabled' + row.id + '"></label>\
-                    </div>'
-                }
-            },
             { title: "Acciones", data: "id",
                 render: function(data, type, row) {
                      const dataObject = JSON.stringify(row);
@@ -149,8 +141,10 @@ $('#insert').on('click', async function() {
           codigo: $("#codigo").val(),
           razonSocial: $("#razonSocial").val(),
           fechaFundacion: $("#fechaFundacion").val(),
-          nroAutorizacion: $("#nroAutorizacion").val(),
-          descripcionRuta: $("#descripcionRuta").val(),
+          ubicacion: $("#ubicacion").val(),
+          nombre: $("#nombre").val(),
+          apellidos: $("#apellidos").val(),
+          celular: $("#celular").val(),
           internos: $("#internos").val()
       }
        const response = await fetchData(
@@ -179,8 +173,10 @@ function edit_item(e) {
     $('#codigo').val(self.codigo)
     $('#razonSocial').val(self.razonSocial)
     $('#fechaFundacion').val(self.fechaFundacion)
-    $('#nroAutorizacion').val(self.nroAutorizacion)
-    $('#descripcionRuta').val(self.descripcionRuta)
+    $('#ubicacion').val(self.ubicacion)
+    $('#nombre').val(self.nombre)
+    $('#apellidos').val(self.apellidos)
+    $('#celular').val(self.celular)
     $('#internos').val(self.internos)
     $('#label_internos').html(self.internos)
     
@@ -207,11 +203,13 @@ $('#update').on('click', async function() {
       }
       const objeto ={
             id: $("#id").val(),
-            codigo: $("#codigo").val(),
-            razonSocial: $("#razonSocial").val(),
-            fechaFundacion: $("#fechaFundacion").val(),
-              nroAutorizacion: $("#nroAutorizacion").val(),
-              descripcionRuta: $("#descripcionRuta").val(),
+          codigo: $("#codigo").val(),
+          razonSocial: $("#razonSocial").val(),
+          fechaFundacion: $("#fechaFundacion").val(),
+          ubicacion: $("#ubicacion").val(),
+          nombre: $("#nombre").val(),
+          apellidos: $("#apellidos").val(),
+          celular: $("#celular").val(),
           internos: $("#internos").val()
       }
 

@@ -9,8 +9,11 @@ class Linea(models.Model):
     codigo = models.CharField(max_length=25)
     razonSocial = models.CharField(max_length=25)
     fechaFundacion = models.DateField()
-    nroAutorizacion = models.CharField(max_length=25)
-    descripcionRuta = models.CharField(max_length=50)
+    ubicacion = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=50,null=True)
+    apellidos = models.CharField(max_length=50,null=True)
+    celular = models.CharField(max_length=15, null=True)
+
     internos = models.IntegerField()
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)

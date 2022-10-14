@@ -2,27 +2,28 @@
 
 <a href="/" class="logo text-center logo-light">
   <span class="logo-lg">
-      <img src='{% static "template/assets/images/logo.png" %}' alt='' height='16' />
+      <img src='{% static "imagen/logo-demo.png" %}' alt='' height='70' />
   </span>
   <span class="logo-sm">
-      <img src='{% static "template/assets/images/logo_sm.png" %}' alt='' height='16' />
+      <img src='{% static "imagen/logo-demo.png" %}' alt='' height='70' />
   </span>
 </a>
 
-<a href="/" class="logo text-center logo-dark">
-  <span class="logo-lg">
-      <img src='{% static "template/assets/images/logo-dark.png" %}' alt='' height='16' />
-  </span>
-  <span class="logo-sm">
-      <img src='{% static "template/assets/images/logo_sm_dark.png" %}' alt='' height='16' />
-  </span>
-</a>
+{#<a href="/" class="logo text-center logo-dark">#}
+{#  <span class="logo-lg">#}
+{#      <img src='{% static "template/assets/images/logo-dark.png" %}' alt='' height='16' />#}
+{#  </span>#}
+{#  <span class="logo-sm">#}
+{#      <img src='{% static "template/assets/images/logo_sm_dark.png" %}' alt='' height='16' />#}
+{#  </span>#}
+{#</a>#}
 
 
 <div class="h-100" id="leftside-menu-container" data-simplebar>
   <ul class="side-nav">
 
     <li class="side-nav-title side-nav-item">Navigación</li>
+          {% if rol == "Administrador" %}
       <li class="side-nav-item">
       <a data-bs-toggle="collapse" href="#usuario" aria-expanded="false"
         aria-controls="ad" class="side-nav-link">
@@ -44,6 +45,7 @@
         </ul>
       </div>
     </li>
+         {% endif %}
             <li class="side-nav-item">
           <a  href="/linea/"
             aria-controls="ad" class="side-nav-link">
@@ -111,6 +113,7 @@
      </li>
 
 
+
     <li class="side-nav-item">
       <a  href="/incidente/"
         aria-controls="ad" class="side-nav-link">
@@ -122,7 +125,7 @@
       <a  href="/bitacora/"
         aria-controls="ad" class="side-nav-link">
         <i class="uil-clipboard-alt"></i>
-        <span>Evento</span>
+        <span>Eventos</span>
       </a>
      </li>
       <li class="side-nav-item">

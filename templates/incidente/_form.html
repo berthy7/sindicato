@@ -8,9 +8,29 @@
       </div>
       <div class="modal-body">
         <form id="submit_form" class="pl-3 pr-3 needs-validation" novalidate>
-          <div class="form-group mb-3">
-            <input id="id" name="id" type="hidden" />
-          </div>
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                <div class="form-group mb-3">
+                    <input id="id" name="id" type="hidden" />
+                    <label for="tipo">Tipo de Persona</label>
+                    <select id="tipo" name="tipo" class="form-control show-tick" >
+                      <option value="Conductor">Conductor</option>
+                      <option value="Socio">Socio</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="form-group mb-3">
+                    <label for="fkpersona">Responsable *</label>
+                    <select id="fkpersona" name="fkpersona" class="form-control show-tick" required>
+{#                   {% for i in personas %}#}
+{#                      <option value="{{ i.id }}">{{ i.nombre }} {{ i.apellidos }}</option>#}
+{#                   {% endfor %}#}
+                    </select>
+                </div>
+            </div>
+         </div>
           <div class="row">
             <div class="col-12 col-sm-6">
                 <div class="form-group mb-3">
@@ -27,16 +47,7 @@
             </div>
 
           </div>
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="fkpersona">Responsable *</label>
-                    <select id="fkpersona" name="fkpersona" class="form-control show-tick" required>
-                   {% for i in personas %}
-                      <option value="{{ i.id }}">{{ i.nombre }} {{ i.apellidos }}</option>
-                   {% endfor %}
-                    </select>
-                </div>
-            </div>
+
 
             <div class="row">
             <div class="col-12 col-sm-6">

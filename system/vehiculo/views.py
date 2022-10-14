@@ -13,30 +13,35 @@ from system.persona.models import Persona
 def index(request):
     user = request.user
     try:
-        # persona = get_object_or_404(Persona, fkusuario=user.id)
         persona = Persona.objects.filter(fkusuario=user.id)
-        if persona:
-            lineaPersona = get_object_or_404(LineaPersona, fkpersona=persona[0].id)
-            internos = Interno.objects.filter(fklinea=lineaPersona.fklinea.id).filter(fkvehiculo = None ).all().order_by('id')
-            lineas = Linea.objects.filter(id=lineaPersona.fklinea.id).all().order_by('id')
-
+        rol = persona[0].fkrol.name
+        if persona[0].fklinea:
+            linea = get_object_or_404(Linea, id=persona[0].fklinea)
+            internos = Interno.objects.filter(fklinea=linea.id).filter(fkvehiculo = None ).all().order_by('id')
+            lineas = Linea.objects.filter(id=linea.id).all().order_by('id')
+            lineaUser = linea.codigo
         else:
+            rol = "Administrador"
             internos = Interno.objects.filter(fkvehiculo = None ).all().order_by('id')
             lineas = Linea.objects.all().order_by('id')
-
+            lineaUser = ""
         categorias = VehiculoCategoria.objects.all().order_by('id')
-
     except Exception as e:
         print(e)
-
-    return render(request, 'vehiculo/index.html', {'categorias':categorias,'lineas':lineas,'internos':internos})
-
+    return render(request, 'vehiculo/index.html', {'categorias':categorias,
+                                                   'lineas':lineas,'internos':internos,
+                                                   'usuario': user.first_name + " " + user.last_name,
+                                                   'rol': rol, 'lineaUser': lineaUser})
 
 @login_required
 def list(request):
-
+    user = request.user
     dt_list = []
-    datos = Vehiculo.objects.filter(habilitado=True).all().order_by('-id')
+    persona = Persona.objects.filter(fkusuario=user.id)
+    if persona[0].fklinea:
+        datos = Vehiculo.objects.filter(fklinea=persona[0].fklinea).filter(habilitado=True).all().order_by('-id')
+    else:
+        datos = Vehiculo.objects.filter(habilitado=True).all().order_by('-id')
 
     for item in datos:
 
@@ -176,3 +181,4 @@ def retiro(request):
         return JsonResponse(dict(success=True,mensaje="Se retiro"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
+

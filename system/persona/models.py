@@ -24,6 +24,9 @@ class Persona(models.Model):
     fkusuario = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     fkrol = models.ForeignKey(Group, on_delete=models.CASCADE,null=True)
 
+    fklinea = models.IntegerField(null=True)
+    fkinterno = models.IntegerField(null=True)
+
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)
 

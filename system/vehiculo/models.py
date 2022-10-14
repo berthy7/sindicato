@@ -11,6 +11,8 @@ class Vehiculo(models.Model):
     combustible = models.CharField(max_length=25, null=True)
     año = models.IntegerField(null=True)
     fkcategoria = models.ForeignKey(VehiculoCategoria, on_delete=models.CASCADE)
+    fklinea = models.IntegerField(null=True)
+    fkinterno = models.IntegerField(null=True)
 
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)

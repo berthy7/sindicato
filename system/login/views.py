@@ -22,7 +22,7 @@ def home(request):
     else:
         rol = "Administrador"
 
-    return render(request, 'home.html', {'usuario': user.username,'rol': rol})
+    return render(request, 'home.html', {'usuario': user.first_name + " " + user.last_name,'rol': rol})
 
 def logon(request):
     if request.method == 'GET':

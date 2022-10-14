@@ -133,7 +133,6 @@ function reload_select_categoria() {
         $('#fkcategoria').html('');
 
         $('#fkcategoria').selectpicker('destroy');
-
         $('#fkcategoria').selectpicker({
           size: 10,
           liveSearch: true,
@@ -156,7 +155,63 @@ function reload_select_categoria() {
     });
 }
 
+
+$('#fklinea').change(function () {
+
+     $.ajax({
+        method: "GET",
+        url: '/linea/listarInternosXLinea/'+$(this).val(),
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+
+            $('#fkinterno').html('');
+            $('#fkinterno').selectpicker('destroy');
+            $('#fkinterno').selectpicker({
+              size: 10,
+              liveSearch: true,
+              liveSearchPlaceholder: 'Buscar',
+              title: 'Seleccione una opción'
+            });
+
+            var select = document.getElementById("fkinterno")
+            var option = document.createElement("OPTION");
+            // option.innerHTML = "Seleccione una opcióna";
+            // option.value = 0;
+            // select.appendChild(option);
+
+            for (i of response) {
+                console.log("iter")
+                option = document.createElement("OPTION");
+                option.innerHTML = i.numero;
+                option.value = i.id;
+                // option.setAttribute('data-state', '')
+                select.appendChild(option);
+            }
+            $('#fkinterno').selectpicker('refresh');
+
+
+        },
+        error: function (jqXHR, status, err) {
+        }
+    });
+
+});
+
 $("#new").click(function () {
+
+    $('#fklinea').selectpicker("val", '');
+
+    $('#fkinterno').html('');
+    $('#fkinterno').selectpicker('destroy');
+    $('#fkinterno').selectpicker({
+      size: 10,
+      liveSearch: true,
+      liveSearchPlaceholder: 'Buscar',
+      title: 'Seleccione una opción'
+    });
+
+    $('#fkcategoria').selectpicker("val", '');
 
 
   $("#update").hide();
@@ -179,7 +234,9 @@ $('#insert').on('click',async function() {
             modelo: $("#modelo").val(),
             tipo: $("#tipo").val(),
             año: $("#año").val(),
-            fkcategoria: parseInt($("#fkcategoria").val())
+            fkcategoria: parseInt($("#fkcategoria").val()),
+            fklinea: parseInt($("#fklinea").val()),
+            fkinterno: parseInt($("#fkinterno").val())
       },
       fklinea:parseInt($("#fklinea").val()),
       fkinterno: parseInt($("#fkinterno").val())

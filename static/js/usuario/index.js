@@ -76,6 +76,10 @@ $('#fklinea').selectpicker({
 });
 
 $("#new").click(function () {
+
+    $('#fkrol').selectpicker("val", '');
+    $('#fklinea').selectpicker("val", '');
+
   $("#update").hide();
   $("#insert").show();
   $(".form-control").val("");
@@ -90,6 +94,8 @@ $('#insert').on('click', function() {
         return;
       }
 
+    console.log($("#fklinea").val())
+
         let req = {
             usuario : {
                   username: $("#username").val(),
@@ -102,6 +108,7 @@ $('#insert').on('click', function() {
                   nombre: $("#nombre").val(),
                   apellidos: $("#apellidos").val(),
                   fkrol: $("#fkrol").val(),
+                  fklinea: $("#fklinea").val() == "" ? null : $("#fklinea").val(),
                   tipo: "Usuario"
               },
               fklinea: $("#fklinea").val(),

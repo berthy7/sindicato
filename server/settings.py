@@ -89,6 +89,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+# DEV
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -99,7 +100,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 #         'PORT': '5432',
 #     }
 # }
-
+# PROD
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -110,6 +111,18 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+# DEMO
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'def06t86e5265d',
+#         'USER': 'vggbflaubkdtgz',
+#         'PASSWORD': 'ae3d373e1d9478e157f8d31c9351a4ae945dca10459a4f4b846a8665ef7d3f52',
+#         'HOST': 'ec2-35-168-122-84.compute-1.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

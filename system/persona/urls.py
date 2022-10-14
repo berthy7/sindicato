@@ -11,4 +11,5 @@ urlpatterns = [
     path('update/', views.update, name='persona_update'),
     path('state/', views.state, name='persona_state'),
     path('delete/', views.delete, name='persona_delete'),
+    path('listarPersonaXTipo/<str:id>/', views.listarPersonaXTipo, name='persona_listarPersonaXTipo'),
 ]

@@ -344,7 +344,9 @@ $("#insert").on("click", async function () {
     telefono: $("#telefono").val(),
     domicilio: $("#domicilio").val(),
     lugarNacimiento: $("#lugarNacimiento").val(),
-    tipo: tipo
+    tipo: tipo,
+    fklinea: parseInt($("#fklinea").val()),
+    fkinterno: parseInt($("#fkinterno").val())
     // fkciudad: $("#fkciudad").val() ? $("#fkciudad").val() : null,
   };
 

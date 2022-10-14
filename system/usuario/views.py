@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Q
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User,Group
@@ -17,9 +18,10 @@ def index(request):
 @login_required
 def list(request):
     dt_list = []
-    datos = User.objects.filter(is_active=True).all().order_by('-id')
+    datos = User.objects.filter(~Q(username="admin")).filter(is_active=True).all().order_by('-id')
     for item in datos:
         dt_list.append(dict(id=item.id,usuario=item.username,nombre=item.first_name,apellidos=item.last_name))
+
     return JsonResponse(dt_list, safe=False)
 
 @login_required
@@ -31,7 +33,10 @@ def insert(request):
         dicc["persona"]["fkusuario"] = user
         dicc["persona"]["fkrol"] = Group.objects.get(id=int(dicc["persona"]["fkrol"]))
         persona = Persona.objects.create(**dicc["persona"])
-        LineaPersona.objects.create(**dict(fkpersona=persona,fklinea=Linea.objects.get(id=int(dicc["fklinea"]))))
+        if dicc["persona"]["fklinea"] is not None:
+            LineaPersona.objects.create(**dict(fkpersona=persona,fklinea=Linea.objects.get(id=int(dicc["fklinea"]))))
+
+
         return JsonResponse(dict(success=True,mensaje="Registrado Correctamente"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
