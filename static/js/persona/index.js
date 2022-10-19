@@ -345,6 +345,8 @@ $("#new").click(function () {
 
     referencias = []
     load_table_referencia(referencias)
+        lineasAgregadas = []
+    load_table_lineasAgregadas(lineasAgregadas)
 $('#div_tabla_lineas').show()
   $("#update").hide();
   $("#insert").show();

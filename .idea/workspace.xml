@@ -7,7 +7,6 @@
     <list default="true" id="38a875fe-3050-4e43-88c2-97915e025478" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/persona/index.js" afterPath="$PROJECT_DIR$/static/js/persona/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/capacitacion/_form.html" afterPath="$PROJECT_DIR$/templates/capacitacion/_form.html" />
     </list>
     <ignored path="sindicato.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,7 +30,7 @@
     <favorites_list name="sindicato" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5705706">
+    <splitter split-orientation="horizontal" split-proportion="0.1">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="_form.html" pinned="false" current-in-tab="false">
@@ -166,19 +165,19 @@
           <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/static/js/persona/index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="221">
-                  <caret line="79" column="38" selection-start-line="79" selection-start-column="38" selection-end-line="79" selection-end-column="38" />
+                <state relative-caret-position="252">
+                  <caret line="348" column="30" selection-start-line="348" selection-start-column="30" selection-end-line="348" selection-end-column="30" />
                   <folding>
                     <element signature="n#!!block;n#add_columns_referencia#0" expanded="false" />
                     <element signature="n#!!block;n#load_table#0" expanded="false" />
                     <element signature="n#!!block;n#reload_table#0" expanded="false" />
                     <element signature="e#8832#10035#0" expanded="false" />
-                    <marker date="1666176784867" expanded="true" signature="2574:2689" placeholder="..." />
-                    <marker date="1666176784867" expanded="true" signature="2918:3021" placeholder="..." />
-                    <marker date="1666176784867" expanded="true" signature="4474:4577" placeholder="..." />
-                    <marker date="1666176784867" expanded="true" signature="6080:6370" placeholder="..." />
-                    <marker date="1666176784867" expanded="true" signature="6820:6935" placeholder="..." />
-                    <marker date="1666176784867" expanded="true" signature="7192:7295" placeholder="..." />
+                    <marker date="1666177449365" expanded="true" signature="2574:2689" placeholder="..." />
+                    <marker date="1666177449365" expanded="true" signature="2918:3021" placeholder="..." />
+                    <marker date="1666177449365" expanded="true" signature="4474:4577" placeholder="..." />
+                    <marker date="1666177449365" expanded="true" signature="6080:6370" placeholder="..." />
+                    <marker date="1666177449365" expanded="true" signature="6820:6935" placeholder="..." />
+                    <marker date="1666177449365" expanded="true" signature="7192:7295" placeholder="..." />
                   </folding>
                 </state>
               </provider>
@@ -1260,19 +1259,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/persona/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="79" column="38" selection-start-line="79" selection-start-column="38" selection-end-line="79" selection-end-column="38" />
+        <state relative-caret-position="252">
+          <caret line="348" column="30" selection-start-line="348" selection-start-column="30" selection-end-line="348" selection-end-column="30" />
           <folding>
             <element signature="n#!!block;n#add_columns_referencia#0" expanded="false" />
             <element signature="n#!!block;n#load_table#0" expanded="false" />
             <element signature="n#!!block;n#reload_table#0" expanded="false" />
             <element signature="e#8832#10035#0" expanded="false" />
-            <marker date="1666176784867" expanded="true" signature="2574:2689" placeholder="..." />
-            <marker date="1666176784867" expanded="true" signature="2918:3021" placeholder="..." />
-            <marker date="1666176784867" expanded="true" signature="4474:4577" placeholder="..." />
-            <marker date="1666176784867" expanded="true" signature="6080:6370" placeholder="..." />
-            <marker date="1666176784867" expanded="true" signature="6820:6935" placeholder="..." />
-            <marker date="1666176784867" expanded="true" signature="7192:7295" placeholder="..." />
+            <marker date="1666177449365" expanded="true" signature="2574:2689" placeholder="..." />
+            <marker date="1666177449365" expanded="true" signature="2918:3021" placeholder="..." />
+            <marker date="1666177449365" expanded="true" signature="4474:4577" placeholder="..." />
+            <marker date="1666177449365" expanded="true" signature="6080:6370" placeholder="..." />
+            <marker date="1666177449365" expanded="true" signature="6820:6935" placeholder="..." />
+            <marker date="1666177449365" expanded="true" signature="7192:7295" placeholder="..." />
           </folding>
         </state>
       </provider>
