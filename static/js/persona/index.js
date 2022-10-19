@@ -133,7 +133,7 @@ function load_table_referencia(data_tb) {
         paging: false,
         ordering: true,
         info: false,
-        searching: true,
+        searching: false,
         data: data_tb,
         deferRender:    true,
         scrollCollapse: true,
