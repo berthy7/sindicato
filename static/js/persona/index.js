@@ -1,11 +1,28 @@
 let id_table = '#data_table';
 let id_table_referencia = '#data_table_referencia';
+let id_table_lineasAgregadas = '#data_table_lineas';
 
 let referencias = []
+let lineasAgregadas = []
 
 $(document).ready( function () {
     reload_table();
 });
+
+
+$('#fklinea').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione una opción'
+});
+$('#fkinterno').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione una opción'
+});
+
 
 $('#ciFechaVencimiento').datepicker({
     format: 'dd/mm/yyyy',
@@ -39,7 +56,7 @@ $('#referencia-Categoria').selectpicker({
   title: 'Seleccione'
 });
 
-$('#tipo').selectpicker({
+$('#socioConductor').selectpicker({
   size: 10,
   liveSearch: true,
   liveSearchPlaceholder: 'Buscar',
@@ -73,8 +90,6 @@ $('#lugarNacimiento').selectpicker({
   liveSearchPlaceholder: 'Buscar',
   title: 'Seleccione'
 });
-
-
 
 
 function add_columns_referencia() {
@@ -128,6 +143,55 @@ function load_table_referencia(data_tb) {
         buttons: [],
         "order": [ [0, 'desc'] ],
         columnDefs: [ { width: '10%', targets: [0,1,2,3] }],
+        "initComplete": function() {}
+    });
+    tabla.draw()
+}
+
+function add_columns_lineasAgregadas() {
+    let a_cols = []
+    a_cols.push(
+         { title: "fklinea", data: "fklinea", visible: false },
+        { title: "Linea", data: "linea" },
+        { title: "fkinterno", data: "fkinterno", visible: false },
+        { title: "Interno", data: "interno" }
+    );
+    a_cols.push(
+        { title: "Acciones", data: "fklinea",
+                render: function(data, type, row) {
+                     const dataObject = JSON.stringify(row);
+                    a = ''
+                    // if (row.delete) {
+                        a += '\
+                            <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar">\
+                                <i class="mdi mdi-delete"></i>\
+                            </button>'
+                    // }
+                    if (a === '') a = 'Sin permisos';
+                    return a
+                }
+            }
+    );
+
+    return a_cols;
+}
+
+function load_table_lineasAgregadas(data_tb) {
+    var tabla = $(id_table_lineasAgregadas).DataTable({
+        destroy: true,
+        paging: false,
+        ordering: true,
+        info: false,
+        searching: false,
+        data: data_tb,
+        deferRender:    true,
+        scrollCollapse: true,
+        scroller:       true,
+        columns: add_columns_lineasAgregadas(),
+        dom: "Bfrtip",
+        buttons: [],
+        "order": [ [0, 'desc'] ],
+        columnDefs: [ { width: '10%', targets: [0,1,2] }],
         "initComplete": function() {}
     });
     tabla.draw()
@@ -206,61 +270,82 @@ function reload_table() {
     });
 }
 
+
+
 function limpiar(){
-    $('#tipo').selectpicker("val", '');
+    $('#socioConductor').selectpicker("val", '');
     $('#lugarNacimiento').selectpicker("val", '');
     $('#genero').selectpicker("val", '');
     $('#licenciaCategoria').selectpicker("val", '');
 }
 
-    function append_input_linea(id_in) {
-        if(id_in === ''){
-            id_gv++;
-            id_in = id_gv;
+function agregar_linea(){
+
+      lineasAgregadas.push({
+        fklinea: $("#fklinea").val(),
+        linea:  $("#fklinea option:selected").html(),
+        fkinterno: $("#fkinterno").val(),
+        interno:  $("#fkinterno option:selected").html()
+  });
+
+    load_table_lineasAgregadas(lineasAgregadas);
+
+    $('#fklinea').selectpicker("val", '');
+    $('#fkinterno').selectpicker("val", '');
+
+    // $("#form_interno").show();
+}
+
+
+$('#fklinea').change(function () {
+
+     $.ajax({
+        method: "GET",
+        url: '/linea/listarInternosXLinea/'+$(this).val(),
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+
+            $('#fkinterno').html('');
+            $('#fkinterno').selectpicker('destroy');
+            $('#fkinterno').selectpicker({
+              size: 10,
+              liveSearch: true,
+              liveSearchPlaceholder: 'Buscar',
+              title: 'Seleccione una opción'
+            });
+
+            var select = document.getElementById("fkinterno")
+            var option = document.createElement("OPTION");
+            // option.innerHTML = "Seleccione una opcióna";
+            // option.value = 0;
+            // select.appendChild(option);
+
+            for (i of response) {
+                console.log("iter")
+                option = document.createElement("OPTION");
+                option.innerHTML = i.numero;
+                option.value = i.id;
+                // option.setAttribute('data-state', '')
+                select.appendChild(option);
+            }
+            $('#fkinterno').selectpicker('refresh');
+
+
+        },
+        error: function (jqXHR, status, err) {
         }
+    });
 
-        $('#linea_div').append(
-        '<div class="row">\
-            <div class="col-sm-1 hidden">\
-                <div class="input-group">\
-                <input  id="idv'+id_in+'" class="form-control idvivienda vivienda readonly txta-own">\
-                </div>\
-            </div>\
-            <div class="col-sm-1 hidden">\
-                <div class="input-group">\
-                <input  id="fkvivienda'+id_in+'" class="form-control fkvivienda vivienda txta-own">\
-                </div>\
-            </div>\
-            <div class="col-sm-2">\
-                <div class="form-line">\
-                    <input id="codigo'+id_in+'" data-id="'+id_in+'" class="form-control codigo  txta-own"readonly>\
-                </div>\
-            </div>\
-            <div class="col-sm-6 p-t-own">\
-                <div  class="form-line">\
-                    <input id="ubicacion'+id_in+'" data-id="'+id_in+'" class="form-control ubicacion  txta-own"readonly>\
-                </div>\
-            </div>\
-            <div class="col-md-2 ">\
-                <input id="b_'+id_in+'" type="checkbox" class="module chk-col-deep-purple vivienda" data-id="1" >\
-                <label for="b_'+id_in+'"></label>\
-            </div>\
-            <div class="col-sm-2">\
-                <button type="button" class="btn bg-red waves-effect white-own clear_vivienda" title="Eliminar">\
-                    <i class="material-icons">clear</i>\
-                </button>\
-            </div>\
-        </div>'
-    )
+});
 
-    }
 
 $("#new").click(function () {
     limpiar();
 
     referencias = []
     load_table_referencia(referencias)
-
+$('#div_tabla_lineas').show()
   $("#update").hide();
   $("#insert").show();
   $(".form-control").val("");
@@ -324,17 +409,27 @@ $("#referencia-insert").on("click", function () {
 
 });
 
+$('#socioConductor').change(function () {
+    if($(this).val() == "")
+    {
+        $('#licenciaNro').prop("required", false);
+        $('#licenciaCategoria').prop("required", false);
+    }
+    else
+    {
+        $('#licenciaNro').prop("required", true);
+        $('#licenciaCategoria').prop("required", true);
+    }
+
+});
+
+
 $("#insert").on("click",async function () {
     const validationData = formValidation('submit_form');
   if (validationData.error) {
     showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
     return;
   }
-  let tipo = "";
-    if($("#tipo").val() == "")
-        tipo = "Socio"
-    else
-         tipo = $("#tipo").val()
 
   const objectData = {
     ci: $("#ci").val(),
@@ -348,13 +443,15 @@ $("#insert").on("click",async function () {
     telefono: $("#telefono").val(),
     domicilio: $("#domicilio").val(),
       lugarNacimiento: $("#lugarNacimiento").val(),
-    tipo: tipo
+      socioConductor: $("#socioConductor").val(),
+    tipo: "Socio"
     // fkciudad: $("#fkciudad").val() ? $("#fkciudad").val() : null,
   };
 
     const obj ={
         obj:objectData,
-        referencias:referencias
+        referencias:referencias,
+        lineas:lineasAgregadas
     }
 
    const response =await fetchData(
@@ -395,10 +492,12 @@ $("#insert").on("click",async function () {
             $('#licenciaFechaVencimiento').val(self.licenciaFechaVencimiento);
             $('#lugarNacimiento').selectpicker("val", String(self.lugarNacimiento));
             $('#domicilio').val(self.domicilio)
-            $('#tipo').selectpicker("val", String(self.tipo));
+            $('#socioConductor').selectpicker("val", String(self.socioConductor));
 
             load_table_referencia(response.referencias)
 
+            load_table_lineasAgregadas(response.asignaciones)
+            // $('#div_tabla_lineas').hide()
             $('.item-form').parent().addClass('focused')
             $('#insert').hide()
             $('#update').show()
@@ -418,13 +517,6 @@ $('#update').on('click', async function() {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
         return;
       }
-
-      let tipo = "Socio";
-        // if($("#tipo").val() == "")
-        //     tipo = "Socio"
-        // else
-        //  tipo = $("#tipo").val()
-
       const objeto ={
             id: parseInt($("#id").val()),
             ci: $("#ci").val(),
@@ -438,7 +530,8 @@ $('#update').on('click', async function() {
             telefono: $("#telefono").val(),
             domicilio: $("#domicilio").val(),
             lugarNacimiento: $("#lugarNacimiento").val(),
-            tipo: tipo,
+            socioConductor: $("#socioConductor").val(),
+            tipo: "Socio"
 
       }
        const response = await fetchData(

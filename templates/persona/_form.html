@@ -14,10 +14,10 @@
             <div class="col-12 col-sm-6">
                 <div class="form-group mb-3">
                     <input id="id" name="id" type="hidden" />
-                    <label for="tipo">Es Socio Conductor</label>
-                    <select id="tipo" name="tipo" class="form-control show-tick">
+                    <label for="socioConductor">Es Socio Conductor</label>
+                    <select id="socioConductor" name="socioConductor" class="form-control show-tick">
                       <option value="">No</option>
-                      <option value="Socio/Conductor">Si</option>
+                      <option value="Si">Si</option>
                     </select>
 
                 </div>
@@ -38,6 +38,41 @@
 {#              <input type="file" id="photo" name="photo" class="app-file">#}
 {#            </div>#}
 {#          </div>#}
+            <div class="row">
+            <div class="col-12 col-sm-4">
+                <div class="form-group mb-3">
+                    <label for="fklinea">Linea *</label>
+                    <input id="lineavehiculoid" name="lineavehiculoid" type="hidden" />
+                    <select id="fklinea" name="fklinea" class="form-control show-tick">
+                   {% for i in lineas %}
+                      <option value="{{ i.id }}">{{ i.codigo }}</option>
+                   {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4">
+                <div class="form-group mb-3">
+                    <label for="fkinterno">Internos *</label>
+                    <select id="fkinterno" name="fkinterno" class="form-control show-tick">
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-2">
+                <div class="form-group mb-2">
+                    <label for="fkinterno"></label>
+                     <button id="btn_agregar_linea" type="button" class="btn btn-primary" onclick="agregar_linea()">
+                      <span>Agregar</span>
+                    </button>
+                </div>
+            </div>
+          </div>
+
+
+            <div id="div_tabla_lineas" class="content">
+              <table id="data_table_lineas" class="table table-striped dt-responsive nowrap w-100"></table>
+            </div>
+
             <div class="row">
             <div class="col-12 col-sm-3">
                 <div class="form-group mb-3">
@@ -72,11 +107,9 @@
             </div>
               <div class="col-12 col-sm-3">
                 <div class="form-group mb-3">
-                    <label for="genero">Genero *</label>
-                    <select id="genero" name="genero" class="form-control show-tick">
-                      <option value="Masculino">Masculino</option>
-                      <option value="Femenino">Femenino</option>
-                    </select>
+                    <label for="telefono">Teléfono *</label>
+                    <input id="telefono" name="telefono" type="number" class="form-control form-control-sm"
+                        placeholder="" required />
                 </div>
             </div>
 
@@ -113,12 +146,13 @@
                 </div>
             </div>
 
-
               <div class="col-12 col-sm-3">
-                <div class="form-group mb-3">
-                    <label for="telefono">Teléfono *</label>
-                    <input id="telefono" name="telefono" type="number" class="form-control form-control-sm"
-                        placeholder="" required />
+                  <div class="form-group mb-3">
+                    <label for="genero">Genero *</label>
+                    <select id="genero" name="genero" class="form-control show-tick">
+                      <option value="Masculino">Masculino</option>
+                      <option value="Femenino">Femenino</option>
+                    </select>
                 </div>
             </div>
 
@@ -128,13 +162,13 @@
                 <div class="form-group mb-3">
                     <label for="licenciaNro">Nro. de licencia  *</label>
                     <input id="licenciaNro" name="licenciaNro" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
+                        placeholder=""  />
                 </div>
             </div>
              <div class="col-12 col-sm-4">
                 <div class="form-group mb-3">
                     <label for="licenciaCategoria">Categoria de licencia *</label>
-                    <select id="licenciaCategoria" name="licenciaCategoria" class="form-control show-tick" required>
+                    <select id="licenciaCategoria" name="licenciaCategoria" class="form-control show-tick" >
                       <option value="A">A</option>
                       <option value="B">B</option>
                         <option value="C">C</option>

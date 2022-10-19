@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from .models import Persona, PersonaReferencia
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
-from system.linea.models import Linea
+from system.linea.models import Linea,LineaPersona,Interno,InternoPersona
 import json
 import datetime
 
@@ -19,12 +19,14 @@ def index(request):
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
+            lineas = Linea.objects.filter(id=linea.id).all().order_by('id')
         else:
             rol = "Administrador"
             lineaUser = ""
+            lineas = Linea.objects.all().order_by('id')
     except Exception as e:
         print(e)
-    return render(request, 'persona/index.html', {'personas': personas,
+    return render(request, 'persona/index.html', {'personas': personas,'lineas':lineas,
                                                    'usuario': user.first_name + " " + user.last_name,
                                                    'rol': rol, 'lineaUser': lineaUser})
 
@@ -43,15 +45,29 @@ def list(request):
 def obtain(request,id):
 
     persona = Persona.objects.get(id=id)
-    persona.ciFechaVencimiento = persona.ciFechaVencimiento.strftime('%d/%m/%Y')
-    persona.licenciaFechaVencimiento = persona.licenciaFechaVencimiento.strftime('%d/%m/%Y')
+
+    if persona.ciFechaVencimiento:
+        persona.ciFechaVencimiento = persona.ciFechaVencimiento.strftime('%d/%m/%Y')
+    if persona.licenciaFechaVencimiento:
+        persona.licenciaFechaVencimiento = persona.licenciaFechaVencimiento.strftime('%d/%m/%Y')
+
     referencias = []
 
     for ref in PersonaReferencia.objects.filter(fkpersona=persona.id).all().order_by('id'):
         referencias.append(model_to_dict(ref))
 
+    asignaciones = []
+
+    for lin in LineaPersona.objects.filter(fkpersona=persona.id).all().order_by('id'):
+        asignaciones.append(dict(fklinea=lin.fklinea.id,linea=lin.fklinea.codigo,fkinterno="",interno=""))
+
+    for inter in InternoPersona.objects.filter(fkpersona=persona.id).all().order_by('id'):
+        linea = Linea.objects.get(id=inter.fkinterno.fklinea.id)
+        asignaciones.append(dict(fklinea=linea.id,linea=linea.codigo,fkinterno=inter.fkinterno.id,interno=inter.fkinterno.numero))
+
+
     dicc = model_to_dict(persona)
-    response = dict(obj=dicc,referencias=referencias)
+    response = dict(obj=dicc,referencias=referencias,asignaciones=asignaciones)
 
     return JsonResponse(response, safe=False)
 
@@ -59,13 +75,38 @@ def obtain(request,id):
 def insert(request):
     try:
         dicc = json.load(request)['response']
-        dicc["obj"]['ciFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['ciFechaVencimiento'],'%d/%m/%Y')
-        dicc["obj"]['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['licenciaFechaVencimiento'], '%d/%m/%Y')
+        if dicc["obj"]['ciFechaVencimiento'] != "":
+            dicc["obj"]['ciFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['ciFechaVencimiento'],'%d/%m/%Y')
+        else:
+            dicc["obj"]['ciFechaVencimiento'] = None
+
+        if dicc["obj"]['licenciaFechaVencimiento'] != "":
+            dicc["obj"]['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['licenciaFechaVencimiento'],'%d/%m/%Y')
+        else:
+            dicc["obj"]['licenciaFechaVencimiento'] = None
+
         persona = Persona.objects.create(**dicc["obj"])
 
         for ref in dicc["referencias"]:
             ref["fkpersona"] =  persona
             PersonaReferencia.objects.create(**ref)
+
+        for asig in dicc["lineas"]:
+
+            if asig["fkinterno"] != "":
+                asig["fkinterno"] =  Interno.objects.get(id=asig["fkinterno"])
+                asig["fkpersona"] = persona
+                del asig['fklinea']
+                del asig['linea']
+                del asig['interno']
+                InternoPersona.objects.create(**asig)
+            else:
+                asig["fklinea"] =  Linea.objects.get(id=asig["fklinea"])
+                asig["fkpersona"] = persona
+                del asig['fkinterno']
+                del asig['linea']
+                del asig['interno']
+                LineaPersona.objects.create(**asig)
 
         return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
     except Exception as e:
@@ -76,9 +117,14 @@ def insert(request):
 def update(request):
     try:
         dicc = json.load(request)['obj']
-
-        dicc['ciFechaVencimiento'] = datetime.datetime.strptime(dicc['ciFechaVencimiento'],'%d/%m/%Y')
-        dicc['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc['licenciaFechaVencimiento'], '%d/%m/%Y')
+        if dicc['ciFechaVencimiento'] != "":
+            dicc['ciFechaVencimiento'] = datetime.datetime.strptime(dicc['ciFechaVencimiento'],'%d/%m/%Y')
+        else:
+            dicc['ciFechaVencimiento'] = None
+        if dicc['licenciaFechaVencimiento'] != "":
+            dicc['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc['licenciaFechaVencimiento'], '%d/%m/%Y')
+        else:
+            dicc['licenciaFechaVencimiento'] = None
 
         Persona.objects.filter(pk=dicc["id"]).update(**dicc)
         return JsonResponse(dict(success=True, mensaje="Modificado Correctamente", tipo="success"), safe=False)
