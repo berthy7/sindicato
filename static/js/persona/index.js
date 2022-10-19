@@ -11,13 +11,13 @@ $(document).ready( function () {
 
 
 $('#fklinea').selectpicker({
-  size: 10,
+  size: 7,
   liveSearch: true,
   liveSearchPlaceholder: 'Buscar',
   title: 'Seleccione una opción'
 });
 $('#fkinterno').selectpicker({
-  size: 10,
+  size: 7,
   liveSearch: true,
   liveSearchPlaceholder: 'Buscar',
   title: 'Seleccione una opción'
