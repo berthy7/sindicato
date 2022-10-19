@@ -38,58 +38,7 @@
 {#              <input type="file" id="photo" name="photo" class="app-file">#}
 {#            </div>#}
 {#          </div>#}
-            <div class="row">
-            <div class="col-12 col-sm-4">
-                <div class="form-group mb-3">
-                    <label for="fklinea">Linea *</label>
-                    <input id="lineavehiculoid" name="lineavehiculoid" type="hidden" />
-                    <select id="fklinea" name="fklinea" class="form-control show-tick">
-                   {% for i in lineas %}
-                      <option value="{{ i.id }}">{{ i.codigo }}</option>
-                   {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="col-12 col-sm-4">
-                <div class="form-group mb-3">
-                    <label for="fkinterno">Internos *</label>
-                    <select id="fkinterno" name="fkinterno" class="form-control show-tick">
 
-                    </select>
-                </div>
-            </div>
-            <div class="col-12 col-sm-2">
-                <div class="form-group mb-2">
-                    <label for="fkinterno"></label>
-                     <button id="btn_agregar_linea" type="button" class="btn btn-primary" onclick="agregar_linea()">
-                      <span>Agregar</span>
-                    </button>
-                </div>
-            </div>
-          </div>
-
-
-            <div id="div_tabla_lineas" class="content">
-              <table id="data_table_lineas" class="table table-striped dt-responsive nowrap w-100"></table>
-            </div>
-
-            <div class="row">
-            <div class="col-12 col-sm-3">
-                <div class="form-group mb-3">
-                  <div id="linea" class="box-body">
-                        <div id="linea_div" class="clearfix">
-
-                        </div>
-                     </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-
-                </div>
-            </div>
-
-          </div>
           <div class="row">
             <div class="col-12 col-sm-3">
                 <div class="form-group mb-3">
@@ -215,6 +164,41 @@
             <div class="content">
               <table id="data_table_referencia" class="table table-striped dt-responsive nowrap w-100"></table>
             </div>
+                        <div class="row">
+            <div class="col-12 col-sm-4">
+                <div class="form-group mb-3">
+                    <label for="fklinea">Linea *</label>
+                    <input id="lineavehiculoid" name="lineavehiculoid" type="hidden" />
+                    <select id="fklinea" name="fklinea" class="form-control show-tick">
+                   {% for i in lineas %}
+                      <option value="{{ i.id }}">{{ i.codigo }}</option>
+                   {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4">
+                <div class="form-group mb-3">
+                    <label for="fkinterno">Internos *</label>
+                    <select id="fkinterno" name="fkinterno" class="form-control show-tick">
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-2">
+                <div class="form-group mb-2">
+                    <label for="fkinterno"></label>
+                     <button id="btn_agregar_linea" type="button" class="btn btn-primary" onclick="agregar_linea()">
+                      <span>Agregar</span>
+                    </button>
+                </div>
+            </div>
+          </div>
+
+
+            <div id="div_tabla_lineas" class="content">
+              <table id="data_table_lineas" class="table table-striped dt-responsive nowrap w-100"></table>
+            </div>
+
 
         </form>
        <form id="submit_form-referencia" class="pl-3 pr-3 needs-validation" hidden>
