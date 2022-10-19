@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'system.linea',
     'system.persona',
     'system.incidente',
-    # 'system.evento',
+    'system.capacitacion',
 
 ]
 

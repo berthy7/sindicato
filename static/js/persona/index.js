@@ -75,6 +75,8 @@ $('#lugarNacimiento').selectpicker({
 });
 
 
+
+
 function add_columns_referencia() {
     let a_cols = []
     a_cols.push(
@@ -210,6 +212,48 @@ function limpiar(){
     $('#genero').selectpicker("val", '');
     $('#licenciaCategoria').selectpicker("val", '');
 }
+
+    function append_input_linea(id_in) {
+        if(id_in === ''){
+            id_gv++;
+            id_in = id_gv;
+        }
+
+        $('#linea_div').append(
+        '<div class="row">\
+            <div class="col-sm-1 hidden">\
+                <div class="input-group">\
+                <input  id="idv'+id_in+'" class="form-control idvivienda vivienda readonly txta-own">\
+                </div>\
+            </div>\
+            <div class="col-sm-1 hidden">\
+                <div class="input-group">\
+                <input  id="fkvivienda'+id_in+'" class="form-control fkvivienda vivienda txta-own">\
+                </div>\
+            </div>\
+            <div class="col-sm-2">\
+                <div class="form-line">\
+                    <input id="codigo'+id_in+'" data-id="'+id_in+'" class="form-control codigo  txta-own"readonly>\
+                </div>\
+            </div>\
+            <div class="col-sm-6 p-t-own">\
+                <div  class="form-line">\
+                    <input id="ubicacion'+id_in+'" data-id="'+id_in+'" class="form-control ubicacion  txta-own"readonly>\
+                </div>\
+            </div>\
+            <div class="col-md-2 ">\
+                <input id="b_'+id_in+'" type="checkbox" class="module chk-col-deep-purple vivienda" data-id="1" >\
+                <label for="b_'+id_in+'"></label>\
+            </div>\
+            <div class="col-sm-2">\
+                <button type="button" class="btn bg-red waves-effect white-own clear_vivienda" title="Eliminar">\
+                    <i class="material-icons">clear</i>\
+                </button>\
+            </div>\
+        </div>'
+    )
+
+    }
 
 $("#new").click(function () {
     limpiar();

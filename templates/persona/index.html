@@ -51,4 +51,43 @@
     <script src='{% static "app/plugins/bootstrap-select-1.14.0-beta3/js/bootstrap-select.js" %}' type='text/javascript'></script>
 
     <script src='{% static "js/persona/index.js" %}'></script>
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function append_input_linea(id_in) {
+        if(id_in === ''){
+            id_gv++;
+            id_in = id_gv;
+        }
+
+        $('#linea_div').append(
+        '<div class="row">\
+            <div class="col-sm-1 hidden">\
+                <div class="input-group">\
+                    <input  id="id'+id_in+'" class="form-control linea txta-own">\
+                </div>\
+            </div>\
+            <div class="col-sm-1 hidden">\
+                <div  class="form-line">\
+                    <input id="fktipo'+id_in+'" data-id="'+id_in+'" class="form-control linea txta-own">\
+                </div>\
+            </div>\
+            <div class="col-sm-1">\
+                <button type="button" class="btn bg-red waves-effect clear_linea" title="Eliminar">\
+                    <i class="material-icons">clear</i>\
+                </button>\
+            </div>\
+        </div>'
+    )
+
+        $('.clear_vehiculo').last().click(function () {
+            $(this).parent().parent().remove()
+        })
+
+    }
+
+
+</script>
 {% endblock %}

@@ -11,4 +11,11 @@ urlpatterns = [
 
     path('asignacion/', views.asignacion, name='vehiculo_asignacion'),
     path('retiro/', views.retiro, name='vehiculo_retiro'),
+
+    path('categoriaList/', views.categoriaList, name='vehiculo_list'),
+    path('categoriaInsert/', views.categoriaInsert, name='vehiculo_categoriaInsert'),
+    path('categoriaUpdate/', views.categoriaUpdate, name='vehiculo_categoriaUpdate'),
+    path('categoriaState/', views.categoriaState, name='vehiculo_categoriaState'),
+    path('categoriaDelete/', views.categoriaDelete, name='vehiculo_categoriaDelete'),
+
 ]

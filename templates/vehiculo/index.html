@@ -16,17 +16,43 @@
         <div class="card">
           <div class="card-body">
 
-            <h4 class="header-title mb-3">Vehiculos</h4>
+              <ul class="nav nav-tabs mb-3">
+                  <li class="nav-item">
+                    <a href="#home" data-bs-toggle="tab" aria-expanded="true" class="nav-link active">
+                        <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                        <span class="d-none d-md-block">Vehiculos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#second" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                        <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                        <span class="d-none d-md-block">Categorias</span>
+                    </a>
+                </li>
+            </ul>
 
+              <div class="tab-content">
+        <div class="tab-pane show active" id="home">
 
-              <button id="new" type="button" class="btn btn-info mb-3" data-toggle="modal"
-                data-target="#modal" title="Nuevo">
+               <button id="new" type="button" class="btn btn-info mb-3" data-toggle="modal"
+                    data-target="#modal" title="Nuevo">
+                    <i class="mdi mdi-plus"></i>
+                  </button>
+
+                <div class="content">
+                  <table id="data_table" class="table table-striped dt-responsive nowrap w-100"></table>
+                </div>
+        </div>
+        <div class="tab-pane" id="second">
+               <button id="new-categoria" type="button" class="btn btn-info mb-3" data-toggle="modal"
+                data-target="#modal-categoria" title="Nuevo">
                 <i class="mdi mdi-plus"></i>
               </button>
-
             <div class="content">
-              <table id="data_table" class="table table-striped dt-responsive nowrap w-100"></table>
-            </div>
+                  <table id="data_table_categoria" class="table table-striped dt-responsive nowrap w-100"></table>
+                </div>
+        </div>
+</div>
           </div>
         </div>
       </div>

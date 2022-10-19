@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-6">
-                    <label for="recargar">Recargar</label>
+                    <label for="recargar">Actualizar</label>
                     <div class="form-group mb-3">
                          <button id="recargar" type="button" class="btn btn-info mb-3" title="Recargar">
                             <i class="mdi mdi-reload"></i>
@@ -101,6 +101,45 @@
   </div>
 </div>
 
+ <div class="modal fade" id="modal-categoria" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Categoria</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="submit_form-categoria" class="pl-3 pr-3 needs-validation" novalidate>
+          <div class="row">
+            <div class="col-12 col-sm-6">
+                <div class="form-group mb-3">
+                    <input id="id-categoria" name="id-categoria" type="hidden" />
+                    <label for="nombre-categoria">Nombre *</label>
+                    <input id="nombre-categoria" name="nombre-categoria" type="text" class="form-control form-control-sm"
+                        placeholder="" required />
+                </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button id="cerrar-categoria" type="button" class="btn btn-light" data-bs-dismiss="modal">
+          <i class="mdi mdi-close-box mr-1"></i> <span>Cerrar</span>
+        </button>
+        <button id="insert-categoria" type="button" class="btn btn-primary">
+          <i class="mdi mdi-content-save mr-1"></i> <span>Guardar</span>
+        </button>
+        <button id="update-categoria" type="button" class="btn btn-primary">
+          <i class="mdi mdi-content-save mr-1"></i> <span>Actualizar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
  <div class="modal fade" id="modal_asignacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">

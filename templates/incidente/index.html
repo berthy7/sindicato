@@ -15,23 +15,65 @@
         <div class="card">
           <div class="card-body">
 
-            <h4 class="header-title mb-3">Incidentes</h4>
+              <ul class="nav nav-tabs mb-3">
+                  <li class="nav-item">
+                    <a href="#home" data-bs-toggle="tab" aria-expanded="true" class="nav-link active">
+                        <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                        <span class="d-none d-md-block">Incidentes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#second" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                        <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                        <span class="d-none d-md-block">Tipo de incidentes</span>
+                    </a>
+                </li>
+            </ul>
 
-{#            {% if 'ciudad_insert' in privileges %}#}
-{#            <button id="new" onclick="location.href='form';" type="button" class="btn btn-info mb-3" data-toggle="modal"#}
-{#              data-target="#modal" title="Nuevo">#}
-{#              <i class="mdi mdi-plus"></i>#}
-{#            </button>#}
-{#            {% end %}#}
+<div class="tab-content">
+    <div class="tab-pane show active" id="home">
 
-              <button id="new" type="button" class="btn btn-info mb-3" data-toggle="modal"
-                data-target="#modal" title="Nuevo">
-                <i class="mdi mdi-plus"></i>
-              </button>
-
-            <div class="content">
+            <button id="new" type="button" class="btn btn-info mb-3" data-toggle="modal"
+            data-target="#modal" title="Nuevo">
+            <i class="mdi mdi-plus"></i>
+          </button>
+        <div class="content">
               <table id="data_table" class="table table-striped dt-responsive nowrap w-100"></table>
             </div>
+    </div>
+    <div class="tab-pane" id="second">
+           <button id="new-tipo" type="button" class="btn btn-info mb-3" data-toggle="modal"
+            data-target="#modal-tipo" title="Nuevo">
+            <i class="mdi mdi-plus"></i>
+          </button>
+        <div class="content">
+              <table id="data_table_tipo" class="table table-striped dt-responsive nowrap w-100"></table>
+            </div>
+    </div>
+</div>
+{##}
+{#             <ul class="nav nav-tabs mb-3">#}
+{#                <li class="nav-item">#}
+{#                    <a href="#home" data-bs-toggle="tab" aria-expanded="true" class="nav-link active">#}
+{#                        <i class="mdi mdi-home-variant d-md-none d-block"></i>#}
+{#                        <span class="d-none d-md-block">Incidente</span>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a href="#tipo" data-bs-toggle="tab" aria-expanded="false" class="nav-link ">#}
+{#                        <i class="mdi mdi-account-circle d-md-none d-block"></i>#}
+{#                        <span class="d-none d-md-block">Tipos</span>#}
+{#                    </a>#}
+{#                </li>#}
+{#            </ul>#}
+{#            <div class="tab-content">#}
+{#                <div class="tab-pane show active" id="home">#}
+
+{#                </div>#}
+{#                <div class="tab-pane" id="tipo">#}
+{#                    <p>...</p>#}
+{#                </div>#}
+{#            </div>#}
           </div>
         </div>
       </div>

@@ -20,6 +20,7 @@ $(document).ready( function () {
 //     },
 // });
 
+
 $('#ciFechaVencimiento').datepicker({
     format: 'dd/mm/yyyy',
     language: "es",

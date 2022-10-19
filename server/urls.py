@@ -31,7 +31,7 @@ path('linea/', include(('system.linea.urls', 'system.linea'))),
 path('persona/', include(('system.persona.urls', 'system.persona'))),
 path('conductor/', include(('system.conductor.urls', 'system.conductor'))),
 path('incidente/', include(('system.incidente.urls', 'system.incidente'))),
-# path('evento/', include(('system.evento.urls', 'system.evento'))),
+path('capacitacion/', include(('system.capacitacion.urls', 'system.capacitacion'))),
 
 
 path('usuario/', include(('system.usuario.urls', 'system.usuario'))),

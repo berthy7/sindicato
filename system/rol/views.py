@@ -1,13 +1,27 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User,Group
+from system.linea.models import Linea
+from system.persona.models import Persona
 import json
 
 # Create your views here.
 @login_required
 def index(request):
-    return render(request, 'rol/index.html')
+    user = request.user
+    try:
+        persona = Persona.objects.filter(fkusuario=user.id)
+        rol = persona[0].fkrol.name
+        if persona[0].fklinea:
+            linea = get_object_or_404(Linea, id=persona[0].fklinea)
+            lineaUser = linea.codigo
+        else:
+            lineaUser = ""
+    except Exception as e:
+        print(e)
+    return render(request, 'rol/index.html', {'usuario': user.first_name + " " + user.last_name,
+                                                'rol': rol, 'lineaUser': lineaUser})
 
 @login_required
 def list(request):

@@ -167,7 +167,6 @@ def asignacion(request):
 @login_required
 def retiro(request):
     try:
-
         dicc = json.load(request)['obj']
         lineavehiculo = LineaVehiculo.objects.get(id=dicc["lineavehiculoid"])
 
@@ -180,3 +179,54 @@ def retiro(request):
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
 
+
+
+# Categoria
+
+@login_required
+def categoriaList(request):
+    dt_list = []
+    datos = VehiculoCategoria.objects.filter(habilitado=True).all().order_by('-id')
+    for item in datos:
+        dt_list.append(dict(id=item.id,nombre=item.nombre,estado=item.estado))
+    return JsonResponse(dt_list, safe=False)
+@login_required
+def categoriaInsert(request):
+    user = request.user
+    try:
+        dicc = json.load(request)['obj']
+        VehiculoCategoria.objects.create(**dicc)
+        return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
+    except Exception as e:
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
+@login_required
+def categoriaUpdate(request):
+    try:
+        dicc = json.load(request)['obj']
+        VehiculoCategoria.objects.filter(pk=dicc["id"]).update(**dicc)
+        return JsonResponse(dict(success=True, mensaje="Modificado Correctamente", tipo="success"), safe=False)
+    except Exception as e:
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
+@login_required
+def categoriaState(request):
+    try:
+        dicc = json.load(request)['obj']
+        obj = VehiculoCategoria.objects.get(id=dicc["id"])
+        obj.estado = dicc["estado"]
+        obj.save()
+        return JsonResponse(dict(success=True,mensaje="cambio de estado"), safe=False)
+    except Exception as e:
+        return JsonResponse(dict(success=False, mensaje=e), safe=False)
+@login_required
+def categoriaDelete(request):
+    try:
+        dicc = json.load(request)['obj']
+        obj = VehiculoCategoria.objects.get(id=dicc["id"])
+        obj.estado = False
+        obj.habilitado = False
+        obj.save()
+        return JsonResponse(dict(success=True,mensaje="se Eliminio"), safe=False)
+    except Exception as e:
+        return JsonResponse(dict(success=False, mensaje=e), safe=False)

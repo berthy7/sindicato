@@ -10,57 +10,41 @@
       </div>
       <div class="modal-body">
         <form id="submit_form" class="pl-3 pr-3 needs-validation" novalidate enctype="multipart/form-data">
-        <div id="progressbarwizard" class="tab-content">
+
             <div class="tab-pane show active" id="bordered-tabs-preview">
-                <ul id="tab-form" class="nav nav-tabs nav-justified nav-bordered mb-3">
+                <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
                     <li class="nav-item">
-                        <a href="#tb-general" data-toggle="tab" aria-expanded="false" class="nav-link rounded-0 pt-2 pb-2 active">
+                        <a href="#general" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
                             <i class="mdi mdi-home-variant d-md-none d-block"></i>
-                            <span class="d-none d-md-block">Datos General</span>
+                            <span class="d-none d-md-block">Datos Generales</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#tb-archivos" data-toggle="tab" aria-expanded="true" class="nav-link rounded-0 pt-2 pb-2">
+                        <a href="#adjuntos" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
                             <i class="mdi mdi-account-circle d-md-none d-block"></i>
-                            <span class="d-none d-md-block">Datos Complementarios</span>
+                            <span class="d-none d-md-block">Adjuntos</span>
                         </a>
                     </li>
                 </ul>
 
-                <div class="tab-content b-0 mb-0">
-                    <div id="bar" class="progress mb-3" style="height: 7px;">
-                        <div class="bar progress-bar progress-bar-striped progress-bar-animated bg-info"></div>
-                    </div>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="general">
 
-                    <div class="tab-pane show active" id="tb-general">
-                            <div class="row">
-                                        <div class="col-12 col-sm-6">
-                                            <div class="form-group mb-3">
-                                                <input id="id" name="id" type="hidden" />
-                                                <label for="tipo">Es Socio Conductor</label>
-                                                <select id="tipo" name="tipo" class="form-control show-tick" >
-                                                  <option value="">No</option>
-                                                  <option value="Socio/Conductor">Si</option>
-                                                </select>
-
-                                            </div>
-                                        </div>
-                                     </div>
-                            {#          <div class="row">#}
-                            {#            <div class="col-12 col-sm-6 mb-3">#}
-                            {#              <div class="row bg-preview">#}
-                            {#                <div class="col-12 content-preview">#}
-                            {#                  <img src="" class="rounded-circle img-thumbnail image-preview d-none" alt="Vista previa foto" />#}
-                            {#                  <i class="mdi app-fs-70 mdi-camera-account icon-preview"></i>#}
-                            {#                </div>#}
-                            {#              </div>#}
-                            {#            </div>#}
-                            {#            <div class="col-12 col-sm-6 mb-3">#}
-                            {#              <label for="photo">Foto</label>#}
-                            {#              <input type="hidden" id="foto" name="foto" class="form-control">#}
-                            {#              <input type="file" id="photo" name="photo" class="app-file">#}
-                            {#            </div>#}
-                            {#          </div>#}
+{#                                      <div class="row">#}
+{#                                        <div class="col-12 col-sm-6 mb-3">#}
+{#                                          <div class="row bg-preview">#}
+{#                                            <div class="col-12 content-preview">#}
+{#                                              <img src="" class="rounded-circle img-thumbnail image-preview d-none" alt="Vista previa foto" />#}
+{#                                              <i class="mdi app-fs-70 mdi-camera-account icon-preview"></i>#}
+{#                                            </div>#}
+{#                                          </div>#}
+{#                                        </div>#}
+{#                                        <div class="col-12 col-sm-6 mb-3">#}
+{#                                          <label for="photo">Foto</label>#}
+{#                                          <input type="hidden" id="foto" name="foto" class="form-control">#}
+{#                                          <input type="file" id="photo" name="photo" class="app-file">#}
+{#                                        </div>#}
+{#                                      </div>#}
                         <div class="row">
                         <div class="col-12 col-sm-6">
                             <div class="form-group mb-3">
@@ -208,9 +192,10 @@
                         <div class="content">
                           <table id="data_table_referencia" class="table table-striped dt-responsive nowrap w-100"></table>
                         </div>
+
                     </div>
-                    <div class="tab-pane" id="tb-archivos">
-                    <div class="row">
+                    <div class="tab-pane" id="adjuntos">
+                       <div class="row">
                         <div class="col-12 col-sm-6">
                             <div class="form-group mb-3">
                                 <label >Adjuntos *</label>
@@ -222,20 +207,8 @@
                     </div>
                 </div>
 
-{#                <ul class="list-inline mb-0 wizard">#}
-{#                    <li class="previous list-inline-item">#}
-{#                        <a href="#" class="btn btn-info btn-sm">#}
-{#                            <i class="uil-angle-left"></i>#}
-{#                        </a>#}
-{#                    </li>#}
-{#                    <li class="next list-inline-item float-right">#}
-{#                        <a href="#" class="btn btn-info btn-sm">#}
-{#                            <i class="uil-angle-right"></i>#}
-{#                        </a>#}
-{#                    </li>#}
-{#                </ul>#}
             </div>
-    </div>
+
 
         </form>
        <form id="submit_form-referencia" class="pl-3 pr-3 needs-validation" hidden>
