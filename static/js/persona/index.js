@@ -206,11 +206,13 @@ function load_table(data_tb) {
         scroller:       true,
         columns: [
             { title: "ID", data: "id" },
-            { title: "Tipo", data: "tipo" },
             { title: "Ci", data: "ci" },
             { title: "Nombre", data: "nombre" },
             { title: "Apellidos", data: "apellidos" },
             { title: "Domicilio", data: "domicilio" },
+            { title: "Telefono", data: "telefono" },
+            { title: "Lugar de Nacimiento", data: "lugarNacimiento", visible: false },
+
             { title: "Estado", data: "estado",
                 render: function(data, type, row) {
                     let check = data ? 'checked' : ''
@@ -248,9 +250,25 @@ function load_table(data_tb) {
             }
         ],
         dom: "Bfrtip",
-        buttons: [],
+        buttons: [
+            {  extend : 'excelHtml5',
+               exportOptions : { columns : [0, 1, 2, 3, 4,5,6]},
+                sheetName: 'Listado de Socios',
+               title: 'Listado de Socios'  },
+            {  extend : 'pdfHtml5',
+                orientation: 'landscape',
+               customize: function(doc) {
+                    doc.styles.tableBodyEven.alignment = 'center';
+                    doc.styles.tableBodyOdd.alignment = 'center';
+               },
+               exportOptions : {
+                    columns : [0, 1, 2, 3, 4,5,6]
+                },
+               title: 'Listado de Socios'
+            }
+        ],
         "order": [ [0, 'desc'] ],
-        columnDefs: [ { width: '10%', targets: [0,1,2,3] }],
+        columnDefs: [ { width: '10%', targets: [0,1,2,3,4] }],
         "initComplete": function() {}
     });
     tabla.draw()
@@ -263,6 +281,8 @@ function reload_table() {
         dataType: 'json',
         async: false,
         success: function (response) {
+
+            console.log(response)
             load_table(response)
         },
         error: function (jqXHR, status, err) {

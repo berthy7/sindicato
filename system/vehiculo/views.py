@@ -18,12 +18,12 @@ def index(request):
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             internos = Interno.objects.filter(fklinea=linea.id).filter(fkvehiculo = None ).all().order_by('id')
-            lineas = Linea.objects.filter(id=linea.id).all().order_by('id')
+            lineas = Linea.objects.filter(habilitado=True).filter(id=linea.id).all().order_by('id')
             lineaUser = linea.codigo
         else:
             rol = "Administrador"
             internos = Interno.objects.filter(fkvehiculo = None ).all().order_by('id')
-            lineas = Linea.objects.all().order_by('id')
+            lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
             lineaUser = ""
         categorias = VehiculoCategoria.objects.all().order_by('id')
     except Exception as e:

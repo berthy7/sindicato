@@ -19,11 +19,11 @@ def index(request):
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
-            lineas = Linea.objects.filter(id=linea.id).all().order_by('id')
+            lineas = Linea.objects.filter(habilitado=True).filter(id=linea.id).all().order_by('id')
         else:
             rol = "Administrador"
             lineaUser = ""
-            lineas = Linea.objects.all().order_by('id')
+            lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
     except Exception as e:
         print(e)
     return render(request, 'persona/index.html', {'personas': personas,'lineas':lineas,
@@ -36,9 +36,13 @@ def list(request):
     dt_list = []
     datos = Persona.objects.filter(habilitado=True).filter(tipo="Socio").all().order_by('-id')
     for item in datos:
-        dt_list.append(dict(id=item.id,tipo=item.tipo,ci=item.ci,
-                            nombre=item.nombre,apellidos=item.apellidos,
-                            domicilio=item.domicilio,estado=item.estado))
+
+
+        dt_list.append(model_to_dict(item))
+
+        # dt_list.append(dict(id=item.id,tipo=item.tipo,ci=item.ci,
+        #                     nombre=item.nombre,apellidos=item.apellidos,
+        #                     domicilio=item.domicilio,estado=item.estado))
     return JsonResponse(dt_list, safe=False)
 
 @login_required
