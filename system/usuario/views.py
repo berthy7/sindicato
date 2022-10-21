@@ -12,7 +12,7 @@ import json
 def index(request):
     user = request.user
     try:
-        lineas = Linea.objects.all().order_by('id')
+        lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
         roles = Group.objects.all().order_by('id')
         persona = Persona.objects.filter(fkusuario=user.id)
         rol = persona[0].fkrol.name

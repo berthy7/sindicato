@@ -79,40 +79,47 @@ def obtain(request,id):
 def insert(request):
     try:
         dicc = json.load(request)['response']
-        if dicc["obj"]['ciFechaVencimiento'] != "":
-            dicc["obj"]['ciFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['ciFechaVencimiento'],'%d/%m/%Y')
-        else:
-            dicc["obj"]['ciFechaVencimiento'] = None
 
-        if dicc["obj"]['licenciaFechaVencimiento'] != "":
-            dicc["obj"]['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['licenciaFechaVencimiento'],'%d/%m/%Y')
-        else:
-            dicc["obj"]['licenciaFechaVencimiento'] = None
+        persona = Persona.objects.filter(ci=dicc["obj"]['ci']).all()
 
-        persona = Persona.objects.create(**dicc["obj"])
-
-        for ref in dicc["referencias"]:
-            ref["fkpersona"] =  persona
-            PersonaReferencia.objects.create(**ref)
-
-        for asig in dicc["lineas"]:
-
-            if asig["fkinterno"] != "":
-                asig["fkinterno"] =  Interno.objects.get(id=asig["fkinterno"])
-                asig["fkpersona"] = persona
-                del asig['fklinea']
-                del asig['linea']
-                del asig['interno']
-                InternoPersona.objects.create(**asig)
+        if len(persona) == 0:
+            if dicc["obj"]['ciFechaVencimiento'] != "":
+                dicc["obj"]['ciFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['ciFechaVencimiento'],'%d/%m/%Y')
             else:
-                asig["fklinea"] =  Linea.objects.get(id=asig["fklinea"])
-                asig["fkpersona"] = persona
-                del asig['fkinterno']
-                del asig['linea']
-                del asig['interno']
-                LineaPersona.objects.create(**asig)
+                dicc["obj"]['ciFechaVencimiento'] = None
 
-        return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
+            if dicc["obj"]['licenciaFechaVencimiento'] != "":
+                dicc["obj"]['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['licenciaFechaVencimiento'],'%d/%m/%Y')
+            else:
+                dicc["obj"]['licenciaFechaVencimiento'] = None
+
+            persona = Persona.objects.create(**dicc["obj"])
+
+            for ref in dicc["referencias"]:
+                ref["fkpersona"] =  persona
+                PersonaReferencia.objects.create(**ref)
+
+            for asig in dicc["lineas"]:
+
+                if asig["fkinterno"] != "":
+                    asig["fkinterno"] =  Interno.objects.get(id=asig["fkinterno"])
+                    asig["fkpersona"] = persona
+                    del asig['fklinea']
+                    del asig['linea']
+                    del asig['interno']
+                    InternoPersona.objects.create(**asig)
+                else:
+                    asig["fklinea"] =  Linea.objects.get(id=asig["fklinea"])
+                    asig["fkpersona"] = persona
+                    del asig['fkinterno']
+                    del asig['linea']
+                    del asig['interno']
+                    LineaPersona.objects.create(**asig)
+
+            return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
+        else:
+            return JsonResponse(dict(success=False, mensaje="El Ci ya esta registrado en el sistema", tipo="warning"), safe=False)
+
     except Exception as e:
         print("error: ", e.args[0])
         return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)

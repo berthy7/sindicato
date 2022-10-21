@@ -526,7 +526,23 @@ function load_table_categoria(data_tb) {
             }
         ],
         dom: "Bfrtip",
-        buttons: [],
+                buttons: [
+            {  extend : 'excelHtml5',
+               exportOptions : { columns : [0, 1, 2, 3, 4,5,6]},
+                sheetName: 'Lista de Vehiculos',
+               title: 'Lista de Vehiculos'  },
+            {  extend : 'pdfHtml5',
+                orientation: 'landscape',
+               customize: function(doc) {
+                    doc.styles.tableBodyEven.alignment = 'center';
+                    doc.styles.tableBodyOdd.alignment = 'center';
+               },
+               exportOptions : {
+                    columns : [0, 1, 2, 3, 4,5,6]
+                },
+               title: 'Lista de Vehiculos'
+            }
+        ],
         "order": [ [0, 'desc'] ],
         columnDefs: [ { width: '10%', targets: [0] }, { width: '27.5%', targets: [1, 2] }, { width: '20%', targets: [3] } ],
         "initComplete": function() {}

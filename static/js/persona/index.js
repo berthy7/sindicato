@@ -253,8 +253,8 @@ function load_table(data_tb) {
         buttons: [
             {  extend : 'excelHtml5',
                exportOptions : { columns : [0, 1, 2, 3, 4,5,6]},
-                sheetName: 'Listado de Socios',
-               title: 'Listado de Socios'  },
+                sheetName: 'Lista de Socios',
+               title: 'Lista de Socios'  },
             {  extend : 'pdfHtml5',
                 orientation: 'landscape',
                customize: function(doc) {
@@ -264,7 +264,7 @@ function load_table(data_tb) {
                exportOptions : {
                     columns : [0, 1, 2, 3, 4,5,6]
                 },
-               title: 'Listado de Socios'
+               title: 'Lista de Socios'
             }
         ],
         "order": [ [0, 'desc'] ],
