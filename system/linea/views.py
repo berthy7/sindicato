@@ -121,10 +121,22 @@ def agregarInternos(request):
 
 @login_required
 def listarInternosXLineaNoVehiculo(request,id):
-
     dt_list = []
     datos = Interno.objects.filter(habilitado=True).filter(fkvehiculo=None).filter(fklinea=int(id)).all().order_by('numero')
     for item in datos:
         dt_list.append(dict(id=item.id, numero=item.numero))
 
     return JsonResponse(dt_list, safe=False)
+
+
+@login_required
+def listarTodoInternosXLinea(request,id):
+    dt_list = []
+    datos = Interno.objects.filter(habilitado=True).filter(fklinea=int(id)).all().order_by('numero')
+    for item in datos:
+        dt_list.append(dict(id=item.id, numero=item.numero))
+
+    return JsonResponse(dt_list, safe=False)
+
+
+

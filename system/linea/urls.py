@@ -11,6 +11,9 @@ urlpatterns = [
     path('state/', views.state, name='linea_state'),
     path('delete/', views.delete, name='linea_delete'),
     path('agregarInternos/', views.agregarInternos, name='linea_agregarInternos'),
+
     path('listarInternosXLinea/<int:id>/', views.listarInternosXLineaNoVehiculo, name='linea_listarInternosXLinea'),
+
+    path('listarTodoInternosXLinea/<int:id>/', views.listarTodoInternosXLinea, name='linea_listarTodoInternosXLinea'),
 
 ]

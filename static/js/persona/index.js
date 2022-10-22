@@ -126,7 +126,6 @@ function add_columns_referencia() {
 
     return a_cols;
 }
-
 function load_table_referencia(data_tb) {
     var tabla = $(id_table_referencia).DataTable({
         destroy: true,
@@ -162,10 +161,11 @@ function add_columns_lineasAgregadas() {
                      const dataObject = JSON.stringify(row);
                     a = ''
                     // if (row.delete) {
-                        a += '\
-                            <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar">\
+
+                        a += `\
+                            <button data-object='${dataObject}'  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="eliminar_linea(this)">\
                                 <i class="mdi mdi-delete"></i>\
-                            </button>'
+                            </button>`
                     // }
                     if (a === '') a = 'Sin permisos';
                     return a
@@ -175,7 +175,6 @@ function add_columns_lineasAgregadas() {
 
     return a_cols;
 }
-
 function load_table_lineasAgregadas(data_tb) {
     var tabla = $(id_table_lineasAgregadas).DataTable({
         destroy: true,
@@ -190,8 +189,8 @@ function load_table_lineasAgregadas(data_tb) {
         columns: add_columns_lineasAgregadas(),
         dom: "Bfrtip",
         buttons: [],
-        "order": [ [0, 'desc'] ],
-        columnDefs: [ { width: '10%', targets: [0,1,2] }],
+        "order": [ [0, 'asc'] ],
+        columnDefs: [ { width: '10%', targets: [0,1,2,3,4] }],
         "initComplete": function() {}
     });
     tabla.draw()
@@ -212,7 +211,15 @@ function load_table(data_tb) {
             { title: "Domicilio", data: "domicilio" },
             { title: "Telefono", data: "telefono" },
             { title: "Lugar de Nacimiento", data: "lugarNacimiento", visible: false },
-
+            { title: "Lineas/Internos", data: "id",
+                render: function (data, type, row) {
+                    a = ''
+                    for (var i = 0; i < row.asignaciones.length; i++) {
+                        a += '<p>' + row.asignaciones[i].linea + ' Interno ' + row.asignaciones[i].interno + '</p>'
+                    }
+                    return a
+                }
+            },
             { title: "Estado", data: "estado",
                 render: function(data, type, row) {
                     let check = data ? 'checked' : ''
@@ -273,7 +280,6 @@ function load_table(data_tb) {
     });
     tabla.draw()
 }
-
 function reload_table() {
     $.ajax({
         method: "GET",
@@ -290,38 +296,46 @@ function reload_table() {
     });
 }
 
-
-
 function limpiar(){
     $('#socioConductor').selectpicker("val", '');
     $('#lugarNacimiento').selectpicker("val", '');
     $('#genero').selectpicker("val", '');
     $('#licenciaCategoria').selectpicker("val", '');
 }
-
 function agregar_linea(){
+    if($("#fklinea").val() !=""){
+        newArray = lineasAgregadas.filter(x => x.fklinea == $('#fklinea').val() && x.fkinterno == $('#fkinterno').val());
+        console.log(newArray)
+        if(newArray.length == 0){
+            lineasAgregadas.push({
+                fklinea: $("#fklinea").val(),
+                linea:  $("#fklinea option:selected").html(),
+                fkinterno: $("#fkinterno").val(),
+                interno:  $("#fkinterno option:selected").html()
+            });
+            load_table_lineasAgregadas(lineasAgregadas);
+            $('#fklinea').selectpicker("val", '');
+            $('#fkinterno').selectpicker("val", '');
 
-      lineasAgregadas.push({
-        fklinea: $("#fklinea").val(),
-        linea:  $("#fklinea option:selected").html(),
-        fkinterno: $("#fkinterno").val(),
-        interno:  $("#fkinterno option:selected").html()
-  });
-
-    load_table_lineasAgregadas(lineasAgregadas);
-
-    $('#fklinea').selectpicker("val", '');
-    $('#fkinterno').selectpicker("val", '');
-
-    // $("#form_interno").show();
+        }else showSmallMessage("warning","Linea e Interno, ya ingresados","center");
+    }else showSmallMessage("warning","Seleccione una Linea","center");
 }
-
+function eliminar_linea(e) {
+    const self = JSON.parse(e.dataset.object);
+    for (var i = 0; i < lineasAgregadas.length; i++) {
+        if (parseInt(lineasAgregadas[i].fklinea) == parseInt(self.fklinea) && parseInt(lineasAgregadas[i].fkinterno) == parseInt(self.fkinterno)) {
+            lineasAgregadas.splice(i, 1);
+            break;
+        }
+    }
+    load_table_lineasAgregadas(lineasAgregadas)
+}
 
 $('#fklinea').change(function () {
 
      $.ajax({
         method: "GET",
-        url: '/linea/listarInternosXLinea/'+$(this).val(),
+        url: '/linea/listarTodoInternosXLinea/'+$(this).val(),
         dataType: 'json',
         async: false,
         success: function (response) {
@@ -359,7 +373,6 @@ $('#fklinea').change(function () {
 
 });
 
-
 $("#new").click(function () {
     limpiar();
 
@@ -374,7 +387,6 @@ $('#div_tabla_lineas').show()
   $("#submit_form").removeClass('was-validated');
   $("#modal").modal("show");
 });
-
 $("#newReferencia").click(function () {
 
   $(".referencia").val("");
@@ -390,7 +402,6 @@ $("#newReferencia").click(function () {
   $("#modalLabelRefencia").attr("hidden", false);
 
 });
-
 $("#referencia-atras").click(function () {
   $("#submit_form").attr("hidden", false);
   $("#submit_form-referencia").attr("hidden", true);
@@ -402,7 +413,6 @@ $("#referencia-atras").click(function () {
   $("#modalLabel").attr("hidden", false);
   $("#modalLabelRefencia").attr("hidden", true);
 });
-
 $("#referencia-insert").on("click", function () {
   const validationData = formValidation('submit_form-referencia');
   if (validationData.error) {
@@ -444,7 +454,6 @@ $('#socioConductor').change(function () {
     }
 
 });
-
 
 $("#insert").on("click",async function () {
     const validationData = formValidation('submit_form');
@@ -491,7 +500,6 @@ $("#insert").on("click",async function () {
 
 });
 
-
  function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
 
@@ -516,9 +524,14 @@ $("#insert").on("click",async function () {
             $('#domicilio').val(self.domicilio)
             $('#socioConductor').selectpicker("val", String(self.socioConductor));
 
+            $('#fklinea').selectpicker("val", '');
+            $('#fkinterno').selectpicker("val", '');
+
             load_table_referencia(response.referencias)
 
-            load_table_lineasAgregadas(response.asignaciones)
+            lineasAgregadas = response.asignaciones
+
+            load_table_lineasAgregadas(lineasAgregadas)
             // $('#div_tabla_lineas').hide()
             $('.item-form').parent().addClass('focused')
             $('#insert').hide()

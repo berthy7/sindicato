@@ -30,15 +30,25 @@ def index(request):
                                                    'usuario': user.first_name + " " + user.last_name,
                                                    'rol': rol, 'lineaUser': lineaUser})
 
-
 @login_required
 def list(request):
     dt_list = []
     datos = Persona.objects.filter(habilitado=True).filter(tipo="Socio").all().order_by('-id')
     for item in datos:
 
+        asignaciones = []
 
-        dt_list.append(model_to_dict(item))
+        for lin in LineaPersona.objects.filter(fkpersona=item.id).all().order_by('id'):
+            asignaciones.append(dict(fklinea=lin.fklinea.id, linea=lin.fklinea.codigo, fkinterno="", interno=""))
+
+        for inter in InternoPersona.objects.filter(fkpersona=item.id).all().order_by('id'):
+            linea = Linea.objects.get(id=inter.fkinterno.fklinea.id)
+            asignaciones.append(dict(fklinea=linea.id, linea=linea.codigo, fkinterno=inter.fkinterno.id,
+                                     interno=inter.fkinterno.numero))
+
+        dicc = model_to_dict(item)
+        dicc["asignaciones"] = asignaciones
+        dt_list.append(dicc)
 
         # dt_list.append(dict(id=item.id,tipo=item.tipo,ci=item.ci,
         #                     nombre=item.nombre,apellidos=item.apellidos,
@@ -68,7 +78,6 @@ def obtain(request,id):
     for inter in InternoPersona.objects.filter(fkpersona=persona.id).all().order_by('id'):
         linea = Linea.objects.get(id=inter.fkinterno.fklinea.id)
         asignaciones.append(dict(fklinea=linea.id,linea=linea.codigo,fkinterno=inter.fkinterno.id,interno=inter.fkinterno.numero))
-
 
     dicc = model_to_dict(persona)
     response = dict(obj=dicc,referencias=referencias,asignaciones=asignaciones)
