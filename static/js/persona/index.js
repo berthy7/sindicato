@@ -259,7 +259,7 @@ function load_table(data_tb) {
         dom: "Bfrtip",
         buttons: [
             {  extend : 'excelHtml5',
-               exportOptions : { columns : [0, 1, 2, 3, 4,5,6]},
+               exportOptions : { columns : [0, 1, 2, 3, 4,5,6,7]},
                 sheetName: 'Lista de Socios',
                title: 'Lista de Socios'  },
             {  extend : 'pdfHtml5',
@@ -275,7 +275,7 @@ function load_table(data_tb) {
             }
         ],
         "order": [ [0, 'desc'] ],
-        columnDefs: [ { width: '10%', targets: [0,1,2,3,4] }],
+        columnDefs: [ { width: '10%', targets: [0,1,2,3,4,5,6,7] }],
         "initComplete": function() {}
     });
     tabla.draw()
