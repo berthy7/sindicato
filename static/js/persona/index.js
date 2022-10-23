@@ -297,6 +297,9 @@ function reload_table() {
 }
 
 function limpiar(){
+                $('#fklinea').selectpicker("val", '');
+            $('#fkinterno').selectpicker("val", '');
+
     $('#socioConductor').selectpicker("val", '');
     $('#lugarNacimiento').selectpicker("val", '');
     $('#genero').selectpicker("val", '');
@@ -322,6 +325,10 @@ function agregar_linea(){
 }
 function eliminar_linea(e) {
     const self = JSON.parse(e.dataset.object);
+
+    if($('#id').val() !="")
+        delete_interno($('#id').val())
+
     for (var i = 0; i < lineasAgregadas.length; i++) {
         if (parseInt(lineasAgregadas[i].fklinea) == parseInt(self.fklinea) && parseInt(lineasAgregadas[i].fkinterno) == parseInt(self.fkinterno)) {
             lineasAgregadas.splice(i, 1);
@@ -329,6 +336,47 @@ function eliminar_linea(e) {
         }
     }
     load_table_lineasAgregadas(lineasAgregadas)
+
+
+}
+
+function delete_interno(id) {
+
+    console.log("ideInterno",id)
+
+    Swal.fire({
+        icon: "warning",
+        title: "¿Está seguro de que desea eliminar?",
+        text: "",
+        showCancelButton: true,
+        allowOutsideClick: false,
+        confirmButtonColor: '#009688',
+        cancelButtonColor: '#ef5350',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.value) {
+        console.log(result.value)
+
+            // objeto ={
+            //     id: parseInt(JSON.parse($(e).attr('data-json')))
+            // }
+            // fetch("/persona/delete/",{
+            //     method: "POST",
+            //     body:JSON.stringify({'obj':objeto}),
+            //     headers:{
+            //         "X-CSRFToken" : getCookie('csrftoken')
+            //     }
+            // })
+            // .then(function(response){
+            //    showSmallMessage("success" , "Se elimino Correctamente", "center");
+            //     setTimeout(function () {
+            //         reload_table()
+            //     }, 2000);
+            //  })
+
+        }
+    })
 }
 
 $('#fklinea').change(function () {
@@ -375,6 +423,7 @@ $('#fklinea').change(function () {
 
 $("#new").click(function () {
     limpiar();
+
 
     referencias = []
     load_table_referencia(referencias)

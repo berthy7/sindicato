@@ -38,13 +38,11 @@ def list(request):
 
         asignaciones = []
 
-        for lin in LineaPersona.objects.filter(fkpersona=item.id).all().order_by('id'):
-            asignaciones.append(dict(fklinea=lin.fklinea.id, linea=lin.fklinea.codigo, fkinterno="", interno=""))
+        for interPersona in InternoPersona.objects.filter(fkpersona=item.id).all().order_by('id'):
+            interno = interPersona.fkinterno
 
-        for inter in InternoPersona.objects.filter(fkpersona=item.id).all().order_by('id'):
-            linea = Linea.objects.get(id=inter.fkinterno.fklinea.id)
-            asignaciones.append(dict(fklinea=linea.id, linea=linea.codigo, fkinterno=inter.fkinterno.id,
-                                     interno=inter.fkinterno.numero))
+            asignaciones.append(dict(fklinea=interno.fklinea_id, linea=interno.fklinea.codigo, fkinterno=interno.id,
+                                     interno=interno.numero))
 
         dicc = model_to_dict(item)
         dicc["asignaciones"] = asignaciones
