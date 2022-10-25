@@ -7,7 +7,7 @@ from django.contrib.auth.models import User, Group
 class Persona(models.Model):
 
     ci = models.CharField(max_length=25,null=True)
-    ciFechaVencimiento = models.DateField(null=True)
+    fechaNacimiento = models.DateField(null=True)
     nombre = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
     genero = models.CharField(max_length=10,null=True)

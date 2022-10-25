@@ -3,9 +3,9 @@ from django.http import JsonResponse
 from .models import Linea,Interno
 from django.contrib.auth.decorators import login_required
 import json
-import datetime
 from system.persona.models import Persona
-from system.linea.models import Linea
+from system.linea.models import Linea,InternoPersona
+from datetime import datetime
 
 # Create your views here.
 @login_required
@@ -118,7 +118,6 @@ def agregarInternos(request):
         print("error: ", e.args[0])
         return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
 
-
 @login_required
 def listarInternosXLineaNoVehiculo(request,id):
     dt_list = []
@@ -137,6 +136,5 @@ def listarTodoInternosXLinea(request,id):
         dt_list.append(dict(id=item.id, numero=item.numero))
 
     return JsonResponse(dt_list, safe=False)
-
 
 

@@ -5,7 +5,7 @@ from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from system.linea.models import Linea,LineaPersona,Interno,InternoPersona
 import json
-import datetime
+from datetime import datetime
 
 # Create your views here.
 @login_required
@@ -35,22 +35,16 @@ def list(request):
     dt_list = []
     datos = Persona.objects.filter(habilitado=True).filter(tipo="Socio").all().order_by('-id')
     for item in datos:
-
         asignaciones = []
-
-        for interPersona in InternoPersona.objects.filter(fkpersona=item.id).all().order_by('id'):
+        for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=item.id).all().order_by('id'):
             interno = interPersona.fkinterno
+            asignaciones.append(dict(interPersonaId=interPersona.id,fklinea=interno.fklinea_id, linea=interno.fklinea.codigo,
+                                     fkinterno=interno.id, interno=interno.numero))
 
-            asignaciones.append(dict(fklinea=interno.fklinea_id, linea=interno.fklinea.codigo, fkinterno=interno.id,
-                                     interno=interno.numero))
 
         dicc = model_to_dict(item)
         dicc["asignaciones"] = asignaciones
         dt_list.append(dicc)
-
-        # dt_list.append(dict(id=item.id,tipo=item.tipo,ci=item.ci,
-        #                     nombre=item.nombre,apellidos=item.apellidos,
-        #                     domicilio=item.domicilio,estado=item.estado))
     return JsonResponse(dt_list, safe=False)
 
 @login_required
@@ -58,8 +52,8 @@ def obtain(request,id):
 
     persona = Persona.objects.get(id=id)
 
-    if persona.ciFechaVencimiento:
-        persona.ciFechaVencimiento = persona.ciFechaVencimiento.strftime('%d/%m/%Y')
+    if persona.fechaNacimiento:
+        persona.fechaNacimiento = persona.fechaNacimiento.strftime('%d/%m/%Y')
     if persona.licenciaFechaVencimiento:
         persona.licenciaFechaVencimiento = persona.licenciaFechaVencimiento.strftime('%d/%m/%Y')
 
@@ -69,13 +63,10 @@ def obtain(request,id):
         referencias.append(model_to_dict(ref))
 
     asignaciones = []
-
-    for lin in LineaPersona.objects.filter(fkpersona=persona.id).all().order_by('id'):
-        asignaciones.append(dict(fklinea=lin.fklinea.id,linea=lin.fklinea.codigo,fkinterno="",interno=""))
-
-    for inter in InternoPersona.objects.filter(fkpersona=persona.id).all().order_by('id'):
-        linea = Linea.objects.get(id=inter.fkinterno.fklinea.id)
-        asignaciones.append(dict(fklinea=linea.id,linea=linea.codigo,fkinterno=inter.fkinterno.id,interno=inter.fkinterno.numero))
+    for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=persona.id).all().order_by('id'):
+        interno = interPersona.fkinterno
+        asignaciones.append(dict(interPersonaId=interPersona.id,fklinea=interno.fklinea_id, linea=interno.fklinea.codigo,
+                                 fkinterno=interno.id, interno=interno.numero))
 
     dicc = model_to_dict(persona)
     response = dict(obj=dicc,referencias=referencias,asignaciones=asignaciones)
@@ -87,13 +78,13 @@ def insert(request):
     try:
         dicc = json.load(request)['response']
 
-        persona = Persona.objects.filter(ci=dicc["obj"]['ci']).all()
+        persona = Persona.objects.filter(ci=dicc["obj"]['ci']).filter(habilitado=True).all()
 
         if len(persona) == 0:
-            if dicc["obj"]['ciFechaVencimiento'] != "":
-                dicc["obj"]['ciFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['ciFechaVencimiento'],'%d/%m/%Y')
+            if dicc["obj"]['fechaNacimiento'] != "":
+                dicc["obj"]['fechaNacimiento'] = datetime.datetime.strptime(dicc["obj"]['fechaNacimiento'],'%d/%m/%Y')
             else:
-                dicc["obj"]['ciFechaVencimiento'] = None
+                dicc["obj"]['fechaNacimiento'] = None
 
             if dicc["obj"]['licenciaFechaVencimiento'] != "":
                 dicc["obj"]['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['licenciaFechaVencimiento'],'%d/%m/%Y')
@@ -107,21 +98,13 @@ def insert(request):
                 PersonaReferencia.objects.create(**ref)
 
             for asig in dicc["lineas"]:
-
-                if asig["fkinterno"] != "":
-                    asig["fkinterno"] =  Interno.objects.get(id=asig["fkinterno"])
-                    asig["fkpersona"] = persona
-                    del asig['fklinea']
-                    del asig['linea']
-                    del asig['interno']
-                    InternoPersona.objects.create(**asig)
-                else:
-                    asig["fklinea"] =  Linea.objects.get(id=asig["fklinea"])
-                    asig["fkpersona"] = persona
-                    del asig['fkinterno']
-                    del asig['linea']
-                    del asig['interno']
-                    LineaPersona.objects.create(**asig)
+                asig["fkinterno"] =  Interno.objects.get(id=asig["fkinterno"])
+                asig["fkpersona"] = persona
+                del asig['interPersonaId']
+                del asig['fklinea']
+                del asig['linea']
+                del asig['interno']
+                InternoPersona.objects.create(**asig)
 
             return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
         else:
@@ -135,10 +118,10 @@ def insert(request):
 def update(request):
     try:
         dicc = json.load(request)['obj']
-        if dicc['ciFechaVencimiento'] != "":
-            dicc['ciFechaVencimiento'] = datetime.datetime.strptime(dicc['ciFechaVencimiento'],'%d/%m/%Y')
+        if dicc['fechaNacimiento'] != "":
+            dicc['fechaNacimiento'] = datetime.datetime.strptime(dicc['fechaNacimiento'],'%d/%m/%Y')
         else:
-            dicc['ciFechaVencimiento'] = None
+            dicc['fechaNacimiento'] = None
         if dicc['licenciaFechaVencimiento'] != "":
             dicc['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc['licenciaFechaVencimiento'], '%d/%m/%Y')
         else:
@@ -184,3 +167,35 @@ def listarPersonaXTipo(request,id):
         dt_list.append(dict(id=item.id, nombre=item.nombre + " " + item.apellidos))
 
     return JsonResponse(dt_list, safe=False)
+
+@login_required
+def agregarInternos(request):
+    try:
+        dicc = json.load(request)['obj']
+
+        del dicc['interPersonaId']
+        del dicc['fklinea']
+        del dicc['linea']
+        del dicc['interno']
+
+        dicc['fkinterno'] = Interno.objects.get(id=dicc["fkinterno"])
+        dicc['fkpersona'] = Persona.objects.get(id=dicc["fkpersona"])
+        InternoPersona.objects.create(**dicc)
+
+        return JsonResponse(dict(success=True, mensaje="Agregado Correctamente",tipo="success"), safe=False)
+    except Exception as e:
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
+
+@login_required
+def eliminarInternos(request,id):
+    try:
+        interno = InternoPersona.objects.get(id=id)
+        interno.estado = False
+        interno.habilitado = False
+        interno.fechaRetiro = datetime.now()
+        interno.save()
+        return JsonResponse(dict(success=True, mensaje="Eliminado Correctamente",tipo="success"), safe=False)
+    except Exception as e:
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)

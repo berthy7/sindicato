@@ -24,7 +24,7 @@ $('#fkinterno').selectpicker({
 });
 
 
-$('#ciFechaVencimiento').datepicker({
+$('#fechaNacimiento').datepicker({
     format: 'dd/mm/yyyy',
     language: "es",
     daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
@@ -147,6 +147,8 @@ function load_table_referencia(data_tb) {
     tabla.draw()
 }
 
+
+
 function add_columns_lineasAgregadas() {
     let a_cols = []
     a_cols.push(
@@ -156,14 +158,14 @@ function add_columns_lineasAgregadas() {
         { title: "Interno", data: "interno" }
     );
     a_cols.push(
-        { title: "Acciones", data: "fklinea",
+        { title: "Acciones", data: "interPersonaId",
                 render: function(data, type, row) {
                      const dataObject = JSON.stringify(row);
                     a = ''
                     // if (row.delete) {
 
                         a += `\
-                            <button data-object='${dataObject}'  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="eliminar_linea(this)">\
+                            <button data-object='${dataObject}' data-id='${ data}'  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="eliminar_linea(this)">\
                                 <i class="mdi mdi-delete"></i>\
                             </button>`
                     // }
@@ -195,6 +197,25 @@ function load_table_lineasAgregadas(data_tb) {
     });
     tabla.draw()
 }
+
+function delete_reload_table_lineasAgregadas(self){
+    for (var i = 0; i < lineasAgregadas.length; i++) {
+            if (parseInt(lineasAgregadas[i].fklinea) == parseInt(self.fklinea) && parseInt(lineasAgregadas[i].fkinterno) == parseInt(self.fkinterno)) {
+                lineasAgregadas.splice(i, 1);
+                break;
+                }
+            }
+        load_table_lineasAgregadas(lineasAgregadas)
+}
+
+function add_reload_table_lineasAgregadas(lineaInterno){
+    lineasAgregadas.push(lineaInterno);
+
+    load_table_lineasAgregadas(lineasAgregadas);
+    $('#fklinea').selectpicker("val", '');
+    $('#fkinterno').selectpicker("val", '');
+}
+
 
 function load_table(data_tb) {
     var tabla = $(id_table).DataTable({
@@ -305,45 +326,111 @@ function limpiar(){
     $('#genero').selectpicker("val", '');
     $('#licenciaCategoria').selectpicker("val", '');
 }
-function agregar_linea(){
-    if($("#fklinea").val() !=""){
+
+$('#btn_agregar_linea').on('click', async function() {
+    if($("#fklinea").val() !="" && $("#fkinterno").val() !=""){
         newArray = lineasAgregadas.filter(x => x.fklinea == $('#fklinea').val() && x.fkinterno == $('#fkinterno').val());
-        console.log(newArray)
+
         if(newArray.length == 0){
-            lineasAgregadas.push({
+
+            const lineaInterno = {
+                interPersonaId: 0,
+                fkpersona: $("#id").val(),
                 fklinea: $("#fklinea").val(),
                 linea:  $("#fklinea option:selected").html(),
                 fkinterno: $("#fkinterno").val(),
                 interno:  $("#fkinterno option:selected").html()
-            });
-            load_table_lineasAgregadas(lineasAgregadas);
-            $('#fklinea').selectpicker("val", '');
-            $('#fkinterno').selectpicker("val", '');
+            }
+
+            if($('#id').val() !="")
+                await add_interno(lineaInterno)
+            else
+                add_reload_table_lineasAgregadas(lineaInterno)
 
         }else showSmallMessage("warning","Linea e Interno, ya ingresados","center");
-    }else showSmallMessage("warning","Seleccione una Linea","center");
+    }else showSmallMessage("warning","Seleccione Linea e Interno","center");
+
+})
+
+function add_interno(lineaInterno) {
+    Swal.fire({
+        icon: "warning",
+        title: "¿Está seguro de que desea agregar?",
+        text: "",
+        showCancelButton: true,
+        allowOutsideClick: false,
+        confirmButtonColor: '#009688',
+        cancelButtonColor: '#ef5350',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.value) {
+        
+
+       //  const response = fetchData(
+       //      "/persona/agregarInternos/",
+       //      "POST",
+       //      JSON.stringify({'obj':lineaInterno})
+       // );
+       //  if(response.success){
+       //     showSmallMessage(response.tipo,response.mensaje,"center");
+       //      setTimeout(function () {
+       //          add_reload_table_lineasAgregadas(lineaInterno)
+       //          reload_table()
+       //      }, 2000);
+       //  }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+        // const response = ajaxCall(
+        //     '/persona/agregarInternos/',
+        //     JSON.stringify({'obj':lineaInterno})
+        // )
+        //
+        // console.log(response)
+        const getCookieLocal = (name) => {
+          const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+          return r ? r[1] : undefined;
+        }
+        $.ajax({
+            method: "POST",
+            url: '/persona/agregarInternos/',
+            dataType: 'json',
+            data: JSON.stringify({'obj':lineaInterno}),
+            headers:{
+                "X-CSRFToken" : getCookieLocal('csrftoken')
+            },
+            async: false,
+            success: function (response) {
+
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        add_reload_table_lineasAgregadas(lineaInterno)
+                        reload_table()
+                    }, 2000);
+                }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+    }
+
+    })
 }
+
 function eliminar_linea(e) {
     const self = JSON.parse(e.dataset.object);
-
     if($('#id').val() !="")
-        delete_interno($('#id').val())
-
-    for (var i = 0; i < lineasAgregadas.length; i++) {
-        if (parseInt(lineasAgregadas[i].fklinea) == parseInt(self.fklinea) && parseInt(lineasAgregadas[i].fkinterno) == parseInt(self.fkinterno)) {
-            lineasAgregadas.splice(i, 1);
-            break;
-        }
-    }
-    load_table_lineasAgregadas(lineasAgregadas)
-
-
+        if(self.interPersonaId != 0)
+            delete_interno(self)
+        else
+            delete_reload_table_lineasAgregadas(self)
+    else
+        delete_reload_table_lineasAgregadas(self)
 }
 
-function delete_interno(id) {
 
-    console.log("ideInterno",id)
-
+function delete_interno(self) {
     Swal.fire({
         icon: "warning",
         title: "¿Está seguro de que desea eliminar?",
@@ -356,26 +443,27 @@ function delete_interno(id) {
         cancelButtonText: "Cancelar"
     }).then((result) => {
         if (result.value) {
-        console.log(result.value)
+        $.ajax({
+            method: "GET",
+            url: '/persona/eliminarInternos/'+self.interPersonaId,
+            dataType: 'json',
+            async: false,
+            success: function (response) {
 
-            // objeto ={
-            //     id: parseInt(JSON.parse($(e).attr('data-json')))
-            // }
-            // fetch("/persona/delete/",{
-            //     method: "POST",
-            //     body:JSON.stringify({'obj':objeto}),
-            //     headers:{
-            //         "X-CSRFToken" : getCookie('csrftoken')
-            //     }
-            // })
-            // .then(function(response){
-            //    showSmallMessage("success" , "Se elimino Correctamente", "center");
-            //     setTimeout(function () {
-            //         reload_table()
-            //     }, 2000);
-            //  })
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        delete_reload_table_lineasAgregadas(self)
+                        reload_table()
+                    }, 2000);
+                }else showSmallMessage(response.tipo,response.mensaje,"center");
 
-        }
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+    }
+
     })
 }
 
@@ -518,7 +606,7 @@ $("#insert").on("click",async function () {
     genero: $("#genero").val(),
     licenciaNro: $("#licenciaNro").val(),
     licenciaCategoria: $("#licenciaCategoria").val(),
-    ciFechaVencimiento: $("#ciFechaVencimiento").val(),
+    fechaNacimiento: $("#fechaNacimiento").val(),
     licenciaFechaVencimiento: $("#licenciaFechaVencimiento").val(),
     telefono: $("#telefono").val(),
     domicilio: $("#domicilio").val(),
@@ -567,7 +655,7 @@ $("#insert").on("click",async function () {
             $('#genero').selectpicker("val", String(self.genero));
             $('#licenciaNro').val(self.licenciaNro)
             $('#licenciaCategoria').selectpicker("val", String(self.licenciaCategoria));
-            $('#ciFechaVencimiento').val(self.ciFechaVencimiento)
+            $('#fechaNacimiento').val(self.fechaNacimiento)
             $('#licenciaFechaVencimiento').val(self.licenciaFechaVencimiento);
             $('#lugarNacimiento').selectpicker("val", String(self.lugarNacimiento));
             $('#domicilio').val(self.domicilio)
@@ -609,7 +697,7 @@ $('#update').on('click', async function() {
             genero: $("#genero").val(),
             licenciaNro: $("#licenciaNro").val(),
             licenciaCategoria: $("#licenciaCategoria").val(),
-            ciFechaVencimiento: $("#ciFechaVencimiento").val(),
+            fechaNacimiento: $("#fechaNacimiento").val(),
             licenciaFechaVencimiento: $("#licenciaFechaVencimiento").val(),
             telefono: $("#telefono").val(),
             domicilio: $("#domicilio").val(),
