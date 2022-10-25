@@ -5,7 +5,7 @@ from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from system.linea.models import Linea,LineaPersona,Interno,InternoPersona
 import json
-from datetime import datetime
+import datetime
 
 # Create your views here.
 @login_required
@@ -193,7 +193,7 @@ def eliminarInternos(request,id):
         interno = InternoPersona.objects.get(id=id)
         interno.estado = False
         interno.habilitado = False
-        interno.fechaRetiro = datetime.now()
+        interno.fechaRetiro = datetime.datetime.now()
         interno.save()
         return JsonResponse(dict(success=True, mensaje="Eliminado Correctamente",tipo="success"), safe=False)
     except Exception as e:
