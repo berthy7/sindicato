@@ -16,6 +16,8 @@ urlpatterns = [
     path('agregarInternos/', views.agregarInternos, name='persona_agregarInternos'),
     path('eliminarInternos/<int:id>', views.eliminarInternos, name='persona_eliminarInternos'),
 
-
+    path('agregarReferencia/', views.agregarReferencia, name='persona_agregarReferencia'),
+    path('modificarReferencia/', views.modificarReferencia, name='persona_modificarReferencia'),
+    path('eliminarReferencia/<int:id>', views.eliminarReferencia, name='persona_eliminarReferencia'),
 
 ]

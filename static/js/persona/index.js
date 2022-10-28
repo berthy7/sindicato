@@ -95,7 +95,7 @@ $('#lugarNacimiento').selectpicker({
 function add_columns_referencia() {
     let a_cols = []
     a_cols.push(
-         { title: "Categoria", data: "categoria" },
+        { title: "Categoria", data: "categoria" },
         { title: "CI", data: "ci" },
         { title: "Nombre", data: "nombre" },
         { title: "Apellidos", data: "apellidos" },
@@ -103,25 +103,25 @@ function add_columns_referencia() {
     );
     a_cols.push(
         { title: "Acciones", data: "ci",
-                render: function(data, type, row) {
-                     const dataObject = JSON.stringify(row);
-                    a = ''
-                    // if (row.disable === '') {
-                        a += `\
-                            <button data-object='${dataObject}'  type="button" class="btn btn-primary edit" title="Editar" onclick="edit_item(this)">\
-                                <i class="mdi mdi-file-document-edit"></i>\
-                            </button>`
-                    // }
-                    // if (row.delete) {
-                        a += '\
-                            <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar">\
-                                <i class="mdi mdi-delete"></i>\
-                            </button>'
-                    // }
-                    if (a === '') a = 'Sin permisos';
-                    return a
-                }
+            render: function(data, type, row) {
+                 const dataObject = JSON.stringify(row);
+                a = ''
+                // if (row.disable === '') {
+                    a += `\
+                        <button data-object='${dataObject}'  type="button" class="btn btn-primary edit" title="Editar" onclick="edit_referencia(this)">\
+                            <i class="mdi mdi-file-document-edit"></i>\
+                        </button>`
+                // }
+                // if (row.delete) {
+                   a += `\
+                        <button data-object='${dataObject}' data-id='${ data}'  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="eliminar_referencia(this)">\
+                            <i class="mdi mdi-delete"></i>\
+                        </button>`
+                // }
+                if (a === '') a = 'Sin permisos';
+                return a
             }
+        }
     );
 
     return a_cols;
@@ -146,7 +146,6 @@ function load_table_referencia(data_tb) {
     });
     tabla.draw()
 }
-
 
 
 function add_columns_lineasAgregadas() {
@@ -216,7 +215,6 @@ function add_reload_table_lineasAgregadas(lineaInterno){
     $('#fkinterno').selectpicker("val", '');
 }
 
-
 function load_table(data_tb) {
     var tabla = $(id_table).DataTable({
         destroy: true,
@@ -232,23 +230,22 @@ function load_table(data_tb) {
             { title: "Domicilio", data: "domicilio" },
             { title: "Telefono", data: "telefono" },
             { title: "Lugar de Nacimiento", data: "lugarNacimiento", visible: false },
-            { title: "Lineas/Internos", data: "id",
+            { title: "Lineas", data: "id",
                 render: function (data, type, row) {
                     a = ''
                     for (var i = 0; i < row.asignaciones.length; i++) {
-                        a += '<p>' + row.asignaciones[i].linea + ' Interno ' + row.asignaciones[i].interno + '</p>'
+                        a += '<p>' + row.asignaciones[i].linea +'</p>'
                     }
                     return a
                 }
             },
-            { title: "Estado", data: "estado",
-                render: function(data, type, row) {
-                    let check = data ? 'checked' : ''
-                    return '\
-                    <div title="' + row.estado + '">\
-                        <input id="enabled' + row.id + '" type="checkbox" class="chk-col-indigo enabled" onclick="set_enable(this)" data-id="' + row.id + '" ' + check + ' ' + row.disable + '>\
-                        <label for="enabled' + row.id + '"></label>\
-                    </div>'
+            { title: "Internos", data: "id",
+                render: function (data, type, row) {
+                    a = ''
+                    for (var i = 0; i < row.asignaciones.length; i++) {
+                        a += '<p>' + row.asignaciones[i].interno + '</p>'
+                    }
+                    return a
                 }
             },
             { title: "Acciones", data: "id",
@@ -280,7 +277,7 @@ function load_table(data_tb) {
         dom: "Bfrtip",
         buttons: [
             {  extend : 'excelHtml5',
-               exportOptions : { columns : [0, 1, 2, 3, 4,5,6,7]},
+               exportOptions : { columns : [0, 1, 2, 3, 4,5,6,7,8]},
                 sheetName: 'Lista de Socios',
                title: 'Lista de Socios'  },
             {  extend : 'pdfHtml5',
@@ -290,13 +287,13 @@ function load_table(data_tb) {
                     doc.styles.tableBodyOdd.alignment = 'center';
                },
                exportOptions : {
-                    columns : [0, 1, 2, 3, 4,5,6]
+                    columns : [0, 1, 2, 3, 4,5,6,7,8]
                 },
                title: 'Lista de Socios'
             }
         ],
         "order": [ [0, 'desc'] ],
-        columnDefs: [ { width: '10%', targets: [0,1,2,3,4,5,6,7] }],
+        columnDefs: [ { width: '10%', targets: [0,1,2,3,4,5,6,7,8] }],
         "initComplete": function() {}
     });
     tabla.draw()
@@ -318,8 +315,9 @@ function reload_table() {
 }
 
 function limpiar(){
-                $('#fklinea').selectpicker("val", '');
-            $('#fkinterno').selectpicker("val", '');
+    $('#id').val(0);
+    $('#fklinea').selectpicker("val", '');
+    $('#fkinterno').selectpicker("val", '');
 
     $('#socioConductor').selectpicker("val", '');
     $('#lugarNacimiento').selectpicker("val", '');
@@ -342,7 +340,7 @@ $('#btn_agregar_linea').on('click', async function() {
                 interno:  $("#fkinterno option:selected").html()
             }
 
-            if($('#id').val() !="")
+            if($('#id').val() !=0)
                 await add_interno(lineaInterno)
             else
                 add_reload_table_lineasAgregadas(lineaInterno)
@@ -429,7 +427,6 @@ function eliminar_linea(e) {
         delete_reload_table_lineasAgregadas(self)
 }
 
-
 function delete_interno(self) {
     Swal.fire({
         icon: "warning",
@@ -511,29 +508,30 @@ $('#fklinea').change(function () {
 
 $("#new").click(function () {
     limpiar();
-
+    $("#submit_form").attr("hidden", false);
+    $("#submit_form-referencia").attr("hidden", true);
 
     referencias = []
     load_table_referencia(referencias)
-        lineasAgregadas = []
+    lineasAgregadas = []
     load_table_lineasAgregadas(lineasAgregadas)
-$('#div_tabla_lineas').show()
-  $("#update").hide();
-  $("#insert").show();
-  $(".form-control").val("");
-  $("#submit_form").removeClass('was-validated');
-  $("#modal").modal("show");
+    $('#div_tabla_lineas').show()
+    $("#upsert").show();
+    $(".form-control").val("");
+    $("#submit_form").removeClass('was-validated');
+    $("#modal").modal("show");
 });
 $("#newReferencia").click(function () {
 
   $(".referencia").val("");
-   $('#referencia-Categoria').selectpicker("val", "");
+  $("#referencia-id").val(0),
+  $('#referencia-Categoria').selectpicker("val", "");
+
   $("#submit_form").attr("hidden", true);
   $("#submit_form-referencia").attr("hidden", false);
 
   $("#referencia-atras").attr("hidden", false);
-  $("#update").hide();
-  $("#insert").hide();
+  $("#upsert").hide();
   $("#cerrar").hide();
   $("#modalLabel").attr("hidden", true);
   $("#modalLabelRefencia").attr("hidden", false);
@@ -545,38 +543,231 @@ $("#referencia-atras").click(function () {
   //limpiar();
   $("#referencia-atras").attr("hidden", true);
   $("#update").hide();
-  $("#insert").show();
+  $("#upsert").show();
   $("#cerrar").show();
   $("#modalLabel").attr("hidden", false);
   $("#modalLabelRefencia").attr("hidden", true);
 });
-$("#referencia-insert").on("click", function () {
+
+$("#referencia-insert").on("click", async function () {
   const validationData = formValidation('submit_form-referencia');
   if (validationData.error) {
     showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
     return;
   }
+     const referencia = {
+            id: $("#referencia-id").val(),
+            categoria: $("#referencia-Categoria").val(),
+            genero: $("#referencia-Genero").val(),
+            nombre: $("#referencia-Nombre").val(),
+            apellidos: $("#referencia-Apellido").val(),
+            ci: $("#referencia-Carnet").val(),
+            telefono: $("#referencia-Telefono").val(),
+            fkpersona: $("#id").val()
+      };
 
-  referencias.push({
-        // id: $("#referencia-id").val(),
-        categoria: $("#referencia-Categoria").val(),
-        genero: $("#referencia-Genero").val(),
-        nombre: $("#referencia-Nombre").val(),
-        apellidos: $("#referencia-Apellido").val(),
-        ci: $("#referencia-Carnet").val(),
-        telefono: $("#referencia-Telefono").val()
-  });
-    
-    load_table_referencia(referencias);
+    debugger
 
-    $("#submit_form").attr("hidden", false);
-    $("#submit_form-referencia").attr("hidden", true);
-
-    $("#referencia-atras").attr("hidden", true);
-      $("#insert").show();
-      $("#cerrar").show();
+    if(parseInt($('#id').val()) !=0)
+        if(parseInt(referencia.id) !=0)
+          await update_referencia(referencia)
+        else
+          await add_referencia(referencia)
+    else
+        add_reload_table_referencias(referencia)
 
 });
+
+function add_reload_table_referencias(referencia){
+    let sw = 0;
+    for (var i = 0; i < referencias.length; i++) {
+        if (referencias[i].ci == referencia.ci) {
+            referencias[i].categoria = referencia.categoria;
+            referencias[i].nombre = referencia.nombre;
+            referencias[i].apellidos = referencia.apellidos;
+            referencias[i].ci = referencia.ci;
+            referencias[i].telefono = referencia.telefono;
+            sw = 1;
+            break;
+        }
+    }
+    if(sw === 0)
+        referencias.push(referencia);
+    load_table_referencia(referencias);
+    $("#submit_form").attr("hidden", false);
+    $("#submit_form-referencia").attr("hidden", true);
+    $("#referencia-atras").attr("hidden", true);
+    $("#upsert").show();
+    $("#cerrar").show();
+}
+
+function add_referencia(referencia) {
+    Swal.fire({
+        icon: "warning",
+        title: "¿Está seguro de que desea agregar?",
+        text: "",
+        showCancelButton: true,
+        allowOutsideClick: false,
+        confirmButtonColor: '#009688',
+        cancelButtonColor: '#ef5350',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.value) {
+
+        const getCookieLocal = (name) => {
+          const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+          return r ? r[1] : undefined;
+        }
+        $.ajax({
+            method: "POST",
+            url: '/persona/agregarReferencia/',
+            dataType: 'json',
+            data: JSON.stringify({'obj':referencia}),
+            headers:{
+                "X-CSRFToken" : getCookieLocal('csrftoken')
+            },
+            async: false,
+            success: function (response) {
+
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        add_reload_table_referencias(referencia)
+                    }, 2000);
+                }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+    }
+
+    })
+}
+
+function update_referencia(referencia) {
+    Swal.fire({
+        icon: "warning",
+        title: "¿Está seguro de que desea actualizar?",
+        text: "",
+        showCancelButton: true,
+        allowOutsideClick: false,
+        confirmButtonColor: '#009688',
+        cancelButtonColor: '#ef5350',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.value) {
+
+        const getCookieLocal = (name) => {
+          const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+          return r ? r[1] : undefined;
+        }
+        $.ajax({
+            method: "POST",
+            url: '/persona/modificarReferencia/',
+            dataType: 'json',
+            data: JSON.stringify({'obj':referencia}),
+            headers:{
+                "X-CSRFToken" : getCookieLocal('csrftoken')
+            },
+            async: false,
+            success: function (response) {
+
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        add_reload_table_referencias(referencia)
+                    }, 2000);
+                }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+    }
+
+    })
+}
+
+function eliminar_referencia(e) {
+    const self = JSON.parse(e.dataset.object);
+    if($('#id').val() !="")
+        if(self.id != 0)
+            delete_referencias(self)
+        else
+            delete_reload_table_referencias(self)
+    else
+        delete_reload_table_referencias(self)
+}
+
+function edit_referencia(e) {
+
+    const self = JSON.parse(e.dataset.object);
+      console.log(self)
+
+        $("#referencia-id").val(self.id),
+        $('#referencia-Categoria').selectpicker("val", String(self.categoria));
+        $("#referencia-Nombre").val(self.nombre),
+        $("#referencia-Apellido").val(self.apellidos),
+        $("#referencia-Carnet").val(self.ci),
+        $("#referencia-Telefono").val(self.telefono),
+
+      $("#submit_form").attr("hidden", true);
+      $("#submit_form-referencia").attr("hidden", false);
+
+      $("#referencia-atras").attr("hidden", false);
+      $("#upsert").hide();
+      $("#cerrar").hide();
+      $("#modalLabel").attr("hidden", true);
+      $("#modalLabelRefencia").attr("hidden", false);
+}
+
+function delete_reload_table_referencias(self){
+    for (var i = 0; i < referencias.length; i++) {
+        if (referencias[i].ci == self.ci) {
+            referencias.splice(i, 1);
+            break;
+        }
+    }
+    load_table_referencia(referencias)
+}
+
+function delete_referencias(self) {
+    Swal.fire({
+        icon: "warning",
+        title: "¿Está seguro de que desea eliminar?",
+        text: "",
+        showCancelButton: true,
+        allowOutsideClick: false,
+        confirmButtonColor: '#009688',
+        cancelButtonColor: '#ef5350',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.value) {
+        $.ajax({
+            method: "GET",
+            url: '/persona/eliminarReferencia/'+self.id,
+            dataType: 'json',
+            async: false,
+            success: function (response) {
+
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        delete_reload_table_referencias(self)
+                    }, 2000);
+                }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+    }
+    })
+}
 
 $('#socioConductor').change(function () {
     if($(this).val() == "")
@@ -592,54 +783,53 @@ $('#socioConductor').change(function () {
 
 });
 
-$("#insert").on("click",async function () {
-    const validationData = formValidation('submit_form');
-  if (validationData.error) {
-    showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
-    return;
-  }
-
-  const objectData = {
-    ci: $("#ci").val(),
-    nombre: $("#nombre").val(),
-    apellidos: $("#apellidos").val(),
-    genero: $("#genero").val(),
-    licenciaNro: $("#licenciaNro").val(),
-    licenciaCategoria: $("#licenciaCategoria").val(),
-    fechaNacimiento: $("#fechaNacimiento").val(),
-    licenciaFechaVencimiento: $("#licenciaFechaVencimiento").val(),
-    telefono: $("#telefono").val(),
-    domicilio: $("#domicilio").val(),
-      lugarNacimiento: $("#lugarNacimiento").val(),
-      socioConductor: $("#socioConductor").val(),
-    tipo: "Socio"
-    // fkciudad: $("#fkciudad").val() ? $("#fkciudad").val() : null,
-  };
-
-    const obj ={
-        obj:objectData,
-        referencias:referencias,
-        lineas:lineasAgregadas
-    }
-
-   const response =await fetchData(
-        "/persona/insert/",
-        "POST",
-        JSON.stringify({'response':obj})
-   );
-    if(response.success){
-       showSmallMessage(response.tipo,response.mensaje,"center");
-        setTimeout(function () {
-            $('#modal').modal('hide')
-            reload_table()
-        }, 2000);
-    }else showSmallMessage(response.tipo,response.mensaje,"center");
-
-});
+// $("#insert").on("click",async function () {
+//     const validationData = formValidation('submit_form');
+//   if (validationData.error) {
+//     showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+//     return;
+//   }
+//
+//   const objectData = {
+//     ci: $("#ci").val(),
+//     nombre: $("#nombre").val(),
+//     apellidos: $("#apellidos").val(),
+//     genero: $("#genero").val(),
+//     licenciaNro: $("#licenciaNro").val(),
+//     licenciaCategoria: $("#licenciaCategoria").val(),
+//     fechaNacimiento: $("#fechaNacimiento").val(),
+//     licenciaFechaVencimiento: $("#licenciaFechaVencimiento").val(),
+//     telefono: $("#telefono").val(),
+//     domicilio: $("#domicilio").val(),
+//       lugarNacimiento: $("#lugarNacimiento").val(),
+//       socioConductor: $("#socioConductor").val(),
+//     tipo: "Socio"
+//     // fkciudad: $("#fkciudad").val() ? $("#fkciudad").val() : null,
+//   };
+//
+//     const obj ={
+//         obj:objectData,
+//         referencias:referencias,
+//         lineas:lineasAgregadas
+//     }
+//
+//    const response =await fetchData(
+//         "/persona/insert/",
+//         "POST",
+//         JSON.stringify({'response':obj})
+//    );
+//     if(response.success){
+//        showSmallMessage(response.tipo,response.mensaje,"center");
+//         setTimeout(function () {
+//             $('#modal').modal('hide')
+//             reload_table()
+//         }, 2000);
+//     }else showSmallMessage(response.tipo,response.mensaje,"center");
+//
+// });
 
  function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
-
      $.ajax({
         method: "GET",
         url: '/persona/'+self.id,
@@ -664,26 +854,24 @@ $("#insert").on("click",async function () {
             $('#fklinea').selectpicker("val", '');
             $('#fkinterno').selectpicker("val", '');
 
-            load_table_referencia(response.referencias)
-
+            referencias = response.referencias
+            load_table_referencia(referencias)
             lineasAgregadas = response.asignaciones
-
             load_table_lineasAgregadas(lineasAgregadas)
-            // $('#div_tabla_lineas').hide()
-            $('.item-form').parent().addClass('focused')
-            $('#insert').hide()
-            $('#update').show()
-            $('#modal').modal('show')
 
+            $("#submit_form").attr("hidden", false);
+            $("#submit_form-referencia").attr("hidden", true);
+
+            $('.item-form').parent().addClass('focused')
+            $('#upsert').show()
+            $('#modal').modal('show')
         },
         error: function (jqXHR, status, err) {
         }
     });
-
-    // clean_data()
 }
 
-$('#update').on('click', async function() {
+$('#upsert').on('click', async function() {
     const validationData = formValidation('submit_form');
       if (validationData.error) {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
@@ -706,10 +894,24 @@ $('#update').on('click', async function() {
             tipo: "Socio"
 
       }
+
+        let url = "/persona/insert/";
+        let data = null;
+
+        if (objeto.id != 0){
+              url = "/persona/update/";
+             data = objeto;
+        }else{
+             data ={
+                obj:objeto,
+                referencias:referencias,
+                lineas:lineasAgregadas
+            }
+        }
        const response = await fetchData(
-            "/persona/update/",
+            url,
             "POST",
-            JSON.stringify({'obj':objeto})
+            JSON.stringify({'obj':data})
        );
         if(response.success){
            showSmallMessage(response.tipo,response.mensaje,"center");

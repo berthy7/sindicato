@@ -10,221 +10,239 @@
       </div>
       <div class="modal-body">
         <form id="submit_form" class="pl-3 pr-3 needs-validation" novalidate enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <input id="id" name="id" type="hidden" />
-                    <label for="socioConductor">Es Socio Conductor</label>
-                    <select id="socioConductor" name="socioConductor" class="form-control show-tick">
-                      <option value="">No</option>
-                      <option value="Si">Si</option>
-                    </select>
 
-                </div>
-            </div>
-         </div>
-{#          <div class="row">#}
-{#            <div class="col-12 col-sm-6 mb-3">#}
-{#              <div class="row bg-preview">#}
-{#                <div class="col-12 content-preview">#}
-{#                  <img src="" class="rounded-circle img-thumbnail image-preview d-none" alt="Vista previa foto" />#}
-{#                  <i class="mdi app-fs-70 mdi-camera-account icon-preview"></i>#}
-{#                </div>#}
-{#              </div>#}
-{#            </div>#}
-{#            <div class="col-12 col-sm-6 mb-3">#}
-{#              <label for="photo">Foto</label>#}
-{#              <input type="hidden" id="foto" name="foto" class="form-control">#}
-{#              <input type="file" id="photo" name="photo" class="app-file">#}
-{#            </div>#}
-{#          </div>#}
+        <div class="tab-pane show active" id="bordered-tabs-preview">
+                <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                    <li class="nav-item">
+                        <a href="#general" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
+                            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Datos Generales</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#adjuntos" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                            <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Adjuntos</span>
+                        </a>
+                    </li>
+                </ul>
 
-          <div class="row">
-            <div class="col-12 col-sm-3">
-                <div class="form-group mb-3">
-                    <label for="nombre">Nombres *</label>
-                    <input id="nombre" name="nombre" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="apellidos">Apellidos *</label>
-                    <input id="apellidos" name="apellidos" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-              <div class="col-12 col-sm-3">
-                <div class="form-group mb-3">
-                    <label for="telefono">Teléfono *</label>
-                    <input id="telefono" name="telefono" type="number" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="general">
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                              <label for="file-foto">Foto</label>
+                              <input type="file" id="file-foto" name="foto" class="form-control">
+                             </div>
+                            <div class="col-12 col-sm-6 mb-3">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img src="" class="rounded-circle img-thumbnail image-preview d-none" alt="Vista previa foto" />
+                                  <i class="mdi app-fs-70 mdi-camera-account icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group mb-3">
+                                    <input id="id" name="id" type="hidden" />
+                                    <label for="socioConductor">Es Socio Conductor</label>
+                                    <select id="socioConductor" name="socioConductor" class="form-control show-tick">
+                                      <option value="">No</option>
+                                      <option value="Si">Si</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
-          </div>
-          <div class="row">
-            <div class="col-12 col-sm-3">
-                <div class="form-group mb-3">
-                    <label for="ci">Carnet *</label>
-                    <input id="ci" name="ci" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-              <div class="col-12 col-sm-3">
-                <div class="form-group mb-3">
-                    <label for="lugarNacimiento">Lugar de Nacimiento *</label>
-                    <select id="lugarNacimiento" name="lugarNacimiento" class="form-control show-tick" required>
-                      <option value="Beni">Beni</option>
-                      <option value="Chuquisaca">Chuquisaca</option>
-                      <option value="Cochabamba">Cochabamba</option>
-                      <option value="La Paz">La Paz</option>
-                      <option value="Oruro">Oruro</option>
-                      <option value="Pando">Pando</option>
-                      <option value="Potosi">Potosi</option>
-                      <option value="Santa Cruz">Santa Cruz</option>
-                      <option value="Tarija">Tarija</option>
-                    </select>
-                </div>
-            </div>
+                      <div class="row">
+                        <div class="col-12 col-sm-3">
+                            <div class="form-group mb-3">
+                                <label for="nombre">Nombres *</label>
+                                <input id="nombre" name="nombre" type="text" class="form-control form-control-sm"
+                                    placeholder="" required />
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="apellidos">Apellidos *</label>
+                                <input id="apellidos" name="apellidos" type="text" class="form-control form-control-sm"
+                                    placeholder="" required />
+                            </div>
+                        </div>
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group mb-3">
+                                <label for="telefono">Teléfono *</label>
+                                <input id="telefono" name="telefono" type="number" class="form-control form-control-sm"
+                                    placeholder="" required />
+                            </div>
+                        </div>
 
-              <div class="col-12 col-sm-3">
-                <div class="form-group mb-3">
-                    <label for="fechaNacimiento">Fecha de Nacimiento *</label>
-                    <input id="fechaNacimiento" name="fechaNacimiento" type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="" autocomplete="off">
-                </div>
-            </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-sm-3">
+                            <div class="form-group mb-3">
+                                <label for="ci">Carnet *</label>
+                                <input id="ci" name="ci" type="text" class="form-control form-control-sm"
+                                    placeholder="" required />
+                            </div>
+                        </div>
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group mb-3">
+                                <label for="lugarNacimiento">Lugar de Nacimiento *</label>
+                                <select id="lugarNacimiento" name="lugarNacimiento" class="form-control show-tick" required>
+                                  <option value="Beni">Beni</option>
+                                  <option value="Chuquisaca">Chuquisaca</option>
+                                  <option value="Cochabamba">Cochabamba</option>
+                                  <option value="La Paz">La Paz</option>
+                                  <option value="Oruro">Oruro</option>
+                                  <option value="Pando">Pando</option>
+                                  <option value="Potosi">Potosi</option>
+                                  <option value="Santa Cruz">Santa Cruz</option>
+                                  <option value="Tarija">Tarija</option>
+                                </select>
+                            </div>
+                        </div>
 
-              <div class="col-12 col-sm-3">
-                  <div class="form-group mb-3">
-                    <label for="genero">Genero *</label>
-                    <select id="genero" name="genero" class="form-control show-tick">
-                      <option value="Masculino">Masculino</option>
-                      <option value="Femenino">Femenino</option>
-                    </select>
-                </div>
-            </div>
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group mb-3">
+                                <label for="fechaNacimiento">Fecha de Nacimiento *</label>
+                                <input id="fechaNacimiento" name="fechaNacimiento" type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="" autocomplete="off">
+                            </div>
+                        </div>
 
-          </div>
-          <div class="row">
-            <div class="col-12 col-sm-4">
-                <div class="form-group mb-3">
-                    <label for="licenciaNro">Nro. de licencia  *</label>
-                    <input id="licenciaNro" name="licenciaNro" type="text" class="form-control form-control-sm"
-                        placeholder=""  />
-                </div>
-            </div>
-             <div class="col-12 col-sm-4">
-                <div class="form-group mb-3">
-                    <label for="licenciaCategoria">Categoria de licencia *</label>
-                    <select id="licenciaCategoria" name="licenciaCategoria" class="form-control show-tick" >
-                      <option value="A">A</option>
-                      <option value="B">B</option>
-                        <option value="C">C</option>
-                        <option value="M">M</option>
-                        <option value="P">P</option>
-                        <option value="T">T</option>
-                    </select>
-                </div>
-            </div>
+                          <div class="col-12 col-sm-3">
+                              <div class="form-group mb-3">
+                                <label for="genero">Genero *</label>
+                                <select id="genero" name="genero" class="form-control show-tick">
+                                  <option value="Masculino">Masculino</option>
+                                  <option value="Femenino">Femenino</option>
+                                </select>
+                            </div>
+                        </div>
 
-              <div class="col-12 col-sm-4">
-                <div class="form-group mb-3">
-                    <label for="licenciaFechaVencimiento">Fecha de Vencimiento *</label>
-                    <input id="licenciaFechaVencimiento" name="licenciaFechaVencimiento" type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="" autocomplete="off">
-                </div>
-            </div>
-          </div>
-            <div class="row">
-                <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="domicilio">Domicilio *</label>
-                    <input id="domicilio" name="domicilio" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label>Lineas e Interno</label>
-                </div>
-            </div>
-         </div>
-            <div class="row">
-            <div class="col-12 col-sm-4">
-                <div class="form-group mb-3">
-                    <label for="fklinea">Linea *</label>
-                    <input id="lineavehiculoid" name="lineavehiculoid" type="hidden" />
-                    <select id="fklinea" name="fklinea" class="form-control show-tick">
-                   {% for i in lineas %}
-                      <option value="{{ i.id }}">{{ i.codigo }}</option>
-                   {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="col-12 col-sm-4">
-                <div class="form-group mb-3">
-                    <label for="fkinterno">Internos *</label>
-                    <select id="fkinterno" name="fkinterno" class="form-control show-tick">
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <div class="form-group mb-3">
+                                <label for="licenciaNro">Nro. de licencia  *</label>
+                                <input id="licenciaNro" name="licenciaNro" type="text" class="form-control form-control-sm"
+                                    placeholder=""  />
+                            </div>
+                        </div>
+                         <div class="col-12 col-sm-4">
+                            <div class="form-group mb-3">
+                                <label for="licenciaCategoria">Categoria de licencia *</label>
+                                <select id="licenciaCategoria" name="licenciaCategoria" class="form-control show-tick" >
+                                  <option value="A">A</option>
+                                  <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="M">M</option>
+                                    <option value="P">P</option>
+                                    <option value="T">T</option>
+                                </select>
+                            </div>
+                        </div>
 
-                    </select>
-                </div>
-            </div>
-            <div class="col-12 col-sm-2">
-                <div class="form-group mb-2">
-                    <label for="fkinterno"></label>
-                     <button id="btn_agregar_linea" type="button" class="btn btn-primary">
-                      <span>Agregar</span>
-                    </button>
-                </div>
-            </div>
-          </div>
+                          <div class="col-12 col-sm-4">
+                            <div class="form-group mb-3">
+                                <label for="licenciaFechaVencimiento">Fecha de Vencimiento *</label>
+                                <input id="licenciaFechaVencimiento" name="licenciaFechaVencimiento" type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="" autocomplete="off">
+                            </div>
+                        </div>
+                      </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="domicilio">Domicilio *</label>
+                                <input id="domicilio" name="domicilio" type="text" class="form-control form-control-sm"
+                                    placeholder="" required />
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label>Lineas e Interno</label>
+                            </div>
+                        </div>
+                     </div>
+                        <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <div class="form-group mb-3">
+                                <label for="fklinea">Linea *</label>
+                                <input id="lineavehiculoid" name="lineavehiculoid" type="hidden" />
+                                <select id="fklinea" name="fklinea" class="form-control show-tick">
+                               {% for i in lineas %}
+                                  <option value="{{ i.id }}">{{ i.codigo }}</option>
+                               {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-4">
+                            <div class="form-group mb-3">
+                                <label for="fkinterno">Internos *</label>
+                                <select id="fkinterno" name="fkinterno" class="form-control show-tick">
 
-            <div id="div_tabla_lineas" class="content">
-              <table id="data_table_lineas" class="table table-striped dt-responsive nowrap w-100"></table>
-            </div>
-         <div class="row">
-                <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label>Referencias</label>
-                </div>
-            </div>
-         </div>
-         <div class="row">
-                <div class="col-6 col-sm-6">
-                <div class="form-group mb-3">
-                   <button id="newReferencia" type="button" class="btn btn-info mb-3" title="Nuevo">
-                <i class="mdi mdi-plus"></i>
-              </button>
-                </div>
-            </div>
-         </div>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-2">
+                            <div class="form-group mb-2">
+                                <label for="fkinterno"></label>
+                                 <button id="btn_agregar_linea" type="button" class="btn btn-primary">
+                                  <span>Agregar</span>
+                                </button>
+                            </div>
+                        </div>
+                      </div>
+                        <div id="div_tabla_lineas" class="content">
+                          <table id="data_table_lineas" class="table table-striped dt-responsive nowrap w-100"></table>
+                        </div>
+                     <div class="row">
+                            <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label>Beneficiarios</label>
+                            </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                            <div class="col-6 col-sm-6">
+                            <div class="form-group mb-3">
+                               <button id="newReferencia" type="button" class="btn btn-info mb-3" title="Nuevo">
+                            <i class="mdi mdi-plus"></i>
+                          </button>
+                            </div>
+                        </div>
+                     </div>
+                        <div class="content">
+                          <table id="data_table_referencia" class="table table-striped dt-responsive nowrap w-100"></table>
+                        </div>
 
-            <div class="content">
-              <table id="data_table_referencia" class="table table-striped dt-responsive nowrap w-100"></table>
+
+                    </div>
+                    <div class="tab-pane" id="adjuntos">
+                         <div class="row">
+                             <div class="col-12 col-sm-6 mb-3">
+                              <label for="file-ci">Carnet de Identidad</label>
+                              <input type="file" id="file-ci" name="ci" class="form-control">
+                             </div>
+                      </div>
+                        <div class="row">
+                             <div class="col-12 col-sm-6 mb-3">
+                              <label for="file-licencia">Licencia de Conducir</label>
+                              <input type="file" id="file-licencia" name="licencia" class="form-control">
+                             </div>
+                      </div>
+                    </div>
+                </div>
+
             </div>
 
         </form>
        <form id="submit_form-referencia" class="pl-3 pr-3 needs-validation" hidden>
-{#           <div class="row">#}
-{##}
-{#                <div class="col-12 col-sm-3">#}
-{#                <div class="form-group mb-3">#}
-{#                    <input id="referencia-id" name="referencia-id" type="hidden" />#}
-{#                    <label for="referencia-Categoria">Categoria *</label>#}
-{#                    <select id="referencia-Categoria" name="referencia-Categoria" class="form-control show-tick" required>#}
-{#                      <option value="Esposa">Esposa</option>#}
-{#                      <option value="Esposo">Esposo</option>#}
-{#                      <option value="Hijo">Hijo</option>#}
-{#                      <option value="Hija">Hija</option>#}
-{#                      <option value="Otro">Otro</option>#}
-{#                    </select>#}
-{#                </div>#}
-{#                </div>#}
-{#          </div>#}
            <div class="row">
-
                 <div class="col-12 col-sm-3">
                 <div class="form-group mb-3">
                     <input id="referencia-id" name="referencia-id" type="hidden" />
@@ -275,16 +293,16 @@
                     </div>
                 </div>
               </div>
-                <div class="row">
-                <div class="col-12 col-sm-3">
-                    <div class="form-group mb-3">
-                        <button id="referencia-insert" type="button" class="btn btn-primary">
-                          <i class="mdi mdi-content-save mr-1"></i> <span>Guardar</span>
-                        </button>
-                    </div>
+            <div class="row">
+            <div class="col-12 col-sm-3">
+                <div class="form-group mb-3">
+                    <button id="referencia-insert" type="button" class="btn btn-primary">
+                      <i class="mdi mdi-content-save mr-1"></i> <span>Guardar</span>
+                    </button>
                 </div>
+            </div>
 
-              </div>
+            </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -295,12 +313,12 @@
         <button id="cerrar" type="button" class="btn btn-light" data-bs-dismiss="modal">
           <i class="mdi mdi-close-box mr-1"></i> <span>Cerrar</span>
         </button>
-        <button id="insert" type="button" class="btn btn-primary">
+        <button id="upsert" type="button" class="btn btn-primary">
           <i class="mdi mdi-content-save mr-1"></i> <span>Guardar</span>
         </button>
-        <button id="update" type="button" class="btn btn-primary">
-          <i class="mdi mdi-content-save mr-1"></i> <span>Actualizar</span>
-        </button>
+{#        <button id="update" type="button" class="btn btn-primary">#}
+{#          <i class="mdi mdi-content-save mr-1"></i> <span>Actualizar</span>#}
+{#        </button>#}
       </div>
     </div>
   </div>

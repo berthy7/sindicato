@@ -59,7 +59,7 @@ def obtain(request,id):
 
     referencias = []
 
-    for ref in PersonaReferencia.objects.filter(fkpersona=persona.id).all().order_by('id'):
+    for ref in PersonaReferencia.objects.filter(habilitado=True).filter(fkpersona=persona.id).all().order_by('id'):
         referencias.append(model_to_dict(ref))
 
     asignaciones = []
@@ -76,8 +76,7 @@ def obtain(request,id):
 @login_required
 def insert(request):
     try:
-        dicc = json.load(request)['response']
-
+        dicc = json.load(request)['obj']
         persona = Persona.objects.filter(ci=dicc["obj"]['ci']).filter(habilitado=True).all()
 
         if len(persona) == 0:
@@ -90,10 +89,11 @@ def insert(request):
                 dicc["obj"]['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['licenciaFechaVencimiento'],'%d/%m/%Y')
             else:
                 dicc["obj"]['licenciaFechaVencimiento'] = None
-
+            del dicc["obj"]['id']
             persona = Persona.objects.create(**dicc["obj"])
 
             for ref in dicc["referencias"]:
+                del ref['id']
                 ref["fkpersona"] =  persona
                 PersonaReferencia.objects.create(**ref)
 
@@ -104,6 +104,7 @@ def insert(request):
                 del asig['fklinea']
                 del asig['linea']
                 del asig['interno']
+
                 InternoPersona.objects.create(**asig)
 
             return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
@@ -156,8 +157,6 @@ def delete(request):
         return JsonResponse(dict(success=True,mensaje="se Eliminio"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
-
-
 @login_required
 def listarPersonaXTipo(request,id):
 
@@ -167,7 +166,6 @@ def listarPersonaXTipo(request,id):
         dt_list.append(dict(id=item.id, nombre=item.nombre + " " + item.apellidos))
 
     return JsonResponse(dt_list, safe=False)
-
 @login_required
 def agregarInternos(request):
     try:
@@ -186,7 +184,6 @@ def agregarInternos(request):
     except Exception as e:
         print("error: ", e.args[0])
         return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
-
 @login_required
 def eliminarInternos(request,id):
     try:
@@ -196,6 +193,39 @@ def eliminarInternos(request,id):
         interno.fechaRetiro = datetime.datetime.now()
         interno.save()
         return JsonResponse(dict(success=True, mensaje="Eliminado Correctamente",tipo="success"), safe=False)
+    except Exception as e:
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
+@login_required
+def eliminarReferencia(request,id):
+    try:
+        referencia = PersonaReferencia.objects.get(id=id)
+        referencia.estado = False
+        referencia.habilitado = False
+        referencia.save()
+        return JsonResponse(dict(success=True, mensaje="Eliminado Correctamente",tipo="success"), safe=False)
+    except Exception as e:
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
+@login_required
+def agregarReferencia(request):
+    try:
+        dicc = json.load(request)['obj']
+        dicc['fkpersona'] = Persona.objects.get(id=dicc["fkpersona"])
+        del dicc['id']
+        PersonaReferencia.objects.create(**dicc)
+
+        return JsonResponse(dict(success=True, mensaje="Agregado Correctamente",tipo="success"), safe=False)
+    except Exception as e:
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
+@login_required
+def modificarReferencia(request):
+    try:
+        dicc = json.load(request)['obj']
+        dicc['fkpersona'] = Persona.objects.get(id=dicc["fkpersona"])
+        PersonaReferencia.objects.filter(pk=dicc["id"]).update(**dicc)
+        return JsonResponse(dict(success=True, mensaje="Actualizado Correctamente",tipo="success"), safe=False)
     except Exception as e:
         print("error: ", e.args[0])
         return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
