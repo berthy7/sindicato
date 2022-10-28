@@ -211,15 +211,18 @@ $("#new").click(function () {
       liveSearchPlaceholder: 'Buscar',
       title: 'Seleccione una opción'
     });
-
-    $('#fkcategoria').selectpicker("val", '');
-
+    
 
   $("#update").hide();
   $("#insert").show();
   $("#cerrar").show();
   $(".form-control").val("");
   $("#submit_form").removeClass('was-validated');
+
+    $('#fkcategoria').selectpicker("val", '1');
+    $('#modelo').val('TOYOTA');
+    $('#tipo').val('COASTER');
+
   $("#modal").modal("show");
 });
 
