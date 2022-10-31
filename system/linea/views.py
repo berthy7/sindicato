@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 import json
 from system.persona.models import Persona
 from system.linea.models import Linea,InternoPersona
-from datetime import datetime
+import datetime
 
 # Create your views here.
 @login_required
@@ -56,7 +56,7 @@ def list(request):
 def insert(request):
     try:
         dicc = json.load(request)['obj']
-        dicc['fechaFundacion'] = datetime.datetime.strptime(dicc['fechaFundacion'], '%d/%m/%Y')
+        dicc['fechaFundacion'] = datetime.strptime(dicc['fechaFundacion'], '%d/%m/%Y')
         linea = Linea.objects.create(**dicc)
         for i in range(int(linea.internos)):
             nro = i + 1
