@@ -1,11 +1,15 @@
 from django.shortcuts import render,get_object_or_404
 from django.http import JsonResponse
+from django.conf import settings as django_settings
 from .models import Persona, PersonaReferencia
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from system.linea.models import Linea,LineaPersona,Interno,InternoPersona
 import json
 import datetime
+
+import os.path
+import uuid
 
 # Create your views here.
 @login_required
@@ -73,10 +77,42 @@ def obtain(request,id):
 
     return JsonResponse(response, safe=False)
 
+
+def handle_uploaded_file(f,name):
+    with open('static/upload/'+ name,'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
 @login_required
 def insert(request):
     try:
-        dicc = json.load(request)['obj']
+        dicc = json.loads(request.POST.get('obj'))
+        files = request.FILES
+        fileinfo = files.get('foto', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo,cname)
+            dicc["obj"]['foto'] = cname
+
+        fileinfo = files.get('file-ci', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo,cname)
+            dicc["obj"]['fotoCi'] = cname
+
+        fileinfo = files.get('file-licencia', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['fotoLicencia'] = cname
+
+        # dicc = json.load(request)['obj']
         persona = Persona.objects.filter(ci=dicc["obj"]['ci']).filter(habilitado=True).all()
 
         if len(persona) == 0:
@@ -118,7 +154,33 @@ def insert(request):
 @login_required
 def update(request):
     try:
-        dicc = json.load(request)['obj']
+        dicc = json.loads(request.POST.get('obj'))
+        files = request.FILES
+        fileinfo = files.get('foto', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc['foto'] = cname
+
+        fileinfo = files.get('file-ci', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc['fotoCi'] = cname
+
+        fileinfo = files.get('file-licencia', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc['fotoLicencia'] = cname
+
+
         if dicc['fechaNacimiento'] != "":
             dicc['fechaNacimiento'] = datetime.datetime.strptime(dicc['fechaNacimiento'],'%d/%m/%Y')
         else:

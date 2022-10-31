@@ -4,3 +4,4 @@ psycopg2-binary
 Django
 django-heroku
 gunicorn
+reportlab

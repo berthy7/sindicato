@@ -12,6 +12,7 @@
      {% include "persona/_form.html" %}
 
  <div class="container-fluid">
+  {% csrf_token %}
     <div class="row">
 {#      {% if 'ciudad_query' in privileges %}#}
       <div class="col-12">
@@ -52,44 +53,7 @@
 
     <script src='{% static "js/persona/index.js" %}'></script>
     <script>
-        $(document).ready(function () {
+        var dir_foto = "{% static 'upload/205113_133309433493676_1196622351_n.jpg' %}";
+    </script>
 
-        });
-
-        function append_input_linea(id_in) {
-         let id_gv = 0;
-
-        if(id_in === ''){
-            id_gv++;
-            id_in = id_gv;
-        }
-
-        $('#linea_div').append(
-        '<div class="row">\
-            <div class="col-sm-1 hidden">\
-                <div class="input-group">\
-                    <input  id="id'+id_in+'" class="form-control linea txta-own">\
-                </div>\
-            </div>\
-            <div class="col-sm-1 hidden">\
-                <div  class="form-line">\
-                    <input id="fktipo'+id_in+'" data-id="'+id_in+'" class="form-control linea txta-own">\
-                </div>\
-            </div>\
-            <div class="col-sm-1">\
-                <button type="button" class="btn bg-red waves-effect clear_linea" title="Eliminar">\
-                    <i class="material-icons">clear</i>\
-                </button>\
-            </div>\
-        </div>'
-    )
-
-        $('.clear_vehiculo').last().click(function () {
-            $(this).parent().parent().remove()
-        })
-
-    }
-
-
-</script>
 {% endblock %}

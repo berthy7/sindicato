@@ -29,20 +29,7 @@
 
                 <div class="tab-content">
                     <div class="tab-pane show active" id="general">
-                        <div class="row">
-                            <div class="col-12 col-sm-6">
-                              <label for="file-foto">Foto</label>
-                              <input type="file" id="file-foto" name="foto" class="form-control">
-                             </div>
-                            <div class="col-12 col-sm-6 mb-3">
-                              <div class="row bg-preview">
-                                <div class="col-12 content-preview">
-                                  <img src="" class="rounded-circle img-thumbnail image-preview d-none" alt="Vista previa foto" />
-                                  <i class="mdi app-fs-70 mdi-camera-account icon-preview"></i>
-                                </div>
-                              </div>
-                            </div>
-                        </div>
+
                         <div class="row">
                             <div class="col-12 col-sm-6">
                                 <div class="form-group mb-3">
@@ -223,18 +210,52 @@
 
                     </div>
                     <div class="tab-pane" id="adjuntos">
-                         <div class="row">
-                             <div class="col-12 col-sm-6 mb-3">
-                              <label for="file-ci">Carnet de Identidad</label>
-                              <input type="file" id="file-ci" name="ci" class="form-control">
-                             </div>
-                      </div>
                         <div class="row">
-                             <div class="col-12 col-sm-6 mb-3">
-                              <label for="file-licencia">Licencia de Conducir</label>
-                              <input type="file" id="file-licencia" name="licencia" class="form-control">
+                            <div class="col-12 col-sm-6">
+                              <label for="foto">Foto</label>
+                              <input type="file" id="foto" name="foto" class="app-file">
                              </div>
-                      </div>
+                            <div class="col-12 col-sm-6">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img id="img-foto" src="" class="rounded-circle img-thumbnail image-preview d-none" alt="Vista previa foto" />
+                                  <i id="icon-foto" class="mdi app-fs-70 mdi-account-box icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                          <div class="row">
+                              <div class="col-12 col-sm-6 mb-3">
+                              <label for="file-ci">Carnet de Identidad</label>
+{#                              <input type="hidden" id="foto" name="foto" class="form-control">#}
+                              <input type="file" id="file-ci" name="file-ci" class="app-file">
+                            </div>
+                            <div class="col-12 col-sm-6 mb-3">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img id="img-ci" src="" class="img-thumbnail image-preview d-none" alt="Vista previa foto" />
+                                  <i id="icon-ci" class="mdi app-fs-70 mdi-file-account icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        <div class="row">
+                              <div class="col-12 col-sm-6 mb-3">
+                              <label for="file-licencia">Licencia de Conducir</label>
+{#                              <input type="hidden" id="foto" name="foto" class="form-control">#}
+                              <input type="file" id="file-licencia" name="file-licencia" class="app-file">
+                            </div>
+                            <div class="col-12 col-sm-6 mb-3">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img id="img-licencia" src="" class="img-thumbnail image-preview d-none" alt="Vista previa foto" />
+                                  <i id="icon-licencia" class="mdi app-fs-70 mdi-file-account icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
                     </div>
                 </div>
 

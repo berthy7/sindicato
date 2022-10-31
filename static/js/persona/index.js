@@ -224,6 +224,17 @@ function load_table(data_tb) {
         scroller:       true,
         columns: [
             { title: "ID", data: "id" },
+            { title: "Foto", data: "foto",
+                render: function(data, type, row) {
+
+                    image = ![null, '', 'None', 'S/I'].includes(data)?
+                            '<a data-fancybox="gallery" href="/static/upload/' + data + '"><img class="d-flex align-self-center rounded img-thumbnail" src="/static/upload/' + data + '" alt="Imagen" height="64"></a>':
+                            "<i class='mdi mdi-account-box mdi-48px'></i>";
+
+                    return '<div class="media mx-auto align-middle">' + image + '</div>'
+
+                }
+            },
             { title: "Ci", data: "ci" },
             { title: "Nombre", data: "nombre" },
             { title: "Apellidos", data: "apellidos" },
@@ -262,6 +273,11 @@ function load_table(data_tb) {
                         a += '\
                             <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="delete_item(this)">\
                                 <i class="mdi mdi-delete"></i>\
+                            </button>'
+
+                        a += '\
+                            <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Reporte" onclick="reporte_item(this)">\
+                                <i class="mdi mdi-print"></i>\
                             </button>'
                     // }
                     if (a === '') a = 'Sin permisos';
@@ -323,6 +339,14 @@ function limpiar(){
     $('#lugarNacimiento').selectpicker("val", '');
     $('#genero').selectpicker("val", '');
     $('#licenciaCategoria').selectpicker("val", '');
+
+    $("input[type=file]").fileinput("clear");
+
+
+    $(".icon-preview").removeClass("d-none");
+    $(".image-preview").addClass("d-none");
+    $(".image-preview").prop("src", "");
+
 }
 
 $('#btn_agregar_linea').on('click', async function() {
@@ -507,6 +531,13 @@ $('#fklinea').change(function () {
 });
 
 $("#new").click(function () {
+
+    // $("#general").addClass("active");
+    // $("#adjuntos").removeClass("active");
+
+    $("#general").attr("aria-expanded", true);
+    $("#adjuntos").attr("aria-expanded", false);
+
     limpiar();
     $("#submit_form").attr("hidden", false);
     $("#submit_form-referencia").attr("hidden", true);
@@ -837,6 +868,11 @@ $('#socioConductor').change(function () {
         async: false,
         success: function (response) {
             let self = response.obj
+
+            console.log(self)
+
+            limpiar()
+            $(".form-control").val("");
             $('#id').val(self.id)
             $('#ci').val(self.ci)
             $('#nombre').val(self.nombre)
@@ -850,6 +886,24 @@ $('#socioConductor').change(function () {
             $('#lugarNacimiento').selectpicker("val", String(self.lugarNacimiento));
             $('#domicilio').val(self.domicilio)
             $('#socioConductor').selectpicker("val", String(self.socioConductor));
+
+            if (self.foto) {
+              $('#icon-foto').addClass('d-none');
+              $('#img-foto').prop('src', '/static/upload/'+self.foto);
+              $('#img-foto').removeClass('d-none');
+            }
+
+            if (self.fotoCi) {
+              $('#icon-ci').addClass('d-none');
+              $('#img-ci').prop('src', '/static/upload/'+self.fotoCi);
+              $('#img-ci').removeClass('d-none');
+            }
+
+            if (self.fotoLicencia) {
+              $('#icon-licencia').addClass('d-none');
+              $('#img-licencia').prop('src', '/static/upload/'+self.fotoLicencia);
+              $('#img-licencia').removeClass('d-none');
+            }
 
             $('#fklinea').selectpicker("val", '');
             $('#fkinterno').selectpicker("val", '');
@@ -892,35 +946,122 @@ $('#upsert').on('click', async function() {
             lugarNacimiento: $("#lugarNacimiento").val(),
             socioConductor: $("#socioConductor").val(),
             tipo: "Socio"
-
       }
 
-        let url = "/persona/insert/";
-        let data = null;
+      let url = "/persona/insert/";
+      let object = null;
 
-        if (objeto.id != 0){
+      if (objeto.id != 0){
               url = "/persona/update/";
-             data = objeto;
-        }else{
-             data ={
+             object = objeto;
+      }else{
+             object ={
                 obj:objeto,
                 referencias:referencias,
                 lineas:lineasAgregadas
             }
+      }
+
+        const getCookieLocal = (name) => {
+          const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+          return r ? r[1] : undefined;
         }
-       const response = await fetchData(
-            url,
-            "POST",
-            JSON.stringify({'obj':data})
-       );
-        if(response.success){
-           showSmallMessage(response.tipo,response.mensaje,"center");
-            setTimeout(function () {
-                $('#modal').modal('hide')
-                reload_table()
-            }, 2000);
-        }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+        // let data = new FormData($('#submit_form')[0]);
+        var data = new FormData($('#submit_form').get(0));
+
+        data.append('obj',JSON.stringify(object))
+
+        $.ajax({
+            method: "POST",
+            url: url,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            data: data,
+            headers:{
+                "X-CSRFToken" : getCookieLocal('csrftoken')
+            },
+            async: false,
+            success: function (response) {
+
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        $('#modal').modal('hide')
+                        reload_table()
+                    }, 2000);
+              }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+      // const response = await fetchData(
+      //       url,
+      //       "POST",
+      //       JSON.stringify({'obj':data})
+      // );
+      //
+      //
+      // if(response.success){
+      //      showSmallMessage(response.tipo,response.mensaje,"center");
+      //       setTimeout(function () {
+      //           $('#modal').modal('hide')
+      //           reload_table()
+      //       }, 2000);
+      // }else showSmallMessage(response.tipo,response.mensaje,"center");
 })
+
+// $('#upsert').on('click', async function() {
+//     const validationData = formValidation('submit_form');
+//       if (validationData.error) {
+//         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+//         return;
+//       }
+//       const objeto ={
+//             id: parseInt($("#id").val()),
+//             ci: $("#ci").val(),
+//             nombre: $("#nombre").val(),
+//             apellidos: $("#apellidos").val(),
+//             genero: $("#genero").val(),
+//             licenciaNro: $("#licenciaNro").val(),
+//             licenciaCategoria: $("#licenciaCategoria").val(),
+//             fechaNacimiento: $("#fechaNacimiento").val(),
+//             licenciaFechaVencimiento: $("#licenciaFechaVencimiento").val(),
+//             telefono: $("#telefono").val(),
+//             domicilio: $("#domicilio").val(),
+//             lugarNacimiento: $("#lugarNacimiento").val(),
+//             socioConductor: $("#socioConductor").val(),
+//             tipo: "Socio"
+//       }
+//
+//       let url = "/persona/insert/";
+//       let data = null;
+//
+//       if (objeto.id != 0){
+//               url = "/persona/update/";
+//              data = objeto;
+//       }else{
+//              data ={
+//                 obj:objeto,
+//                 referencias:referencias,
+//                 lineas:lineasAgregadas
+//             }
+//       }
+//       const response = await fetchData(
+//             url,
+//             "POST",
+//             JSON.stringify({'obj':data})
+//       );
+//       if(response.success){
+//            showSmallMessage(response.tipo,response.mensaje,"center");
+//             setTimeout(function () {
+//                 $('#modal').modal('hide')
+//                 reload_table()
+//             }, 2000);
+//       }else showSmallMessage(response.tipo,response.mensaje,"center");
+// })
 
 function set_enable(e) {
     cb_delete = e
@@ -1009,5 +1150,26 @@ function delete_item(e) {
              })
 
         }
+    })
+}
+
+
+function reporte_item(elemento){
+    obj = JSON.stringify({
+        'idPersonal': parseInt(JSON.parse($(elemento).attr('data-json'))),
+        '_xsrf': getCookie("_xsrf")
+    })
+
+    $.ajax({
+        method: "POST",
+        url: '/personal_report',
+        data: {object: obj, _xsrf: getCookie("_xsrf")}
+    }).done(function(response){
+        dictionary = JSON.parse(response)
+        dictionary = dictionary.response
+        servidor = ((location.href.split('/'))[0])+'//'+(location.href.split('/'))[2];
+        url = servidor + dictionary;
+
+        window.open(url)
     })
 }
