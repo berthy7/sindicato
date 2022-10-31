@@ -5,43 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="38a875fe-3050-4e43-88c2-97915e025478" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/imagen/acercade.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/imagen/login.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/template/assets/images/DISFRUTE SU VIAJE (8).png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/template/assets/images/bg-auth3.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/205113_133309433493676_1196622351_n.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/3642ec70-e974-48fe-841e-f25cc1695fe3.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/Captura-conclusion.PNG" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/Captura1.PNG" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/Captura2.PNG" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/Captura9.PNG" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/Captura_postman.PNG" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/Captura_programacion_academica_ultimo.PNG" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/Proyecto Final Estrategia de Marketing Digital.pdf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/Sin título.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/af039ba1-c4df-46cb-994e-445d125ecaf4.PNG" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/captura_ marco teorico.PNG" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/descarga (1).png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/descarga.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/ed7127ef-aa60-4dee-b0e9-c6de694ca85e.PNG" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/f1b3b381-988f-4308-ac1f-1075a0b108f9.jfif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/logo_chico.ico" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/negro.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/upload/vista_de_procesos.PNG" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/system/persona/migrations/0004_persona_foto.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/system/persona/migrations/0005_persona_fotoci_persona_fotolicencia.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/template/assets/images/DISFRUTE SU VIAJE (8).png" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/template/assets/images/bg-auth.jpg" afterPath="$PROJECT_DIR$/static/template/assets/images/bg-auth.jpg" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/settings.py" afterPath="$PROJECT_DIR$/server/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/persona/index.js" afterPath="$PROJECT_DIR$/static/js/persona/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/login/templates/index.html" afterPath="$PROJECT_DIR$/system/login/templates/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/persona/models.py" afterPath="$PROJECT_DIR$/system/persona/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/persona/views.py" afterPath="$PROJECT_DIR$/system/persona/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/_leftbar.html" afterPath="$PROJECT_DIR$/templates/_leftbar.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/layout.html" afterPath="$PROJECT_DIR$/templates/layout.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/persona/_form.html" afterPath="$PROJECT_DIR$/templates/persona/_form.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/persona/index.html" afterPath="$PROJECT_DIR$/templates/persona/index.html" />
     </list>
     <ignored path="sindicato.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -120,10 +86,12 @@
           <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/server/settings.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="202">
-                  <caret line="97" column="27" selection-start-line="97" selection-start-column="27" selection-end-line="97" selection-end-column="27" />
+                <state relative-caret-position="117">
+                  <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="101" selection-end-column="1" />
                   <folding>
                     <element signature="e#307#331#0" expanded="true" />
+                    <marker date="1667183277831" expanded="true" signature="2681:3012" placeholder="..." />
+                    <marker date="1667183277831" expanded="true" signature="2700:3010" placeholder="..." />
                   </folding>
                 </state>
               </provider>
@@ -132,8 +100,8 @@
           <file leaf-file-name="layout.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/templates/layout.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="221">
-                  <caret line="64" column="34" selection-start-line="64" selection-start-column="34" selection-end-line="64" selection-end-column="34" />
+                <state relative-caret-position="272">
+                  <caret line="67" column="31" selection-start-line="67" selection-start-column="31" selection-end-line="67" selection-end-column="31" />
                   <folding />
                 </state>
               </provider>
@@ -349,7 +317,6 @@
         <option value="$PROJECT_DIR$/static/js/vehiculo/index.js" />
         <option value="$PROJECT_DIR$/templates/vehiculo/_form.html" />
         <option value="$PROJECT_DIR$/templates/_leftbar.html" />
-        <option value="$PROJECT_DIR$/server/settings.py" />
         <option value="$PROJECT_DIR$/templates/persona/index.html" />
         <option value="$PROJECT_DIR$/system/persona/models.py" />
         <option value="$PROJECT_DIR$/templates/persona/_form.html" />
@@ -358,6 +325,7 @@
         <option value="$PROJECT_DIR$/static/js/persona/index.js" />
         <option value="$PROJECT_DIR$/templates/layout.html" />
         <option value="$PROJECT_DIR$/system/login/templates/index.html" />
+        <option value="$PROJECT_DIR$/server/settings.py" />
       </list>
     </option>
   </component>
@@ -442,47 +410,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sindicato" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sindicato" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="login" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sindicato" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sindicato" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="login" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
+              <option name="myItemId" value="server" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -801,14 +729,14 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17910448" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28169015" sideWeight="0.43550107" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27193934" sideWeight="0.55117273" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5222102" sideWeight="0.4936034" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.4978678" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27193934" sideWeight="0.45095947" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27193934" sideWeight="0.4488273" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28169015" sideWeight="0.56449896" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28169015" sideWeight="0.56449896" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37703142" sideWeight="0.47867805" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1214,16 +1142,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="97" column="27" selection-start-line="97" selection-start-column="27" selection-end-line="97" selection-end-column="27" />
-          <folding>
-            <element signature="e#307#331#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/js/conductor/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
@@ -1318,10 +1236,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/server/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="101" selection-end-column="1" />
+          <folding>
+            <element signature="e#307#331#0" expanded="true" />
+            <marker date="1667183277831" expanded="true" signature="2681:3012" placeholder="..." />
+            <marker date="1667183277831" expanded="true" signature="2700:3010" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/layout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="64" column="34" selection-start-line="64" selection-start-column="34" selection-end-line="64" selection-end-column="34" />
+        <state relative-caret-position="272">
+          <caret line="67" column="31" selection-start-line="67" selection-start-column="31" selection-end-line="67" selection-end-column="31" />
           <folding />
         </state>
       </provider>
