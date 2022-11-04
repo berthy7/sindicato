@@ -11,7 +11,7 @@ urlpatterns = [
     path('state/', views.state, name='incidente_state'),
     path('delete/', views.delete, name='incidente_delete'),
 
-    path('tipoList/', views.tipoList, name='incidente_list'),
+    path('tipoList/', views.tipoList, name='incidente_tipoList'),
     path('tipoInsert/', views.tipoInsert, name='incidente_tipoInsert'),
     path('tipoUpdate/', views.tipoUpdate, name='incidente_tipoUpdate'),
     path('tipoState/', views.tipoState, name='incidente_tipoState'),

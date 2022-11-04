@@ -232,7 +232,6 @@ function load_table(data_tb) {
                             "<i class='mdi mdi-account-box mdi-48px'></i>";
 
                     return '<div class="media mx-auto align-middle">' + image + '</div>'
-
                 }
             },
             { title: "Ci", data: "ci" },
@@ -276,8 +275,8 @@ function load_table(data_tb) {
                             </button>'
 
                         a += '\
-                            <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Reporte" onclick="reporte_item(this)">\
-                                <i class="mdi mdi-print"></i>\
+                            <button data-json="' + data + '"  type="button" class="btn btn-primary waves-effect" title="Reporte" onclick="reporte_item(this)">\
+                                <i class="mdi mdi-printer"></i>\
                             </button>'
                     // }
                     if (a === '') a = 'Sin permisos';
@@ -303,7 +302,7 @@ function load_table(data_tb) {
                     doc.styles.tableBodyOdd.alignment = 'center';
                },
                exportOptions : {
-                    columns : [0, 1, 2, 3, 4,5,6,7,8]
+                    columns : [0, 1, 2, 3, 4,5,6,7,8,9]
                 },
                title: 'Lista de Socios'
             }
@@ -531,9 +530,6 @@ $('#fklinea').change(function () {
 });
 
 $("#new").click(function () {
-
-    // $("#general").addClass("active");
-    // $("#adjuntos").removeClass("active");
 
     $("#general").attr("aria-expanded", true);
     $("#adjuntos").attr("aria-expanded", false);
@@ -1153,23 +1149,8 @@ function delete_item(e) {
     })
 }
 
-
-function reporte_item(elemento){
-    obj = JSON.stringify({
-        'idPersonal': parseInt(JSON.parse($(elemento).attr('data-json'))),
-        '_xsrf': getCookie("_xsrf")
-    })
-
-    $.ajax({
-        method: "POST",
-        url: '/personal_report',
-        data: {object: obj, _xsrf: getCookie("_xsrf")}
-    }).done(function(response){
-        dictionary = JSON.parse(response)
-        dictionary = dictionary.response
-        servidor = ((location.href.split('/'))[0])+'//'+(location.href.split('/'))[2];
-        url = servidor + dictionary;
-
-        window.open(url)
-    })
+function reporte_item(e){
+    console.log(parseInt(JSON.parse($(e).attr('data-json'))))
+    window.location.href = '/persona/reporte/'
 }
+

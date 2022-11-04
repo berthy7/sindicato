@@ -90,27 +90,27 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 # DEV
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sindicato',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
-}
-# PROD
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'ddn46g5p5q5lch',
-#         'USER': 'touhoukkrjmogy',
-#         'PASSWORD': '7cec2ef4dccf96d6053bd0e28cde8eadb884d85ac9b5592ff889f7b15e58cc1b',
-#         'HOST': 'ec2-34-236-7-170.compute-1.amazonaws.com',
+#         'NAME': 'sindicato',
+#         'USER': 'postgres',
+#         'PASSWORD': 'root',
+#         'HOST': '127.0.0.1',
 #         'PORT': '5432',
 #     }
 # }
+# PROD
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ddn46g5p5q5lch',
+        'USER': 'touhoukkrjmogy',
+        'PASSWORD': '7cec2ef4dccf96d6053bd0e28cde8eadb884d85ac9b5592ff889f7b15e58cc1b',
+        'HOST': 'ec2-34-236-7-170.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 # DEMO
 # DATABASES = {

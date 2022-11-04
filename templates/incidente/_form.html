@@ -21,7 +21,7 @@
                 <div class="form-group mb-3">
                     <input id="id" name="id" type="hidden" />
                     <label for="estados">Estado</label>
-                    <select id="estados" name="estados" class="form-control show-tick" >
+                    <select id="estados" name="estados" class="form-control show-tick"  >
                       <option value="Abierto">Abierto</option>
                       <option value="Cerrado">Cerrado</option>
                       <option value="No Aplica">No Aplica</option>
@@ -29,17 +29,27 @@
 
                 </div>
             </div>
-            <div class="col-12 col-sm-6">
-                    <label for="recargar">Actualizar</label>
-                    <div class="form-group mb-3">
-                         <button id="recargar" type="button" class="btn btn-info mb-3" title="Actualizar">
-                            <i class="mdi mdi-reload"></i>
-                          </button>
-                    </div>
-                </div>
+{#            <div class="col-12 col-sm-6">#}
+{#                    <label for="recargar">Actualizar</label>#}
+{#                    <div class="form-group mb-3">#}
+{#                         <button id="recargar" type="button" class="btn btn-info mb-3" title="Actualizar">#}
+{#                            <i class="mdi mdi-reload"></i>#}
+{#                          </button>#}
+{#                    </div>#}
+{#                </div>#}
 
           </div>
         <div class="row">
+        <div class="col-12 col-sm-6">
+                    <div class="form-group mb-3">
+                        <label for="fktipo">Incidente *</label>
+                        <select id="fktipo" name="fktipo" class="form-control show-tick" required>
+                       {% for i in tipos %}
+                          <option value="{{ i.id }}">{{ i.nombre }}</option>
+                       {% endfor %}
+                        </select>
+                    </div>
+                </div>
             <div class="col-12 col-sm-6">
                 <div class="form-group mb-3">
                     <label for="fklinea">Linea *</label>
@@ -55,36 +65,31 @@
             <div class="col-12 col-sm-6">
                 <div class="form-group mb-3">
                     <label for="tipoPersona">Tipo de Persona</label>
-                    <select id="tipoPersona" name="tipoPersona" class="form-control show-tick" >
+                    <select id="tipoPersona" name="tipoPersona" class="form-control show-tick" required>
                       <option value="Conductor">Conductor</option>
                       <option value="Socio">Socio</option>
+                      <option value="Otro">Otro</option>
                     </select>
 
                 </div>
             </div>
-            <div class="col-12 col-sm-6">
+            <div id="div_fkpersona" class="col-12 col-sm-6" hidden>
                 <div class="form-group mb-3">
                     <label for="fkpersona">Responsable *</label>
                     <select id="fkpersona" name="fkpersona" class="form-control show-tick">
-{#                   {% for i in personas %}#}
-{#                      <option value="{{ i.id }}">{{ i.nombre }} {{ i.apellidos }}</option>#}
-{#                   {% endfor %}#}
                     </select>
                 </div>
             </div>
-         </div>
-
-            <div class="row">
-                <div class="col-12 col-sm-6">
-                    <div class="form-group mb-3">
-                        <label for="fktipo">Incidente *</label>
-                        <select id="fktipo" name="fktipo" class="form-control show-tick" required>
-                       {% for i in tipos %}
-                          <option value="{{ i.id }}">{{ i.nombre }}</option>
-                       {% endfor %}
-                        </select>
-                    </div>
+            <div id="div_responsable" class="col-12 col-sm-6" hidden>
+                <div class="form-group mb-3">
+                    <label for="responsable">Responsable *</label>
+                    <input id="responsable" name="responsable" type="text" class="form-control form-control-sm"
+                        placeholder="" />
                 </div>
+            </div>
+         </div>
+            <div class="row">
+
             <div class="col-12 col-sm-6">
                 <div class="form-group mb-3">
                     <label for="descripcion">Descripcion *</label>
@@ -92,24 +97,13 @@
                         placeholder="" required />
                 </div>
             </div>
-
-          </div>
-            <div class="row">
                 <div class="col-12 col-sm-6">
                     <div class="form-group mb-3">
                         <label for="costo">Costo Aproximado *</label>
                         <input id="costo" name="costo" type="number" class="form-control form-control-sm"
-                            placeholder="" required />
+                            placeholder="" />
                     </div>
                 </div>
-                <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="otro">Otro *</label>
-                    <input id="otro" name="otro" type="text" class="form-control form-control-sm"
-                        placeholder="" />
-                </div>
-            </div>
-
           </div>
         </form>
       </div>

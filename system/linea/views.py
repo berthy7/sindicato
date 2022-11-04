@@ -21,14 +21,11 @@ def index(request):
             lineaUser = linea.codigo
         else:
             lineaUser = ""
-
     except Exception as e:
         print(e)
 
     return render(request, 'linea/index.html', { 'usuario': user.first_name + " " + user.last_name,
                                                    'rol': rol, 'lineaUser': lineaUser})
-
-
 
 @login_required
 def list(request):

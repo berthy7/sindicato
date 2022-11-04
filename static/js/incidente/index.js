@@ -117,18 +117,9 @@ function load_table(data_tb) {
             { title: "Nro.", data: "id" },
             { title: "Fecha", data: "fecha" },
             { title: "Responsable", data: "responsable" },
+            { title: "Incidente", data: "tipo" },
             { title: "Descripcion", data: "descripcion" },
-            { title: "Costo", data: "costo" },
-            { title: "Estado", data: "estado",
-                render: function(data, type, row) {
-                    let check = data ? 'checked' : ''
-                    return '\
-                    <div title="' + row.estado + '">\
-                        <input id="enabled' + row.id + '" type="checkbox" class="chk-col-indigo enabled" onclick="set_enable(this)" data-id="' + row.id + '" ' + check + ' ' + row.disable + '>\
-                        <label for="enabled' + row.id + '"></label>\
-                    </div>'
-                }
-            },
+            { title: "Estado", data: "estados"},
             { title: "Acciones", data: "id",
                 render: function(data, type, row) {
                      const dataObject = JSON.stringify(row);
@@ -164,18 +155,21 @@ function load_table(data_tb) {
     tabla.draw()
 }
 $("#new").click(function () {
-    $('#tipo').selectpicker("val", '');
+
+    $('#fktipo').selectpicker("val", '');
     $('#tipoPersona').selectpicker("val", '');
     $('#fkpersona').selectpicker("val", '');
     $('#fklinea').selectpicker("val", '');
-    
-  $("#update").hide();
-  $("#insert").show();
-  $(".form-control").val("");
-  $("#submit_form").removeClass('was-validated');
-  $("#modal").modal("show");
+
+    $("#update").hide();
+    $("#insert").show();
+    $(".form-control").val("");
+    $("#submit_form").removeClass('was-validated');
+    $("#modal").modal("show");
+    $('#estados').selectpicker("val",'Abierto');
+
 });
-$('#tipo').change(function () {
+$('#tipoPersona').change(function () {
 
      $.ajax({
         method: "GET",
@@ -198,7 +192,6 @@ $('#tipo').change(function () {
             // option.innerHTML = "Seleccione una opcióna";
             // option.value = 0;
             // select.appendChild(option);
-
             for (i of response) {
                 option = document.createElement("OPTION");
                 option.innerHTML = i.nombre;
@@ -207,12 +200,20 @@ $('#tipo').change(function () {
                 select.appendChild(option);
             }
             $('#fkpersona').selectpicker('refresh');
-
-
         },
         error: function (jqXHR, status, err) {
         }
     });
+    switch($(this).val()) {
+      case "Otro":
+          $('#responsable').val('');
+          $('#div_responsable').prop("hidden", false);
+          $('#div_fkpersona').prop("hidden", true);
+        break;
+      default:
+          $('#div_responsable').prop("hidden", true);
+          $('#div_fkpersona').prop("hidden", false);
+    }
 
 });
 $('#insert').on('click',async function() {
@@ -221,6 +222,7 @@ $('#insert').on('click',async function() {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
         return;
       }
+
       const objeto ={
             fecha: $("#fecha").val(),
             fktipo: $("#fktipo").val(),
@@ -228,10 +230,10 @@ $('#insert').on('click',async function() {
             tipoPersona: $("#tipoPersona").val(),
             fklinea: $("#fklinea").val(),
 
-            otro: $("#otro").val(),
+            responsable: $("#responsable").val() != '' ? $("#responsable").val() : $("#fkpersona option:selected").text(),
             descripcion: $("#descripcion").val(),
             estados: $("#estados").val(),
-            costo: $("#costo").val()
+            costo: $("#costo").val() != '' ? $("#costo").val() : 0
       }
        const response = await fetchData(
             "/incidente/insert/",
@@ -248,17 +250,22 @@ $('#insert').on('click',async function() {
 });
 function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
+
+    console.log(self)
     // clean_data()
     $('#id').val(self.id)
     $('#fecha').val(self.fecha)
     $('#fktipo').selectpicker("val", String(self.fktipo));
     $('#fklinea').selectpicker("val", String(self.fklinea));
+    $('#tipoPersona').selectpicker("val", String(self.tipoPersona));
+    $('#tipoPersona').change();
     $('#fkpersona').selectpicker("val", String(self.fkpersona));
     $('#estados').selectpicker("val", String(self.estados));
-    $('#tipoPersona').selectpicker("val", String(self.tipoPersona));
+
     $('#descripcion').val(self.descripcion)
-    $('#otro').val(self.otro)
+    $('#responsable').val(self.responsable)
     $('#costo').val(self.costo)
+
     
     $('.item-form').parent().addClass('focused')
     $('#insert').hide()
@@ -279,10 +286,11 @@ $('#update').on('click', async function() {
             fkpersona: $("#fkpersona").val(),
             tipoPersona: $("#tipoPersona").val(),
             fklinea: $("#fklinea").val(),
-            otro: $("#otro").val(),
+
+            responsable: $("#responsable").val() != '' ? $("#responsable").val() : $("#fkpersona option:selected").text(),
             descripcion: $("#descripcion").val(),
             estados: $("#estados").val(),
-            costo: $("#costo").val()
+            costo: $("#costo").val() != '' ? $("#costo").val() : 0
       }
        const response = await fetchData(
             "/incidente/update/",
@@ -386,9 +394,39 @@ function delete_item(e) {
     })
 }
 
-
-
 // Acciones Tipo
+function reload_select_tipo() {
+    $.ajax({
+        method: "GET",
+        url: '/incidente/tipoList',
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+
+        $('#fktipo').html('');
+
+        $('#fktipo').selectpicker('destroy');
+        $('#fktipo').selectpicker({
+          size: 10,
+          liveSearch: true,
+          liveSearchPlaceholder: 'Buscar',
+          title: 'Seleccione una opción'
+        });
+
+        var select = document.getElementById("fktipo")
+        for (var i = 0; i < response.length; i++) {
+            var option = document.createElement("OPTION");
+            option.innerHTML = response[i]['nombre'];
+            option.value = response[i]['id'];
+            select.appendChild(option);
+        }
+        $('#fktipo').selectpicker('refresh');
+
+        },
+        error: function (jqXHR, status, err) {
+        }
+    });
+}
 function reload_table_tipo() {
     $.ajax({
         method: "GET",
@@ -477,6 +515,7 @@ $('#insert-tipo').on('click',async function() {
             setTimeout(function () {
                 $('#modal-tipo').modal('hide')
                 reload_table_tipo()
+                reload_select_tipo()
             }, 2000);
         }else showSmallMessage(response.tipo,response.mensaje,"center");
 });
@@ -512,6 +551,7 @@ $('#update-tipo').on('click', async function() {
             setTimeout(function () {
                 $('#modal-tipo').modal('hide')
                 reload_table_tipo()
+                reload_select_tipo()
             }, 2000);
         }else showSmallMessage(response.tipo,response.mensaje,"center");
 })

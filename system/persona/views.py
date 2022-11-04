@@ -7,17 +7,19 @@ from django.contrib.auth.decorators import login_required
 from system.linea.models import Linea,LineaPersona,Interno,InternoPersona
 import json
 import datetime
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
 
 import os.path
 import uuid
+import io
 
 # Create your views here.
 @login_required
 def index(request):
     user = request.user
     try:
-        # persona = get_object_or_404(Persona, fkusuario=user.id)
-        personas = Persona.objects.filter(habilitado=True).filter(tipo="Conductor").all().order_by('nombre')
         persona = Persona.objects.filter(fkusuario=user.id)
         rol = persona[0].fkrol.name
         if persona[0].fklinea:
@@ -30,7 +32,7 @@ def index(request):
             lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
     except Exception as e:
         print(e)
-    return render(request, 'persona/index.html', {'personas': personas,'lineas':lineas,
+    return render(request, 'persona/index.html', {'lineas':lineas,
                                                    'usuario': user.first_name + " " + user.last_name,
                                                    'rol': rol, 'lineaUser': lineaUser})
 
@@ -219,6 +221,92 @@ def delete(request):
         return JsonResponse(dict(success=True,mensaje="se Eliminio"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
+
+
+def crear_pdf():
+
+
+    logoempresa = "/resources/iconos/logo.png"
+
+    var = "a"
+
+    html = "" \
+                    "<table style='padding: 4px; border: 0px solid grey' width='100%'>" \
+                    "<tr style='font-size: 12px; border: 0px; '>" \
+                    "<td colspan='5' style='border-right: 0px solid grey ' scope='colgroup'align='left'><img src='../servidor/common" + logoempresa + "' width='auto' height='75'></td>" \
+                  "<td colspan='12' scope='colgroup'align='left'><font></font></td>" \
+                  "<td colspan='5' style='border-left: 0px solid grey ' scope='colgroup'align='center'><img src='../servidor/common" + str(var) + "' width='auto' height='75'></td>" \
+                "</tr>" \
+                "</table>" \
+                "<table style='padding: 4px; border: 1px solid grey' width='100%'>" \
+                "<tr color='#ffffff' >" \
+                "<th colspan='22' scope='colgroup' align='left' style='background-color: #DC3131; font-size=4; color: white; margin-top: 4px'>REPORTE PERSONAL</th>" \
+                "</tr>" \
+                "<tr style='font-size: 12px; border: 0px; '>" \
+                "<td colspan='5' style='border-right: 1px solid grey ' scope='colgroup'align='left'><strong>Nombres y Apellidos: </strong></td>" \
+                "<td colspan='12' scope='colgroup'align='left'><font>" + str(var) + "</font></td>" \
+                                    "</tr>" \
+                                    "<tr style='font-size: 12px; border: 0px; '>" \
+                                    "<td colspan='5' style='border-right: 1px solid grey ' scope='colgroup'align='left'><strong>DNI: </strong></td>" \
+                                    "<td colspan='12' scope='colgroup'align='left'><font>" + str(var) + "</font></td>" \
+                                               "</tr>" \
+                                               "<tr style='font-size: 12px; border: 0px; '>" \
+                                               "<td colspan='5' style='border-right: 1px solid grey ' scope='colgroup'align='left'><strong>Nacionalidad: </strong></td>" \
+                                               "<td colspan='12' scope='colgroup'align='left'><font>" + var + "</font></td>" \
+                                               "</tr>" \
+                                               "<tr style='font-size: 12px; border: 0px; '>" \
+                                               "<td colspan='5' style='border-right: 1px solid grey ' scope='colgroup'align='left'><strong>Fecha Nacimiento: </strong></td>" \
+                                               "<td colspan='12' scope='colgroup'align='left'><font>" + var + "</font></td>" \
+                                              "</tr>" \
+                                              "<tr style='font-size: 12px; border: 0px; '>" \
+                                              "<td colspan='5' style='border-right: 1px solid grey ' scope='colgroup'align='left'><strong>Domicilio: </strong></td>" \
+                                              "<td colspan='12' scope='colgroup'align='left'><font>" + str(var) + "</font></td>" \
+                                     "</tr>" \
+                               "</table>" \
+                               "<table style='padding: 4px; border: 1px solid grey' width='100%'>" \
+                               "<tr style='font-size: 12px; border: 0px; '>" \
+                               "<td colspan='5' style='border-right: 0px solid grey ' scope='colgroup'align='left'><strong>Tiempo de Servicio</strong></td>" \
+                               "<td colspan='12' scope='colgroup'align='left'></td>" \
+                               "</tr>" \
+                                      "<tr style='font-size: 12px; border: 0px; '>" \
+                                      "<td colspan='5' style='border-right: 0px solid grey ' scope='colgroup'align='left'><strong>Asistencia</strong></td>" \
+                                      "<td colspan='3' style='border-right: 0px solid grey ' scope='colgroup'align='left'><strong>Febrero</strong></td>" \
+                                      "<td colspan='3' style='border-right: 0px solid grey ' scope='colgroup'align='left'><strong>Marzo</strong></td>" \
+                                      "<td colspan='3' style='border-right: 0px solid grey ' scope='colgroup'align='left'><strong>Abril</strong></td>" \
+                                      "<td colspan='3' style='border-right: 0px solid grey ' scope='colgroup'align='left'><strong>Mayo</strong></td>" \
+                                      "<td colspan='3' style='border-right: 0px solid grey ' scope='colgroup'align='left'><strong>Junio</strong></td>" \
+                                      "<td colspan='3' style='border-right: 0px solid grey ' scope='colgroup'align='left'><strong>Julio</strong></td>" \
+                                      "</tr>" \
+                                      "" + var + "" \
+                                                                "</table>" \
+                                       "</br>"
+
+    return html
+
+@login_required
+def reporte(request):
+    try:
+        # Create a file-like buffer to receive PDF data.
+        buffer = io.BytesIO()
+
+        # Create the PDF object, using the buffer as its "file."
+        p = canvas.Canvas(buffer, pagesize=letter)
+
+        # Draw things on the PDF. Here's where the PDF generation happens.
+        # See the ReportLab documentation for the full list of functionality.
+        p.drawString(100, 100, crear_pdf())
+
+        # Close the PDF object cleanly, and we're done.
+        p.showPage()
+        p.save()
+
+        # FileResponse sets the Content-Disposition header so that browsers
+        # present the option to save the file.
+        buffer.seek(0)
+        return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
+    except Exception as e:
+        return JsonResponse(dict(success=False, mensaje=e), safe=False)
+
 @login_required
 def listarPersonaXTipo(request,id):
 

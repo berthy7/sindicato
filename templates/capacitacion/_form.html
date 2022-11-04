@@ -3,50 +3,59 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalLabel">Capacitaciones</h5>
+        <h5 class="modal-title" id="modalLabel">Capacitaciòn</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
       </div>
+
       <div class="modal-body">
         <form id="submit_form" class="pl-3 pr-3 needs-validation" novalidate>
         <div class="row">
             <div class="col-12 col-sm-6">
                 <div class="form-group mb-3">
+                    <label for="fkcurso">Curso *</label>
+                    <select id="fkcurso" name="fkcurso" class="form-control show-tick" required>
+                   {% for i in cursos %}
+                      <option value="{{ i.id }}">{{ i.nombre }}</option>
+                   {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-3">
+                <div class="form-group mb-3">
                     <input id="id" name="id" type="hidden" />
-                    <label for="tipo">Tipo de Persona</label>
-                    <select id="tipo" name="tipo" class="form-control show-tick" >
+                    <label for="fecha">Fecha Capacitacion *</label>
+                    <input id="fecha" name="fecha" type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="" required autocomplete="off">
+                </div>
+            </div>
+          </div>
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                <div class="form-group mb-3">
+                    <label for="tipoPersona">Tipo de Persona</label>
+                    <select id="tipoPersona" name="tipoPersona" class="form-control show-tick" required>
                       <option value="Conductor">Conductor</option>
                       <option value="Socio">Socio</option>
                     </select>
 
                 </div>
             </div>
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-6" >
                 <div class="form-group mb-3">
                     <label for="fkpersona">Responsable *</label>
-                    <select id="fkpersona" name="fkpersona" class="form-control show-tick" required>
-{#                   {% for i in personas %}#}
-{#                      <option value="{{ i.id }}">{{ i.nombre }} {{ i.apellidos }}</option>#}
-{#                   {% endfor %}#}
+                    <select id="fkpersona" name="fkpersona" class="form-control show-tick">
                     </select>
                 </div>
             </div>
          </div>
-          <div class="row">
-              <div class="col-12 col-sm-3">
-                <div class="form-group mb-3">
-                    <label for="fechaIncidente">Fecha *</label>
-                    <input id="fechaIncidente" name="fechaIncidente" type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="" required autocomplete="off">
-                </div>
-            </div>
-          </div>
             <div class="row">
                 <div class="col-12 col-sm-6">
                 <div class="form-group mb-3">
-                    <label for="nombre">Curso *</label>
-                    <input id="nombre" name="nombre" type="text" class="form-control form-control-sm"
+                    <label for="dictado">Dictado por *</label>
+                    <input id="dictado" name="dictado" type="text" class="form-control form-control-sm"
                         placeholder="" required />
                 </div>
             </div>
+
             <div class="col-12 col-sm-6">
                 <div class="form-group mb-3">
                     <label for="descripcion">Descripcion *</label>
@@ -54,11 +63,10 @@
                         placeholder="" required />
                 </div>
             </div>
-
           </div>
-
         </form>
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">
           <i class="mdi mdi-close-box mr-1"></i> <span>Cerrar</span>
@@ -67,6 +75,47 @@
           <i class="mdi mdi-content-save mr-1"></i> <span>Guardar</span>
         </button>
         <button id="update" type="button" class="btn btn-primary">
+          <i class="mdi mdi-content-save mr-1"></i> <span>Actualizar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal-curso" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Cursos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="submit_form-tipo" class="pl-3 pr-3 needs-validation" novalidate>
+          <div class="row">
+            <div class="col-12 col-sm-6">
+                <div class="form-group mb-3">
+                    <input id="id-curso" name="id-curso" type="hidden" />
+                    <label for="nombre-curso">Nombre *</label>
+                    <input id="nombre-curso" name="nombre-curso" type="text" class="form-control form-control-sm"
+                        placeholder="" required />
+                </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+          <i class="mdi mdi-close-box mr-1"></i> <span>Cerrar</span>
+        </button>
+        <button id="insert-curso" type="button" class="btn btn-primary">
+          <i class="mdi mdi-content-save mr-1"></i> <span>Guardar</span>
+        </button>
+        <button id="update-curso" type="button" class="btn btn-primary">
           <i class="mdi mdi-content-save mr-1"></i> <span>Actualizar</span>
         </button>
       </div>

@@ -4,6 +4,7 @@ from .models import Incidente,IncidenteTipo
 from django.contrib.auth.decorators import login_required
 from system.persona.models import Persona
 from system.linea.models import Linea
+from django.forms.models import model_to_dict
 import json
 import datetime
 
@@ -38,11 +39,12 @@ def list(request):
     datos = Incidente.objects.filter(habilitado=True).all().order_by('-id')
     for item in datos:
 
+        dicc = model_to_dict(item)
+        dicc["fecha"] = item.fecha.strftime('%d/%m/%Y')
+        dicc["tipo"] = item.fktipo.nombre
+        dicc["linea"] = item.fklinea.codigo
 
-        dt_list.append(dict(id=item.id,fecha=item.fecha.strftime('%d/%m/%Y'),fktipo=item.fktipo.id,
-                            responsable = item.responsable,otro=item.otro,fklinea=item.fklinea.id,
-                            descripcion=item.descripcion,estados=item.estados,
-                            costo=item.costo,estado=item.estado))
+        dt_list.append(dicc)
     return JsonResponse(dt_list, safe=False)
 @login_required
 def insert(request):
@@ -56,12 +58,6 @@ def insert(request):
         dicc["fkusuario"] = user
         dicc['fecha'] = datetime.datetime.strptime(dicc['fecha'], '%d/%m/%Y')
 
-        if dicc["fkpersona"] != None:
-            dicc["responsable"] = dicc["fkpersona"].nombre
-        else:
-            dicc["responsable"] = dicc["otro"]
-
-
         Incidente.objects.create(**dicc)
 
         return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
@@ -72,8 +68,12 @@ def insert(request):
 def update(request):
     try:
         dicc = json.load(request)['obj']
-        dicc["fkpersona"] = Persona.objects.get(id=dicc["fkpersona"])
-        dicc['fechaIncidente'] = datetime.datetime.strptime(dicc['fechaIncidente'],'%d/%m/%Y')
+
+        dicc["fkpersona"] = Persona.objects.get(id=dicc["fkpersona"]) if dicc["fkpersona"] != "" else None
+        dicc["fklinea"] = Linea.objects.get(id=dicc["fklinea"])
+        dicc["fktipo"] = IncidenteTipo.objects.get(id=dicc["fktipo"])
+        dicc['fecha'] = datetime.datetime.strptime(dicc['fecha'], '%d/%m/%Y')
+
         Incidente.objects.filter(pk=dicc["id"]).update(**dicc)
         return JsonResponse(dict(success=True, mensaje="Modificado Correctamente", tipo="success"), safe=False)
     except Exception as e:

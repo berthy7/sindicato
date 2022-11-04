@@ -6,7 +6,6 @@ $(document).ready( function () {
     reload_table();
 });
 
-
 $('#fechaFundacion').datepicker({
     format: 'dd/mm/yyyy',
     language: "es",
@@ -174,8 +173,6 @@ $('#insert').on('click', async function() {
             "POST",
             JSON.stringify({'obj':objeto})
        );
-
-
 
 
         if(response.success){

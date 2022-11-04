@@ -26,7 +26,6 @@ class Incidente(models.Model):
     fecha = models.DateTimeField()
 
     descripcion = models.CharField(max_length=200)
-    otro = models.CharField(max_length=200, null=True)
     costo = models.IntegerField(null=True)
 
     estados = models.CharField(max_length=25)
