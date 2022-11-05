@@ -77,7 +77,23 @@ function load_table(data_tb) {
         scroller:       true,
         columns: add_columns(),
         dom: "Bfrtip",
-        buttons: [],
+        buttons: [
+            {  extend : 'excelHtml5',
+               exportOptions : { columns : [0, 1, 2, 3, 4,5,6,7]},
+                sheetName: 'Lista de Vehiculos',
+               title: 'Lista de Vehiculos' },
+            {  extend : 'pdfHtml5',
+                orientation: 'portrait',
+               customize: function(doc) {
+                    doc.styles.tableBodyEven.alignment = 'center';
+                    doc.styles.tableBodyOdd.alignment = 'center';
+               },
+               exportOptions : {
+                    columns : [0, 1, 2, 3, 4,5,6,7]
+                },
+               title: 'Lista de Vehiculos'
+            }
+        ],
         "order": [ [0, 'desc'] ],
         columnDefs: [ { width: '10%', targets: [0] }, { width: '27.5%', targets: [1, 2] }, { width: '20%', targets: [3] }, { width: '15%', targets: [4] } ],
         "initComplete": function() {}
@@ -529,11 +545,11 @@ function load_table_categoria(data_tb) {
             }
         ],
         dom: "Bfrtip",
-                buttons: [
+        buttons: [
             {  extend : 'excelHtml5',
-               exportOptions : { columns : [0, 1, 2, 3, 4,5,6]},
-                sheetName: 'Lista de Vehiculos',
-               title: 'Lista de Vehiculos'  },
+               exportOptions : { columns : [0, 1, 2]},
+                sheetName: 'Lista de Categorias',
+               title: 'Lista de Categorias'  },
             {  extend : 'pdfHtml5',
                 orientation: 'landscape',
                customize: function(doc) {
@@ -541,9 +557,9 @@ function load_table_categoria(data_tb) {
                     doc.styles.tableBodyOdd.alignment = 'center';
                },
                exportOptions : {
-                    columns : [0, 1, 2, 3, 4,5,6]
+                    columns : [0, 1, 2]
                 },
-               title: 'Lista de Vehiculos'
+               title: 'Lista de Categorias'
             }
         ],
         "order": [ [0, 'desc'] ],

@@ -19,7 +19,7 @@ class CapacitacionCurso(models.Model):
 
 class Capacitacion(models.Model):
     fkcurso = models.ForeignKey(CapacitacionCurso, on_delete=models.CASCADE)
-    fklinea = models.ForeignKey(Linea, on_delete=models.CASCADE)
+    tipoPersona = models.CharField(max_length=25, null=True)
     fkpersona = models.ForeignKey(Persona, on_delete=models.CASCADE)
     fecha = models.DateTimeField()
 
