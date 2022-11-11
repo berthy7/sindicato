@@ -6,106 +6,148 @@
         <h5 class="modal-title" id="modalLabel">Incidente</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
       </div>
-
       <div class="modal-body">
         <form id="submit_form" class="pl-3 pr-3 needs-validation" novalidate>
-        <div class="row">
-              <div class="col-12 col-sm-3">
-                <div class="form-group mb-3">
-                    <input id="id" name="id" type="hidden" />
-                    <label for="fecha">Fecha Incidente *</label>
-                    <input id="fecha" name="fecha" type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="" required autocomplete="off">
-                </div>
-            </div>
-              <div class="col-12 col-sm-3">
-                <div class="form-group mb-3">
-                    <input id="id" name="id" type="hidden" />
-                    <label for="estados">Estado</label>
-                    <select id="estados" name="estados" class="form-control show-tick"  >
-                      <option value="Abierto">Abierto</option>
-                      <option value="Cerrado">Cerrado</option>
-                      <option value="No Aplica">No Aplica</option>
-                    </select>
 
-                </div>
-            </div>
-{#            <div class="col-12 col-sm-6">#}
-{#                    <label for="recargar">Actualizar</label>#}
-{#                    <div class="form-group mb-3">#}
-{#                         <button id="recargar" type="button" class="btn btn-info mb-3" title="Actualizar">#}
-{#                            <i class="mdi mdi-reload"></i>#}
-{#                          </button>#}
-{#                    </div>#}
-{#                </div>#}
+            <div class="tab-pane show active" id="bordered-tabs-preview">
+                 <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                    <li class="nav-item">
+                        <a href="#general" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
+                            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Datos Generales</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#adjuntos" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                            <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Adjuntos</span>
+                        </a>
+                    </li>
+                </ul>
 
-          </div>
-        <div class="row">
-        <div class="col-12 col-sm-6">
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="general">
+                     <div class="row">
+                  <div class="col-12 col-sm-3">
                     <div class="form-group mb-3">
-                        <label for="fktipo">Incidente *</label>
-                        <select id="fktipo" name="fktipo" class="form-control show-tick" required>
-                       {% for i in tipos %}
-                          <option value="{{ i.id }}">{{ i.nombre }}</option>
-                       {% endfor %}
+                        <input id="id" name="id" type="hidden" />
+                        <label for="fecha">Fecha Incidente *</label>
+                        <input id="fecha" name="fecha" type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="" required autocomplete="off">
+                    </div>
+                </div>
+                  <div class="col-12 col-sm-3">
+                    <div class="form-group mb-3">
+                        <input id="id" name="id" type="hidden" />
+                        <label for="estados">Estado</label>
+                        <select id="estados" name="estados" class="form-control show-tick"  >
+                          <option value="Abierto">Abierto</option>
+                          <option value="Cerrado">Cerrado</option>
+                          <option value="No Aplica">No Aplica</option>
                         </select>
+
                     </div>
                 </div>
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="fklinea">Linea *</label>
-                    <select id="fklinea" name="fklinea" class="form-control show-tick" required>
-                   {% for i in lineas %}
-                      <option value="{{ i.id }}">{{ i.codigo }}</option>
-                   {% endfor %}
-                    </select>
-                </div>
-            </div>
-          </div>
-        <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="tipoPersona">Tipo de Persona</label>
-                    <select id="tipoPersona" name="tipoPersona" class="form-control show-tick" required>
-                      <option value="Conductor">Conductor</option>
-                      <option value="Socio">Socio</option>
-                      <option value="Otro">Otro</option>
-                    </select>
+    {#            <div class="col-12 col-sm-6">#}
+    {#                    <label for="recargar">Actualizar</label>#}
+    {#                    <div class="form-group mb-3">#}
+    {#                         <button id="recargar" type="button" class="btn btn-info mb-3" title="Actualizar">#}
+    {#                            <i class="mdi mdi-reload"></i>#}
+    {#                          </button>#}
+    {#                    </div>#}
+    {#                </div>#}
 
-                </div>
-            </div>
-            <div id="div_fkpersona" class="col-12 col-sm-6" hidden>
-                <div class="form-group mb-3">
-                    <label for="fkpersona">Responsable *</label>
-                    <select id="fkpersona" name="fkpersona" class="form-control show-tick">
-                    </select>
-                </div>
-            </div>
-            <div id="div_responsable" class="col-12 col-sm-6" hidden>
-                <div class="form-group mb-3">
-                    <label for="responsable">Responsable *</label>
-                    <input id="responsable" name="responsable" type="text" class="form-control form-control-sm"
-                        placeholder="" />
-                </div>
-            </div>
-         </div>
-            <div class="row">
+              </div>
+                        <div class="row">
+                        <div class="col-12 col-sm-6">
+                                    <div class="form-group mb-3">
+                                        <label for="fktipo">Incidente *</label>
+                                        <select id="fktipo" name="fktipo" class="form-control show-tick" required>
+                                       {% for i in tipos %}
+                                          <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                       {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                        <div class="col-12 col-sm-6">
+                                <div class="form-group mb-3">
+                                    <label for="fklinea">Linea *</label>
+                                    <select id="fklinea" name="fklinea" class="form-control show-tick" required>
+                                   {% for i in lineas %}
+                                      <option value="{{ i.id }}">{{ i.codigo }}</option>
+                                   {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group mb-3">
+                                    <label for="tipoPersona">Tipo de Persona</label>
+                                    <select id="tipoPersona" name="tipoPersona" class="form-control show-tick" required>
+                                      <option value="Conductor">Conductor</option>
+                                      <option value="Socio">Socio</option>
+                                      <option value="Otro">Otro</option>
+                                    </select>
 
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="descripcion">Descripcion *</label>
-                    <input id="descripcion" name="descripcion" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-                <div class="col-12 col-sm-6">
-                    <div class="form-group mb-3">
-                        <label for="costo">Costo Aproximado *</label>
-                        <input id="costo" name="costo" type="number" class="form-control form-control-sm"
-                            placeholder="" />
+                                </div>
+                            </div>
+                            <div id="div_fkpersona" class="col-12 col-sm-6" hidden>
+                                <div class="form-group mb-3">
+                                    <label for="fkpersona">Responsable *</label>
+                                    <select id="fkpersona" name="fkpersona" class="form-control show-tick">
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="div_responsable" class="col-12 col-sm-6" hidden>
+                                <div class="form-group mb-3">
+                                    <label for="responsable">Responsable *</label>
+                                    <input id="responsable" name="responsable" type="text" class="form-control form-control-sm"
+                                        placeholder="" />
+                                </div>
+                            </div>
+                         </div>
+                        <div class="row">
+
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group mb-3">
+                                    <label for="descripcion">Descripcion *</label>
+                                    <input id="descripcion" name="descripcion" type="text" class="form-control form-control-sm"
+                                        placeholder="" required />
+                                </div>
+                            </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group mb-3">
+                                        <label for="costo">Costo Aproximado *</label>
+                                        <input id="costo" name="costo" type="number" class="form-control form-control-sm"
+                                            placeholder="" />
+                                    </div>
+                                </div>
+                          </div>
+                    </div>
+                    <div class="tab-pane" id="adjuntos">
+
+                        <div class="row">
+                              <div class="col-12 col-sm-6">
+                              <label for="file-respaldo">Respaldo</label>
+                              <input type="hidden" id="respaldo" name="respaldo" class="form-control">
+                              <input type="file" id="respaldo" name="respaldo" class="app-file">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img id="img-respaldo" src="" class="img-thumbnail image-preview d-none" alt="Vista previa respaldo" />
+                                  <i id="icon-respaldo" class="mdi app-fs-70 mdi-file-account icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
                     </div>
                 </div>
-          </div>
+            </div>
         </form>
+
+
       </div>
 
       <div class="modal-footer">

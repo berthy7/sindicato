@@ -9,7 +9,24 @@
 
       <div class="modal-body">
         <form id="submit_form" class="pl-3 pr-3 needs-validation" novalidate>
-        <div class="row">
+            <div class="tab-pane show active" id="bordered-tabs-preview">
+                <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                    <li class="nav-item">
+                        <a href="#general" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
+                            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Datos Generales</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#adjuntos" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                            <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Adjuntos</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="general">
+                        <div class="row">
             <div class="col-12 col-sm-6">
                 <div class="form-group mb-3">
                     <label for="fkcurso">Curso *</label>
@@ -28,42 +45,70 @@
                 </div>
             </div>
           </div>
-        <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="tipoPersona">Tipo de Persona</label>
-                    <select id="tipoPersona" name="tipoPersona" class="form-control show-tick" required>
-                      <option value="Conductor">Conductor</option>
-                      <option value="Socio">Socio</option>
-                    </select>
+                        <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="tipoPersona">Tipo de Persona</label>
+                                <select id="tipoPersona" name="tipoPersona" class="form-control show-tick" required>
+                                  <option value="Conductor">Conductor</option>
+                                  <option value="Socio">Socio</option>
+                                </select>
 
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6" >
+                            <div class="form-group mb-3">
+                                <label for="fkpersona">Responsable *</label>
+                                <select id="fkpersona" name="fkpersona" class="form-control show-tick" required>
+                                </select>
+                            </div>
+                        </div>
+                     </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="dictado">Dictado por *</label>
+                                <input id="dictado" name="dictado" type="text" class="form-control form-control-sm"
+                                    placeholder="" required />
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="descripcion">Descripcion *</label>
+                                <input id="descripcion" name="descripcion" type="text" class="form-control form-control-sm"
+                                    placeholder="" required />
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane" id="adjuntos">
+
+                        <div class="row">
+                              <div class="col-12 col-sm-6">
+                              <label for="file-respaldo">Respaldo</label>
+                              <input type="hidden" id="respaldo" name="respaldo" class="form-control">
+                              <input type="file" id="respaldo" name="respaldo" class="app-file">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img id="img-respaldo" src="" class="img-thumbnail image-preview d-none" alt="Vista previa respaldo" />
+                                  <i id="icon-respaldo" class="mdi app-fs-70 mdi-file-account icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-12 col-sm-6" >
-                <div class="form-group mb-3">
-                    <label for="fkpersona">Responsable *</label>
-                    <select id="fkpersona" name="fkpersona" class="form-control show-tick" required>
-                    </select>
-                </div>
-            </div>
-         </div>
-            <div class="row">
-                <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="dictado">Dictado por *</label>
-                    <input id="dictado" name="dictado" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
+
+
             </div>
 
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="descripcion">Descripcion *</label>
-                    <input id="descripcion" name="descripcion" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-          </div>
+
+
+
         </form>
       </div>
 

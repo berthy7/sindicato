@@ -6,6 +6,17 @@ $(document).ready( function () {
     reload_table_curso();
 });
 
+$(".app-file").fileinput({
+  language: "es",
+  showCaption: false,
+  showBrowse: true,
+  showUpload: false,
+  showUploadedThumbs: false,
+  showPreview: true,
+  previewFileType: "any",
+  // allowedFileExtensions: ext_image
+});
+
 $('#fkcurso').selectpicker({
   size: 10,
   liveSearch: true,

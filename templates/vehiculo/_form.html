@@ -1,4 +1,3 @@
-
  <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -9,83 +8,114 @@
       </div>
       <div class="modal-body">
         <form id="submit_form" class="pl-3 pr-3 needs-validation" novalidate>
-        <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="fklinea">Linea *</label>
-                    <input id="lineavehiculoid" name="lineavehiculoid" type="hidden" />
-                    <select id="fklinea" name="fklinea" class="form-control show-tick" required>
-                   {% for i in lineas %}
-                      <option value="{{ i.id }}">{{ i.codigo }}</option>
-                   {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="fkinterno">Internos *</label>
-                    <select id="fkinterno" name="fkinterno" class="form-control show-tick">
+        <div class="tab-pane show active" id="bordered-tabs-preview">
+                <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                    <li class="nav-item">
+                        <a href="#general" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
+                            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Datos Generales</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#adjuntos" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                            <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Adjuntos</span>
+                        </a>
+                    </li>
+                </ul>
 
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="fkcategoria">Clase *</label>
-                 <input id="id" name="id" type="hidden" />
-                    <select id="fkcategoria" name="fkcategoria" class="form-control show-tick" required>
-                   {% for i in categorias %}
-                      <option value="{{ i.id }}">{{ i.nombre }}</option>
-                   {% endfor %}
-                    </select>
-                </div>
-            </div>
-{#            <div class="col-12 col-sm-6">#}
-{#                <label for="recargar">Actualizar</label>#}
-{#                <div class="form-group mb-3">#}
-{#                     <button id="recargar" type="button" class="btn btn-info mb-3" title="Recargar">#}
-{#                        <i class="mdi mdi-reload"></i>#}
-{#                      </button>#}
-{#                </div>#}
-{#            </div>#}
-          </div>
-          <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="placa">Placa *</label>
-                    <input id="placa" name="placa" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-              <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="año">Año *</label>
-                    <input id="año" name="año" type="number" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="general">
+                        <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="fklinea">Linea *</label>
+                                <input id="lineavehiculoid" name="lineavehiculoid" type="hidden" />
+                                <select id="fklinea" name="fklinea" class="form-control show-tick" required>
+                               {% for i in lineas %}
+                                  <option value="{{ i.id }}">{{ i.codigo }}</option>
+                               {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="fkinterno">Internos *</label>
+                                <select id="fkinterno" name="fkinterno" class="form-control show-tick">
 
-            <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="tipo">Tipo *</label>
-                    <input id="tipo" name="tipo" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="fkcategoria">Clase *</label>
+                             <input id="id" name="id" type="hidden" />
+                                <select id="fkcategoria" name="fkcategoria" class="form-control show-tick" required>
+                               {% for i in categorias %}
+                                  <option value="{{ i.id }}">{{ i.nombre }}</option>
+                               {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                      </div>
+                        <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="placa">Placa *</label>
+                                <input id="placa" name="placa" type="text" class="form-control form-control-sm"
+                                    placeholder="" required />
+                            </div>
+                        </div>
+                          <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="año">Año *</label>
+                                <input id="año" name="año" type="number" class="form-control form-control-sm"
+                                    placeholder="" required />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="tipo">Tipo *</label>
+                                <input id="tipo" name="tipo" type="text" class="form-control form-control-sm"
+                                    placeholder="" required />
+                            </div>
+                        </div>
+                            <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="modelo">Marca *</label>
+                                <input id="modelo" name="modelo" type="text" class="form-control form-control-sm"
+                                    placeholder="" required />
+                            </div>
+                        </div>
+                      </div>
+
+                      </div>
+                    </div>
+                    <div class="tab-pane" id="adjuntos">
+
+                        <div class="row">
+                              <div class="col-12 col-sm-6">
+                              <label for="file-ruat">Ruat</label>
+                              <input type="hidden" id="foto" name="foto" class="form-control">
+                              <input type="file" id="file-ruat" name="file-ruat" class="app-file">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img id="img-ruat" src="" class="img-thumbnail image-preview d-none" alt="Vista previa ruat" />
+                                  <i id="icon-ruat" class="mdi app-fs-70 mdi-file-account icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                    </div>
                 </div>
             </div>
-                <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="modelo">Marca *</label>
-                    <input id="modelo" name="modelo" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-          </div>
-
-          </div>
-
         </form>
       </div>
       <div class="modal-footer">

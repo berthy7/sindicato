@@ -275,8 +275,8 @@ function load_table(data_tb) {
                             </button>'
 
                         a += '\
-                            <button data-json="' + data + '"  type="button" class="btn btn-primary waves-effect" title="Reporte" onclick="reporte_item(this)">\
-                                <i class="mdi mdi-printer"></i>\
+                            <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Reporte" onclick="reporte_item(this)">\
+                                <i class="mdi mdi-file-pdf-box"></i>\
                             </button>'
                     // }
                     if (a === '') a = 'Sin permisos';
@@ -360,7 +360,8 @@ $('#btn_agregar_linea').on('click', async function() {
                 fklinea: $("#fklinea").val(),
                 linea:  $("#fklinea option:selected").html(),
                 fkinterno: $("#fkinterno").val(),
-                interno:  $("#fkinterno option:selected").html()
+                interno:  $("#fkinterno option:selected").html(),
+                tipoPersona: "Socio"
             }
 
             if($('#id').val() !=0)
@@ -864,9 +865,7 @@ $('#socioConductor').change(function () {
         async: false,
         success: function (response) {
             let self = response.obj
-
-            console.log(self)
-
+            
             limpiar()
             $(".form-control").val("");
             $('#id').val(self.id)
@@ -1151,6 +1150,6 @@ function delete_item(e) {
 
 function reporte_item(e){
     console.log(parseInt(JSON.parse($(e).attr('data-json'))))
-    window.location.href = '/persona/reporte/'
+    window.location.href = '/persona/reporte/'+parseInt(JSON.parse($(e).attr('data-json')))
 }
 

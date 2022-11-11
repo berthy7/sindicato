@@ -7,6 +7,17 @@ $(document).ready( function () {
     reload_table_categoria();
 });
 
+$(".app-file").fileinput({
+  language: "es",
+  showCaption: false,
+  showBrowse: true,
+  showUpload: false,
+  showUploadedThumbs: false,
+  showPreview: true,
+  previewFileType: "any",
+  // allowedFileExtensions: ext_image
+});
+
 function add_columns() {
     let a_cols = []
     a_cols.push(
@@ -157,7 +168,7 @@ function reload_select_categoria() {
           liveSearchPlaceholder: 'Buscar',
           title: 'Seleccione una opción'
         });
-            
+
         var select = document.getElementById("fkcategoria")
         for (var i = 0; i < response.length; i++) {
             var option = document.createElement("OPTION");
@@ -217,6 +228,9 @@ $('#fklinea').change(function () {
 
 $("#new").click(function () {
 
+    $("#general").attr("aria-expanded", true);
+    $("#adjuntos").attr("aria-expanded", false);
+
     $('#fklinea').selectpicker("val", '');
 
     $('#fkinterno').html('');
@@ -227,19 +241,24 @@ $("#new").click(function () {
       liveSearchPlaceholder: 'Buscar',
       title: 'Seleccione una opción'
     });
-    
 
-  $("#update").hide();
-  $("#insert").show();
-  $("#cerrar").show();
-  $(".form-control").val("");
-  $("#submit_form").removeClass('was-validated');
+   $("#update").hide();
+   $("#insert").show();
+   $("#cerrar").show();
+   $(".form-control").val("");
+   $("#submit_form").removeClass('was-validated');
+
+   $("input[type=file]").fileinput("clear");
+
+    $(".icon-preview").removeClass("d-none");
+    $(".image-preview").addClass("d-none");
+    $(".image-preview").prop("src", "");
 
     $('#fkcategoria').selectpicker("val", '1');
     $('#modelo').val('TOYOTA');
     $('#tipo').val('COASTER');
 
-  $("#modal").modal("show");
+    $("#modal").modal("show");
 });
 
 $('#insert').on('click',async function() {
@@ -284,7 +303,6 @@ $('#insert').on('click',async function() {
 function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
     // clean_data()
-    console.log(self)
 
     $('#id').val(self.id)
     $('#placa').val(self.placa)
@@ -292,7 +310,7 @@ function edit_item(e) {
     $('#tipo').val(self.tipo)
     $('#año').val(self.año)
     $('#fkcategoria').selectpicker("val", String(self.fkcategoria));
-    
+
     $('.item-form').parent().addClass('focused')
     $('#insert').hide()
     $('#update').show()
@@ -486,7 +504,6 @@ $('#retirar').click(function() {
             reload_table()
         }, 2000);
 })
-
 
 
 // Acciones Categoria

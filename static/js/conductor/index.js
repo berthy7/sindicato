@@ -9,6 +9,7 @@ $(document).ready( function () {
     reload_table();
 });
 
+
 $('#fklinea').selectpicker({
   size: 7,
   liveSearch: true,
@@ -22,6 +23,7 @@ $('#fkinterno').selectpicker({
   title: 'Seleccione una opción'
 });
 
+
 $('#fechaNacimiento').datepicker({
     format: 'dd/mm/yyyy',
     language: "es",
@@ -34,6 +36,7 @@ $('#licenciaFechaVencimiento').datepicker({
     language: "es",
     daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
 });
+
 
 $(".app-file").fileinput({
   language: "es",
@@ -53,7 +56,7 @@ $('#referencia-Categoria').selectpicker({
   title: 'Seleccione'
 });
 
-$('#tipo').selectpicker({
+$('#socioConductor').selectpicker({
   size: 10,
   liveSearch: true,
   liveSearchPlaceholder: 'Buscar',
@@ -88,10 +91,11 @@ $('#lugarNacimiento').selectpicker({
   title: 'Seleccione'
 });
 
+
 function add_columns_referencia() {
     let a_cols = []
     a_cols.push(
-         { title: "Categoria", data: "categoria" },
+        { title: "Categoria", data: "categoria" },
         { title: "CI", data: "ci" },
         { title: "Nombre", data: "nombre" },
         { title: "Apellidos", data: "apellidos" },
@@ -122,14 +126,13 @@ function add_columns_referencia() {
 
     return a_cols;
 }
-
 function load_table_referencia(data_tb) {
     var tabla = $(id_table_referencia).DataTable({
         destroy: true,
         paging: false,
         ordering: true,
         info: false,
-        searching: true,
+        searching: false,
         data: data_tb,
         deferRender:    true,
         scrollCollapse: true,
@@ -143,6 +146,7 @@ function load_table_referencia(data_tb) {
     });
     tabla.draw()
 }
+
 
 function add_columns_lineasAgregadas() {
     let a_cols = []
@@ -194,8 +198,11 @@ function load_table_lineasAgregadas(data_tb) {
 }
 
 function delete_reload_table_lineasAgregadas(self){
+    debugger
+    console.log(lineasAgregadas)
+    console.log(self)
     for (var i = 0; i < lineasAgregadas.length; i++) {
-            if (parseInt(lineasAgregadas[i].fklinea) == parseInt(self.fklinea) && parseInt(lineasAgregadas[i].fkinterno) == parseInt(self.fkinterno)) {
+            if (parseInt(lineasAgregadas[i].fklinea) == parseInt(self.fklinea) && lineasAgregadas[i].fkinterno == self.fkinterno) {
                 lineasAgregadas.splice(i, 1);
                 break;
                 }
@@ -236,7 +243,7 @@ function load_table(data_tb) {
             { title: "Domicilio", data: "domicilio" },
             { title: "Telefono", data: "telefono" },
             { title: "Lugar de Nacimiento", data: "lugarNacimiento", visible: false },
-                        { title: "Lineas", data: "id",
+            { title: "Lineas", data: "id",
                 render: function (data, type, row) {
                     a = ''
                     for (var i = 0; i < row.asignaciones.length; i++) {
@@ -271,8 +278,8 @@ function load_table(data_tb) {
                             </button>'
 
                         a += '\
-                            <button data-json="' + data + '"  type="button" class="btn btn-primary waves-effect" title="Reporte" onclick="reporte_item(this)">\
-                                <i class="mdi mdi-printer"></i>\
+                            <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Reporte" onclick="reporte_item(this)">\
+                                <i class="mdi mdi-file-pdf-box"></i>\
                             </button>'
                     // }
                     if (a === '') a = 'Sin permisos';
@@ -288,9 +295,9 @@ function load_table(data_tb) {
         dom: "Bfrtip",
         buttons: [
             {  extend : 'excelHtml5',
-               exportOptions : { columns : [2,3,4,5,6,7,8,9]},
-                sheetName: 'Lista de Conductores',
-               title: 'Lista de Conductores'  },
+               exportOptions : { columns : [0, 1, 2, 3, 4,5,6,7,8]},
+                sheetName: 'Lista de Socios',
+               title: 'Lista de Socios'  },
             {  extend : 'pdfHtml5',
                 orientation: 'landscape',
                customize: function(doc) {
@@ -298,18 +305,17 @@ function load_table(data_tb) {
                     doc.styles.tableBodyOdd.alignment = 'center';
                },
                exportOptions : {
-                    columns : [2,3,4,5,6,7,8,9]
+                    columns : [0, 1, 2, 3, 4,5,6,7,8,9]
                 },
-               title: 'Lista de Conductores'
+               title: 'Lista de Socios'
             }
         ],
         "order": [ [0, 'desc'] ],
-        columnDefs: [ { width: '10%', targets: [0,1,2,3] }],
+        columnDefs: [ { width: '10%', targets: [0,1,2,3,4,5,6,7,8] }],
         "initComplete": function() {}
     });
     tabla.draw()
 }
-
 function reload_table() {
     $.ajax({
         method: "GET",
@@ -317,13 +323,14 @@ function reload_table() {
         dataType: 'json',
         async: false,
         success: function (response) {
+
+            console.log(response)
             load_table(response)
         },
         error: function (jqXHR, status, err) {
         }
     });
 }
-
 
 function limpiar(){
     $('#id').val(0);
@@ -345,7 +352,7 @@ function limpiar(){
 }
 
 $('#btn_agregar_linea').on('click', async function() {
-    if($("#fklinea").val() !="" && $("#fkinterno").val() !=""){
+    if($("#fklinea").val() !=""){
         newArray = lineasAgregadas.filter(x => x.fklinea == $('#fklinea').val() && x.fkinterno == $('#fkinterno').val());
 
         if(newArray.length == 0){
@@ -356,7 +363,8 @@ $('#btn_agregar_linea').on('click', async function() {
                 fklinea: $("#fklinea").val(),
                 linea:  $("#fklinea option:selected").html(),
                 fkinterno: $("#fkinterno").val(),
-                interno:  $("#fkinterno option:selected").html()
+                interno:  $("#fkinterno option:selected").html(),
+                tipoPersona: "Socio"
             }
 
             if($('#id').val() !=0)
@@ -383,6 +391,25 @@ function add_interno(lineaInterno) {
     }).then((result) => {
         if (result.value) {
 
+
+       //  const response = fetchData(
+       //      "/persona/agregarInternos/",
+       //      "POST",
+       //      JSON.stringify({'obj':lineaInterno})
+       // );
+       //  if(response.success){
+       //     showSmallMessage(response.tipo,response.mensaje,"center");
+       //      setTimeout(function () {
+       //          add_reload_table_lineasAgregadas(lineaInterno)
+       //          reload_table()
+       //      }, 2000);
+       //  }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+        // const response = ajaxCall(
+        //     '/persona/agregarInternos/',
+        //     JSON.stringify({'obj':lineaInterno})
+        // )
+        //
         // console.log(response)
         const getCookieLocal = (name) => {
           const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
@@ -507,6 +534,7 @@ $('#fklinea').change(function () {
 });
 
 $("#new").click(function () {
+
     $("#general").attr("aria-expanded", true);
     $("#adjuntos").attr("aria-expanded", false);
 
@@ -524,8 +552,8 @@ $("#new").click(function () {
     $("#submit_form").removeClass('was-validated');
     $("#modal").modal("show");
 });
-
 $("#newReferencia").click(function () {
+
   $(".referencia").val("");
   $("#referencia-id").val(0),
   $('#referencia-Categoria').selectpicker("val", "");
@@ -540,7 +568,6 @@ $("#newReferencia").click(function () {
   $("#modalLabelRefencia").attr("hidden", false);
 
 });
-
 $("#referencia-atras").click(function () {
   $("#submit_form").attr("hidden", false);
   $("#submit_form-referencia").attr("hidden", true);
@@ -773,9 +800,9 @@ function delete_referencias(self) {
     })
 }
 
+
  function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
-
      $.ajax({
         method: "GET",
         url: '/persona/'+self.id,
@@ -783,6 +810,9 @@ function delete_referencias(self) {
         async: false,
         success: function (response) {
             let self = response.obj
+
+            limpiar()
+            $(".form-control").val("");
             $('#id').val(self.id)
             $('#ci').val(self.ci)
             $('#nombre').val(self.nombre)
@@ -791,28 +821,50 @@ function delete_referencias(self) {
             $('#genero').selectpicker("val", String(self.genero));
             $('#licenciaNro').val(self.licenciaNro)
             $('#licenciaCategoria').selectpicker("val", String(self.licenciaCategoria));
-            $('#ciFechaVencimiento').val(self.ciFechaVencimiento)
+            $('#fechaNacimiento').val(self.fechaNacimiento)
             $('#licenciaFechaVencimiento').val(self.licenciaFechaVencimiento);
             $('#lugarNacimiento').selectpicker("val", String(self.lugarNacimiento));
             $('#domicilio').val(self.domicilio)
-            $('#tipo').selectpicker("val", String(self.tipo));
+            $('#socioConductor').selectpicker("val", String(self.socioConductor));
 
-            $('#fklinea').selectpicker("val", String(self.fklinea));
-            $('#fkinterno').selectpicker("val", String(self.fkinterno));
+            if (self.foto) {
+              $('#icon-foto').addClass('d-none');
+              $('#img-foto').prop('src', '/static/upload/'+self.foto);
+              $('#img-foto').removeClass('d-none');
+            }
 
-            load_table_referencia(response.referencias)
+            if (self.fotoCi) {
+              $('#icon-ci').addClass('d-none');
+              $('#img-ci').prop('src', '/static/upload/'+self.fotoCi);
+              $('#img-ci').removeClass('d-none');
+            }
+
+            if (self.fotoLicencia) {
+              $('#icon-licencia').addClass('d-none');
+              $('#img-licencia').prop('src', '/static/upload/'+self.fotoLicencia);
+              $('#img-licencia').removeClass('d-none');
+            }
+
+            $('#fklinea').selectpicker("val", '');
+            $('#fkinterno').selectpicker("val", '');
+
+            referencias = response.referencias
+            load_table_referencia(referencias)
+            lineasAgregadas = response.asignaciones
+
+            console.log(lineasAgregadas)
+            load_table_lineasAgregadas(lineasAgregadas)
+
+            $("#submit_form").attr("hidden", false);
+            $("#submit_form-referencia").attr("hidden", true);
 
             $('.item-form').parent().addClass('focused')
-            $('#insert').hide()
-            $('#update').show()
+            $('#upsert').show()
             $('#modal').modal('show')
-
         },
         error: function (jqXHR, status, err) {
         }
     });
-
-    // clean_data()
 }
 
 $('#upsert').on('click', async function() {
@@ -834,7 +886,8 @@ $('#upsert').on('click', async function() {
             telefono: $("#telefono").val(),
             domicilio: $("#domicilio").val(),
             lugarNacimiento: $("#lugarNacimiento").val(),
-            tipo: "Conductor"
+            socioConductor: $("#socioConductor").val(),
+            tipo: "Socio"
       }
 
       let url = "/persona/insert/";
@@ -886,6 +939,20 @@ $('#upsert').on('click', async function() {
             error: function (jqXHR, status, err) {
             }
         });
+      // const response = await fetchData(
+      //       url,
+      //       "POST",
+      //       JSON.stringify({'obj':data})
+      // );
+      //
+      //
+      // if(response.success){
+      //      showSmallMessage(response.tipo,response.mensaje,"center");
+      //       setTimeout(function () {
+      //           $('#modal').modal('hide')
+      //           reload_table()
+      //       }, 2000);
+      // }else showSmallMessage(response.tipo,response.mensaje,"center");
 })
 
 function set_enable(e) {
@@ -980,5 +1047,6 @@ function delete_item(e) {
 
 function reporte_item(e){
     console.log(parseInt(JSON.parse($(e).attr('data-json'))))
-    window.location.href = '/conductor/reporte/'
+    window.location.href = '/conductor/reporte/'+parseInt(JSON.parse($(e).attr('data-json')))
 }
+

@@ -41,6 +41,7 @@ class LineaPersona(models.Model):
     fkpersona = models.ForeignKey(Persona, on_delete=models.CASCADE)
     fklinea = models.ForeignKey(Linea, on_delete=models.CASCADE)
     fechaRetiro = models.DateField(null=True)
+    tipoPersona = models.CharField(max_length=25, null=True)
 
     fechar = models.DateTimeField(auto_now_add=True)
 
@@ -83,8 +84,10 @@ class InternoVehiculo(models.Model):
         db_table = "system_internoVehiculo"
 
 class InternoPersona(models.Model):
-    fkinterno = models.ForeignKey(Interno, on_delete=models.CASCADE)
+    fklinea = models.ForeignKey(Linea,null=True, on_delete=models.CASCADE)
+    fkinterno = models.ForeignKey(Interno,null=True,  on_delete=models.CASCADE)
     fkpersona = models.ForeignKey(Persona, on_delete=models.CASCADE)
+    tipoPersona = models.CharField(max_length=25, null=True)
 
     fechaAsignacion = models.DateField(null=True)
     fechaRetiro = models.DateField(null=True)
