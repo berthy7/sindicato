@@ -313,7 +313,7 @@ def reporte(request,id):
 
         p.setFont('Helvetica-Bold', 10)
         p.drawString(400, 590, 'Fecha de Vencimiento:')
-        fechavencimiento = socio.licenciaFechaVencimiento.strftime('%d/%m/%Y')
+        fechavencimiento = socio.licenciaFechaVencimiento.strftime('%d/%m/%Y') if socio.licenciaFechaVencimiento else '----'
         p.setFont('Helvetica', 10)
         p.drawString(510, 590, fechavencimiento)
         # -----------------------------------------------------------
