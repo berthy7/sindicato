@@ -249,11 +249,11 @@ def reporte(request,id):
 
         # p.setFont('Helvetica-Bold',12)
         p.setFont('Helvetica', 9)
-        p.drawString(500,750,datetime.datetime.now().strftime('%d/%m/%Y %H:%M'))
+        p.drawString(450,750,datetime.datetime.now().strftime('%d/%m/%Y %H:%M'))
 
         nombreUsuario = persona[0].nombre + ' ' + persona[0].apellidos
         p.setFont('Helvetica',9)
-        p.drawString(500,765,nombreUsuario)
+        p.drawString(450,765,nombreUsuario)
         # -----------------------------------------------------------
         p.setFont('Helvetica-Bold',10)
         p.drawString(30,730,'Fecha de inscripción:')
