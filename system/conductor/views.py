@@ -47,12 +47,9 @@ def index(request):
 def list(request):
     for interPersona  in InternoPersona.objects.all():
 
-        interno  = interPersona.fkinterno
-
-        if interno:
-
-            interPersona.fklinea = interno.fklinea
-            interPersona.save()
+        interPersona.tipoPersona = interPersona.fkpersona.tipoPersona
+        # interPersona.fklinea = interno.fklinea
+        interPersona.save()
 
     dt_list = []
     datos = Persona.objects.filter(habilitado=True).filter(tipo="Conductor").all().order_by('-id')
