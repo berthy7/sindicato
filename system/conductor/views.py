@@ -45,11 +45,11 @@ def index(request):
 
 @login_required
 def list(request):
-    for interPersona  in InternoPersona.objects.all():
-
-        interPersona.tipoPersona = interPersona.fkpersona.tipo
-        # interPersona.fklinea = interno.fklinea
-        interPersona.save()
+    # for interPersona  in InternoPersona.objects.all():
+    #
+    #     interPersona.tipoPersona = interPersona.fkpersona.tipo
+    #     # interPersona.fklinea = interno.fklinea
+    #     interPersona.save()
 
     dt_list = []
     datos = Persona.objects.filter(habilitado=True).filter(tipo="Conductor").all().order_by('-id')
