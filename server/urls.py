@@ -32,7 +32,7 @@ path('persona/', include(('system.persona.urls', 'system.persona'))),
 path('conductor/', include(('system.conductor.urls', 'system.conductor'))),
 path('incidente/', include(('system.incidente.urls', 'system.incidente'))),
 path('capacitacion/', include(('system.capacitacion.urls', 'system.capacitacion'))),
-
+path('chat/', include(('system.chat.urls', 'system.chat'))),
 
 path('usuario/', include(('system.usuario.urls', 'system.usuario'))),
 path('rol/', include(('system.rol.urls', 'system.rol'))),

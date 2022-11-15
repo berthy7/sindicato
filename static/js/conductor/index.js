@@ -887,7 +887,7 @@ $('#upsert').on('click', async function() {
             domicilio: $("#domicilio").val(),
             lugarNacimiento: $("#lugarNacimiento").val(),
             socioConductor: $("#socioConductor").val(),
-            tipo: "Socio"
+            tipo: "Conductor"
       }
 
       let url = "/persona/insert/";
