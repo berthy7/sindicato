@@ -92,6 +92,9 @@ def obtain(request,id):
     response = dict(obj=dicc,referencias=referencias,asignaciones=asignaciones)
 
     return JsonResponse(response, safe=False)
+
+
+
 def handle_uploaded_file(f,name):
     with open('static/upload/'+ name,'wb+') as destination:
         for chunk in f.chunks():

@@ -19,6 +19,9 @@ function load_table(data_tb) {
             { title: "Acciones", data: "id",
                 render: function(data, type, row) {
                      const dataObject = JSON.stringify(row);
+
+                    const nombre  = row.nombre + " " + row.apellidos
+
                     a = ''
                     // if (row.disable === '') {
                     //     a += `\
@@ -31,6 +34,10 @@ function load_table(data_tb) {
                             <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="delete_item(this)">\
                                 <i class="mdi mdi-delete"></i>\
                             </button>'
+
+                        a += '<button data-id="' + data + '" data-name="' + nombre + '" type="button" class="btn btn-info" data-toggle="tooltip" data-placement="left" title="" data-original-title="Cambiar password" onclick="change_pass(this)">\
+                            <i class="mdi mdi-key"></i>\
+                        </button>'
                     // }
                     if (a === '') a = 'Sin permisos';
                     return a
@@ -203,3 +210,49 @@ function delete_item(e) {
         }
     })
 }
+
+
+function change_pass(e) {
+
+    idu = parseInt($(e).attr('data-id'))
+    name_user = $(e).attr('data-name')
+    $('#idu').val(idu)
+    $('#name-user').val(name_user)
+
+    $('.item-form').parent().find("label").addClass("active")
+    $('#modal-credential').modal('show')
+}
+
+$('#upd-credentials').on('click',async function() {
+      const validationData = formValidation('submit_form_credential');
+
+      if (validationData.error) {
+        showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+        return;
+      }
+
+      if ($('#new-pass').val() != $('#new-rpass').val()) {
+        showSmallMessage("warning", 'Las contraseñas no coinciden');
+        return;
+      }
+
+    const objeto={
+           id: $('#idu').val(),
+           newpassword: $('#new-pass').val()
+      };
+
+    $("#upd-credentials").hide();
+
+   const response =await fetchData(
+        "/usuario/changepassword/",
+        "POST",
+        JSON.stringify({'obj':objeto})
+   );
+    if(response.success){
+       showSmallMessage(response.tipo,response.mensaje,"center");
+        setTimeout(function () {
+            $('#modal-credential').modal('hide')
+
+        }, 2000);
+    }else showSmallMessage(response.tipo,response.mensaje,"center");
+});

@@ -26,7 +26,6 @@ def index(request):
     return render(request, 'usuario/index.html', {'lineas': lineas,'roles': roles,
                                                   'usuario': user.first_name + " " + user.last_name,
                                                 'rol': rol, 'lineaUser': lineaUser})
-
 @login_required
 def list(request):
     dt_list = []
@@ -35,7 +34,6 @@ def list(request):
         dt_list.append(dict(id=item.id,usuario=item.username,nombre=item.first_name,apellidos=item.last_name))
 
     return JsonResponse(dt_list, safe=False)
-
 @login_required
 def insert(request):
     try:
@@ -52,7 +50,6 @@ def insert(request):
         return JsonResponse(dict(success=True,mensaje="Registrado Correctamente"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
-
 @login_required
 def update(request):
     try:
@@ -68,8 +65,6 @@ def update(request):
         return JsonResponse(dict(success=True,mensaje="Modificado Correctamente"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
-
-
 @login_required
 def delete(request):
     try:
@@ -80,3 +75,22 @@ def delete(request):
         return JsonResponse(dict(success=True,mensaje="se Eliminio"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
+@login_required
+def changepassword(request):
+    try:
+        dicc = json.load(request)['obj']
+
+        usuario = User.objects.get(id=dicc["id"])
+        usuario.set_password(dicc["newpassword"])
+        usuario.save()
+
+        return JsonResponse(dict(success=True, mensaje="Modificado Correctamente", tipo="success"), safe=False)
+    except Exception as e:
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
+@login_required
+def account(request):
+    user = request.user
+    response = dict(userid=user.id,username=user.username)
+
+    return JsonResponse(response, safe=False)

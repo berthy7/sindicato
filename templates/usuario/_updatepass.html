@@ -1,0 +1,63 @@
+<div class="modal fade" id="modal-credential" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Actualizar Credenciales</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+      </div>
+      <div class="modal-body">
+        <form id="submit_form_credential" class="pl-3 pr-3 needs-validation" novalidate>
+              <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group mb-3">
+                            <input id="idu" name="idu" type="hidden" class="item-form">
+                            <label for="name-user">Nombre</label>
+                            <input id="name-user" name="user" type="text"  class="form-control form-control-sm item-form" placeholder="" readonly>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12">
+                        <div class="form-group mb-3">
+                            <label>Nueva Contraseña</label>
+                            <div class="input-group input-group-merge">
+                                <input id="new-pass" name="new-pass" type="password" class="form-control form-control-sm" placeholder="" required>
+                                <div class="input-group-append" data-password="false">
+                                    <div class="input-group-text">
+                                        <span class="password-eye"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group mb-3">
+                            <label for="new-rpass">Repetir Contraseña</label>
+                            <div class="input-group input-group-merge">
+                                <input id="new-rpass" name="new-rpass" type="password" class="form-control form-control-sm item-form" placeholder="" required>
+                                <div class="input-group-append" data-password="false">
+                                    <div class="input-group-text">
+                                        <span class="password-eye"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <span class="form-text text-muted"><small>La contraseña nueva debe coincidir en ambos campos.</small></span>
+                        </div>
+                    </div>
+                </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+            <i class="mdi mdi-close-box mr-1"></i> <span>Cerrar</span>
+        </button>
+        <button id="upd-credentials" type="button" class="btn btn-primary">
+            <i class="mdi mdi-account-key mr-1"></i> <span>Modificar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
