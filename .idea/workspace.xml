@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="38a875fe-3050-4e43-88c2-97915e025478" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/persona/_form.html" afterPath="$PROJECT_DIR$/templates/persona/_form.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/chat/views.py" afterPath="$PROJECT_DIR$/system/chat/views.py" />
     </list>
     <ignored path="sindicato.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,14 +27,14 @@
     <favorites_list name="sindicato" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.6374603">
+    <splitter split-orientation="horizontal" split-proportion="0.7961905">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="_form.html" pinned="false" current-in-tab="true">
+          <file leaf-file-name="_form.html" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/templates/persona/_form.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="308">
-                  <caret line="356" column="33" selection-start-line="356" selection-start-column="33" selection-end-line="356" selection-end-column="33" />
+                <state relative-caret-position="70">
+                  <caret line="342" column="6" selection-start-line="342" selection-start-column="6" selection-end-line="342" selection-end-column="6" />
                   <folding />
                 </state>
               </provider>
@@ -48,13 +48,34 @@
                   <folding>
                     <element signature="e#6572#6697#0" expanded="false" />
                     <element signature="e#6739#9442#0" expanded="false" />
+                    <element signature="e#9484#11188#0" expanded="false" />
+                    <element signature="e#11229#11564#0" expanded="false" />
                     <element signature="e#11606#11958#0" expanded="false" />
                     <element signature="e#12005#22263#0" expanded="false" />
                     <element signature="e#22322#22580#0" expanded="false" />
                     <element signature="e#22631#23385#0" expanded="false" />
+                    <element signature="e#23440#23914#0" expanded="false" />
                     <element signature="e#23971#24406#0" expanded="false" />
                     <element signature="e#24459#24921#0" expanded="false" />
                     <element signature="e#24976#25439#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/system/chat/views.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="276">
+                  <caret line="43" column="38" selection-start-line="43" selection-start-column="38" selection-end-line="43" selection-end-column="38" />
+                  <folding>
+                    <element signature="e#0#53#0" expanded="true" />
+                    <element signature="e#3640#5017#0" expanded="false" />
+                    <element signature="e#5056#5181#0" expanded="false" />
+                    <element signature="e#5223#7926#0" expanded="false" />
+                    <element signature="e#7968#9672#0" expanded="false" />
+                    <element signature="e#9713#10048#0" expanded="false" />
+                    <element signature="e#10090#10442#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -305,7 +326,6 @@
         <option value="$PROJECT_DIR$/system/chat/models.py" />
         <option value="$PROJECT_DIR$/server/urls.py" />
         <option value="$PROJECT_DIR$/system/chat/urls.py" />
-        <option value="$PROJECT_DIR$/system/chat/views.py" />
         <option value="$PROJECT_DIR$/server/settings.py" />
         <option value="$PROJECT_DIR$/templates/usuario/_form.html" />
         <option value="$PROJECT_DIR$/templates/_topbar.html" />
@@ -331,6 +351,7 @@
         <option value="$PROJECT_DIR$/system/persona/views.py" />
         <option value="$PROJECT_DIR$/templates/_leftbar.html" />
         <option value="$PROJECT_DIR$/templates/persona/_form.html" />
+        <option value="$PROJECT_DIR$/system/chat/views.py" />
       </list>
     </option>
   </component>
@@ -400,7 +421,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
+              <option name="myItemId" value="system" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -414,11 +435,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
+              <option name="myItemId" value="system" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="persona" />
+              <option name="myItemId" value="chat" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -742,9 +763,9 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.4978678" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25027084" sideWeight="0.42430705" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24918744" sideWeight="0.42430705" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.45178765" sideWeight="0.5453092" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18201517" sideWeight="0.5453092" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45720476" sideWeight="0.46801707" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -796,11 +817,16 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/system/chat/views.py</url>
-          <line>51</line>
+          <line>53</line>
           <option name="timeStamp" value="177" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/system/chat/views.py</url>
+          <line>20</line>
+          <option name="timeStamp" value="190" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="187" />
+      <option name="time" value="191" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -965,21 +991,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1717">
           <caret line="177" column="0" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/chat/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="799">
-          <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-          <folding>
-            <element signature="e#3479#4856#0" expanded="false" />
-            <element signature="e#4895#5020#0" expanded="false" />
-            <element signature="e#5062#7765#0" expanded="false" />
-            <element signature="e#7807#9511#0" expanded="false" />
-            <element signature="e#9552#9887#0" expanded="false" />
-            <element signature="e#9929#10281#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1270,6 +1281,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/persona/_form.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="342" column="6" selection-start-line="342" selection-start-column="6" selection-end-line="342" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/system/persona/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -1277,10 +1296,13 @@
           <folding>
             <element signature="e#6572#6697#0" expanded="false" />
             <element signature="e#6739#9442#0" expanded="false" />
+            <element signature="e#9484#11188#0" expanded="false" />
+            <element signature="e#11229#11564#0" expanded="false" />
             <element signature="e#11606#11958#0" expanded="false" />
             <element signature="e#12005#22263#0" expanded="false" />
             <element signature="e#22322#22580#0" expanded="false" />
             <element signature="e#22631#23385#0" expanded="false" />
+            <element signature="e#23440#23914#0" expanded="false" />
             <element signature="e#23971#24406#0" expanded="false" />
             <element signature="e#24459#24921#0" expanded="false" />
             <element signature="e#24976#25439#0" expanded="false" />
@@ -1288,11 +1310,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/persona/_form.html">
+    <entry file="file://$PROJECT_DIR$/system/chat/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="356" column="33" selection-start-line="356" selection-start-column="33" selection-end-line="356" selection-end-column="33" />
-          <folding />
+        <state relative-caret-position="276">
+          <caret line="43" column="38" selection-start-line="43" selection-start-column="38" selection-end-line="43" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#53#0" expanded="true" />
+            <element signature="e#3640#5017#0" expanded="false" />
+            <element signature="e#5056#5181#0" expanded="false" />
+            <element signature="e#5223#7926#0" expanded="false" />
+            <element signature="e#7968#9672#0" expanded="false" />
+            <element signature="e#9713#10048#0" expanded="false" />
+            <element signature="e#10090#10442#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

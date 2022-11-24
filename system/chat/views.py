@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.conf import settings as django_settings
 from .models import Chat
 from django.forms.models import model_to_dict
+from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from system.linea.models import Linea,LineaPersona,Interno,InternoPersona
 from system.incidente.models import Incidente
@@ -24,7 +25,8 @@ def home(request):
     try:
         persona = Persona.objects.filter(fkusuario=user.id)
         if persona[0].fklinea:
-            datos = Chat.objects.filter(habilitado=True).filter(fkemisor=persona[0].fklinea).all().order_by('-id')
+            # datos = Chat.objects.filter(habilitado=True).filter(fkemisor=persona[0].fklinea).all().order_by('-id')
+            datos = Chat.objects.filter(habilitado=True).all().order_by('-id')
         else:
             datos = Chat.objects.filter(habilitado=True).all().order_by('-id')
 
@@ -45,7 +47,7 @@ def home(request):
         fecha10dias = fechaActual + datetime.timedelta(days=10)
 
         # licencias
-        for item in Persona.objects.filter(licenciaFechaVencimiento__range=(fechaActual, fecha10dias)):
+        for item in Persona.objects.filter(Q(licenciaFechaVencimiento__range=(fechaActual, fecha10dias)) | Q(licenciaFechaVencimiento__lt=fechaActual)):
             # .strftime('%d/%m/%Y')
             dicc = model_to_dict(item)
 
