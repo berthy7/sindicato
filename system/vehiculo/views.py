@@ -38,6 +38,7 @@ def list(request):
     user = request.user
     dt_list = []
     persona = Persona.objects.filter(fkusuario=user.id)
+
     if persona[0].fklinea:
         datos = Vehiculo.objects.filter(fklinea=persona[0].fklinea).filter(habilitado=True).all().order_by('-id')
     else:

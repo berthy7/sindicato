@@ -45,35 +45,53 @@ def index(request):
 
 @login_required
 def list(request):
-    # for interPersona  in InternoPersona.objects.all():
-    #
-    #     interPersona.tipoPersona = interPersona.fkpersona.tipo
-    #     # interPersona.fklinea = interno.fklinea
-    #     interPersona.save()
-
+    dt_list = []
+    user = request.user
+    persona = Persona.objects.filter(fkusuario=user.id)
+    if persona[0].fklinea:
+        for interPer in  InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct('fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo="Conductor"):
+            item = interPer.fkpersona
+            asignaciones = []
+            for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=item.id).all().order_by(
+                    'id'):
+                asignacion = model_to_dict(interPersona)
+                asignacion["linea"] = interPersona.fklinea.codigo if interPersona.fklinea else '---'
+                asignacion["interno"] = interPersona.fkinterno.numero if interPersona.fkinterno else '---'
+                asignaciones.append(asignacion)
+            dicc = model_to_dict(item)
+            dicc["asignaciones"] = asignaciones
+            dt_list.append(dicc)
+        return JsonResponse(dt_list, safe=False)
+    else:
+        datos = Persona.objects.filter(habilitado=True).filter(tipo="Conductor").all().order_by('-id')
+        for item in datos:
+            asignaciones = []
+            for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=item.id).all().order_by('id'):
+                asignacion = model_to_dict(interPersona)
+                asignacion["linea"] = interPersona.fklinea.codigo if interPersona.fklinea else '---'
+                asignacion["interno"] = interPersona.fkinterno.numero if interPersona.fkinterno else '---'
+                asignaciones.append(asignacion)
+            dicc = model_to_dict(item)
+            dicc["asignaciones"] = asignaciones
+            dt_list.append(dicc)
+        return JsonResponse(dt_list, safe=False)
+@login_required
+def listAll(request):
     dt_list = []
     datos = Persona.objects.filter(habilitado=True).filter(tipo="Conductor").all().order_by('-id')
     for item in datos:
-        asignaciones = []
         for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=item.id).all().order_by('id'):
+            dicc = model_to_dict(item)
+            dicc["linea"] = interPersona.fklinea.codigo
 
-            interno = interPersona.fkinterno
+            if interPersona.fkinterno:
+                dicc["interno"] = interPersona.fkinterno.numero
+            else:
+                dicc["interno"] = "-"
 
-            asignacion = model_to_dict(interPersona)
+            dt_list.append(dicc)
 
-            asignacion["linea"] = interPersona.fklinea.codigo if interPersona.fklinea else '---'
-            asignacion["interno"] = interPersona.fkinterno.numero if interPersona.fkinterno else '---'
-
-
-            asignaciones.append(asignacion)
-            # asignaciones.append(dict(interPersonaId=interPersona.id,fklinea=interno.fklinea_id, linea=interno.fklinea.codigo,
-            #                          fkinterno=interno.id, interno=interno.numero))
-
-        dicc = model_to_dict(item)
-        dicc["asignaciones"] = asignaciones
-        dt_list.append(dicc)
     return JsonResponse(dt_list, safe=False)
-
 
 def reporte(request,id):
     user = request.user

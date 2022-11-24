@@ -11,6 +11,19 @@ window.addEventListener("load", function () {
    reload_table()
 });
 
+
+$(".app-file").fileinput({
+  language: "es",
+  showCaption: false,
+  showBrowse: true,
+  showUpload: false,
+  showUploadedThumbs: false,
+  showPreview: true,
+  previewFileType: "any",
+  // allowedFileExtensions: ext_image
+});
+
+
 function add_columns() {
     let a_cols = []
     a_cols.push(
@@ -102,8 +115,6 @@ function load_table_licencias(data_tb) {
     tabla.columns.adjust().draw();
 }
 
-
-
 function reload_table() {
    $.ajax({
         method: "GET",
@@ -137,31 +148,29 @@ $('#insert').on('click', async function() {
         return;
       }
 
+    
 
-    $('#modal-chat').modal('hide')
+    const objeto ={
+          mensaje: $("#mensaje").val(),
+      }
 
-    // const objeto ={
-    //       mensaje: $("#mensaje").val(),
-    //   }
-    //
-    //     $("#insert").hide();
-    //     $("#update").hide();
-    //     $("#cerrar").hide();
-    //
-    //    const response = await fetchData(
-    //         "/chat/insert/",
-    //         "POST",
-    //         JSON.stringify({'obj':objeto})
-    //    );
-    //
-    //
-    //     if(response.success){
-    //        showSmallMessage(response.tipo,response.mensaje,"center");
-    //         setTimeout(function () {
-    //             $('#modal').modal('hide')
-    //             reload_table()
-    //         }, 2000);
-    //     }else showSmallMessage(response.tipo,response.mensaje,"center");
+        $("#insert").hide();
+        $("#update").hide();
+        $("#cerrar").hide();
+
+       const response = await fetchData(
+            "/chat/insert/",
+            "POST",
+            JSON.stringify({'obj':objeto})
+       );
+
+        if(response.success){
+           showSmallMessage(response.tipo,response.mensaje,"center");
+            setTimeout(function () {
+               $('#modal-chat').modal('hide')
+                reload_table()
+            }, 2000);
+        }else showSmallMessage(response.tipo,response.mensaje,"center");
 
 
 })

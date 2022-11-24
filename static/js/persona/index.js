@@ -2,8 +2,12 @@ let id_table = '#data_table';
 let id_table_referencia = '#data_table_referencia';
 let id_table_lineasAgregadas = '#data_table_lineas';
 
+let id_table_lista = '#data_table_lista';
+
 let referencias = []
 let lineasAgregadas = []
+
+let lista = []
 
 $(document).ready( function () {
     reload_table();
@@ -235,11 +239,11 @@ function load_table(data_tb) {
                 }
             },
             { title: "Ci", data: "ci" },
+            { title: "", data: "lugarNacimiento", visible: false },
             { title: "Nombre", data: "nombre" },
             { title: "Apellidos", data: "apellidos" },
             { title: "Domicilio", data: "domicilio" },
             { title: "Telefono", data: "telefono" },
-            { title: "Lugar de Nacimiento", data: "lugarNacimiento", visible: false },
             { title: "Lineas", data: "id",
                 render: function (data, type, row) {
                     a = ''
@@ -292,7 +296,7 @@ function load_table(data_tb) {
         dom: "Bfrtip",
         buttons: [
             {  extend : 'excelHtml5',
-               exportOptions : { columns : [0, 1, 2, 3, 4,5,6,7,8]},
+               exportOptions : { columns : [0, 2, 3, 4,5,6,7,8,9]},
                 sheetName: 'Lista de Socios',
                title: 'Lista de Socios'  },
             {  extend : 'pdfHtml5',
@@ -328,6 +332,75 @@ function reload_table() {
         }
     });
 }
+
+
+function add_columns_lista() {
+    let a_cols = []
+    a_cols.push(
+         { title: "ID", data: "id" },
+            { title: "Ci", data: "ci" },
+            { title: "Lugar de Nacimiento", data: "lugarNacimiento", visible: false },
+            { title: "Nombre", data: "nombre" },
+            { title: "Apellidos", data: "apellidos" },
+            { title: "Domicilio", data: "domicilio" , visible: false},
+            { title: "Telefono", data: "telefono" , visible: false},
+            { title: "Linea", data: "linea" },
+            { title: "Interno", data: "interno"}
+    );
+    return a_cols;
+}
+function load_table_lista(data_tb) {
+    var tabla = $(id_table_lista).DataTable({
+        destroy: true,
+        paging: false,
+        ordering: true,
+        info: false,
+        searching: false,
+        data: data_tb,
+        deferRender:    true,
+        scrollCollapse: true,
+        scroller:       true,
+        columns: add_columns_lista(),
+        dom: "Bfrtip",
+        buttons: [
+            {  extend : 'excelHtml5',
+               exportOptions : { columns : [0,1, 2, 3, 4,5,6,7,8]},
+                sheetName: 'Lista General',
+               title: 'Lista General'  },
+            {  extend : 'pdfHtml5',
+                orientation: 'landscape',
+               customize: function(doc) {
+                    doc.styles.tableBodyEven.alignment = 'center';
+                    doc.styles.tableBodyOdd.alignment = 'center';
+               },
+               exportOptions : {
+                    columns : [0, 1, 2, 3, 4,5,6,7,8]
+                },
+               title: 'Lista General'
+            }
+        ],
+        "order": [ [0, 'desc'] ],
+        columnDefs: [ { width: '10%', targets: [0,1,2,3,4] }],
+        "initComplete": function() {}
+    });
+    tabla.draw()
+}
+function reload_table_lista() {
+    $.ajax({
+        method: "GET",
+        url: '/persona/listAll',
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+
+            console.log(response)
+            load_table_lista(response)
+        },
+        error: function (jqXHR, status, err) {
+        }
+    });
+}
+
 
 function limpiar(){
     $('#id').val(0);
@@ -528,6 +601,10 @@ $('#fklinea').change(function () {
         }
     });
 
+});
+$("#lista").click(function () {
+    reload_table_lista();
+    $("#modal-lista").modal("show");
 });
 
 $("#new").click(function () {
