@@ -79,6 +79,7 @@ def listAll(request):
     dt_list = []
     datos = Persona.objects.filter(habilitado=True).filter(tipo="Socio").all().order_by('-id')
     for item in datos:
+        print(item.id)
         for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=item.id).all().order_by('id'):
             dicc = model_to_dict(item)
             dicc["linea"] = interPersona.fklinea.codigo
