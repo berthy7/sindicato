@@ -24,17 +24,11 @@ import io
 
 @login_required
 def index(request):
-    persona = InternoPersona.objects.all()
-
-    for internoPer in InternoPersona.objects.all().select_related('fkinterno'):
-        interno = internoPer.fkinterno
-
-        internoPer.fklinea = interno.fklinea
-
-        internoPer.save()
-
-
-
+    # persona = InternoPersona.objects.all()
+    # for internoPer in InternoPersona.objects.all().select_related('fkinterno'):
+    #     interno = internoPer.fkinterno
+    #     internoPer.fklinea = interno.fklinea
+    #     internoPer.save()
 
     user = request.user
     try:
