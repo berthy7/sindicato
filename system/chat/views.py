@@ -47,7 +47,7 @@ def home(request):
         fecha10dias = fechaActual + datetime.timedelta(days=10)
 
         # licencias
-        for item in Persona.objects.filter(Q(licenciaFechaVencimiento__range=(fechaActual, fecha10dias)) | Q(licenciaFechaVencimiento__lt=fechaActual)):
+        for item in Persona.objects.filter(habilitado=True).filter(Q(licenciaFechaVencimiento__range=(fechaActual, fecha10dias)) | Q(licenciaFechaVencimiento__lt=fechaActual)):
             # .strftime('%d/%m/%Y')
             dicc = model_to_dict(item)
 
