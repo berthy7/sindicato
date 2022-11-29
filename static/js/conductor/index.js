@@ -242,11 +242,11 @@ function load_table(data_tb) {
                 }
             },
             { title: "Ci", data: "ci" },
+             { title: "", data: "lugarNacimiento", visible: false },
             { title: "Nombre", data: "nombre" },
             { title: "Apellidos", data: "apellidos" },
-            { title: "Domicilio", data: "domicilio" },
+            { title: "Domicilio", data: "domicilio", visible: false  },
             { title: "Telefono", data: "telefono" },
-            { title: "Lugar de Nacimiento", data: "lugarNacimiento", visible: false },
             { title: "Lineas", data: "id",
                 render: function (data, type, row) {
                     a = ''
@@ -299,9 +299,9 @@ function load_table(data_tb) {
         dom: "Bfrtip",
         buttons: [
             {  extend : 'excelHtml5',
-               exportOptions : { columns : [0, 1, 2, 3, 4,5,6,7,8]},
-                sheetName: 'Lista de Socios',
-               title: 'Lista de Socios'  },
+               exportOptions : { columns : [0, 2, 3, 4,5,6,7,8,9]},
+                sheetName: 'Lista de Conductores',
+               title: 'Lista de Conductores'  },
             {  extend : 'pdfHtml5',
                 orientation: 'landscape',
                customize: function(doc) {
@@ -309,9 +309,9 @@ function load_table(data_tb) {
                     doc.styles.tableBodyOdd.alignment = 'center';
                },
                exportOptions : {
-                    columns : [0, 1, 2, 3, 4,5,6,7,8,9]
+                    columns : [0, 2, 3, 4,5,6,7,8,9]
                 },
-               title: 'Lista de Socios'
+               title: 'Lista de Conductores'
             }
         ],
         "order": [ [0, 'desc'] ],

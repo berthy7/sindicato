@@ -35,8 +35,6 @@ def home(request):
             dicc = model_to_dict(item)
             dt_list.append(dicc)
 
-
-
         fechaActual = datetime.datetime.now().date()
         # cumpleaños
         for item in Persona.objects.filter(fechaNacimiento=fechaActual):

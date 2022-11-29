@@ -24,11 +24,11 @@ import io
 
 @login_required
 def index(request):
-    # persona = InternoPersona.objects.all()
-    # for internoPer in InternoPersona.objects.all().select_related('fkinterno'):
-    #     interno = internoPer.fkinterno
-    #     internoPer.fklinea = interno.fklinea
-    #     internoPer.save()
+    persona = InternoPersona.objects.all()
+    for internoPer in InternoPersona.objects.all().select_related('fkinterno'):
+        interno = internoPer.fkinterno
+        internoPer.fklinea = interno.fklinea
+        internoPer.save()
 
     user = request.user
     try:
@@ -74,7 +74,7 @@ def list(request):
     user = request.user
     persona = Persona.objects.filter(fkusuario=user.id)
     if persona[0].fklinea:
-        for interPer in  InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct('fkpersona').all().select_related('fkpersona'):
+        for interPer in  InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct('fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo='Socio').filter(fkpersona__habilitado=True):
             item = interPer.fkpersona
             asignaciones = []
             for interPersona in InternoPersona.objects.filter(habilitado=True).filter(
@@ -115,21 +115,15 @@ def listAll(request):
     return JsonResponse(dt_list, safe=False)
 @login_required
 def obtain(request,id):
-
     persona = Persona.objects.get(id=id)
-
     if persona.fechaNacimiento:
         persona.fechaNacimiento = persona.fechaNacimiento.strftime('%d/%m/%Y')
     if persona.licenciaFechaVencimiento:
         persona.licenciaFechaVencimiento = persona.licenciaFechaVencimiento.strftime('%d/%m/%Y')
-
     referencias = []
-
     for ref in PersonaReferencia.objects.filter(habilitado=True).filter(fkpersona=persona.id).all().order_by('id'):
         referencias.append(model_to_dict(ref))
-
     asignaciones = []
-
     for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=persona.id).all().order_by('id'):
 
         # interno = interPersona.fkinterno
@@ -205,10 +199,11 @@ def insert(request):
                 PersonaReferencia.objects.create(**ref)
 
             for asig in dicc["lineas"]:
+                asig["fklinea"] = Linea.objects.get(id=asig["fklinea"])
                 asig["fkinterno"] =  Interno.objects.get(id=asig["fkinterno"])
                 asig["fkpersona"] = persona
+                asig["tipoPersona"] = dicc["obj"]['tipo']
                 del asig['interPersonaId']
-                del asig['fklinea']
                 del asig['linea']
                 del asig['interno']
 
@@ -577,11 +572,23 @@ def reporte(request,id):
 def listarPersonaXTipo(request,id):
 
     dt_list = []
-    datos = Persona.objects.filter(habilitado=True).filter(tipo=id).all().order_by('nombre')
-    for item in datos:
-        dt_list.append(dict(id=item.id, nombre=item.nombre + " " + item.apellidos))
+    user = request.user
+    persona = Persona.objects.filter(fkusuario=user.id)
+    if persona[0].fklinea:
+        for interPer in InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct(
+                'fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo='Socio').filter(fkpersona__habilitado=True):
+            item = interPer.fkpersona
+            dt_list.append(dict(id=item.id, nombre=item.nombre + " " + item.apellidos))
+        return JsonResponse(dt_list, safe=False)
 
-    return JsonResponse(dt_list, safe=False)
+    else:
+        datos = Persona.objects.filter(habilitado=True).filter(tipo=id).all().order_by('nombre')
+        for item in datos:
+            dt_list.append(dict(id=item.id, nombre=item.nombre + " " + item.apellidos))
+
+        return JsonResponse(dt_list, safe=False)
+
+
 @login_required
 def agregarInternos(request):
     try:
@@ -599,6 +606,8 @@ def agregarInternos(request):
             dicc['fkinterno'] = None
 
         dicc['fkpersona'] = Persona.objects.get(id=dicc["fkpersona"])
+
+        dicc['tipoPersona'] = dicc['fkpersona'].tipo
         InternoPersona.objects.create(**dicc)
 
         return JsonResponse(dict(success=True, mensaje="Agregado Correctamente",tipo="success"), safe=False)

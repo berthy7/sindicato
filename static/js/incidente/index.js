@@ -104,7 +104,6 @@ function reload_select_tipo() {
     });
 }
 
-
 function reload_table() {
     $.ajax({
         method: "GET",

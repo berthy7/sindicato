@@ -49,7 +49,7 @@ def list(request):
     user = request.user
     persona = Persona.objects.filter(fkusuario=user.id)
     if persona[0].fklinea:
-        for interPer in  InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct('fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo="Conductor"):
+        for interPer in  InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct('fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo="Conductor").filter(fkpersona__habilitado=True):
             item = interPer.fkpersona
             asignaciones = []
             for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=item.id).all().order_by(

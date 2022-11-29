@@ -242,7 +242,7 @@ function load_table(data_tb) {
             { title: "", data: "lugarNacimiento", visible: false },
             { title: "Nombre", data: "nombre" },
             { title: "Apellidos", data: "apellidos" },
-            { title: "Domicilio", data: "domicilio" },
+            { title: "Domicilio", data: "domicilio", visible: false },
             { title: "Telefono", data: "telefono" },
             { title: "Lineas", data: "id",
                 render: function (data, type, row) {
