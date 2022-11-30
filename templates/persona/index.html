@@ -29,6 +29,17 @@
                 <i class="mdi mdi-clipboard-list-outline"></i>
               </button>
 
+              <div class="row">
+                    <div class="col-12 col-sm-4">
+                        <div class="form-group mb-3">
+                            <select id="socios" name="socios" class="form-control show-tick">
+                           {% for i in personas %}
+                              <option value="{{ i.id }}">{{ i.nombre }} {{ i.apellidos }}</option>
+                           {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+              </div>
             <div class="content">
               <table id="data_table" class="table table-striped dt-responsive nowrap w-100"></table>
             </div>

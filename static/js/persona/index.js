@@ -13,7 +13,12 @@ $(document).ready( function () {
     reload_table();
 });
 
-
+$('#socios').selectpicker({
+  size: 7,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Buscar Socio'
+});
 $('#fklinea').selectpicker({
   size: 7,
   liveSearch: true,
@@ -560,6 +565,72 @@ function delete_interno(self) {
 
     })
 }
+
+$('#socios').change(function () {
+
+     $.ajax({
+        method: "GET",
+        url: '/persona/'+$(this).val(),
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            let self = response.obj
+
+            limpiar()
+            $(".form-control").val("");
+            $('#id').val(self.id)
+            $('#ci').val(self.ci)
+            $('#nombre').val(self.nombre)
+            $('#apellidos').val(self.apellidos)
+            $('#telefono').val(self.telefono)
+            $('#genero').selectpicker("val", String(self.genero));
+            $('#licenciaNro').val(self.licenciaNro)
+            $('#licenciaCategoria').selectpicker("val", String(self.licenciaCategoria));
+            $('#fechaNacimiento').val(self.fechaNacimiento)
+            $('#licenciaFechaVencimiento').val(self.licenciaFechaVencimiento);
+            $('#lugarNacimiento').selectpicker("val", String(self.lugarNacimiento));
+            $('#domicilio').val(self.domicilio)
+            $('#socioConductor').selectpicker("val", String(self.socioConductor));
+
+            if (self.foto) {
+              $('#icon-foto').addClass('d-none');
+              $('#img-foto').prop('src', '/static/upload/'+self.foto);
+              $('#img-foto').removeClass('d-none');
+            }
+
+            if (self.fotoCi) {
+              $('#icon-ci').addClass('d-none');
+              $('#img-ci').prop('src', '/static/upload/'+self.fotoCi);
+              $('#img-ci').removeClass('d-none');
+            }
+
+            if (self.fotoLicencia) {
+              $('#icon-licencia').addClass('d-none');
+              $('#img-licencia').prop('src', '/static/upload/'+self.fotoLicencia);
+              $('#img-licencia').removeClass('d-none');
+            }
+
+            $('#fklinea').selectpicker("val", '');
+            $('#fkinterno').selectpicker("val", '');
+
+            referencias = response.referencias
+            load_table_referencia(referencias)
+            lineasAgregadas = response.asignaciones
+            load_table_lineasAgregadas(lineasAgregadas)
+
+            $("#submit_form").attr("hidden", false);
+            $("#submit_form-referencia").attr("hidden", true);
+
+            $('.item-form').parent().addClass('focused')
+            $('#upsert').show()
+            $('#modal').modal('show')
+            $('#socios').selectpicker("val", '');
+        },
+        error: function (jqXHR, status, err) {
+        }
+    });
+
+});
 
 $('#fklinea').change(function () {
 

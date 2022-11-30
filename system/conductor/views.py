@@ -29,6 +29,7 @@ def index(request):
     try:
         persona = Persona.objects.filter(fkusuario=user.id)
         rol = persona[0].fkrol.name
+        conductores = Persona.objects.filter(habilitado=True).filter(tipo="Conductor").all().order_by('nombre')
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
@@ -39,7 +40,7 @@ def index(request):
             lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
     except Exception as e:
         print(e)
-    return render(request, 'conductor/index.html', {'lineas':lineas,
+    return render(request, 'conductor/index.html', {'lineas':lineas,'conductores':conductores,
                                                    'usuario': user.first_name + " " + user.last_name,
                                                    'rol': rol, 'lineaUser': lineaUser})
 

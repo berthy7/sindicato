@@ -24,16 +24,19 @@ import io
 
 @login_required
 def index(request):
-    # persona = InternoPersona.objects.all()
-    # for internoPer in InternoPersona.objects.all().select_related('fkinterno'):
-    #     interno = internoPer.fkinterno
-    #     internoPer.fklinea = interno.fklinea
-    #     internoPer.save()
+    persona = InternoPersona.objects.all()
+    for internoPer in InternoPersona.objects.all().select_related('fkinterno'):
+        interno = internoPer.fkinterno
+        internoPer.fklinea = interno.fklinea
+        internoPer.save()
 
     user = request.user
     try:
         persona = Persona.objects.filter(fkusuario=user.id)
         rol = persona[0].fkrol.name
+
+        personas = Persona.objects.filter(habilitado=True).filter(tipo="Socio").all().order_by('nombre')
+
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
@@ -44,7 +47,7 @@ def index(request):
             lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
     except Exception as e:
         print(e)
-    return render(request, 'persona/index.html', {'lineas':lineas,
+    return render(request, 'persona/index.html', {'lineas':lineas,'personas':personas,
                                                    'usuario': user.first_name + " " + user.last_name,
                                                    'rol': rol, 'lineaUser': lineaUser})
 
@@ -576,7 +579,7 @@ def listarPersonaXTipo(request,id):
     persona = Persona.objects.filter(fkusuario=user.id)
     if persona[0].fklinea:
         for interPer in InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct(
-                'fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo='Socio').filter(fkpersona__habilitado=True):
+                'fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo=id).filter(fkpersona__habilitado=True):
             item = interPer.fkpersona
             dt_list.append(dict(id=item.id, nombre=item.nombre + " " + item.apellidos))
         return JsonResponse(dt_list, safe=False)
