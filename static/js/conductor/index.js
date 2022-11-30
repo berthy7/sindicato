@@ -9,6 +9,8 @@ let lineasAgregadas = []
 
 let lista = []
 
+let swPermiso = true
+
 $(document).ready( function () {
     reload_table();
 });
@@ -116,7 +118,7 @@ function add_columns_referencia() {
             render: function(data, type, row) {
                  const dataObject = JSON.stringify(row);
                 a = ''
-                // if (row.disable === '') {
+                if (swPermiso) {
                     a += `\
                         <button data-object='${dataObject}'  type="button" class="btn btn-primary edit" title="Editar" onclick="edit_referencia(this)">\
                             <i class="mdi mdi-file-document-edit"></i>\
@@ -127,7 +129,7 @@ function add_columns_referencia() {
                         <button data-object='${dataObject}' data-id='${ data}'  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="eliminar_referencia(this)">\
                             <i class="mdi mdi-delete"></i>\
                         </button>`
-                // }
+                }
                 if (a === '') a = 'Sin permisos';
                 return a
             }
@@ -171,13 +173,14 @@ function add_columns_lineasAgregadas() {
                 render: function(data, type, row) {
                      const dataObject = JSON.stringify(row);
                     a = ''
-                    // if (row.delete) {
 
+if(swPermiso){
                         a += `\
                             <button data-object='${dataObject}' data-id='${ data}'  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="eliminar_linea(this)">\
                                 <i class="mdi mdi-delete"></i>\
                             </button>`
-                    // }
+     }
+
                     if (a === '') a = 'Sin permisos';
                     return a
                 }
@@ -581,6 +584,7 @@ $('#conductores').change(function () {
             let self = response.obj
 
             limpiar()
+            swPermiso = false
             $(".form-control").val("");
             $('#id').val(self.id)
             $('#ci').val(self.ci)
@@ -684,7 +688,7 @@ $("#lista").click(function () {
 });
 
 $("#new").click(function () {
-
+    swPermiso = true
     $("#general").attr("aria-expanded", true);
     $("#adjuntos").attr("aria-expanded", false);
 
@@ -962,6 +966,7 @@ function delete_referencias(self) {
             let self = response.obj
 
             limpiar()
+             swPermiso = true
             $(".form-control").val("");
             $('#id').val(self.id)
             $('#ci').val(self.ci)

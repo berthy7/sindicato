@@ -5,10 +5,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/conductor/index.js" afterPath="$PROJECT_DIR$/static/js/conductor/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/persona/index.js" afterPath="$PROJECT_DIR$/static/js/persona/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/conductor/views.py" afterPath="$PROJECT_DIR$/system/conductor/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/persona/views.py" afterPath="$PROJECT_DIR$/system/persona/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/conductor/index.html" afterPath="$PROJECT_DIR$/templates/conductor/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/persona/index.html" afterPath="$PROJECT_DIR$/templates/persona/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/_leftbar.html" afterPath="$PROJECT_DIR$/templates/_leftbar.html" />
     </list>
     <ignored path="sindicato.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,7 +30,7 @@
     <favorites_list name="sindicato" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.48350966">
+    <splitter split-orientation="horizontal" split-proportion="0.5159705">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
@@ -45,22 +43,22 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/system/persona/views.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="68">
-                  <caret line="26" column="11" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="11" />
+                <state relative-caret-position="170">
+                  <caret line="32" column="23" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
                   <folding>
-                    <element signature="e#6750#6875#0" expanded="false" />
-                    <element signature="e#6917#9714#0" expanded="false" />
-                    <element signature="e#9756#11460#0" expanded="false" />
-                    <element signature="e#11501#11836#0" expanded="false" />
-                    <element signature="e#11878#12230#0" expanded="false" />
-                    <element signature="e#12277#22535#0" expanded="false" />
-                    <element signature="e#24295#24769#0" expanded="false" />
-                    <element signature="e#24826#25261#0" expanded="false" />
-                    <element signature="e#25314#25776#0" expanded="false" />
-                    <element signature="e#25831#26294#0" expanded="false" />
+                    <element signature="e#6760#6885#0" expanded="false" />
+                    <element signature="e#6927#9724#0" expanded="false" />
+                    <element signature="e#9766#11470#0" expanded="false" />
+                    <element signature="e#11511#11846#0" expanded="false" />
+                    <element signature="e#11888#12240#0" expanded="false" />
+                    <element signature="e#12287#22545#0" expanded="false" />
+                    <element signature="e#24305#24779#0" expanded="false" />
+                    <element signature="e#24836#25271#0" expanded="false" />
+                    <element signature="e#25324#25786#0" expanded="false" />
+                    <element signature="e#25841#26304#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -69,15 +67,12 @@
           <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/static/js/persona/index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="181">
-                  <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+                <state relative-caret-position="235">
+                  <caret line="116" column="47" selection-start-line="116" selection-start-column="47" selection-end-line="116" selection-end-column="47" />
                   <folding>
-                    <element signature="n#!!block;n#add_columns_referencia#0" expanded="false" />
                     <element signature="n#!!block;n#load_table_referencia#0" expanded="false" />
                     <element signature="n#!!block;n#add_columns_lineasAgregadas#0" expanded="false" />
-                    <element signature="n#!!block;n#load_table_lineasAgregadas#0" expanded="false" />
                     <element signature="n#!!block;n#delete_reload_table_lineasAgregadas#0" expanded="false" />
-                    <element signature="n#!!block;n#add_reload_table_lineasAgregadas#0" expanded="false" />
                     <element signature="n#!!block;n#load_table#0" expanded="false" />
                     <element signature="n#!!block;n#reload_table#0" expanded="false" />
                     <element signature="n#!!block;n#add_columns_lista#0" expanded="false" />
@@ -88,10 +83,10 @@
                     <element signature="n#!!block;n#add_interno#0" expanded="false" />
                     <element signature="n#!!block;n#eliminar_linea#0" expanded="false" />
                     <element signature="n#!!block;n#delete_interno#0" expanded="false" />
-                    <element signature="e#20488#21695#0" expanded="false" />
-                    <element signature="e#21826#22350#0" expanded="false" />
-                    <element signature="e#22391#22791#0" expanded="false" />
-                    <element signature="e#22835#23156#0" expanded="false" />
+                    <element signature="e#20594#21801#0" expanded="false" />
+                    <element signature="e#21932#22476#0" expanded="false" />
+                    <element signature="e#22517#22917#0" expanded="false" />
+                    <element signature="e#22961#23282#0" expanded="false" />
                     <element signature="n#!!block;n#function#1" expanded="false" />
                     <element signature="n#!!block;n#add_reload_table_referencias#0" expanded="false" />
                     <element signature="n#!!block;n#add_referencia#0" expanded="false" />
@@ -100,15 +95,25 @@
                     <element signature="n#!!block;n#edit_referencia#0" expanded="false" />
                     <element signature="n#!!block;n#delete_reload_table_referencias#0" expanded="false" />
                     <element signature="n#!!block;n#delete_referencias#0" expanded="false" />
-                    <element signature="e#30073#30352#0" expanded="false" />
-                    <element signature="e#30356#30402#0" expanded="false" />
-                    <marker date="1669805724844" expanded="true" signature="2732:2839" placeholder="..." />
-                    <marker date="1669805724844" expanded="true" signature="3109:3204" placeholder="..." />
-                    <marker date="1669805724844" expanded="true" signature="4698:4801" placeholder="..." />
-                    <marker date="1669805724844" expanded="true" signature="8519:8634" placeholder="..." />
-                    <marker date="1669805724844" expanded="true" signature="8891:8994" placeholder="..." />
-                    <marker date="1669805724844" expanded="true" signature="9186:9295" placeholder="..." />
+                    <element signature="e#30199#30478#0" expanded="false" />
+                    <element signature="e#30482#30528#0" expanded="false" />
+                    <marker date="1669807980764" expanded="true" signature="2785:2892" placeholder="..." />
+                    <marker date="1669807980764" expanded="true" signature="3162:3257" placeholder="..." />
+                    <marker date="1669807980764" expanded="true" signature="4751:4854" placeholder="..." />
+                    <marker date="1669807980764" expanded="true" signature="8595:8710" placeholder="..." />
+                    <marker date="1669807980764" expanded="true" signature="8967:9070" placeholder="..." />
+                    <marker date="1669807980764" expanded="true" signature="9262:9371" placeholder="..." />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="_leftbar.html" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/templates/_leftbar.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="537">
+                  <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -140,12 +145,10 @@
           <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/static/js/conductor/index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="272">
-                  <caret line="22" column="28" selection-start-line="22" selection-start-column="28" selection-end-line="22" selection-end-column="28" />
+                <state relative-caret-position="178">
+                  <caret line="119" column="22" selection-start-line="119" selection-start-column="22" selection-end-line="119" selection-end-column="22" />
                   <folding>
-                    <element signature="n#!!block;n#add_columns_referencia#0" expanded="false" />
                     <element signature="n#!!block;n#load_table_referencia#0" expanded="false" />
-                    <element signature="n#!!block;n#add_columns_lineasAgregadas#0" expanded="false" />
                     <element signature="n#!!block;n#load_table_lineasAgregadas#0" expanded="false" />
                     <element signature="n#!!block;n#delete_reload_table_lineasAgregadas#0" expanded="false" />
                     <element signature="n#!!block;n#add_reload_table_lineasAgregadas#0" expanded="false" />
@@ -159,10 +162,10 @@
                     <element signature="n#!!block;n#add_interno#0" expanded="false" />
                     <element signature="n#!!block;n#eliminar_linea#0" expanded="false" />
                     <element signature="n#!!block;n#delete_interno#0" expanded="false" />
-                    <element signature="e#20556#21763#0" expanded="false" />
-                    <element signature="e#21894#22418#0" expanded="false" />
-                    <element signature="e#22459#22859#0" expanded="false" />
-                    <element signature="e#22903#23224#0" expanded="false" />
+                    <element signature="e#20550#21757#0" expanded="false" />
+                    <element signature="e#21888#22432#0" expanded="false" />
+                    <element signature="e#22473#22873#0" expanded="false" />
+                    <element signature="e#22917#23238#0" expanded="false" />
                     <element signature="n#!!block;n#function#1" expanded="false" />
                     <element signature="n#!!block;n#add_reload_table_referencias#0" expanded="false" />
                     <element signature="n#!!block;n#add_referencia#0" expanded="false" />
@@ -171,16 +174,15 @@
                     <element signature="n#!!block;n#edit_referencia#0" expanded="false" />
                     <element signature="n#!!block;n#delete_reload_table_referencias#0" expanded="false" />
                     <element signature="n#!!block;n#delete_referencias#0" expanded="false" />
-                    <element signature="e#30186#32543#0" expanded="false" />
                     <element signature="n#!!block;n#function#2" expanded="false" />
                     <element signature="n#!!block;n#set_enable#0" expanded="false" />
                     <element signature="n#!!block;n#delete_item#0" expanded="false" />
-                    <marker date="1669806571767" expanded="true" signature="2742:2849" placeholder="..." />
-                    <marker date="1669806571767" expanded="true" signature="3119:3214" placeholder="..." />
-                    <marker date="1669806571767" expanded="true" signature="4708:4811" placeholder="..." />
-                    <marker date="1669806571767" expanded="true" signature="8579:8694" placeholder="..." />
-                    <marker date="1669806571767" expanded="true" signature="8951:9054" placeholder="..." />
-                    <marker date="1669806571767" expanded="true" signature="9246:9355" placeholder="..." />
+                    <marker date="1669808001029" expanded="true" signature="2752:2859" placeholder="..." />
+                    <marker date="1669808001029" expanded="true" signature="3129:3224" placeholder="..." />
+                    <marker date="1669808001029" expanded="true" signature="4689:4792" placeholder="..." />
+                    <marker date="1669808001029" expanded="true" signature="8543:8658" placeholder="..." />
+                    <marker date="1669808001029" expanded="true" signature="8915:9018" placeholder="..." />
+                    <marker date="1669808001029" expanded="true" signature="9210:9319" placeholder="..." />
                   </folding>
                 </state>
               </provider>
@@ -244,17 +246,17 @@
         <option value="$PROJECT_DIR$/system/conductor/urls.py" />
         <option value="$PROJECT_DIR$/templates/conductor/_form.html" />
         <option value="$PROJECT_DIR$/system/vehiculo/views.py" />
-        <option value="$PROJECT_DIR$/templates/_leftbar.html" />
         <option value="$PROJECT_DIR$/templates/persona/_form.html" />
         <option value="$PROJECT_DIR$/system/chat/views.py" />
         <option value="$PROJECT_DIR$/server/settings.py" />
         <option value="$PROJECT_DIR$/static/js/incidente/index.js" />
-        <option value="$PROJECT_DIR$/static/js/persona/index.js" />
         <option value="$PROJECT_DIR$/templates/persona/index.html" />
         <option value="$PROJECT_DIR$/system/conductor/views.py" />
         <option value="$PROJECT_DIR$/templates/conductor/index.html" />
-        <option value="$PROJECT_DIR$/static/js/conductor/index.js" />
         <option value="$PROJECT_DIR$/system/persona/views.py" />
+        <option value="$PROJECT_DIR$/static/js/persona/index.js" />
+        <option value="$PROJECT_DIR$/static/js/conductor/index.js" />
+        <option value="$PROJECT_DIR$/templates/_leftbar.html" />
       </list>
     </option>
   </component>
@@ -392,82 +394,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="persona" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sindicato" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sindicato" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sindicato" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sindicato" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sindicato" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sindicato" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="persona" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sindicato" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sindicato" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="conductor" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -792,9 +718,9 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.4978678" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24918744" sideWeight="0.42430705" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24918744" sideWeight="0.42430705" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29329005" sideWeight="0.5453092" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29252437" sideWeight="0.5453092" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42145178" sideWeight="0.46801707" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -855,7 +781,7 @@
           <option name="timeStamp" value="199" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="200" />
+      <option name="time" value="201" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1144,14 +1070,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/_leftbar.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1683">
-          <caret line="99" column="0" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/chat/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="731">
@@ -1233,59 +1151,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/persona/index.js">
+    <entry file="file://$PROJECT_DIR$/system/persona/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+        <state relative-caret-position="170">
+          <caret line="32" column="23" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
           <folding>
-            <element signature="n#!!block;n#add_columns_referencia#0" expanded="false" />
-            <element signature="n#!!block;n#load_table_referencia#0" expanded="false" />
-            <element signature="n#!!block;n#add_columns_lineasAgregadas#0" expanded="false" />
-            <element signature="n#!!block;n#load_table_lineasAgregadas#0" expanded="false" />
-            <element signature="n#!!block;n#delete_reload_table_lineasAgregadas#0" expanded="false" />
-            <element signature="n#!!block;n#add_reload_table_lineasAgregadas#0" expanded="false" />
-            <element signature="n#!!block;n#load_table#0" expanded="false" />
-            <element signature="n#!!block;n#reload_table#0" expanded="false" />
-            <element signature="n#!!block;n#add_columns_lista#0" expanded="false" />
-            <element signature="n#!!block;n#load_table_lista#0" expanded="false" />
-            <element signature="n#!!block;n#reload_table_lista#0" expanded="false" />
-            <element signature="n#!!block;n#limpiar#0" expanded="false" />
-            <element signature="n#!!block;n#function#0" expanded="false" />
-            <element signature="n#!!block;n#add_interno#0" expanded="false" />
-            <element signature="n#!!block;n#eliminar_linea#0" expanded="false" />
-            <element signature="n#!!block;n#delete_interno#0" expanded="false" />
-            <element signature="e#20488#21695#0" expanded="false" />
-            <element signature="e#21826#22350#0" expanded="false" />
-            <element signature="e#22391#22791#0" expanded="false" />
-            <element signature="e#22835#23156#0" expanded="false" />
-            <element signature="n#!!block;n#function#1" expanded="false" />
-            <element signature="n#!!block;n#add_reload_table_referencias#0" expanded="false" />
-            <element signature="n#!!block;n#add_referencia#0" expanded="false" />
-            <element signature="n#!!block;n#update_referencia#0" expanded="false" />
-            <element signature="n#!!block;n#eliminar_referencia#0" expanded="false" />
-            <element signature="n#!!block;n#edit_referencia#0" expanded="false" />
-            <element signature="n#!!block;n#delete_reload_table_referencias#0" expanded="false" />
-            <element signature="n#!!block;n#delete_referencias#0" expanded="false" />
-            <element signature="e#30073#30352#0" expanded="false" />
-            <element signature="e#30356#30402#0" expanded="false" />
-            <marker date="1669805724844" expanded="true" signature="2732:2839" placeholder="..." />
-            <marker date="1669805724844" expanded="true" signature="3109:3204" placeholder="..." />
-            <marker date="1669805724844" expanded="true" signature="4698:4801" placeholder="..." />
-            <marker date="1669805724844" expanded="true" signature="8519:8634" placeholder="..." />
-            <marker date="1669805724844" expanded="true" signature="8891:8994" placeholder="..." />
-            <marker date="1669805724844" expanded="true" signature="9186:9295" placeholder="..." />
+            <element signature="e#6760#6885#0" expanded="false" />
+            <element signature="e#6927#9724#0" expanded="false" />
+            <element signature="e#9766#11470#0" expanded="false" />
+            <element signature="e#11511#11846#0" expanded="false" />
+            <element signature="e#11888#12240#0" expanded="false" />
+            <element signature="e#12287#22545#0" expanded="false" />
+            <element signature="e#24305#24779#0" expanded="false" />
+            <element signature="e#24836#25271#0" expanded="false" />
+            <element signature="e#25324#25786#0" expanded="false" />
+            <element signature="e#25841#26304#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/conductor/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="22" column="28" selection-start-line="22" selection-start-column="28" selection-end-line="22" selection-end-column="28" />
+        <state relative-caret-position="178">
+          <caret line="119" column="22" selection-start-line="119" selection-start-column="22" selection-end-line="119" selection-end-column="22" />
           <folding>
-            <element signature="n#!!block;n#add_columns_referencia#0" expanded="false" />
             <element signature="n#!!block;n#load_table_referencia#0" expanded="false" />
-            <element signature="n#!!block;n#add_columns_lineasAgregadas#0" expanded="false" />
             <element signature="n#!!block;n#load_table_lineasAgregadas#0" expanded="false" />
             <element signature="n#!!block;n#delete_reload_table_lineasAgregadas#0" expanded="false" />
             <element signature="n#!!block;n#add_reload_table_lineasAgregadas#0" expanded="false" />
@@ -1299,10 +1189,10 @@
             <element signature="n#!!block;n#add_interno#0" expanded="false" />
             <element signature="n#!!block;n#eliminar_linea#0" expanded="false" />
             <element signature="n#!!block;n#delete_interno#0" expanded="false" />
-            <element signature="e#20556#21763#0" expanded="false" />
-            <element signature="e#21894#22418#0" expanded="false" />
-            <element signature="e#22459#22859#0" expanded="false" />
-            <element signature="e#22903#23224#0" expanded="false" />
+            <element signature="e#20550#21757#0" expanded="false" />
+            <element signature="e#21888#22432#0" expanded="false" />
+            <element signature="e#22473#22873#0" expanded="false" />
+            <element signature="e#22917#23238#0" expanded="false" />
             <element signature="n#!!block;n#function#1" expanded="false" />
             <element signature="n#!!block;n#add_reload_table_referencias#0" expanded="false" />
             <element signature="n#!!block;n#add_referencia#0" expanded="false" />
@@ -1311,36 +1201,66 @@
             <element signature="n#!!block;n#edit_referencia#0" expanded="false" />
             <element signature="n#!!block;n#delete_reload_table_referencias#0" expanded="false" />
             <element signature="n#!!block;n#delete_referencias#0" expanded="false" />
-            <element signature="e#30186#32543#0" expanded="false" />
             <element signature="n#!!block;n#function#2" expanded="false" />
             <element signature="n#!!block;n#set_enable#0" expanded="false" />
             <element signature="n#!!block;n#delete_item#0" expanded="false" />
-            <marker date="1669806571767" expanded="true" signature="2742:2849" placeholder="..." />
-            <marker date="1669806571767" expanded="true" signature="3119:3214" placeholder="..." />
-            <marker date="1669806571767" expanded="true" signature="4708:4811" placeholder="..." />
-            <marker date="1669806571767" expanded="true" signature="8579:8694" placeholder="..." />
-            <marker date="1669806571767" expanded="true" signature="8951:9054" placeholder="..." />
-            <marker date="1669806571767" expanded="true" signature="9246:9355" placeholder="..." />
+            <marker date="1669808001029" expanded="true" signature="2752:2859" placeholder="..." />
+            <marker date="1669808001029" expanded="true" signature="3129:3224" placeholder="..." />
+            <marker date="1669808001029" expanded="true" signature="4689:4792" placeholder="..." />
+            <marker date="1669808001029" expanded="true" signature="8543:8658" placeholder="..." />
+            <marker date="1669808001029" expanded="true" signature="8915:9018" placeholder="..." />
+            <marker date="1669808001029" expanded="true" signature="9210:9319" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/persona/views.py">
+    <entry file="file://$PROJECT_DIR$/static/js/persona/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="26" column="11" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="11" />
+        <state relative-caret-position="235">
+          <caret line="116" column="47" selection-start-line="116" selection-start-column="47" selection-end-line="116" selection-end-column="47" />
           <folding>
-            <element signature="e#6750#6875#0" expanded="false" />
-            <element signature="e#6917#9714#0" expanded="false" />
-            <element signature="e#9756#11460#0" expanded="false" />
-            <element signature="e#11501#11836#0" expanded="false" />
-            <element signature="e#11878#12230#0" expanded="false" />
-            <element signature="e#12277#22535#0" expanded="false" />
-            <element signature="e#24295#24769#0" expanded="false" />
-            <element signature="e#24826#25261#0" expanded="false" />
-            <element signature="e#25314#25776#0" expanded="false" />
-            <element signature="e#25831#26294#0" expanded="false" />
+            <element signature="n#!!block;n#load_table_referencia#0" expanded="false" />
+            <element signature="n#!!block;n#add_columns_lineasAgregadas#0" expanded="false" />
+            <element signature="n#!!block;n#delete_reload_table_lineasAgregadas#0" expanded="false" />
+            <element signature="n#!!block;n#load_table#0" expanded="false" />
+            <element signature="n#!!block;n#reload_table#0" expanded="false" />
+            <element signature="n#!!block;n#add_columns_lista#0" expanded="false" />
+            <element signature="n#!!block;n#load_table_lista#0" expanded="false" />
+            <element signature="n#!!block;n#reload_table_lista#0" expanded="false" />
+            <element signature="n#!!block;n#limpiar#0" expanded="false" />
+            <element signature="n#!!block;n#function#0" expanded="false" />
+            <element signature="n#!!block;n#add_interno#0" expanded="false" />
+            <element signature="n#!!block;n#eliminar_linea#0" expanded="false" />
+            <element signature="n#!!block;n#delete_interno#0" expanded="false" />
+            <element signature="e#20594#21801#0" expanded="false" />
+            <element signature="e#21932#22476#0" expanded="false" />
+            <element signature="e#22517#22917#0" expanded="false" />
+            <element signature="e#22961#23282#0" expanded="false" />
+            <element signature="n#!!block;n#function#1" expanded="false" />
+            <element signature="n#!!block;n#add_reload_table_referencias#0" expanded="false" />
+            <element signature="n#!!block;n#add_referencia#0" expanded="false" />
+            <element signature="n#!!block;n#update_referencia#0" expanded="false" />
+            <element signature="n#!!block;n#eliminar_referencia#0" expanded="false" />
+            <element signature="n#!!block;n#edit_referencia#0" expanded="false" />
+            <element signature="n#!!block;n#delete_reload_table_referencias#0" expanded="false" />
+            <element signature="n#!!block;n#delete_referencias#0" expanded="false" />
+            <element signature="e#30199#30478#0" expanded="false" />
+            <element signature="e#30482#30528#0" expanded="false" />
+            <marker date="1669807980764" expanded="true" signature="2785:2892" placeholder="..." />
+            <marker date="1669807980764" expanded="true" signature="3162:3257" placeholder="..." />
+            <marker date="1669807980764" expanded="true" signature="4751:4854" placeholder="..." />
+            <marker date="1669807980764" expanded="true" signature="8595:8710" placeholder="..." />
+            <marker date="1669807980764" expanded="true" signature="8967:9070" placeholder="..." />
+            <marker date="1669807980764" expanded="true" signature="9262:9371" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/_leftbar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="537">
+          <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
