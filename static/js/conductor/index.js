@@ -634,6 +634,7 @@ $('#conductores').change(function () {
             $('.item-form').parent().addClass('focused')
             $('#upsert').show()
             $('#modal').modal('show')
+            $('#conductores').selectpicker("val", '');
         },
         error: function (jqXHR, status, err) {
         }
