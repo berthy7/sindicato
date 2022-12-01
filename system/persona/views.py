@@ -114,7 +114,6 @@ def listAll(request):
                 'fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo="Socio").filter(
             fkpersona__habilitado=True):
             item = interPer.fkpersona
-            print(item.id)
             for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=item.id).all().order_by(
                     'id'):
                 dicc = model_to_dict(item)
