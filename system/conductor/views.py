@@ -79,20 +79,42 @@ def list(request):
 @login_required
 def listAll(request):
     dt_list = []
-    datos = Persona.objects.filter(habilitado=True).filter(tipo="Conductor").all().order_by('-id')
-    for item in datos:
-        for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=item.id).all().order_by('id'):
-            dicc = model_to_dict(item)
-            dicc["linea"] = interPersona.fklinea.codigo
 
-            if interPersona.fkinterno:
-                dicc["interno"] = interPersona.fkinterno.numero
-            else:
-                dicc["interno"] = "-"
+    user = request.user
+    persona = Persona.objects.filter(fkusuario=user.id)
+    if persona[0].fklinea:
+        for interPer in InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct(
+                'fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo="Socio").filter(
+            fkpersona__habilitado=True):
+            item = interPer.fkpersona
+            for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=item.id).all().order_by(
+                    'id'):
+                dicc = model_to_dict(item)
+                dicc["linea"] = interPersona.fklinea.codigo
 
-            dt_list.append(dicc)
+                if interPersona.fkinterno:
+                    dicc["interno"] = interPersona.fkinterno.numero
+                else:
+                    dicc["interno"] = "-"
 
-    return JsonResponse(dt_list, safe=False)
+                dt_list.append(dicc)
+
+        return JsonResponse(dt_list, safe=False)
+    else:
+        datos = Persona.objects.filter(habilitado=True).filter(tipo="Conductor").all().order_by('-id')
+        for item in datos:
+            for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=item.id).all().order_by('id'):
+                dicc = model_to_dict(item)
+                dicc["linea"] = interPersona.fklinea.codigo
+
+                if interPersona.fkinterno:
+                    dicc["interno"] = interPersona.fkinterno.numero
+                else:
+                    dicc["interno"] = "-"
+
+                dt_list.append(dicc)
+
+        return JsonResponse(dt_list, safe=False)
 
 def reporte(request,id):
     user = request.user
