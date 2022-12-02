@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 
 import django_heroku
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary',
 
     'system.login',
     'system.usuario',
@@ -90,27 +94,27 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 # DEV
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sindicato',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
-}
-# PROD
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'ddn46g5p5q5lch',
-#         'USER': 'touhoukkrjmogy',
-#         'PASSWORD': '7cec2ef4dccf96d6053bd0e28cde8eadb884d85ac9b5592ff889f7b15e58cc1b',
-#         'HOST': 'ec2-34-236-7-170.compute-1.amazonaws.com',
+#         'NAME': 'sindicato',
+#         'USER': 'postgres',
+#         'PASSWORD': 'root',
+#         'HOST': '127.0.0.1',
 #         'PORT': '5432',
 #     }
 # }
+# PROD
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ddn46g5p5q5lch',
+        'USER': 'touhoukkrjmogy',
+        'PASSWORD': '7cec2ef4dccf96d6053bd0e28cde8eadb884d85ac9b5592ff889f7b15e58cc1b',
+        'HOST': 'ec2-34-236-7-170.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -163,3 +167,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/login'
 
 django_heroku.settings(locals())
+
+
+# adding config
+cloudinary.config(
+  cloud_name = "hzsnx9vb6",
+  api_key = "674974179794653",
+  api_secret = "1c7thkwiir_KMrTF-1B-fwmJJIA"
+)

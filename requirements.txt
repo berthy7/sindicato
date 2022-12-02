@@ -5,3 +5,4 @@ Django
 django-heroku
 gunicorn
 reportlab
+cloudinary

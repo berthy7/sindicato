@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
+from django.db import models
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 
@@ -15,9 +17,10 @@ class Persona(models.Model):
     licenciaCategoria = models.CharField(max_length=1,null=True)
     licenciaFechaVencimiento = models.DateField(null=True)
     socioConductor = models.CharField(max_length=5, null=True)
-    foto = models.CharField(max_length=255,null=True)
+    foto = models.CharField(max_length=255, null=True)
     fotoCi = models.CharField(max_length=255, null=True)
     fotoLicencia = models.CharField(max_length=255, null=True)
+
 
     lugarNacimiento = models.CharField(max_length=25, null=True)
     telefono = models.CharField(max_length=15, null=True)

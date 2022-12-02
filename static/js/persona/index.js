@@ -241,7 +241,7 @@ function load_table(data_tb) {
                 render: function(data, type, row) {
 
                     image = ![null, '', 'None', 'S/I'].includes(data)?
-                            '<a data-fancybox="gallery" href="/static/upload/' + data + '"><img class="d-flex align-self-center rounded img-thumbnail" src="/static/upload/' + data + '" alt="Imagen" height="64"></a>':
+                            '<a data-fancybox="gallery" href="' + data + '"><img class="d-flex align-self-center rounded img-thumbnail" src="' + data + '" alt="Imagen" height="64"></a>':
                             "<i class='mdi mdi-account-box mdi-48px'></i>";
 
                     return '<div class="media mx-auto align-middle">' + image + '</div>'
@@ -599,19 +599,19 @@ $('#socios').change(function () {
 
             if (self.foto) {
               $('#icon-foto').addClass('d-none');
-              $('#img-foto').prop('src', '/static/upload/'+self.foto);
+              $('#img-foto').prop('src',self.foto);
               $('#img-foto').removeClass('d-none');
             }
 
             if (self.fotoCi) {
               $('#icon-ci').addClass('d-none');
-              $('#img-ci').prop('src', '/static/upload/'+self.fotoCi);
+              $('#img-ci').prop('src',self.fotoCi);
               $('#img-ci').removeClass('d-none');
             }
 
             if (self.fotoLicencia) {
               $('#icon-licencia').addClass('d-none');
-              $('#img-licencia').prop('src', '/static/upload/'+self.fotoLicencia);
+              $('#img-licencia').prop('src', self.fotoLicencia);
               $('#img-licencia').removeClass('d-none');
             }
 
@@ -1038,19 +1038,19 @@ $('#socioConductor').change(function () {
 
             if (self.foto) {
               $('#icon-foto').addClass('d-none');
-              $('#img-foto').prop('src', '/static/upload/'+self.foto);
+              $('#img-foto').prop('src',self.foto);
               $('#img-foto').removeClass('d-none');
             }
 
             if (self.fotoCi) {
               $('#icon-ci').addClass('d-none');
-              $('#img-ci').prop('src', '/static/upload/'+self.fotoCi);
+              $('#img-ci').prop('src', self.fotoCi);
               $('#img-ci').removeClass('d-none');
             }
 
             if (self.fotoLicencia) {
               $('#icon-licencia').addClass('d-none');
-              $('#img-licencia').prop('src', '/static/upload/'+self.fotoLicencia);
+              $('#img-licencia').prop('src', self.fotoLicencia);
               $('#img-licencia').removeClass('d-none');
             }
 

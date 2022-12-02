@@ -21,6 +21,9 @@ from reportlab.lib import colors
 import os.path
 import uuid
 import io
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 @login_required
 def index(request):
@@ -133,9 +136,6 @@ def listAll(request):
                 dt_list.append(dicc)
 
         return JsonResponse(dt_list, safe=False)
-
-
-
 @login_required
 def obtain(request,id):
     persona = Persona.objects.get(id=id)
@@ -166,6 +166,9 @@ def obtain(request,id):
     return JsonResponse(response, safe=False)
 
 
+def upload_cloudinay(foto):
+    resp= cloudinary.uploader.upload('static/upload/'+foto)
+    return resp["secure_url"]
 
 def handle_uploaded_file(f,name):
     with open('static/upload/'+ name,'wb+') as destination:
@@ -182,7 +185,7 @@ def insert(request):
             extn = os.path.splitext(fname)[1]
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo,cname)
-            dicc["obj"]['foto'] = cname
+            dicc["obj"]['foto'] = upload_cloudinay(cname)
 
         fileinfo = files.get('file-ci', None)
         if fileinfo:
@@ -190,7 +193,8 @@ def insert(request):
             extn = os.path.splitext(fname)[1]
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo,cname)
-            dicc["obj"]['fotoCi'] = cname
+            dicc["obj"]['fotoCi'] = upload_cloudinay(cname)
+
 
         fileinfo = files.get('file-licencia', None)
         if fileinfo:
@@ -198,7 +202,7 @@ def insert(request):
             extn = os.path.splitext(fname)[1]
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo, cname)
-            dicc["obj"]['fotoLicencia'] = cname
+            dicc["obj"]['fotoLicencia'] = upload_cloudinay(cname)
 
         # dicc = json.load(request)['obj']
         persona = Persona.objects.filter(ci=dicc["obj"]['ci']).filter(habilitado=True).all()
@@ -214,6 +218,7 @@ def insert(request):
             else:
                 dicc["obj"]['licenciaFechaVencimiento'] = None
             del dicc["obj"]['id']
+
             persona = Persona.objects.create(**dicc["obj"])
 
             for ref in dicc["referencias"]:
@@ -229,7 +234,6 @@ def insert(request):
                 del asig['interPersonaId']
                 del asig['linea']
                 del asig['interno']
-
                 InternoPersona.objects.create(**asig)
 
             return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
@@ -250,7 +254,8 @@ def update(request):
             extn = os.path.splitext(fname)[1]
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo, cname)
-            dicc['foto'] = cname
+            dicc['foto'] = upload_cloudinay(cname)
+
 
         fileinfo = files.get('file-ci', None)
         if fileinfo:
@@ -258,7 +263,7 @@ def update(request):
             extn = os.path.splitext(fname)[1]
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo, cname)
-            dicc['fotoCi'] = cname
+            dicc['fotoCi'] = upload_cloudinay(cname)
 
         fileinfo = files.get('file-licencia', None)
         if fileinfo:
@@ -266,7 +271,7 @@ def update(request):
             extn = os.path.splitext(fname)[1]
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo, cname)
-            dicc['fotoLicencia'] = cname
+            dicc['fotoLicencia'] = upload_cloudinay(cname)
 
 
         if dicc['fechaNacimiento'] != "":

@@ -45,7 +45,6 @@ def list(request):
         datos = Vehiculo.objects.filter(habilitado=True).all().order_by('-id')
 
     for item in datos:
-
         linId = 0
         lin = "Sin linea"
         if item.fklinea != None:
