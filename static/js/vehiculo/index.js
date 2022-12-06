@@ -32,16 +32,6 @@ function add_columns() {
     );
 
     a_cols.push(
-        { title: "Estado", data: "estado",
-            render: function(data, type, row) {
-                let check = data ? 'checked' : ''
-                return '\
-                <div title="' + row.estado + '">\
-                    <input id="enabled' + row.id + '" type="checkbox" class="chk-col-indigo enabled" onclick="set_enable(this)" data-id="' + row.id + '" ' + check + ' ' + row.disable + '>\
-                    <label for="enabled' + row.id + '"></label>\
-                </div>'
-            }
-        },
         { title: "Acciones", data: "id",
             render: function(data, type, row) {
                  const dataObject = JSON.stringify(row);
@@ -184,15 +174,14 @@ function reload_select_categoria() {
     });
 }
 
-$('#fklinea').change(function () {
 
-     $.ajax({
+function listar_internos(idLinea,idInterno,numInterno){
+         $.ajax({
         method: "GET",
-        url: '/linea/listarInternosXLinea/'+$(this).val(),
+        url: '/linea/listarInternosXLinea/'+idLinea,
         dataType: 'json',
         async: false,
         success: function (response) {
-
             $('#fkinterno').html('');
             $('#fkinterno').selectpicker('destroy');
             $('#fkinterno').selectpicker({
@@ -204,12 +193,13 @@ $('#fklinea').change(function () {
 
             var select = document.getElementById("fkinterno")
             var option = document.createElement("OPTION");
-            // option.innerHTML = "Seleccione una opcióna";
-            // option.value = 0;
-            // select.appendChild(option);
+            option.innerHTML = numInterno;
+            option.value = idInterno;
+            select.appendChild(option);
+
 
             for (i of response) {
-                console.log("iter")
+
                 option = document.createElement("OPTION");
                 option.innerHTML = i.numero;
                 option.value = i.id;
@@ -217,12 +207,18 @@ $('#fklinea').change(function () {
                 select.appendChild(option);
             }
             $('#fkinterno').selectpicker('refresh');
+            $('#fkinterno').selectpicker("val", String(idInterno));
 
 
         },
         error: function (jqXHR, status, err) {
         }
     });
+}
+
+$('#fklinea').change(function () {
+
+    listar_internos($(this).val(),'','');
 
 });
 
@@ -230,7 +226,7 @@ $("#new").click(function () {
 
     $("#general").attr("aria-expanded", true);
     $("#adjuntos").attr("aria-expanded", false);
-
+    $('#id').val(0)
     $('#fklinea').selectpicker("val", '');
 
     $('#fkinterno').html('');
@@ -242,8 +238,7 @@ $("#new").click(function () {
       title: 'Seleccione una opción'
     });
 
-   $("#update").hide();
-   $("#insert").show();
+   $("#upsert").show();
    $("#cerrar").show();
    $(".form-control").val("");
    $("#submit_form").removeClass('was-validated');
@@ -261,7 +256,7 @@ $("#new").click(function () {
     $("#modal").modal("show");
 });
 
-$('#insert').on('click',async function() {
+$('#upsert').on('click',async function() {
       const validationData = formValidation('submit_form');
       if (validationData.error) {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
@@ -269,7 +264,8 @@ $('#insert').on('click',async function() {
       }
 
     let req = {
-        objeto : {
+        obj : {
+            id: parseInt($("#id").val()),
             placa: $("#placa").val(),
             modelo: $("#modelo").val(),
             tipo: $("#tipo").val(),
@@ -282,27 +278,53 @@ $('#insert').on('click',async function() {
       fkinterno: parseInt($("#fkinterno").val())
     }
 
-    $("#insert").hide();
-    $("#update").hide();
-    $("#cerrar").hide();
+    $('#upsert').hide();
+      let url = "/vehiculo/insert/";
+      if (parseInt($("#id").val()) != 0){
+              url = "/vehiculo/update/";
+      }
 
-       const response =await fetchData(
-            "/vehiculo/insert/",
-            "POST",
-            JSON.stringify({'obj':req})
-       );
-        if(response.success){
-           showSmallMessage(response.tipo,response.mensaje,"center");
-            setTimeout(function () {
-                $('#modal').modal('hide')
-                reload_table()
-            }, 2000);
-        }else showSmallMessage(response.tipo,response.mensaje,"center");
+  const getCookieLocal = (name) => {
+      const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+      return r ? r[1] : undefined;
+    }
+
+
+    let data = new FormData($('#submit_form').get(0));
+        data.append('obj',JSON.stringify(req))
+
+        $.ajax({
+            method: "POST",
+            url: url,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            data: data,
+            headers:{
+                "X-CSRFToken" : getCookieLocal('csrftoken')
+            },
+            async: false,
+            success: function (response) {
+                $('#upsert').show();
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        $('#modal').modal('hide')
+                        reload_table()
+                    }, 2000);
+              }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
 });
 
 function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
     // clean_data()
+
+    console.log(self)
 
     $('#id').val(self.id)
     $('#placa').val(self.placa)
@@ -311,9 +333,20 @@ function edit_item(e) {
     $('#año').val(self.año)
     $('#fkcategoria').selectpicker("val", String(self.fkcategoria));
 
+    $('#fklinea').selectpicker("val", String(self.fklinea));
+
+    listar_internos(self.fklinea,self.fkinterno,self.interno)
+
+
+    if (self.ruat) {
+      $('#icon-ruat').addClass('d-none');
+      $('#img-ruat').prop('src', self.ruat);
+      $('#img-ruat').removeClass('d-none');
+    }
+
+
     $('.item-form').parent().addClass('focused')
-    $('#insert').hide()
-    $('#update').show()
+    $('#upsert').show()
     $("#cerrar").show();
     $('#modal').modal('show')
 

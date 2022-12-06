@@ -29,7 +29,7 @@ def index(request):
     try:
         persona = Persona.objects.filter(fkusuario=user.id)
         rol = persona[0].fkrol.name
-        conductores = Persona.objects.filter(habilitado=True).filter(tipo="Conductor").all().order_by('nombre')
+        conductores = Persona.objects.filter(habilitado=True).filter(tipo="Conductor").all().order_by('ci')
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo

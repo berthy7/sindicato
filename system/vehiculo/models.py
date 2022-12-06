@@ -13,6 +13,7 @@ class Vehiculo(models.Model):
     fkcategoria = models.ForeignKey(VehiculoCategoria, on_delete=models.CASCADE)
     fklinea = models.IntegerField(null=True)
     fkinterno = models.IntegerField(null=True)
+    ruat = models.CharField(max_length=255, null=True)
 
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)

@@ -8,6 +8,14 @@ from django.forms.models import model_to_dict
 import json
 import datetime
 
+import os.path
+import uuid
+import io
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+
 # Create your views here.
 @login_required
 def index(request):
@@ -46,17 +54,36 @@ def list(request):
 
         dt_list.append(dicc)
     return JsonResponse(dt_list, safe=False)
+
+def upload_cloudinay(foto):
+    resp= cloudinary.uploader.upload('static/upload/'+foto)
+    return resp["secure_url"]
+
+def handle_uploaded_file(f,name):
+    with open('static/upload/'+ name,'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
 @login_required
 def insert(request):
     user = request.user
     try:
-        dicc = json.load(request)['obj']
+        dicc = json.loads(request.POST.get('obj'))
+        files = request.FILES
+        fileinfo = files.get('respaldo', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc['respaldo'] = upload_cloudinay(cname)
 
         dicc["fkpersona"] = Persona.objects.get(id=dicc["fkpersona"]) if dicc["fkpersona"] != "" else None
         dicc["fklinea"] = Linea.objects.get(id=dicc["fklinea"])
         dicc["fktipo"] = IncidenteTipo.objects.get(id=dicc["fktipo"])
         dicc["fkusuario"] = user
         dicc['fecha'] = datetime.datetime.strptime(dicc['fecha'], '%d/%m/%Y')
+        del dicc['id']
 
         Incidente.objects.create(**dicc)
 
@@ -67,7 +94,15 @@ def insert(request):
 @login_required
 def update(request):
     try:
-        dicc = json.load(request)['obj']
+        dicc = json.loads(request.POST.get('obj'))
+        files = request.FILES
+        fileinfo = files.get('respaldo', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc['respaldo'] = upload_cloudinay(cname)
 
         dicc["fkpersona"] = Persona.objects.get(id=dicc["fkpersona"]) if dicc["fkpersona"] != "" else None
         dicc["fklinea"] = Linea.objects.get(id=dicc["fklinea"])

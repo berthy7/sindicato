@@ -7,6 +7,13 @@ from system.persona.models import Persona
 from system.linea.models import Linea,InternoPersona
 import datetime
 
+import os.path
+import uuid
+import io
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 # Create your views here.
 @login_required
 def index(request):
@@ -33,6 +40,7 @@ def list(request):
     dt_list = []
     try:
         persona = Persona.objects.filter(fkusuario=user.id)
+
         if persona[0].fklinea:
             datos = Linea.objects.filter(habilitado=True).filter(id=persona[0].fklinea).all().order_by('-id')
         else:
@@ -48,11 +56,38 @@ def list(request):
         print(e)
     return JsonResponse(dt_list, safe=False)
 
+@login_required
+def mapa(request):
+    dt_list = []
+    datos = Linea.objects.filter(habilitado=True).all().order_by('codigo')
+
+    for item in datos:
+        dt_list.append(dict(id=item.id,codigo=item.codigo,mapa=item.mapa))
+
+    return JsonResponse(dt_list, safe=False)
+
+def upload_cloudinay(foto):
+    resp= cloudinary.uploader.upload('static/upload/'+foto)
+    return resp["secure_url"]
+
+def handle_uploaded_file(f,name):
+    with open('static/upload/'+ name,'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
 
 @login_required
 def insert(request):
     try:
-        dicc = json.load(request)['obj']
+        dicc = json.loads(request.POST.get('obj'))
+        files = request.FILES
+        fileinfo = files.get('mapa', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo,cname)
+            dicc['mapa'] = upload_cloudinay(cname)
+
         dicc['fechaFundacion'] = datetime.datetime.strptime(dicc['fechaFundacion'], '%d/%m/%Y')
         linea = Linea.objects.create(**dicc)
         for i in range(int(linea.internos)):
@@ -67,7 +102,15 @@ def insert(request):
 @login_required
 def update(request):
     try:
-        dicc = json.load(request)['obj']
+        dicc = json.loads(request.POST.get('obj'))
+        files = request.FILES
+        fileinfo = files.get('mapa', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo,cname)
+            dicc['mapa'] = upload_cloudinay(cname)
 
         dicc['fechaFundacion'] = datetime.datetime.strptime(dicc['fechaFundacion'],'%d/%m/%Y')
         Linea.objects.filter(pk=dicc["id"]).update(**dicc)

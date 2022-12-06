@@ -38,7 +38,7 @@ def index(request):
         persona = Persona.objects.filter(fkusuario=user.id)
         rol = persona[0].fkrol.name
 
-        personas = Persona.objects.filter(habilitado=True).filter(tipo="Socio").all().order_by('nombre')
+        personas = Persona.objects.filter(habilitado=True).filter(tipo="Socio").all().order_by('ci')
 
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
@@ -54,26 +54,6 @@ def index(request):
                                                    'usuario': user.first_name + " " + user.last_name,
                                                    'rol': rol, 'lineaUser': lineaUser})
 
-# Create your views here.
-# @login_required
-# def index(request):
-#     user = request.user
-#     try:
-#         persona = Persona.objects.filter(fkusuario=user.id)
-#         rol = persona[0].fkrol.name
-#         if persona[0].fklinea:
-#             linea = get_object_or_404(Linea, id=persona[0].fklinea)
-#             lineaUser = linea.codigo
-#             lineas = Linea.objects.filter(habilitado=True).filter(id=linea.id).all().order_by('id')
-#         else:
-#             rol = "Administrador"
-#             lineaUser = ""
-#             lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
-#     except Exception as e:
-#         print(e)
-#     return render(request, 'persona/index.html', {'lineas':lineas,
-#                                                    'usuario': user.first_name + " " + user.last_name,
-#                                                    'rol': rol, 'lineaUser': lineaUser})
 @login_required
 def list(request):
     dt_list = []
@@ -117,8 +97,9 @@ def listAll(request):
                 'fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo="Socio").filter(
             fkpersona__habilitado=True):
             item = interPer.fkpersona
-            for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=item.id).all().order_by(
+            for interPersona in InternoPersona.objects.filter(fklinea=persona[0].fklinea).filter(habilitado=True).filter(fkpersona=item.id).all().order_by(
                     'id'):
+
                 dicc = model_to_dict(item)
                 dicc["linea"] = interPersona.fklinea.codigo
                 dicc["interno"] = interPersona.fkinterno.numero

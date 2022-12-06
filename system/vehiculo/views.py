@@ -8,6 +8,13 @@ from system.linea.models import Linea,LineaVehiculo,Interno,LineaPersona,Interno
 from django.contrib.auth.models import User
 from system.persona.models import Persona
 
+import os.path
+import uuid
+import io
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 # Create your views here.
 @login_required
 def index(request):
@@ -60,17 +67,36 @@ def list(request):
             interId = interno.id
             inter = interno.numero
 
-        dt_list.append(dict(id=item.id,fklinea=linId,linea=lin,fkinterno=interId,interno=inter,placa=item.placa,
+        dt_list.append(dict(id=item.id,fklinea=linId,linea=lin,fkinterno=interId,interno=inter,placa=item.placa,ruat=item.ruat,
                             modelo=item.modelo,tipo=item.tipo,año=item.año, categoria = item.fkcategoria.nombre, fkcategoria = item.fkcategoria.id, estado=item.estado))
     return JsonResponse(dt_list, safe=False)
+
+def upload_cloudinay(foto):
+    resp= cloudinary.uploader.upload('static/upload/'+foto)
+    return resp["secure_url"]
+
+def handle_uploaded_file(f,name):
+    with open('static/upload/'+ name,'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
 
 @login_required
 def insert(request):
     try:
-        dicc = json.load(request)['obj']
-        dicc["objeto"]["fkcategoria"] = VehiculoCategoria.objects.get(id=dicc["objeto"]["fkcategoria"])
 
-        vehiculo = Vehiculo.objects.create(**dicc["objeto"])
+        dicc = json.loads(request.POST.get('obj'))
+        files = request.FILES
+        fileinfo = files.get('ruat', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['ruat'] = upload_cloudinay(cname)
+
+        dicc["obj"]["fkcategoria"] = VehiculoCategoria.objects.get(id=dicc["obj"]["fkcategoria"])
+        del dicc["obj"]['id']
+        vehiculo = Vehiculo.objects.create(**dicc["obj"])
 
         # registrar linea
         linea = Linea.objects.get(id=dicc["fklinea"])
@@ -101,16 +127,19 @@ def insert(request):
 @login_required
 def update(request):
     try:
-        dicc = json.load(request)['obj']
-        obj = Vehiculo.objects.get(id=dicc["id"])
-        objVehiculoCategoria = VehiculoCategoria.objects.get(id=dicc["fkcategoria"])
+        dicc = json.loads(request.POST.get('obj'))
+        files = request.FILES
+        fileinfo = files.get('ruat', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['ruat'] = upload_cloudinay(cname)
 
-        obj.placa =dicc["placa"]
-        obj.modelo=dicc["modelo"]
-        obj.tipo=dicc["tipo"]
-        obj.año=dicc["año"]
-        obj.fkcategoria = objVehiculoCategoria
-        obj.save()
+        dicc["obj"]['fkcategoria'] = VehiculoCategoria.objects.get(id=dicc["obj"]["fkcategoria"])
+        Vehiculo.objects.filter(pk=dicc["obj"]["id"]).update(**dicc["obj"])
+
         return JsonResponse(dict(success=True,mensaje="Modificado Correctamente"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)

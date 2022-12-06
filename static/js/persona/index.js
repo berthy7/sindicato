@@ -1097,6 +1097,8 @@ $('#upsert').on('click', async function() {
             tipo: "Socio"
       }
 
+    $('#upsert').hide();
+
       let url = "/persona/insert/";
       let object = null;
 
@@ -1115,10 +1117,8 @@ $('#upsert').on('click', async function() {
           const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
           return r ? r[1] : undefined;
         }
-
-        // let data = new FormData($('#submit_form')[0]);
-        var data = new FormData($('#submit_form').get(0));
-
+    
+        let data = new FormData($('#submit_form').get(0));
         data.append('obj',JSON.stringify(object))
 
         $.ajax({
@@ -1133,7 +1133,7 @@ $('#upsert').on('click', async function() {
             },
             async: false,
             success: function (response) {
-
+                $('#upsert').show();
                 if(response.success){
                    showSmallMessage(response.tipo,response.mensaje,"center");
                     setTimeout(function () {
@@ -1146,71 +1146,8 @@ $('#upsert').on('click', async function() {
             error: function (jqXHR, status, err) {
             }
         });
-      // const response = await fetchData(
-      //       url,
-      //       "POST",
-      //       JSON.stringify({'obj':data})
-      // );
-      //
-      //
-      // if(response.success){
-      //      showSmallMessage(response.tipo,response.mensaje,"center");
-      //       setTimeout(function () {
-      //           $('#modal').modal('hide')
-      //           reload_table()
-      //       }, 2000);
-      // }else showSmallMessage(response.tipo,response.mensaje,"center");
 })
 
-// $('#upsert').on('click', async function() {
-//     const validationData = formValidation('submit_form');
-//       if (validationData.error) {
-//         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
-//         return;
-//       }
-//       const objeto ={
-//             id: parseInt($("#id").val()),
-//             ci: $("#ci").val(),
-//             nombre: $("#nombre").val(),
-//             apellidos: $("#apellidos").val(),
-//             genero: $("#genero").val(),
-//             licenciaNro: $("#licenciaNro").val(),
-//             licenciaCategoria: $("#licenciaCategoria").val(),
-//             fechaNacimiento: $("#fechaNacimiento").val(),
-//             licenciaFechaVencimiento: $("#licenciaFechaVencimiento").val(),
-//             telefono: $("#telefono").val(),
-//             domicilio: $("#domicilio").val(),
-//             lugarNacimiento: $("#lugarNacimiento").val(),
-//             socioConductor: $("#socioConductor").val(),
-//             tipo: "Socio"
-//       }
-//
-//       let url = "/persona/insert/";
-//       let data = null;
-//
-//       if (objeto.id != 0){
-//               url = "/persona/update/";
-//              data = objeto;
-//       }else{
-//              data ={
-//                 obj:objeto,
-//                 referencias:referencias,
-//                 lineas:lineasAgregadas
-//             }
-//       }
-//       const response = await fetchData(
-//             url,
-//             "POST",
-//             JSON.stringify({'obj':data})
-//       );
-//       if(response.success){
-//            showSmallMessage(response.tipo,response.mensaje,"center");
-//             setTimeout(function () {
-//                 $('#modal').modal('hide')
-//                 reload_table()
-//             }, 2000);
-//       }else showSmallMessage(response.tipo,response.mensaje,"center");
-// })
 
 function set_enable(e) {
     cb_delete = e

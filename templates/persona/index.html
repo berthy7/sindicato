@@ -34,7 +34,7 @@
                         <div class="form-group mb-3">
                             <select id="socios" name="socios" class="form-control show-tick">
                            {% for i in personas %}
-                              <option value="{{ i.id }}">{{ i.nombre }} {{ i.apellidos }}</option>
+                              <option value="{{ i.id }}">{{ i.ci }} - {{ i.nombre }} {{ i.apellidos }}</option>
                            {% endfor %}
                             </select>
                         </div>

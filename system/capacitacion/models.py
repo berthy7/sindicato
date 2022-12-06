@@ -25,6 +25,7 @@ class Capacitacion(models.Model):
 
     descripcion = models.CharField(max_length=100)
     dictado = models.CharField(max_length=100)
+    respaldo = models.CharField(max_length=255, null=True)
 
     fkusuario = models.ForeignKey(User, on_delete=models.CASCADE)
     fechar = models.DateTimeField(auto_now_add=True)

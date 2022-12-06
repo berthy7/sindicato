@@ -24,6 +24,7 @@ class Incidente(models.Model):
     fkpersona = models.ForeignKey(Persona, on_delete=models.CASCADE, null=True)
     responsable = models.CharField(max_length=100, null=True)
     fecha = models.DateTimeField()
+    respaldo = models.CharField(max_length=255, null=True)
 
     descripcion = models.CharField(max_length=200)
     costo = models.IntegerField(null=True)

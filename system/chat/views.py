@@ -24,42 +24,49 @@ def home(request):
     licencias_list = []
     try:
         persona = Persona.objects.filter(fkusuario=user.id)
+        fechaActual = datetime.datetime.now().date()
+        fecha10dias = fechaActual + datetime.timedelta(days=10)
         if persona[0].fklinea:
-            # datos = Chat.objects.filter(habilitado=True).filter(fkemisor=persona[0].fklinea).all().order_by('-id')
             datos = Chat.objects.filter(habilitado=True).all().order_by('-id')
+            for item in datos:
+                dicc = model_to_dict(item)
+                dt_list.append(dicc)
+            # cumpleaños
+            for interPer in InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct(
+                    'fkpersona').all().select_related('fkpersona').filter(fkpersona__fechaNacimiento=fechaActual).filter(
+                    fkpersona__habilitado=True):
+                item = interPer.fkpersona
+                dicc = model_to_dict(item)
+                cumpleaños_list.append(dicc)
+            # licencias
+            for interPer in InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct(
+                    'fkpersona').all().select_related('fkpersona').filter(fkpersona__habilitado=True).filter(
+                Q(fkpersona__licenciaFechaVencimiento__range=(fechaActual, fecha10dias)) | Q(
+                    fkpersona__licenciaFechaVencimiento__lt=fechaActual)):
+                item = interPer.fkpersona
+                dicc = model_to_dict(item)
+                dicc["licenciaFechaVencimiento"] = item.licenciaFechaVencimiento.strftime('%d/%m/%Y')
+                licencias_list.append(dicc)
         else:
             datos = Chat.objects.filter(habilitado=True).all().order_by('-id')
-
-        for item in datos:
-            # .strftime('%d/%m/%Y')
-            dicc = model_to_dict(item)
-            dt_list.append(dicc)
-
-        fechaActual = datetime.datetime.now().date()
-        # cumpleaños
-        for item in Persona.objects.filter(fechaNacimiento=fechaActual):
-            # .strftime('%d/%m/%Y')
-            dicc = model_to_dict(item)
-            cumpleaños_list.append(dicc)
-
-        fecha10dias = fechaActual + datetime.timedelta(days=10)
-
-        # licencias
-        for item in Persona.objects.filter(habilitado=True).filter(Q(licenciaFechaVencimiento__range=(fechaActual, fecha10dias)) | Q(licenciaFechaVencimiento__lt=fechaActual)):
-            # .strftime('%d/%m/%Y')
-            dicc = model_to_dict(item)
-
-            dicc["licenciaFechaVencimiento"] =item.licenciaFechaVencimiento.strftime('%d/%m/%Y')
-            licencias_list.append(dicc)
-
-
+            for item in datos:
+                dicc = model_to_dict(item)
+                dt_list.append(dicc)
+            # cumpleaños
+            for item in Persona.objects.filter(habilitado=True).filter(fechaNacimiento=fechaActual):
+                dicc = model_to_dict(item)
+                cumpleaños_list.append(dicc)
+            # licencias
+            for item in Persona.objects.filter(habilitado=True).filter(
+                Q(licenciaFechaVencimiento__range=(fechaActual, fecha10dias)) | Q(
+                    licenciaFechaVencimiento__lt=fechaActual)):
+                # .strftime('%d/%m/%Y')
+                dicc = model_to_dict(item)
+                dicc["licenciaFechaVencimiento"] = item.licenciaFechaVencimiento.strftime('%d/%m/%Y')
+                licencias_list.append(dicc)
     except Exception as e:
         print(e)
-
-
     dicc = dict(chat=[],cumpleaños=cumpleaños_list,licencias=licencias_list)
-
-
     return JsonResponse(dicc, safe=False)
 
 

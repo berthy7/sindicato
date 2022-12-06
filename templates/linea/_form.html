@@ -8,89 +8,127 @@
       </div>
       <div class="modal-body">
         <form id="submit_form" class="pl-3 pr-3 needs-validation" novalidate>
-          <div class="form-group mb-3">
+            <div class="tab-pane show active" id="bordered-tabs-preview">
+                <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                    <li class="nav-item">
+                        <a href="#general" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
+                            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Datos Generales</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#adjuntos" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                            <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Adjuntos</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="general">
+                          <div class="form-group mb-3">
             <input id="id" name="id" type="hidden" />
           </div>
-          <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="codigo">Codigo *</label>
-                    <input id="codigo" name="codigo" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-              <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="razonSocial">Razon Social *</label>
-                    <input id="razonSocial" name="razonSocial" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-          </div>
-            <div class="row">
-                <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="ubicacion">Ubicación Oficina *</label>
-                    <input id="ubicacion" name="ubicacion" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-               </div>
-                <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="fechaFundacion">Fecha Fundacion *</label>
-                    <input id="fechaFundacion" name="fechaFundacion" type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="" required autocomplete="off">
-                </div>
-            </div>
-          </div>
+                          <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group mb-3">
+                                    <label for="codigo">Codigo *</label>
+                                    <input id="codigo" name="codigo" type="text" class="form-control form-control-sm"
+                                        placeholder="" required />
+                                </div>
+                            </div>
+                              <div class="col-12 col-sm-6">
+                                <div class="form-group mb-3">
+                                    <label for="razonSocial">Razon Social *</label>
+                                    <input id="razonSocial" name="razonSocial" type="text" class="form-control form-control-sm"
+                                        placeholder="" required />
+                                </div>
+                            </div>
+                          </div>
+                            <div class="row">
+                                <div class="col-12 col-sm-6">
+                                <div class="form-group mb-3">
+                                    <label for="ubicacion">Ubicación Oficina *</label>
+                                    <input id="ubicacion" name="ubicacion" type="text" class="form-control form-control-sm"
+                                        placeholder="" required />
+                                </div>
+                               </div>
+                                <div class="col-12 col-sm-6">
+                                <div class="form-group mb-3">
+                                    <label for="fechaFundacion">Fecha Fundacion *</label>
+                                    <input id="fechaFundacion" name="fechaFundacion" type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="" required autocomplete="off">
+                                </div>
+                            </div>
+                          </div>
+                            <div class="row">
+                                <label for="internos">Datos del Presidente</label>
+                            <div class="col-12 col-sm-4">
+                                <div class="form-group mb-3">
+                                    <label for="nombre">Nombre *</label>
+                                    <input id="nombre" name="nombre" type="text" class="form-control form-control-sm"
+                                        placeholder="" required />
+                                </div>
+                            </div>
+                              <div class="col-12 col-sm-4">
+                                <div class="form-group mb-3">
+                                    <label for="apellidos">Apellidos *</label>
+                                    <input id="apellidos" name="apellidos" type="text" class="form-control form-control-sm"
+                                        placeholder="" required />
+                                </div>
+                            </div>
+                                <div class="col-12 col-sm-4">
+                                <div class="form-group mb-3">
+                                    <label for="celular">Celular *</label>
+                                    <input id="celular" name="celular" type="text" class="form-control form-control-sm"
+                                        placeholder="" required />
+                                </div>
+                            </div>
+                          </div>
+                            <div id="div_internos" class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group mb-3">
+                                    <label for="internos">Cant. de Internos *</label>
+                                    <input id="internos" name="internos" type="number" class="form-control form-control-sm"
+                                        placeholder="" required />
+                                </div>
+                            </div>
+                          </div>
+                           <div id="div_btn_internos" class="row">
+                            <div class="col-12 col-sm-6">
+                                 <label>Cant. de Internos Actual </label> <label id="label_internos"></label>
+                                <div class="form-group mb-3">
+
+                                     <button id="btn_agregar_internos" type="button" class="btn btn-primary" onclick="abrir_form_interno()">
+                                      <span>Agregar Internos</span>
+                                    </button>
+                                </div>
+                            </div>
+                          </div>
 
 
-            <div class="row">
-                <label for="internos">Datos del Presidente</label>
-            <div class="col-12 col-sm-4">
-                <div class="form-group mb-3">
-                    <label for="nombre">Nombre *</label>
-                    <input id="nombre" name="nombre" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-              <div class="col-12 col-sm-4">
-                <div class="form-group mb-3">
-                    <label for="apellidos">Apellidos *</label>
-                    <input id="apellidos" name="apellidos" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-                <div class="col-12 col-sm-4">
-                <div class="form-group mb-3">
-                    <label for="celular">Celular *</label>
-                    <input id="celular" name="celular" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-          </div>
-        <div id="div_internos" class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="internos">Cant. de Internos *</label>
-                    <input id="internos" name="internos" type="number" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
+                    </div>
+                    <div class="tab-pane" id="adjuntos">
 
-          </div>
-           <div id="div_btn_internos" class="row">
-            <div class="col-12 col-sm-6">
-                 <label>Cant. de Internos Actual </label> <label id="label_internos"></label>
-                <div class="form-group mb-3">
+                        <div class="row">
+                              <div class="col-12 col-sm-6">
+                              <label>Mapa</label>
+                              <input type="file" id="mapa" name="mapa" class="app-file">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img id="img-mapa" src="" class="img-thumbnail image-preview d-none" alt="Vista previa mapa" />
+                                  <i id="icon-mapa" class="mdi app-fs-70 mdi-file-account icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
 
-                     <button id="btn_agregar_internos" type="button" class="btn btn-primary" onclick="abrir_form_interno()">
-                      <span>Agregar Internos</span>
-                    </button>
+                          </div>
+                    </div>
                 </div>
             </div>
-          </div>
         </form>
-          <form id="submit_form_interno" class="pl-3 pr-3 needs-validation" novalidate >
+        <form id="submit_form_interno" class="pl-3 pr-3 needs-validation" novalidate >
              <div id="form_interno" hidden>
                   <div class="row">
                     <div class="col-12 col-sm-6">
@@ -117,13 +155,30 @@
         <button id="cerrar" type="button" class="btn btn-light" data-bs-dismiss="modal">
           <i class="mdi mdi-close-box mr-1"></i> <span>Cerrar</span>
         </button>
-        <button id="insert" type="button" class="btn btn-primary">
+        <button id="upsert" type="button" class="btn btn-primary">
           <i class="mdi mdi-content-save mr-1"></i> <span>Guardar</span>
         </button>
-        <button id="update" type="button" class="btn btn-primary">
-          <i class="mdi mdi-content-save mr-1"></i> <span>Actualizar</span>
-        </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-mapas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Mapas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+      </div>
+      <div class="modal-body">
+
+            <div class="content">
+                <table id="data_table_mapa" class="table table-striped dt-responsive nowrap w-100"></table>
+            </div>
+
+      </div>
+
     </div>
   </div>
 </div>

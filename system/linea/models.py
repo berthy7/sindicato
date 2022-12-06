@@ -13,6 +13,7 @@ class Linea(models.Model):
     nombre = models.CharField(max_length=50,null=True)
     apellidos = models.CharField(max_length=50,null=True)
     celular = models.CharField(max_length=15, null=True)
+    mapa = models.CharField(max_length=255, null=True)
 
     internos = models.IntegerField()
     estado = models.BooleanField(default=True)

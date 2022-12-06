@@ -182,14 +182,13 @@ function load_table(data_tb) {
     tabla.draw()
 }
 $("#new").click(function () {
-
+    $('#id').val(0);
     $('#fktipo').selectpicker("val", '');
     $('#tipoPersona').selectpicker("val", '');
     $('#fkpersona').selectpicker("val", '');
     $('#fklinea').selectpicker("val", '');
 
-    $("#update").hide();
-    $("#insert").show();
+    $("#upsert").show();
     $(".form-control").val("");
     $("#submit_form").removeClass('was-validated');
     $("#modal").modal("show");
@@ -243,7 +242,10 @@ $('#tipoPersona').change(function () {
     }
 
 });
-$('#insert').on('click',async function() {
+
+
+
+$('#upsert').on('click',async function() {
       const validationData = formValidation('submit_form');
       if (validationData.error) {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
@@ -251,6 +253,7 @@ $('#insert').on('click',async function() {
       }
 
       const objeto ={
+            id: parseInt($("#id").val()),
             fecha: $("#fecha").val(),
             fktipo: $("#fktipo").val(),
             fkpersona: $("#fkpersona").val(),
@@ -262,24 +265,52 @@ $('#insert').on('click',async function() {
             estados: $("#estados").val(),
             costo: $("#costo").val() != '' ? $("#costo").val() : 0
       }
-       const response = await fetchData(
-            "/incidente/insert/",
-            "POST",
-            JSON.stringify({'obj':objeto})
-       );
-        if(response.success){
-           showSmallMessage(response.tipo,response.mensaje,"center");
-            setTimeout(function () {
-                $('#modal').modal('hide')
-                reload_table()
-            }, 2000);
-        }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+    let url = "/incidente/insert/";
+
+      if (objeto.id != 0){
+              url = "/incidente/update/";
+      }
+
+      const getCookieLocal = (name) => {
+      const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+      return r ? r[1] : undefined;
+    }
+
+
+    let data = new FormData($('#submit_form').get(0));
+        data.append('obj',JSON.stringify(objeto))
+
+
+       $.ajax({
+            method: "POST",
+            url: url,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            data: data,
+            headers:{
+                "X-CSRFToken" : getCookieLocal('csrftoken')
+            },
+            async: false,
+            success: function (response) {
+                $('#upsert').show();
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        $('#modal').modal('hide')
+                        reload_table()
+                    }, 2000);
+              }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
 });
 function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
 
-    console.log(self)
-    // clean_data()
     $('#id').val(self.id)
     $('#fecha').val(self.fecha)
     $('#fktipo').selectpicker("val", String(self.fktipo));
@@ -293,45 +324,19 @@ function edit_item(e) {
     $('#responsable').val(self.responsable)
     $('#costo').val(self.costo)
 
+    if (self.respaldo) {
+      $('#icon-respaldo').addClass('d-none');
+      $('#img-respaldo').prop('src', self.respaldo);
+      $('#img-respaldo').removeClass('d-none');
+    }
+
     
     $('.item-form').parent().addClass('focused')
-    $('#insert').hide()
-    $('#update').show()
+    $('#upsert').show()
     $('#modal').modal('show')
 
 }
-$('#update').on('click', async function() {
-    const validationData = formValidation('submit_form');
-      if (validationData.error) {
-        showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
-        return;
-      }
-      objeto ={
-            id: $("#id").val(),
-            fecha: $("#fecha").val(),
-            fktipo: $("#fktipo").val(),
-            fkpersona: $("#fkpersona").val(),
-            tipoPersona: $("#tipoPersona").val(),
-            fklinea: $("#fklinea").val(),
 
-            responsable: $("#responsable").val() != '' ? $("#responsable").val() : $("#fkpersona option:selected").text(),
-            descripcion: $("#descripcion").val(),
-            estados: $("#estados").val(),
-            costo: $("#costo").val() != '' ? $("#costo").val() : 0
-      }
-       const response = await fetchData(
-            "/incidente/update/",
-            "POST",
-            JSON.stringify({'obj':objeto})
-       );
-        if(response.success){
-           showSmallMessage(response.tipo,response.mensaje,"center");
-            setTimeout(function () {
-                $('#modal').modal('hide')
-                reload_table()
-            }, 2000);
-        }else showSmallMessage(response.tipo,response.mensaje,"center");
-})
 function set_enable(e) {
     cb_delete = e
     b = $(e).prop('checked')

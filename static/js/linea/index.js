@@ -1,10 +1,24 @@
 let id_table = '#data_table';
+let id_table_mapa = '#data_table_mapa';
 
 let hoy = get_current_date(new Date());
 
 $(document).ready( function () {
     reload_table();
+    reload_table_mapa();
 });
+
+$(".app-file").fileinput({
+  language: "es",
+  showCaption: false,
+  showBrowse: true,
+  showUpload: false,
+  showUploadedThumbs: false,
+  showPreview: true,
+  previewFileType: "any",
+  // allowedFileExtensions: ext_image
+});
+
 
 $('#fechaFundacion').datepicker({
     format: 'dd/mm/yyyy',
@@ -89,12 +103,16 @@ function reload_table() {
         dataType: 'json',
         async: false,
         success: function (response) {
+
+
             load_table(response)
         },
         error: function (jqXHR, status, err) {
         }
     });
 }
+
+
 
 function abrir_form_interno(){
 
@@ -104,22 +122,101 @@ function abrir_form_interno(){
     // $("#form_interno").show();
 }
 
+function add_columns_mapa() {
+    let a_cols = []
+    a_cols.push(
+            { title: "Linea", data: "codigo" },
+            { title: "Mapa", data: "mapa",
+                render: function(data, type, row) {
+
+                    image = ![null, '', 'None', 'S/I'].includes(data)?
+                            '<a data-fancybox="gallery" href="' + data + '"><img class="d-flex align-self-center rounded img-thumbnail" src="' + data + '" alt="Imagen" height="64"></a>':
+                            "<i class='mdi mdi-account-box mdi-48px'></i>";
+
+                    return '<div class="media mx-auto align-middle">' + image + '</div>'
+                }
+            },
+    );
+    return a_cols;
+}
+function load_table_mapa(data_tb) {
+    var tabla = $(id_table_mapa).DataTable({
+        destroy: true,
+        paging: false,
+        ordering: true,
+        info: false,
+        searching: true,
+        data: data_tb,
+        deferRender:    true,
+        scrollCollapse: true,
+        scroller:       true,
+        columns: add_columns_mapa(),
+        dom: "Bfrtip",
+        buttons:[],
+        // buttons: [
+        //     {  extend : 'excelHtml5',
+        //        exportOptions : { columns : [0,1]},
+        //         sheetName: 'Lista General Conductor',
+        //        title: 'Lista General Conductor'  },
+        //     {  extend : 'pdfHtml5',
+        //         orientation: 'landscape',
+        //        customize: function(doc) {
+        //             doc.styles.tableBodyEven.alignment = 'center';
+        //             doc.styles.tableBodyOdd.alignment = 'center';
+        //        },
+        //        exportOptions : {
+        //             columns : [0, 1, 2, 3, 4,5,6,7,8]
+        //         },
+        //        title: 'Lista General Conductor'
+        //     }
+        // ],
+        "order": [ [0, 'asc'] ],
+        columnDefs: [ { width: '10%', targets: [0,1] }],
+        "initComplete": function() {}
+    });
+    tabla.draw()
+}
+function reload_table_mapa() {
+    $.ajax({
+        method: "GET",
+        url: '/linea/mapa',
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+
+            load_table_mapa(response)
+        },
+        error: function (jqXHR, status, err) {
+        }
+    });
+}
+
+$("#btnMapas").click(function () {
+    // reload_table_mapa();
+    $("#modal-mapas").modal("show");
+});
+
+
+
 $("#new").click(function () {
+    $('#id').val(0)
+        $("input[type=file]").fileinput("clear");
+    $(".icon-preview").removeClass("d-none");
+    $(".image-preview").addClass("d-none");
+    $(".image-preview").prop("src", "");
+
   $('#div_internos').show()
   $('#div_btn_internos').hide()
      $('#form_interno').prop("hidden", true);
     $('#cantInternos').val('');
 
   $('#internos').prop("required", true);
-  $("#update").hide();
-  $("#insert").show();
-     $("#cerrar").show();
+  $('#upsert').show()
+  $("#cerrar").show();
   $(".form-control").val("");
   $("#submit_form").removeClass('was-validated');
   $("#modal").modal("show");
 });
-
-
 
 $('#btn_guardar_internos').on('click', async function() {
       const validationData = formValidation('submit_form_interno');
@@ -147,104 +244,89 @@ $('#btn_guardar_internos').on('click', async function() {
 
 });
 
-$('#insert').on('click', async function() {
-      const validationData = formValidation('submit_form');
+$('#upsert').on('click', async function() {
+    const validationData = formValidation('submit_form');
       if (validationData.error) {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
         return;
       }
-      const objeto ={
-          codigo: $("#codigo").val(),
-          razonSocial: $("#razonSocial").val(),
-          fechaFundacion: $("#fechaFundacion").val(),
-          ubicacion: $("#ubicacion").val(),
-          nombre: $("#nombre").val(),
-          apellidos: $("#apellidos").val(),
-          celular: $("#celular").val(),
-          internos: $("#internos").val()
+      const obj ={
+            id: parseInt($("#id").val()),
+            codigo: $("#codigo").val(),
+              razonSocial: $("#razonSocial").val(),
+              fechaFundacion: $("#fechaFundacion").val(),
+              ubicacion: $("#ubicacion").val(),
+              nombre: $("#nombre").val(),
+              apellidos: $("#apellidos").val(),
+              celular: $("#celular").val(),
+              internos: $("#internos").val()
       }
 
-        $("#insert").hide();
-        $("#update").hide();
-        $("#cerrar").hide();
+      let url = "/linea/insert/";
 
-       const response = await fetchData(
-            "/linea/insert/",
-            "POST",
-            JSON.stringify({'obj':objeto})
-       );
+      if (obj.id != 0){
+              url = "/linea/update/";
+      }
 
+        const getCookieLocal = (name) => {
+          const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+          return r ? r[1] : undefined;
+        }
 
-        if(response.success){
-           showSmallMessage(response.tipo,response.mensaje,"center");
-            setTimeout(function () {
-                $('#modal').modal('hide')
-                reload_table()
-            }, 2000);
-        }else showSmallMessage(response.tipo,response.mensaje,"center");
+        // let data = new FormData($('#submit_form')[0]);
+        var data = new FormData($('#submit_form').get(0));
 
-});
+        data.append('obj',JSON.stringify(obj))
 
-// $('#insert').on('click', async function() {
-//       const validationData = formValidation('submit_form');
-//       if (validationData.error) {
-//         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
-//         return;
-//       }
-//       const objeto ={
-//           codigo: $("#codigo").val(),
-//           razonSocial: $("#razonSocial").val(),
-//           fechaFundacion: $("#fechaFundacion").val(),
-//           ubicacion: $("#ubicacion").val(),
-//           nombre: $("#nombre").val(),
-//           apellidos: $("#apellidos").val(),
-//           celular: $("#celular").val(),
-//           internos: $("#internos").val()
-//       }
-//
-//         $.ajax({
-//             method: "POST",
-//             url: "/linea/insert/",
-//             data: objeto,
-//             async: true,
-//               body: objeto,headers:{
-//             "X-CSRFToken" : getCookie('csrftoken')
-//         },
-//             beforeSend: function () {
-//                 // $("#rproc-loader").fadeIn(800);
-//                 $("#insert").hide();
-//                 $("#update").hide();
-//                 $("#cerrar").hide();
-//             },
-//             success: function () {
-//                 // $("#rproc-loader").fadeOut(800);
-//                 $("#insert").show();
-//                 $("#update").show();
-//                 $("#cerrar").show();
-//             }
-//         }).done(function (response) {
-//             if (response.success) {
-//                 if(response.success){
-//
-//                    showSmallMessage(response.tipo,response.mensaje,"center");
-//                     setTimeout(function () {
-//                         $('#modal').modal('hide')
-//                         reload_table()
-//                     }, 2000);
-//                 }else showSmallMessage(response.tipo,response.mensaje,"center");
-//
-//             } else {
-//                 Swal.fire(response.message, '', 'error')
-//             }
-//         })
-// });
+        $.ajax({
+            method: "POST",
+            url: url,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            data: data,
+            headers:{
+                "X-CSRFToken" : getCookieLocal('csrftoken')
+            },
+            async: false,
+            success: function (response) {
 
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        $('#modal').modal('hide')
+                        reload_table()
+                    }, 2000);
+              }else showSmallMessage(response.tipo,response.mensaje,"center");
 
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+      // const response = await fetchData(
+      //       url,
+      //       "POST",
+      //       JSON.stringify({'obj':data})
+      // );
+      //
+      //
+      // if(response.success){
+      //      showSmallMessage(response.tipo,response.mensaje,"center");
+      //       setTimeout(function () {
+      //           $('#modal').modal('hide')
+      //           reload_table()
+      //       }, 2000);
+      // }else showSmallMessage(response.tipo,response.mensaje,"center");
+})
 
 function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
 
-    console.log(self)
+            $("input[type=file]").fileinput("clear");
+    $(".icon-preview").removeClass("d-none");
+    $(".image-preview").addClass("d-none");
+    $(".image-preview").prop("src", "");
+
     // clean_data()
     $('#id').val(self.id)
     $('#codigo').val(self.codigo)
@@ -265,51 +347,11 @@ function edit_item(e) {
     $('#form_interno').prop("hidden", true);
     $('#cantInternos').val('');
 
-    
     $('#insert').hide()
     $('#update').show()
     $("#cerrar").show();
     $('#modal').modal('show')
-
 }
-
-$('#update').on('click', async function() {
-    const validationData = formValidation('submit_form');
-      if (validationData.error) {
-        showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
-        return;
-      }
-      const objeto ={
-            id: $("#id").val(),
-          codigo: $("#codigo").val(),
-          razonSocial: $("#razonSocial").val(),
-          fechaFundacion: $("#fechaFundacion").val(),
-          ubicacion: $("#ubicacion").val(),
-          nombre: $("#nombre").val(),
-          apellidos: $("#apellidos").val(),
-          celular: $("#celular").val(),
-          internos: $("#internos").val()
-      }
-
-    $("#insert").hide();
-    $("#update").hide();
-    $("#cerrar").hide();
-
-    const response = await fetchData(
-            "/linea/update/",
-            "POST",
-            JSON.stringify({'obj':objeto})
-       );
-
-        if(response.success){
-           showSmallMessage(response.tipo,response.mensaje,"center");
-            setTimeout(function () {
-                $('#modal').modal('hide')
-                reload_table()
-            }, 2000);
-        }else showSmallMessage(response.tipo,response.mensaje,"center");
-
-})
 
 function set_enable(e) {
     cb_delete = e

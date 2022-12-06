@@ -8,7 +8,7 @@
       </div>
       <div class="modal-body">
         <form id="submit_form" class="pl-3 pr-3 needs-validation" novalidate>
-        <div class="tab-pane show active" id="bordered-tabs-preview">
+            <div class="tab-pane show active" id="bordered-tabs-preview">
                 <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
                     <li class="nav-item">
                         <a href="#general" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
@@ -100,8 +100,8 @@
                         <div class="row">
                               <div class="col-12 col-sm-6">
                               <label for="file-ruat">Ruat</label>
-                              <input type="hidden" id="foto" name="foto" class="form-control">
-                              <input type="file" id="file-ruat" name="file-ruat" class="app-file">
+{#                              <input type="hidden" id="foto" name="foto" class="form-control">#}
+                              <input type="file" id="ruat" name="ruat" class="app-file">
                             </div>
                             <div class="col-12 col-sm-6">
                               <div class="row bg-preview">
@@ -122,11 +122,8 @@
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">
           <i class="mdi mdi-close-box mr-1"></i> <span>Cerrar</span>
         </button>
-        <button id="insert" type="button" class="btn btn-primary">
+        <button id="upsert" type="button" class="btn btn-primary">
           <i class="mdi mdi-content-save mr-1"></i> <span>Guardar</span>
-        </button>
-        <button id="update" type="button" class="btn btn-primary">
-          <i class="mdi mdi-content-save mr-1"></i> <span>Actualizar</span>
         </button>
       </div>
     </div>
