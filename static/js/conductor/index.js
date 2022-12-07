@@ -425,8 +425,6 @@ function limpiar(){
     $('#licenciaCategoria').selectpicker("val", '');
 
     $("input[type=file]").fileinput("clear");
-
-
     $(".icon-preview").removeClass("d-none");
     $(".image-preview").addClass("d-none");
     $(".image-preview").prop("src", "");

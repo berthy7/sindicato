@@ -282,6 +282,7 @@ function load_table(data_tb) {
                             </button>`
                     // }
                     // if (row.delete) {
+
                         a += '\
                             <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="delete_item(this)">\
                                 <i class="mdi mdi-delete"></i>\

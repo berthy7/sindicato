@@ -50,6 +50,8 @@ def index(request):
             lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
     except Exception as e:
         print(e)
+
+    print(lineaUser)
     return render(request, 'persona/index.html', {'lineas':lineas,'personas':personas,
                                                    'usuario': user.first_name + " " + user.last_name,
                                                    'rol': rol, 'lineaUser': lineaUser})
