@@ -8,6 +8,7 @@ from cloudinary.models import CloudinaryField
 
 class Persona(models.Model):
 
+    fechaInscripcion = models.DateField(null=True)
     ci = models.CharField(max_length=25,null=True)
     fechaNacimiento = models.DateField(null=True)
     nombre = models.CharField(max_length=50)

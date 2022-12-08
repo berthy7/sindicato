@@ -35,6 +35,12 @@ $('#fkinterno').selectpicker({
   title: 'Seleccione una opción'
 });
 
+$('#fechaNacimiento').datepicker({
+    format: 'dd/mm/yyyy',
+    language: "es",
+    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+});
+
 
 $('#fechaNacimiento').datepicker({
     format: 'dd/mm/yyyy',

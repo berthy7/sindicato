@@ -200,6 +200,13 @@ def insert(request):
                 dicc["obj"]['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['licenciaFechaVencimiento'],'%d/%m/%Y')
             else:
                 dicc["obj"]['licenciaFechaVencimiento'] = None
+
+            if dicc["obj"]['fechaInscripcion'] != "":
+                dicc["obj"]['fechaInscripcion'] = datetime.datetime.strptime(
+                    dicc["obj"]['fechaInscripcion'], '%d/%m/%Y')
+            else:
+                dicc["obj"]['fechaInscripcion'] = None
+
             del dicc["obj"]['id']
 
             persona = Persona.objects.create(**dicc["obj"])
@@ -266,6 +273,13 @@ def update(request):
         else:
             dicc['licenciaFechaVencimiento'] = None
 
+
+        if dicc['fechaInscripcion'] != "":
+            dicc['fechaInscripcion'] = datetime.datetime.strptime(
+                dicc['fechaInscripcion'], '%d/%m/%Y')
+        else:
+            dicc['fechaInscripcion'] = None
+
         Persona.objects.filter(pk=dicc["id"]).update(**dicc)
         return JsonResponse(dict(success=True, mensaje="Modificado Correctamente", tipo="success"), safe=False)
     except Exception as e:
@@ -318,11 +332,13 @@ def reporte(request,id):
         nombreUsuario = persona[0].nombre + ' ' + persona[0].apellidos
         p.setFont('Helvetica',9)
         p.drawString(450,765,nombreUsuario)
+
         # -----------------------------------------------------------
         p.setFont('Helvetica-Bold',10)
         p.drawString(30,730,'Fecha de inscripción:')
+        fecha = socio.fechaInscripcion.strftime('%d/%m/%Y') if socio.fechaInscripcion else '----'
         p.setFont('Helvetica',10)
-        p.drawString(140,730,'----')
+        p.drawString(140,730,fecha)
         # -----------------------------------------------------------
         p.setFont('Helvetica-Bold',10)
         p.drawString(30,710,'Nombre Socio:')

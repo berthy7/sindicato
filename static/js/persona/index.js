@@ -35,6 +35,15 @@ $('#fkinterno').selectpicker({
 });
 
 
+
+$('#fechaInscripcion').datepicker({
+    format: 'dd/mm/yyyy',
+    language: "es",
+    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+});
+
+
+
 $('#fechaNacimiento').datepicker({
     format: 'dd/mm/yyyy',
     language: "es",
@@ -343,7 +352,6 @@ function reload_table() {
     });
 }
 
-
 function add_columns_lista() {
     let a_cols = []
     a_cols.push(
@@ -416,14 +424,13 @@ function limpiar(){
     $('#id').val(0);
     $('#fklinea').selectpicker("val", '');
     $('#fkinterno').selectpicker("val", '');
+    $('#fechaInscripcion').selectpicker("val", '');
 
-    $('#socioConductor').selectpicker("val", '');
     $('#lugarNacimiento').selectpicker("val", '');
     $('#genero').selectpicker("val", '');
     $('#licenciaCategoria').selectpicker("val", '');
 
     $("input[type=file]").fileinput("clear");
-
 
     $(".icon-preview").removeClass("d-none");
     $(".image-preview").addClass("d-none");
@@ -686,6 +693,9 @@ $("#lista").click(function () {
 
 $("#new").click(function () {
     swPermiso = true
+
+     $('#socioConductor').selectpicker("val", "No");
+
     $("#general").attr("aria-expanded", true);
     $("#adjuntos").attr("aria-expanded", false);
 
@@ -699,7 +709,6 @@ $("#new").click(function () {
     load_table_lineasAgregadas(lineasAgregadas)
     $('#div_tabla_lineas').show()
     $("#upsert").show();
-    $(".form-control").val("");
     $("#submit_form").removeClass('was-validated');
     $("#modal").modal("show");
 });
@@ -1090,6 +1099,7 @@ $('#upsert').on('click', async function() {
             licenciaNro: $("#licenciaNro").val(),
             licenciaCategoria: $("#licenciaCategoria").val(),
             fechaNacimiento: $("#fechaNacimiento").val(),
+            fechaInscripcion: $("#fechaInscripcion").val(),
             licenciaFechaVencimiento: $("#licenciaFechaVencimiento").val(),
             telefono: $("#telefono").val(),
             domicilio: $("#domicilio").val(),

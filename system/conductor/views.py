@@ -141,10 +141,7 @@ def reporte(request,id):
         p.setFont('Helvetica',9)
         p.drawString(450,765,nombreUsuario)
         # -----------------------------------------------------------
-        p.setFont('Helvetica-Bold',10)
-        p.drawString(30,730,'Fecha de inscripción:')
-        p.setFont('Helvetica',10)
-        p.drawString(140,730,'----')
+
         # -----------------------------------------------------------
         p.setFont('Helvetica-Bold',10)
         p.drawString(30,710,'Nombre Conductor:')
