@@ -191,6 +191,7 @@ def insert(request):
         persona = Persona.objects.filter(ci=dicc["obj"]['ci']).filter(habilitado=True).all()
 
         if len(persona) == 0:
+
             if dicc["obj"]['fechaNacimiento'] != "":
                 dicc["obj"]['fechaNacimiento'] = datetime.datetime.strptime(dicc["obj"]['fechaNacimiento'],'%d/%m/%Y')
             else:
@@ -200,11 +201,15 @@ def insert(request):
                 dicc["obj"]['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['licenciaFechaVencimiento'],'%d/%m/%Y')
             else:
                 dicc["obj"]['licenciaFechaVencimiento'] = None
+            try:
+                if dicc["obj"]['fechaInscripcion'] != "":
+                    dicc["obj"]['fechaInscripcion'] = datetime.datetime.strptime(
+                        dicc["obj"]['fechaInscripcion'], '%d/%m/%Y')
+                else:
+                    dicc["obj"]['fechaInscripcion'] = None
 
-            if dicc["obj"]['fechaInscripcion'] != "":
-                dicc["obj"]['fechaInscripcion'] = datetime.datetime.strptime(
-                    dicc["obj"]['fechaInscripcion'], '%d/%m/%Y')
-            else:
+            except Exception as e:
+                print("error en cath: ", e.args[0])
                 dicc["obj"]['fechaInscripcion'] = None
 
             del dicc["obj"]['id']
@@ -273,12 +278,16 @@ def update(request):
         else:
             dicc['licenciaFechaVencimiento'] = None
 
+        try:
+            if dicc['fechaInscripcion'] != "":
+                dicc['fechaInscripcion'] = datetime.datetime.strptime(
+                    dicc['fechaInscripcion'], '%d/%m/%Y')
+            else:
+                dicc['fechaInscripcion'] = None
 
-        if dicc['fechaInscripcion'] != "":
-            dicc['fechaInscripcion'] = datetime.datetime.strptime(
-                dicc['fechaInscripcion'], '%d/%m/%Y')
-        else:
-            dicc['fechaInscripcion'] = None
+        except Exception as e:
+            print("error en cath: ", e.args[0])
+            dicc["obj"]['fechaInscripcion'] = None
 
         Persona.objects.filter(pk=dicc["id"]).update(**dicc)
         return JsonResponse(dict(success=True, mensaje="Modificado Correctamente", tipo="success"), safe=False)
