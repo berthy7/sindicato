@@ -439,7 +439,7 @@ function limpiar(){
 
 $('#btn_agregar_linea').on('click', async function() {
     if($("#fklinea").val() !=""){
-        newArray = lineasAgregadas.filter(x => x.fklinea == $('#fklinea').val() && x.fkinterno == $('#fkinterno').val());
+        newArray = lineasAgregadas.filter(x => x.fklinea == $('#fklinea').val());
 
         if(newArray.length == 0){
 
@@ -458,8 +458,8 @@ $('#btn_agregar_linea').on('click', async function() {
             else
                 add_reload_table_lineasAgregadas(lineaInterno)
 
-        }else showSmallMessage("warning","Linea e Interno, ya ingresados","center");
-    }else showSmallMessage("warning","Seleccione Linea e Interno","center");
+        }else showSmallMessage("warning","Linea ya ingresada","center");
+    }else showSmallMessage("warning","Seleccione Linea","center");
 
 })
 
@@ -646,47 +646,47 @@ $('#conductores').change(function () {
 
 });
 
-$('#fklinea').change(function () {
-
-     $.ajax({
-        method: "GET",
-        url: '/linea/listarTodoInternosXLinea/'+$(this).val(),
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-
-            $('#fkinterno').html('');
-            $('#fkinterno').selectpicker('destroy');
-            $('#fkinterno').selectpicker({
-              size: 10,
-              liveSearch: true,
-              liveSearchPlaceholder: 'Buscar',
-              title: 'Seleccione una opción'
-            });
-
-            var select = document.getElementById("fkinterno")
-            var option = document.createElement("OPTION");
-            // option.innerHTML = "Seleccione una opcióna";
-            // option.value = 0;
-            // select.appendChild(option);
-
-            for (i of response) {
-                console.log("iter")
-                option = document.createElement("OPTION");
-                option.innerHTML = i.numero;
-                option.value = i.id;
-                // option.setAttribute('data-state', '')
-                select.appendChild(option);
-            }
-            $('#fkinterno').selectpicker('refresh');
-
-
-        },
-        error: function (jqXHR, status, err) {
-        }
-    });
-
-});
+// $('#fklinea').change(function () {
+//
+//      $.ajax({
+//         method: "GET",
+//         url: '/linea/listarTodoInternosXLinea/'+$(this).val(),
+//         dataType: 'json',
+//         async: false,
+//         success: function (response) {
+//
+//             $('#fkinterno').html('');
+//             $('#fkinterno').selectpicker('destroy');
+//             $('#fkinterno').selectpicker({
+//               size: 10,
+//               liveSearch: true,
+//               liveSearchPlaceholder: 'Buscar',
+//               title: 'Seleccione una opción'
+//             });
+//
+//             var select = document.getElementById("fkinterno")
+//             var option = document.createElement("OPTION");
+//             // option.innerHTML = "Seleccione una opcióna";
+//             // option.value = 0;
+//             // select.appendChild(option);
+//
+//             for (i of response) {
+//                 console.log("iter")
+//                 option = document.createElement("OPTION");
+//                 option.innerHTML = i.numero;
+//                 option.value = i.id;
+//                 // option.setAttribute('data-state', '')
+//                 select.appendChild(option);
+//             }
+//             $('#fkinterno').selectpicker('refresh');
+//
+//
+//         },
+//         error: function (jqXHR, status, err) {
+//         }
+//     });
+//
+// });
 $("#lista").click(function () {
     reload_table_lista();
     $("#modal-lista").modal("show");

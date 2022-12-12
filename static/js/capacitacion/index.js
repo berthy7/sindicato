@@ -17,6 +17,13 @@ $(".app-file").fileinput({
   // allowedFileExtensions: ext_image
 });
 
+$('#fklinea').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione'
+});
+
 $('#fkcurso').selectpicker({
   size: 10,
   liveSearch: true,
@@ -124,6 +131,7 @@ $("#new").click(function () {
      $('#fkcurso').selectpicker("val", '');
     $('#tipoPersona').selectpicker("val", '');
     $('#fkpersona').selectpicker("val", '');
+    $('#fklinea').selectpicker("val", '');
   $("#update").hide();
   $("#insert").show();
   $(".form-control").val("");
@@ -187,6 +195,7 @@ $('#insert').on('click',async function() {
       }
       const objeto ={
           fecha: $("#fecha").val(),
+          fklinea: $("#fklinea").val(),
           fkcurso: $("#fkcurso").val(),
           fkpersona: $("#fkpersona").val(),
           tipoPersona: $("#tipoPersona").val(),
@@ -212,6 +221,7 @@ function edit_item(e) {
     // clean_data()
     $('#id').val(self.id)
     $('#fecha').val(self.fecha)
+    $('#fklinea').selectpicker("val", String(self.fklinea));
      $('#fkcurso').selectpicker("val", String(self.fkcurso));
     $('#tipoPersona').selectpicker("val", String(self.tipoPersona));
     $('#tipoPersona').change();

@@ -10,6 +10,7 @@ let lineasAgregadas = []
 let lista = []
 
 let swPermiso = true
+let admin = null;
 
 $(document).ready( function () {
     reload_table();
@@ -237,10 +238,10 @@ function add_reload_table_lineasAgregadas(lineaInterno){
     $('#fkinterno').selectpicker("val", '');
 }
 
-function load_table(data_tb) {
+function load_table(_data) {
     var tabla = $(id_table).DataTable({
         destroy: true,
-        data: data_tb,
+        data: _data["lista"],
         deferRender:    true,
         scrollCollapse: true,
         scroller:       true,
@@ -290,18 +291,18 @@ function load_table(data_tb) {
                                 <i class="mdi mdi-file-document-edit"></i>\
                             </button>`
                     // }
-                    // if (row.delete) {
+                    if (_data["admin"]) {
 
                         a += '\
                             <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="delete_item(this)">\
                                 <i class="mdi mdi-delete"></i>\
                             </button>'
-
+                    }
                         a += '\
                             <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Reporte" onclick="reporte_item(this)">\
                                 <i class="mdi mdi-file-pdf-box"></i>\
                             </button>'
-                    // }
+
                     if (a === '') a = 'Sin permisos';
                     return a
                 }
@@ -343,8 +344,7 @@ function reload_table() {
         dataType: 'json',
         async: false,
         success: function (response) {
-
-            console.log(response)
+            admin = response["admin"];
             load_table(response)
         },
         error: function (jqXHR, status, err) {
@@ -709,6 +709,7 @@ $("#new").click(function () {
     load_table_lineasAgregadas(lineasAgregadas)
     $('#div_tabla_lineas').show()
     $("#upsert").show();
+    $('#insertfile').hide()
     $("#submit_form").removeClass('was-validated');
     $("#modal").modal("show");
 });
@@ -974,50 +975,16 @@ $('#socioConductor').change(function () {
 
 });
 
-// $("#insert").on("click",async function () {
-//     const validationData = formValidation('submit_form');
-//   if (validationData.error) {
-//     showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
-//     return;
-//   }
-//
-//   const objectData = {
-//     ci: $("#ci").val(),
-//     nombre: $("#nombre").val(),
-//     apellidos: $("#apellidos").val(),
-//     genero: $("#genero").val(),
-//     licenciaNro: $("#licenciaNro").val(),
-//     licenciaCategoria: $("#licenciaCategoria").val(),
-//     fechaNacimiento: $("#fechaNacimiento").val(),
-//     licenciaFechaVencimiento: $("#licenciaFechaVencimiento").val(),
-//     telefono: $("#telefono").val(),
-//     domicilio: $("#domicilio").val(),
-//       lugarNacimiento: $("#lugarNacimiento").val(),
-//       socioConductor: $("#socioConductor").val(),
-//     tipo: "Socio"
-//     // fkciudad: $("#fkciudad").val() ? $("#fkciudad").val() : null,
-//   };
-//
-//     const obj ={
-//         obj:objectData,
-//         referencias:referencias,
-//         lineas:lineasAgregadas
-//     }
-//
-//    const response =await fetchData(
-//         "/persona/insert/",
-//         "POST",
-//         JSON.stringify({'response':obj})
-//    );
-//     if(response.success){
-//        showSmallMessage(response.tipo,response.mensaje,"center");
-//         setTimeout(function () {
-//             $('#modal').modal('hide')
-//             reload_table()
-//         }, 2000);
-//     }else showSmallMessage(response.tipo,response.mensaje,"center");
-//
-// });
+function botones_admin(adm){
+
+    if(adm){
+        $('#upsert').show();
+
+    }else{
+        $('#upsert').hide();
+
+    }
+}
 
  function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
@@ -1077,12 +1044,57 @@ $('#socioConductor').change(function () {
 
             $('.item-form').parent().addClass('focused')
             $('#upsert').show()
+            $('#insertfile').show()
+
+            botones_admin(admin)
+
             $('#modal').modal('show')
         },
         error: function (jqXHR, status, err) {
         }
     });
 }
+
+$('#insertfile').on('click', async function() {
+const obj ={
+            id: parseInt($("#id").val()),
+      }
+
+      let url = "/persona/insertfile/";
+
+        const getCookieLocal = (name) => {
+          const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+          return r ? r[1] : undefined;
+        }
+
+        var data = new FormData($('#submit_form').get(0));
+     data.append('obj',JSON.stringify(obj))
+        $.ajax({
+            method: "POST",
+            url: url,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            data: data,
+            headers:{
+                "X-CSRFToken" : getCookieLocal('csrftoken')
+            },
+            async: false,
+            success: function (response) {
+
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        $('#modal').modal('hide')
+                        reload_table()
+                    }, 2000);
+              }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+})
 
 $('#upsert').on('click', async function() {
     const validationData = formValidation('submit_form');
@@ -1158,7 +1170,6 @@ $('#upsert').on('click', async function() {
             }
         });
 })
-
 
 function set_enable(e) {
     cb_delete = e

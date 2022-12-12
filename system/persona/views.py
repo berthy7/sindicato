@@ -60,8 +60,10 @@ def index(request):
 def list(request):
     dt_list = []
     user = request.user
+    admin = False
     persona = Persona.objects.filter(fkusuario=user.id)
     if persona[0].fklinea:
+        admin = False
         for interPer in  InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct('fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo='Socio').filter(fkpersona__habilitado=True):
             item = interPer.fkpersona
             asignaciones = []
@@ -74,9 +76,12 @@ def list(request):
             dicc = model_to_dict(item)
             dicc["asignaciones"] = asignaciones
             dt_list.append(dicc)
-        return JsonResponse(dt_list, safe=False)
+
+        obj = dict(admin=admin, lista=dt_list)
+        return JsonResponse(obj, safe=False)
     else:
         datos = Persona.objects.filter(habilitado=True).filter(tipo="Socio").all().order_by('-id')
+        admin = True
         for item in datos:
             asignaciones = []
             for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=item.id).all().order_by('id'):
@@ -86,7 +91,9 @@ def list(request):
             dicc = model_to_dict(item)
             dicc["asignaciones"] = asignaciones
             dt_list.append(dicc)
-        return JsonResponse(dt_list, safe=False)
+
+        obj = dict(admin=admin, lista=dt_list)
+        return JsonResponse(obj, safe=False)
 
 @login_required
 def listAll(request):
@@ -157,6 +164,46 @@ def handle_uploaded_file(f,name):
     with open('static/upload/'+ name,'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+
+
+@login_required
+def insertfile(request):
+    try:
+        dicc = json.loads(request.POST.get('obj'))
+        obj = Persona.objects.get(id=dicc['id'])
+        files = request.FILES
+
+        fileinfo = files.get('foto', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo,cname)
+            obj.foto = upload_cloudinay(cname)
+
+        fileinfo = files.get('file-ci', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo,cname)
+            obj.fotoCi = upload_cloudinay(cname)
+
+        fileinfo = files.get('file-licencia', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            obj.fotoLicencia = upload_cloudinay(cname)
+
+        obj.save()
+        return JsonResponse(dict(success=True, mensaje="Modificado Correctamente",tipo="success"), safe=False)
+    except Exception as e:
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
+
+
 @login_required
 def insert(request):
     try:
@@ -606,7 +653,6 @@ def reporte(request,id):
 
 @login_required
 def listarPersonaXTipo(request,id):
-
     dt_list = []
     user = request.user
     persona = Persona.objects.filter(fkusuario=user.id)

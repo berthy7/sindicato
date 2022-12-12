@@ -9,6 +9,7 @@ urlpatterns = [
     path('listAll/', views.listAll, name='persona_listAll'),
     path('<int:id>/', views.obtain, name='persona_obtain'),
     path('insert/', views.insert, name='persona_insert'),
+    path('insertfile/', views.insertfile, name='persona_insertfile'),
     path('update/', views.update, name='persona_update'),
     path('state/', views.state, name='persona_state'),
     path('delete/', views.delete, name='persona_delete'),

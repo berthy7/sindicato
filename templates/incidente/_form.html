@@ -58,17 +58,17 @@
 
               </div>
                         <div class="row">
-                        <div class="col-12 col-sm-6">
-                                    <div class="form-group mb-3">
-                                        <label for="fktipo">Incidente *</label>
-                                        <select id="fktipo" name="fktipo" class="form-control show-tick" required>
-                                       {% for i in tipos %}
-                                          <option value="{{ i.id }}">{{ i.nombre }}</option>
-                                       {% endfor %}
-                                        </select>
-                                    </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group mb-3">
+                                    <label for="fktipo">Incidente *</label>
+                                    <select id="fktipo" name="fktipo" class="form-control show-tick" required>
+                                   {% for i in tipos %}
+                                      <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                   {% endfor %}
+                                    </select>
                                 </div>
-                        <div class="col-12 col-sm-6">
+                            </div>
+                            <div class="col-12 col-sm-6">
                                 <div class="form-group mb-3">
                                     <label for="fklinea">Linea *</label>
                                     <select id="fklinea" name="fklinea" class="form-control show-tick" required>

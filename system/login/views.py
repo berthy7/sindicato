@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login,logout, authenticate
+from system.linea.models import Linea
 from django.http import HttpResponse
 from django.db import IntegrityError
 from django.utils import timezone
@@ -19,10 +20,15 @@ def home(request):
 
     if persona:
         rol = persona[0].fkrol.name
+        if persona[0].fklinea:
+            linea = get_object_or_404(Linea, id=persona[0].fklinea)
+            lineaUser = linea.codigo
+        else:
+            lineaUser = ""
     else:
         rol = "Administrador"
-
-    return render(request, 'home.html', {'usuario': user.first_name + " " + user.last_name,'rol': rol})
+        lineaUser = ""
+    return render(request, 'home.html', {'lineaUser': lineaUser,'usuario': user.first_name + " " + user.last_name,'rol': rol})
 
 def logon(request):
     if request.method == 'GET':

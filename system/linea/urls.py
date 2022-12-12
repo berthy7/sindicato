@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.index, name='linea'),
     path('list/', views.list, name='linea_list'),
     path('insert/', views.insert, name='linea_insert'),
+    path('insertfile/', views.insertfile, name='linea_insertfile'),
     path('update/', views.update, name='linea_update'),
     path('state/', views.state, name='linea_state'),
     path('delete/', views.delete, name='linea_delete'),

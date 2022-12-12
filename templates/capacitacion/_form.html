@@ -27,24 +27,37 @@
                 <div class="tab-content">
                     <div class="tab-pane show active" id="general">
                         <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="fkcurso">Curso *</label>
-                    <select id="fkcurso" name="fkcurso" class="form-control show-tick" required>
-                   {% for i in cursos %}
-                      <option value="{{ i.id }}">{{ i.nombre }}</option>
-                   {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="col-12 col-sm-3">
-                <div class="form-group mb-3">
-                    <input id="id" name="id" type="hidden" />
-                    <label for="fecha">Fecha Capacitacion *</label>
-                    <input id="fecha" name="fecha" type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="" required autocomplete="off">
-                </div>
-            </div>
-          </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group mb-3">
+                                    <label for="fkcurso">Curso *</label>
+                                    <select id="fkcurso" name="fkcurso" class="form-control show-tick" required>
+                                   {% for i in cursos %}
+                                      <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                   {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group mb-3">
+                                    <input id="id" name="id" type="hidden" />
+                                    <label for="fecha">Fecha Capacitacion *</label>
+                                    <input id="fecha" name="fecha" type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="" required autocomplete="off">
+                                </div>
+                            </div>
+                          </div>
+                    <div class="row">
+
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group mb-3">
+                                    <label for="fklinea">Linea *</label>
+                                    <select id="fklinea" name="fklinea" class="form-control show-tick" required>
+                                   {% for i in lineas %}
+                                      <option value="{{ i.id }}">{{ i.codigo }}</option>
+                                   {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                         <div class="col-12 col-sm-6">
                             <div class="form-group mb-3">

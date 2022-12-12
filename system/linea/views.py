@@ -37,24 +37,26 @@ def index(request):
 @login_required
 def list(request):
     user = request.user
+    admin = False
     dt_list = []
     try:
         persona = Persona.objects.filter(fkusuario=user.id)
-
         if persona[0].fklinea:
             datos = Linea.objects.filter(habilitado=True).filter(id=persona[0].fklinea).all().order_by('-id')
+            admin = False
         else:
             datos = Linea.objects.filter(habilitado=True).all().order_by('-id')
-
+            admin = True
         for item in datos:
             internos = Interno.objects.filter(habilitado=True).filter(fklinea=item.id).count()
             dt_list.append(dict(id=item.id,codigo=item.codigo,
                                 razonSocial=item.razonSocial,fechaFundacion=item.fechaFundacion.strftime('%d/%m/%Y'),
                                 nombre=item.nombre, apellidos=item.apellidos,celular=item.celular,
-                                ubicacion=item.ubicacion,internos=internos,estado=item.estado))
+                                ubicacion=item.ubicacion,internos=internos,estado=item.estado,mapa=item.mapa))
     except Exception as e:
         print(e)
-    return JsonResponse(dt_list, safe=False)
+    obj = dict(admin=admin,lista=dt_list)
+    return JsonResponse(obj, safe=False)
 
 @login_required
 def mapa(request):
@@ -74,6 +76,26 @@ def handle_uploaded_file(f,name):
     with open('static/upload/'+ name,'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+@login_required
+def insertfile(request):
+    try:
+        dicc = json.loads(request.POST.get('obj'))
+        linea = Linea.objects.get(id=dicc['id'])
+        files = request.FILES
+        fileinfo = files.get('mapa', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo,cname)
+            linea.mapa = upload_cloudinay(cname)
+            linea.save()
+            return JsonResponse(dict(success=True, mensaje="Modificado Correctamente",tipo="success"), safe=False)
+        else:
+            return JsonResponse(dict(success=False, mensaje="no hay adjunto", tipo="warning"), safe=False)
+    except Exception as e:
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
 
 @login_required
 def insert(request):
@@ -89,6 +111,7 @@ def insert(request):
             dicc['mapa'] = upload_cloudinay(cname)
 
         dicc['fechaFundacion'] = datetime.datetime.strptime(dicc['fechaFundacion'], '%d/%m/%Y')
+        del dicc['id']
         linea = Linea.objects.create(**dicc)
         for i in range(int(linea.internos)):
             nro = i + 1

@@ -20,27 +20,40 @@ def index(request):
         if persona[0].fklinea:
 
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
+            lineas = Linea.objects.filter(id=linea.id).all().order_by('id')
             lineaUser = linea.codigo
         else:
             rol = "Administrador"
+            lineas = Linea.objects.all().order_by('id')
             lineaUser = ""
     except Exception as e:
         print(e)
-    return render(request, 'capacitacion/index.html', {'personas': personas, 'cursos':cursos,
+    return render(request, 'capacitacion/index.html', {'personas': personas, 'cursos':cursos,'lineas':lineas,
                                                    'usuario': user.first_name + " " + user.last_name,
                                                    'rol': rol, 'lineaUser': lineaUser})
 
 @login_required
 def list(request):
     dt_list = []
-    datos = Capacitacion.objects.filter(habilitado=True).all().order_by('-id')
-    for item in datos:
-        dicc = model_to_dict(item)
-        dicc["fecha"] = item.fecha.strftime('%d/%m/%Y')
-        dicc["curso"] = item.fkcurso.nombre
-        dicc["persona"] = item.fkpersona.nombre + " " + item.fkpersona.apellidos
 
-        dt_list.append(dicc)
+    user = request.user
+    try:
+        persona = Persona.objects.filter(fkusuario=user.id)
+        if persona[0].fklinea:
+            datos = Capacitacion.objects.filter(habilitado=True).all().order_by('-id')
+        else:
+            datos = Capacitacion.objects.filter(habilitado=True).all().order_by('-id')
+
+        for item in datos:
+            dicc = model_to_dict(item)
+            dicc["fecha"] = item.fecha.strftime('%d/%m/%Y')
+            dicc["curso"] = item.fkcurso.nombre
+            dicc["persona"] = item.fkpersona.nombre + " " + item.fkpersona.apellidos
+
+            dt_list.append(dicc)
+
+    except Exception as e:
+        print(e)
 
     return JsonResponse(dt_list, safe=False)
 

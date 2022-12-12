@@ -44,16 +44,30 @@ def index(request):
 @login_required
 def list(request):
     dt_list = []
-    datos = Incidente.objects.filter(habilitado=True).all().order_by('-id')
-    for item in datos:
+    user = request.user
+    try:
+        persona = Persona.objects.filter(fkusuario=user.id)
+        if persona[0].fklinea:
+            datos = Incidente.objects.filter(habilitado=True).filter(fklinea=persona[0].fklinea).all().order_by('-id')
 
-        dicc = model_to_dict(item)
-        dicc["fecha"] = item.fecha.strftime('%d/%m/%Y')
-        dicc["tipo"] = item.fktipo.nombre
-        dicc["linea"] = item.fklinea.codigo
+        else:
+            datos = Incidente.objects.filter(habilitado=True).all().order_by('-id')
 
-        dt_list.append(dicc)
+        for item in datos:
+
+            dicc = model_to_dict(item)
+            dicc["fecha"] = item.fecha.strftime('%d/%m/%Y')
+            dicc["tipo"] = item.fktipo.nombre
+            dicc["linea"] = item.fklinea.codigo
+
+            dt_list.append(dicc)
+
+    except Exception as e:
+        print(e)
+
     return JsonResponse(dt_list, safe=False)
+
+
 
 def upload_cloudinay(foto):
     resp= cloudinary.uploader.upload('static/upload/'+foto)

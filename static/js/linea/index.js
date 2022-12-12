@@ -3,6 +3,8 @@ let id_table_mapa = '#data_table_mapa';
 
 let hoy = get_current_date(new Date());
 
+let admin = null;
+
 $(document).ready( function () {
     reload_table();
     reload_table_mapa();
@@ -26,10 +28,11 @@ $('#fechaFundacion').datepicker({
     daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
 });
 
-function load_table(data_tb) {
+function load_table(_data) {
+
     var tabla = $(id_table).DataTable({
         destroy: true,
-        data: data_tb,
+        data: _data["lista"],
         deferRender:    true,
         scrollCollapse: true,
         scroller:       true,
@@ -53,13 +56,13 @@ function load_table(data_tb) {
                                 <i class="mdi mdi-file-document-edit"></i>\
                             </button>`
                     // }
-                    // if (row.delete) {
+                    if (_data["admin"]) {
                         a += '\
                             <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="delete_item(this)">\
                                 <i class="mdi mdi-delete"></i>\
                             </button>'
 
-                    // }
+                    }
                     if (a === '') a = 'Sin permisos';
                     return a
                 }
@@ -88,7 +91,7 @@ function load_table(data_tb) {
                title: 'Lista de Lineas'
             }
         ],
-        "order": [ [0, 'desc'] ],
+        "order": [ [1, 'asc'] ],
         columnDefs: [ { width: '10%', targets: [0] },
             { width: '27.5%', targets: [1, 2] }, { width: '20%', targets: [3] }, { width: '15%', targets: [4] } ],
         "initComplete": function() {}
@@ -103,9 +106,8 @@ function reload_table() {
         dataType: 'json',
         async: false,
         success: function (response) {
-
-
-            load_table(response)
+            admin = response["admin"]
+             load_table(response)
         },
         error: function (jqXHR, status, err) {
         }
@@ -212,6 +214,7 @@ $("#new").click(function () {
 
   $('#internos').prop("required", true);
   $('#upsert').show()
+  $('#insertfile').hide()
   $("#cerrar").show();
   $(".form-control").val("");
   $("#submit_form").removeClass('was-validated');
@@ -319,10 +322,80 @@ $('#upsert').on('click', async function() {
       // }else showSmallMessage(response.tipo,response.mensaje,"center");
 })
 
+$('#insertfile').on('click', async function() {
+const obj ={
+            id: parseInt($("#id").val()),
+      }
+
+      let url = "/linea/insertfile/";
+
+        const getCookieLocal = (name) => {
+          const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+          return r ? r[1] : undefined;
+        }
+
+        var data = new FormData($('#submit_form').get(0));
+     data.append('obj',JSON.stringify(obj))
+        $.ajax({
+            method: "POST",
+            url: url,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            data: data,
+            headers:{
+                "X-CSRFToken" : getCookieLocal('csrftoken')
+            },
+            async: false,
+            success: function (response) {
+
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        $('#modal').modal('hide')
+                        reload_table()
+                    }, 2000);
+              }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+      // const response = await fetchData(
+      //       url,
+      //       "POST",
+      //       JSON.stringify({'obj':data})
+      // );
+      //
+      //
+      // if(response.success){
+      //      showSmallMessage(response.tipo,response.mensaje,"center");
+      //       setTimeout(function () {
+      //           $('#modal').modal('hide')
+      //           reload_table()
+      //       }, 2000);
+      // }else showSmallMessage(response.tipo,response.mensaje,"center");
+})
+
+function botones_admin(adm){
+
+    if(adm){
+    $('#upsert').show();
+        $('#btn_agregar_internos').show();
+
+    }else{
+    $('#upsert').hide();
+        $('#btn_agregar_internos').hide();
+
+    }
+
+}
+
+
 function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
 
-            $("input[type=file]").fileinput("clear");
+    $("input[type=file]").fileinput("clear");
     $(".icon-preview").removeClass("d-none");
     $(".image-preview").addClass("d-none");
     $(".image-preview").prop("src", "");
@@ -338,6 +411,13 @@ function edit_item(e) {
     $('#celular').val(self.celular)
     $('#internos').val(self.internos)
     $('#label_internos').html(self.internos)
+
+    if (self.mapa) {
+      $('#icon-mapa').addClass('d-none');
+      $('#img-mapa').prop('src',self.mapa);
+      $('#img-mapa').removeClass('d-none');
+    }
+
     
     $('.item-form').parent().addClass('focused')
     $('#div_internos').hide()
@@ -347,9 +427,13 @@ function edit_item(e) {
     $('#form_interno').prop("hidden", true);
     $('#cantInternos').val('');
 
-    $('#insert').hide()
-    $('#update').show()
-    $("#cerrar").show();
+    $('#upsert').show()
+    $('#insertfile').show()
+
+
+
+    botones_admin(admin)
+
     $('#modal').modal('show')
 }
 
