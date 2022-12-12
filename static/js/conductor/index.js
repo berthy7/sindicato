@@ -170,9 +170,7 @@ function add_columns_lineasAgregadas() {
     let a_cols = []
     a_cols.push(
          { title: "fklinea", data: "fklinea", visible: false },
-        { title: "Linea", data: "linea" },
-        { title: "fkinterno", data: "fkinterno", visible: false },
-        { title: "Interno", data: "interno" }
+        { title: "Linea", data: "linea" }
     );
     a_cols.push(
         { title: "Acciones", data: "interPersonaId",
@@ -210,7 +208,7 @@ function load_table_lineasAgregadas(data_tb) {
         dom: "Bfrtip",
         buttons: [],
         "order": [ [0, 'asc'] ],
-        columnDefs: [ { width: '10%', targets: [0,1,2,3,4] }],
+        columnDefs: [ { width: '10%', targets: [0,1,2] }],
         "initComplete": function() {}
     });
     tabla.draw()
@@ -271,15 +269,15 @@ function load_table(data_tb) {
                     return a
                 }
             },
-            { title: "Internos", data: "id",
-                render: function (data, type, row) {
-                    a = ''
-                    for (var i = 0; i < row.asignaciones.length; i++) {
-                        a += '<p>' + row.asignaciones[i].interno + '</p>'
-                    }
-                    return a
-                }
-            },
+            // { title: "Internos", data: "id",
+            //     render: function (data, type, row) {
+            //         a = ''
+            //         for (var i = 0; i < row.asignaciones.length; i++) {
+            //             a += '<p>' + row.asignaciones[i].interno + '</p>'
+            //         }
+            //         return a
+            //     }
+            // },
             { title: "Acciones", data: "id",
                 render: function(data, type, row) {
                      const dataObject = JSON.stringify(row);
@@ -314,7 +312,7 @@ function load_table(data_tb) {
         dom: "Bfrtip",
         buttons: [
             {  extend : 'excelHtml5',
-               exportOptions : { columns : [0, 2, 3, 4,5,6,7,8,9]},
+               exportOptions : { columns : [0, 2, 3, 4,5,6,7,8]},
                 sheetName: 'Lista de Conductores',
                title: 'Lista de Conductores'  },
             {  extend : 'pdfHtml5',
@@ -324,13 +322,13 @@ function load_table(data_tb) {
                     doc.styles.tableBodyOdd.alignment = 'center';
                },
                exportOptions : {
-                    columns : [0, 2, 3, 4,5,6,7,8,9]
+                    columns : [0, 2, 3, 4,5,6,7,8]
                 },
                title: 'Lista de Conductores'
             }
         ],
         "order": [ [0, 'desc'] ],
-        columnDefs: [ { width: '10%', targets: [0,1,2,3,4,5,6,7,8] }],
+        columnDefs: [ { width: '10%', targets: [0,1,2,3,4,5,6,7] }],
         "initComplete": function() {}
     });
     tabla.draw()
@@ -342,8 +340,6 @@ function reload_table() {
         dataType: 'json',
         async: false,
         success: function (response) {
-
-            console.log(response)
             load_table(response)
         },
         error: function (jqXHR, status, err) {
@@ -448,13 +444,13 @@ $('#btn_agregar_linea').on('click', async function() {
                 fkpersona: $("#id").val(),
                 fklinea: $("#fklinea").val(),
                 linea:  $("#fklinea option:selected").html(),
-                fkinterno: $("#fkinterno").val(),
-                interno:  $("#fkinterno option:selected").html(),
+                fkinterno: '',
+                interno:  '',
                 tipoPersona: "Socio"
             }
 
             if($('#id').val() !=0)
-                await add_interno(lineaInterno)
+                await add_interno(lineaInterno);
             else
                 add_reload_table_lineasAgregadas(lineaInterno)
 
@@ -477,26 +473,6 @@ function add_interno(lineaInterno) {
     }).then((result) => {
         if (result.value) {
 
-
-       //  const response = fetchData(
-       //      "/persona/agregarInternos/",
-       //      "POST",
-       //      JSON.stringify({'obj':lineaInterno})
-       // );
-       //  if(response.success){
-       //     showSmallMessage(response.tipo,response.mensaje,"center");
-       //      setTimeout(function () {
-       //          add_reload_table_lineasAgregadas(lineaInterno)
-       //          reload_table()
-       //      }, 2000);
-       //  }else showSmallMessage(response.tipo,response.mensaje,"center");
-
-        // const response = ajaxCall(
-        //     '/persona/agregarInternos/',
-        //     JSON.stringify({'obj':lineaInterno})
-        // )
-        //
-        // console.log(response)
         const getCookieLocal = (name) => {
           const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
           return r ? r[1] : undefined;
@@ -646,47 +622,6 @@ $('#conductores').change(function () {
 
 });
 
-// $('#fklinea').change(function () {
-//
-//      $.ajax({
-//         method: "GET",
-//         url: '/linea/listarTodoInternosXLinea/'+$(this).val(),
-//         dataType: 'json',
-//         async: false,
-//         success: function (response) {
-//
-//             $('#fkinterno').html('');
-//             $('#fkinterno').selectpicker('destroy');
-//             $('#fkinterno').selectpicker({
-//               size: 10,
-//               liveSearch: true,
-//               liveSearchPlaceholder: 'Buscar',
-//               title: 'Seleccione una opción'
-//             });
-//
-//             var select = document.getElementById("fkinterno")
-//             var option = document.createElement("OPTION");
-//             // option.innerHTML = "Seleccione una opcióna";
-//             // option.value = 0;
-//             // select.appendChild(option);
-//
-//             for (i of response) {
-//                 console.log("iter")
-//                 option = document.createElement("OPTION");
-//                 option.innerHTML = i.numero;
-//                 option.value = i.id;
-//                 // option.setAttribute('data-state', '')
-//                 select.appendChild(option);
-//             }
-//             $('#fkinterno').selectpicker('refresh');
-//
-//
-//         },
-//         error: function (jqXHR, status, err) {
-//         }
-//     });
-//
-// });
 $("#lista").click(function () {
     reload_table_lista();
     $("#modal-lista").modal("show");

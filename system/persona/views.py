@@ -270,7 +270,12 @@ def insert(request):
 
             for asig in dicc["lineas"]:
                 asig["fklinea"] = Linea.objects.get(id=asig["fklinea"])
-                asig["fkinterno"] =  Interno.objects.get(id=asig["fkinterno"])
+
+                if asig["fkinterno"] != '':
+                    asig["fkinterno"] =  Interno.objects.get(id=asig["fkinterno"])
+                else:
+                    asig["fkinterno"] = None
+
                 asig["fkpersona"] = persona
                 asig["tipoPersona"] = dicc["obj"]['tipo']
                 del asig['interPersonaId']
