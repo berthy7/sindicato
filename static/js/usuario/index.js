@@ -13,6 +13,8 @@ function load_table(data_tb) {
         scroller:       true,
         columns: [
             { title: "ID", data: "id" },
+            { title: "Rol", data: "rol" },
+            { title: "Linea", data: "linea" },
             { title: "Usuario", data: "usuario" },
             { title: "Nombre", data: "nombre" },
             { title: "Apellidos", data: "apellidos" },

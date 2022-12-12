@@ -976,13 +976,11 @@ $('#socioConductor').change(function () {
 });
 
 function botones_admin(adm){
-
     if(adm){
         $('#upsert').show();
 
     }else{
         $('#upsert').hide();
-
     }
 }
 

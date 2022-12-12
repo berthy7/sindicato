@@ -96,11 +96,16 @@
                       </div>
                     </div>
                     <div class="tab-pane" id="adjuntos">
-
-                        <div class="row">
+                            <div class="row">
                               <div class="col-12 col-sm-6">
+                                <button id="insertfile" type="button" class="btn btn-primary">
+                                  <i class="mdi mdi-content-save mr-1"></i> <span>Guardar Adjuntos</span>
+                                </button>
+                          </div>
+                         </div>
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
                               <label for="file-ruat">Ruat</label>
-{#                              <input type="hidden" id="foto" name="foto" class="form-control">#}
                               <input type="file" id="ruat" name="ruat" class="app-file">
                             </div>
                             <div class="col-12 col-sm-6">
@@ -111,8 +116,35 @@
                                 </div>
                               </div>
                             </div>
-
-                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                              <label for="file-frontal">Frontal</label>
+                              <input type="file" id="frontal" name="frontal" class="app-file">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img id="img-frontal" src="" class="img-thumbnail image-preview d-none" alt="Vista previa frontal" />
+                                  <i id="icon-frontal" class="mdi app-fs-70 mdi-file-account icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                              <label for="file-lateral">Lateral</label>
+                              <input type="file" id="lateral" name="lateral" class="app-file">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img id="img-lateral" src="" class="img-thumbnail image-preview d-none" alt="Vista previa lateral" />
+                                  <i id="icon-lateral" class="mdi app-fs-70 mdi-file-account icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

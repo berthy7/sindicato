@@ -31,7 +31,16 @@ def list(request):
     dt_list = []
     datos = User.objects.filter(~Q(username="admin")).filter(is_active=True).all().order_by('-id')
     for item in datos:
-        dt_list.append(dict(id=item.id,usuario=item.username,nombre=item.first_name,apellidos=item.last_name))
+        persona = Persona.objects.filter(fkusuario=item.id)
+        rol = persona[0].fkrol
+
+        if persona[0].fklinea:
+            lin = Linea.objects.get(id=persona[0].fklinea)
+            linea = lin.codigo
+        else:
+            linea = "---"
+
+        dt_list.append(dict(id=item.id,rol=rol.name,linea=linea,usuario=item.username,nombre=persona[0].nombre,apellidos=persona[0].apellidos))
 
     return JsonResponse(dt_list, safe=False)
 @login_required

@@ -216,7 +216,6 @@ def insert(request):
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo,cname)
             dicc["obj"]['foto'] = upload_cloudinay(cname)
-
         fileinfo = files.get('file-ci', None)
         if fileinfo:
             fname = fileinfo.name
@@ -224,8 +223,6 @@ def insert(request):
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo,cname)
             dicc["obj"]['fotoCi'] = upload_cloudinay(cname)
-
-
         fileinfo = files.get('file-licencia', None)
         if fileinfo:
             fname = fileinfo.name

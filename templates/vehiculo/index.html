@@ -34,10 +34,14 @@
 
             <div class="tab-content">
             <div class="tab-pane show active" id="home">
+
+                  {% if lineaUser == "" %}
                <button id="new" type="button" class="btn btn-info mb-3" data-toggle="modal"
                     data-target="#modal" title="Nuevo">
                     <i class="mdi mdi-plus"></i>
                   </button>
+                  {% endif %}
+
                 <div class="content">
                   <table id="data_table" class="table table-striped dt-responsive nowrap w-100"></table>
                 </div>

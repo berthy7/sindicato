@@ -1,6 +1,7 @@
 let id_table = '#data_table';
 let id_table_categoria = '#data_table_categoria';
 let fechahoy = new Date();
+let admin = null;
 
 $(document).ready( function () {
     reload_table();
@@ -18,7 +19,7 @@ $(".app-file").fileinput({
   // allowedFileExtensions: ext_image
 });
 
-function add_columns() {
+function add_columns(admin) {
     let a_cols = []
     a_cols.push(
         { title: "ID", data: "id" },
@@ -42,17 +43,17 @@ function add_columns() {
                             <i class="mdi mdi-file-document-edit"></i>\
                         </button>`
                 // }
-                // if (row.delete) {
+                if (admin) {
                     a += '\
                         <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="delete_item(this)">\
                             <i class="mdi mdi-delete"></i>\
                         </button>'
-                // }
+                }
 
-                    a += `\
-                        <button data-object='${dataObject}'  type="button" class="btn btn-primary" title="Asignar a linea" onclick="asignacion_item(this)">\
-                            <i class="mdi mdi-store"></i>\
-                        </button>`
+                //     a += `\
+                //         <button data-object='${dataObject}'  type="button" class="btn btn-primary" title="Asignar a linea" onclick="asignacion_item(this)">\
+                //             <i class="mdi mdi-store"></i>\
+                //         </button>`
 
                 if (a === '') a = 'Sin permisos';
                 return a
@@ -69,14 +70,14 @@ function add_columns() {
 
 }
 
-function load_table(data_tb) {
+function load_table(_data) {
     var tabla = $(id_table).DataTable({
         destroy: true,
-        data: data_tb,
+        data: _data["lista"],
         deferRender:    true,
         scrollCollapse: true,
         scroller:       true,
-        columns: add_columns(),
+        columns: add_columns(_data["admin"]),
         dom: "Bfrtip",
         buttons: [
             {  extend : 'excelHtml5',
@@ -109,6 +110,7 @@ function reload_table() {
         dataType: 'json',
         async: false,
         success: function (response) {
+            admin = response["admin"];
             load_table(response)
         },
         error: function (jqXHR, status, err) {
@@ -239,6 +241,7 @@ $("#new").click(function () {
     });
 
    $("#upsert").show();
+    $('#insertfile').hide()
    $("#cerrar").show();
    $(".form-control").val("");
    $("#submit_form").removeClass('was-validated');
@@ -255,6 +258,47 @@ $("#new").click(function () {
 
     $("#modal").modal("show");
 });
+
+$('#insertfile').on('click', async function() {
+const obj ={
+            id: parseInt($("#id").val()),
+      }
+
+      let url = "/vehiculo/insertfile/";
+
+        const getCookieLocal = (name) => {
+          const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+          return r ? r[1] : undefined;
+        }
+
+        var data = new FormData($('#submit_form').get(0));
+     data.append('obj',JSON.stringify(obj))
+        $.ajax({
+            method: "POST",
+            url: url,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            data: data,
+            headers:{
+                "X-CSRFToken" : getCookieLocal('csrftoken')
+            },
+            async: false,
+            success: function (response) {
+
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        $('#modal').modal('hide')
+                        reload_table()
+                    }, 2000);
+              }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+})
 
 $('#upsert').on('click',async function() {
       const validationData = formValidation('submit_form');
@@ -320,11 +364,17 @@ $('#upsert').on('click',async function() {
         });
 });
 
+function botones_admin(adm){
+    if(adm){
+        $('#upsert').show();
+
+    }else{
+        $('#upsert').hide();
+    }
+}
+
 function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
-    // clean_data()
-
-    console.log(self)
 
     $('#id').val(self.id)
     $('#placa').val(self.placa)
@@ -332,6 +382,8 @@ function edit_item(e) {
     $('#tipo').val(self.tipo)
     $('#año').val(self.año)
     $('#fkcategoria').selectpicker("val", String(self.fkcategoria));
+
+    $("input[type=file]").fileinput("clear");
 
     $('#fklinea').selectpicker("val", String(self.fklinea));
 
@@ -344,10 +396,26 @@ function edit_item(e) {
       $('#img-ruat').removeClass('d-none');
     }
 
+        if (self.frontal) {
+      $('#icon-frontal').addClass('d-none');
+      $('#img-frontal').prop('src', self.frontal);
+      $('#img-frontal').removeClass('d-none');
+    }
+
+        if (self.lateral) {
+      $('#icon-lateral').addClass('d-none');
+      $('#img-lateral').prop('src', self.lateral);
+      $('#img-lateral').removeClass('d-none');
+    }
+
 
     $('.item-form').parent().addClass('focused')
     $('#upsert').show()
+    $('#insertfile').show()
     $("#cerrar").show();
+
+    botones_admin(admin)
+
     $('#modal').modal('show')
 
 }

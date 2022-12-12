@@ -43,13 +43,16 @@ def index(request):
 @login_required
 def list(request):
     user = request.user
+    admin = False
     dt_list = []
     persona = Persona.objects.filter(fkusuario=user.id)
 
     if persona[0].fklinea:
         datos = Vehiculo.objects.filter(fklinea=persona[0].fklinea).filter(habilitado=True).all().order_by('-id')
+        admin = False
     else:
         datos = Vehiculo.objects.filter(habilitado=True).all().order_by('-id')
+        admin = True
 
     for item in datos:
         linId = 0
@@ -67,9 +70,11 @@ def list(request):
             interId = interno.id
             inter = interno.numero
 
-        dt_list.append(dict(id=item.id,fklinea=linId,linea=lin,fkinterno=interId,interno=inter,placa=item.placa,ruat=item.ruat,
+        dt_list.append(dict(id=item.id,fklinea=linId,linea=lin,fkinterno=interId,interno=inter,placa=item.placa,ruat=item.ruat,frontal=item.fotofrontal,lateral=item.fotolateral,
                             modelo=item.modelo,tipo=item.tipo,año=item.año, categoria = item.fkcategoria.nombre, fkcategoria = item.fkcategoria.id, estado=item.estado))
-    return JsonResponse(dt_list, safe=False)
+
+    obj = dict(admin=admin, lista=dt_list)
+    return JsonResponse(obj, safe=False)
 
 def upload_cloudinay(foto):
     resp= cloudinary.uploader.upload('static/upload/'+foto)
@@ -81,9 +86,45 @@ def handle_uploaded_file(f,name):
             destination.write(chunk)
 
 @login_required
+def insertfile(request):
+    try:
+        dicc = json.loads(request.POST.get('obj'))
+        obj = Vehiculo.objects.get(id=dicc['id'])
+        files = request.FILES
+
+        fileinfo = files.get('ruat', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo,cname)
+            obj.ruat = upload_cloudinay(cname)
+
+        fileinfo = files.get('frontal', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo,cname)
+            obj.fotofrontal = upload_cloudinay(cname)
+
+        fileinfo = files.get('lateral', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            obj.fotolateral = upload_cloudinay(cname)
+
+        obj.save()
+        return JsonResponse(dict(success=True, mensaje="Modificado Correctamente",tipo="success"), safe=False)
+    except Exception as e:
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
+
+@login_required
 def insert(request):
     try:
-
         dicc = json.loads(request.POST.get('obj'))
         files = request.FILES
         fileinfo = files.get('ruat', None)
@@ -93,6 +134,22 @@ def insert(request):
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo, cname)
             dicc["obj"]['ruat'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('frontal', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['fotofrontal'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('lateral', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['fotolateral'] = upload_cloudinay(cname)
 
         dicc["obj"]["fkcategoria"] = VehiculoCategoria.objects.get(id=dicc["obj"]["fkcategoria"])
         del dicc["obj"]['id']
@@ -136,6 +193,22 @@ def update(request):
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo, cname)
             dicc["obj"]['ruat'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('frontal', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['fotofrontal'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('lateral', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['fotolateral'] = upload_cloudinay(cname)
 
         dicc["obj"]['fkcategoria'] = VehiculoCategoria.objects.get(id=dicc["obj"]["fkcategoria"])
         Vehiculo.objects.filter(pk=dicc["obj"]["id"]).update(**dicc["obj"])

@@ -14,6 +14,8 @@ class Vehiculo(models.Model):
     fklinea = models.IntegerField(null=True)
     fkinterno = models.IntegerField(null=True)
     ruat = models.CharField(max_length=255, null=True)
+    fotofrontal = models.CharField(max_length=255, null=True)
+    fotolateral = models.CharField(max_length=255, null=True)
 
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)
