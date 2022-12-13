@@ -35,7 +35,6 @@ def index(request):
             lineaUser = linea.codigo
             lineas = Linea.objects.filter(habilitado=True).filter(id=linea.id).all().order_by('id')
         else:
-            rol = "Administrador"
             lineaUser = ""
             lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
     except Exception as e:

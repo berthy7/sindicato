@@ -28,7 +28,6 @@ def index(request):
             lineas = Linea.objects.filter(habilitado=True).filter(id=linea.id).all().order_by('id')
             lineaUser = linea.codigo
         else:
-            rol = "Administrador"
             internos = Interno.objects.filter(fkvehiculo = None ).all().order_by('id')
             lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
             lineaUser = ""

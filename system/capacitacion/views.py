@@ -23,7 +23,6 @@ def index(request):
             lineas = Linea.objects.filter(id=linea.id).all().order_by('id')
             lineaUser = linea.codigo
         else:
-            rol = "Administrador"
             lineas = Linea.objects.all().order_by('id')
             lineaUser = ""
     except Exception as e:
