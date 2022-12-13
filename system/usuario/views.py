@@ -1,6 +1,7 @@
 from django.shortcuts import render,get_object_or_404
 from django.db.models import Q
 from django.http import JsonResponse
+from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User,Group
 from system.linea.models import Linea, LineaPersona
@@ -32,15 +33,19 @@ def list(request):
     datos = User.objects.filter(~Q(username="admin")).filter(is_active=True).all().order_by('-id')
     for item in datos:
         persona = Persona.objects.filter(fkusuario=item.id)
+
         rol = persona[0].fkrol
 
         if persona[0].fklinea:
             lin = Linea.objects.get(id=persona[0].fklinea)
             linea = lin.codigo
+            fklinea = lin.id
         else:
             linea = "---"
+            fklinea = 0
 
-        dt_list.append(dict(id=item.id,rol=rol.name,linea=linea,usuario=item.username,nombre=persona[0].nombre,apellidos=persona[0].apellidos))
+
+        dt_list.append(dict(id=item.id,fkrol=rol.id,rol=rol.name,fklinea=fklinea,linea=linea,usuario=item.username,nombre=persona[0].nombre,apellidos=persona[0].apellidos))
 
     return JsonResponse(dt_list, safe=False)
 @login_required
@@ -78,9 +83,10 @@ def update(request):
 def delete(request):
     try:
         dicc = json.load(request)['obj']
-        domicilio = User.objects.get(id=dicc["id"])
-        domicilio.is_active = False
-        domicilio.save()
+        obj = User.objects.get(id=dicc["id"])
+        obj.is_active = False
+        obj.username = obj.username + "DELETE" + str(obj.id)
+        obj.save()
         return JsonResponse(dict(success=True,mensaje="se Eliminio"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)

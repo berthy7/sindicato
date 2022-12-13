@@ -336,7 +336,7 @@ def update(request):
 
         except Exception as e:
             print("error en cath: ", e.args[0])
-            dicc["obj"]['fechaInscripcion'] = None
+            dicc['fechaInscripcion'] = None
 
         Persona.objects.filter(pk=dicc["id"]).update(**dicc)
         return JsonResponse(dict(success=True, mensaje="Modificado Correctamente", tipo="success"), safe=False)

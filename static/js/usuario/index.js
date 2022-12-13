@@ -25,6 +25,10 @@ function load_table(data_tb) {
                     const nombre  = row.nombre + " " + row.apellidos
 
                     a = ''
+                        a += `\
+                            <button data-object='${dataObject}'  type="button" class="btn btn-primary edit" title="Editar" onclick="edit_item(this)">\
+                                <i class="mdi mdi-file-document-edit"></i>\
+                            </button>`
                     // if (row.disable === '') {
                     //     a += `\
                     //         <button data-object='${dataObject}'  type="button" class="btn btn-primary edit" title="Editar" onclick="edit_item(this)">\
@@ -102,9 +106,6 @@ $('#insert').on('click', function() {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
         return;
       }
-
-    console.log($("#fklinea").val())
-
         let req = {
             usuario : {
                   username: $("#username").val(),
@@ -121,7 +122,6 @@ $('#insert').on('click', function() {
                   tipo: "Usuario"
               },
               fklinea: $("#fklinea").val(),
-
         }
 
        const response = fetchData(
@@ -141,8 +141,10 @@ function edit_item(e) {
     // clean_data()
     $('#id').val(self.id)
     $('#nombre').val(self.nombre)
-    $("#usuario").val(self.usuario),
-    $("#contraseña").val(self.contraseña),
+    $("#username").val(self.usuario)
+        $('#fkrol').selectpicker("val", String(self.fkrol));
+    $('#fklinea').selectpicker("val", String(self.fklinea));
+
     $("#nombre").val(self.nombre),
     $("#apellidos").val(self.apellidos)
 
