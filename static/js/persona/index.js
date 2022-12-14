@@ -1010,6 +1010,7 @@ function botones_admin(adm){
             $('#lugarNacimiento').selectpicker("val", String(self.lugarNacimiento));
             $('#domicilio').val(self.domicilio)
             $('#socioConductor').selectpicker("val", String(self.socioConductor));
+            $('#fechaInscripcion').val(self.fechaInscripcion);
 
             if (self.foto) {
               $('#icon-foto').addClass('d-none');

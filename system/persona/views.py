@@ -132,6 +132,9 @@ def obtain(request,id):
         persona.fechaNacimiento = persona.fechaNacimiento.strftime('%d/%m/%Y')
     if persona.licenciaFechaVencimiento:
         persona.licenciaFechaVencimiento = persona.licenciaFechaVencimiento.strftime('%d/%m/%Y')
+    if persona.fechaInscripcion:
+        persona.fechaInscripcion = persona.fechaInscripcion.strftime('%d/%m/%Y')
+
     referencias = []
     for ref in PersonaReferencia.objects.filter(habilitado=True).filter(fkpersona=persona.id).all().order_by('id'):
         referencias.append(model_to_dict(ref))
