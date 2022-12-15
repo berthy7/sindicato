@@ -141,6 +141,9 @@ def reporte(request,id):
         p.setFont('Helvetica', 9)
         p.drawString(450,750,fechaActual)
 
+        print(persona[0].id)
+        print(persona[0].nombre + ' ' + persona[0].apellidos)
+
         nombreUsuario = persona[0].nombre + ' ' + persona[0].apellidos
         p.setFont('Helvetica',9)
         p.drawString(450,765,nombreUsuario)
