@@ -8,6 +8,12 @@ from system.linea.models import Linea, LineaPersona
 from system.persona.models import Persona
 import json
 
+import os.path
+import uuid
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 # Create your views here.
 @login_required
 def index(request):
@@ -48,10 +54,30 @@ def list(request):
         dt_list.append(dict(id=item.id,fkrol=rol.id,rol=rol.name,fklinea=fklinea,linea=linea,usuario=item.username,nombre=persona[0].nombre,apellidos=persona[0].apellidos))
 
     return JsonResponse(dt_list, safe=False)
+
+def upload_cloudinay(foto):
+    resp= cloudinary.uploader.upload('static/upload/'+foto)
+    return resp["secure_url"]
+
+def handle_uploaded_file(f,name):
+    with open('static/upload/'+ name,'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
 @login_required
 def insert(request):
     try:
-        dicc = json.load(request)['obj']
+        dicc = json.loads(request.POST.get('obj'))
+        files = request.FILES
+        fileinfo = files.get('foto', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["persona"]['foto'] = upload_cloudinay(cname)
+
+
         user = User.objects.create_user(**dicc["usuario"])
         user.save()
         dicc["persona"]["fkusuario"] = user
@@ -60,10 +86,11 @@ def insert(request):
         if dicc["persona"]["fklinea"] is not None:
             LineaPersona.objects.create(**dict(fkpersona=persona,fklinea=Linea.objects.get(id=int(dicc["fklinea"]))))
 
-
-        return JsonResponse(dict(success=True,mensaje="Registrado Correctamente"), safe=False)
+        return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
     except Exception as e:
-        return JsonResponse(dict(success=False, mensaje=e), safe=False)
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
+
 @login_required
 def update(request):
     try:
@@ -76,9 +103,9 @@ def update(request):
         usuario.apellidos=dicc["apellidos"]
 
         usuario.save()
-        return JsonResponse(dict(success=True,mensaje="Modificado Correctamente"), safe=False)
+        return JsonResponse(dict(success=True, mensaje="Modificado Correctamente", tipo="success"), safe=False)
     except Exception as e:
-        return JsonResponse(dict(success=False, mensaje=e), safe=False)
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
 @login_required
 def delete(request):
     try:

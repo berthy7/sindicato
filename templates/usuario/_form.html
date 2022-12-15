@@ -9,82 +9,122 @@
       </div>
       <div class="modal-body">
         <form id="submit_form" class="pl-3 pr-3 needs-validation" novalidate>
-          <div class="form-group mb-3">
-            <input id="id" name="id" type="hidden" />
-          </div>
-            <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="username">Usuario *</label>
-                    <input id="username" name="username" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-              <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="contraseña">Contraseña *</label>
-                     <div class="input-group input-group-merge">
-                    <input id="contraseña" name="contraseña" type="password" class="form-control form-control-sm"
-                        placeholder="" required />
-                    <div class="input-group-append" data-password="false">
-                        <div class="input-group-text">
-                            <span class="password-eye"></span>
+
+            <div class="tab-pane show active" id="bordered-tabs-preview">
+                <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                    <li class="nav-item">
+                        <a href="#general" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
+                            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Datos Generales</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#adjuntos" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                            <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Foto</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="general">
+                        <div class="form-group mb-3">
+                        <input id="id" name="id" type="hidden" />
+                      </div>
+                        <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="username">Usuario *</label>
+                                <input id="username" name="username" type="text" class="form-control form-control-sm"
+                                    placeholder="" required />
+                            </div>
                         </div>
+                          <div id="div_contraseña" class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="contraseña">Contraseña *</label>
+                                 <div class="input-group input-group-merge">
+                                <input id="contraseña" name="contraseña" type="password" class="form-control form-control-sm"
+                                    placeholder="" required />
+                                <div class="input-group-append" data-password="false">
+                                    <div class="input-group-text">
+                                        <span class="password-eye"></span>
+                                    </div>
+                                </div>
+                               </div>
+                            </div>
+                        </div>
+                      </div>
+                        <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="nombre">Nombre *</label>
+                                <input id="nombre" name="nombre" type="text" class="form-control form-control-sm"
+                                    placeholder="" required />
+                            </div>
+                        </div>
+                            <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="apellidos">Apellidos *</label>
+                                <input id="apellidos" name="apellidos" type="text" class="form-control form-control-sm"
+                                    placeholder="" required />
+                            </div>
+                        </div>
+                      </div>
+                        <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="email">Correo *</label>
+                                <input id="email" name="email" type="email" class="form-control form-control-sm"
+                                    placeholder="" required />
+                            </div>
+                        </div>
+
+                      </div>
+                        <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="fkrol">Rol *</label>
+                                <select id="fkrol" name="fkrol" class="form-control show-tick" required>
+                               {% for i in roles %}
+                                  <option value="{{ i.id }}">{{ i.name }}</option>
+                               {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="fklinea">Linea</label>
+                                <select id="fklinea" name="fklinea" class="form-control show-tick">
+                                <option value="">Ninguno</option>
+                               {% for i in lineas %}
+                                  <option value="{{ i.id }}">{{ i.codigo }}</option>
+                               {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                      </div>
                     </div>
-                   </div>
-                </div>
-            </div>
-          </div>
-            <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="nombre">Nombre *</label>
-                    <input id="nombre" name="nombre" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-                <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="apellidos">Apellidos *</label>
-                    <input id="apellidos" name="apellidos" type="text" class="form-control form-control-sm"
-                        placeholder="" required />
-                </div>
-            </div>
-          </div>
-            <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="email">Correo *</label>
-                    <input id="email" name="email" type="email" class="form-control form-control-sm"
-                        placeholder="" required />
+                    <div class="tab-pane" id="adjuntos">
+                        <div class="row">
+                              <div class="col-12 col-sm-6">
+                              <label>Foto</label>
+                              <input type="file" id="foto" name="foto" class="app-file">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img id="img-foto" src="" class="img-thumbnail image-preview d-none" alt="Vista previa foto" />
+                                  <i id="icon-foto" class="mdi app-fs-70 mdi-file-account icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                    </div>
                 </div>
             </div>
 
-          </div>
-            <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="fkrol">Rol *</label>
-                    <select id="fkrol" name="fkrol" class="form-control show-tick" required>
-                   {% for i in roles %}
-                      <option value="{{ i.id }}">{{ i.name }}</option>
-                   {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="fklinea">Linea</label>
-                    <select id="fklinea" name="fklinea" class="form-control show-tick">
-                    <option value="">Ninguno</option>
-                   {% for i in lineas %}
-                      <option value="{{ i.id }}">{{ i.codigo }}</option>
-                   {% endfor %}
-                    </select>
-                </div>
-            </div>
-
-          </div>
 
         </form>
       </div>
@@ -92,11 +132,8 @@
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">
           <i class="mdi mdi-close-box mr-1"></i> <span>Cerrar</span>
         </button>
-        <button id="insert" type="button" class="btn btn-primary">
+        <button id="upsert" type="button" class="btn btn-primary">
           <i class="mdi mdi-content-save mr-1"></i> <span>Guardar</span>
-        </button>
-        <button id="update" type="button" class="btn btn-primary">
-          <i class="mdi mdi-content-save mr-1"></i> <span>Actualizar</span>
         </button>
       </div>
     </div>

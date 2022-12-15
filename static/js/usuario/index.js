@@ -4,6 +4,18 @@ $(document).ready( function () {
     reload_table();
 });
 
+$(".app-file").fileinput({
+  language: "es",
+  showCaption: false,
+  showBrowse: true,
+  showUpload: false,
+  showUploadedThumbs: false,
+  showPreview: true,
+  previewFileType: "any",
+  // allowedFileExtensions: ext_image
+});
+
+
 function load_table(data_tb) {
     var tabla = $(id_table).DataTable({
         destroy: true,
@@ -93,12 +105,82 @@ $("#new").click(function () {
     $('#fkrol').selectpicker("val", '');
     $('#fklinea').selectpicker("val", '');
 
-  $("#update").hide();
-  $("#insert").show();
+
+
+  $("#div_contraseña").show();
+  $('#upsert').show()
   $(".form-control").val("");
   $("#submit_form").removeClass('was-validated');
   $("#modal").modal("show");
 });
+
+$('#upsert').on('click', async function() {
+    const validationData = formValidation('submit_form');
+      if (validationData.error) {
+        showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+        return;
+      }
+
+        let req = {
+            usuario : {
+                  username: $("#username").val(),
+                  password: $("#contraseña").val(),
+                  first_name: $("#nombre").val(),
+                  last_name: $("#apellidos").val(),
+                  email: $("#email").val()
+              },
+            persona : {
+                  nombre: $("#nombre").val(),
+                  apellidos: $("#apellidos").val(),
+                  fkrol: $("#fkrol").val(),
+                  fklinea: $("#fklinea").val() == "" ? null : $("#fklinea").val(),
+                  tipo: "Usuario"
+              },
+              fklinea: $("#fklinea").val(),
+        }
+
+      let url = "/usuario/insert/";
+
+      if (parseInt($("#id").val()) != 0){
+              url = "/usuario/update/";
+      }
+
+        const getCookieLocal = (name) => {
+          const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+          return r ? r[1] : undefined;
+        }
+
+        // let data = new FormData($('#submit_form')[0]);
+        var data = new FormData($('#submit_form').get(0));
+
+        data.append('obj',JSON.stringify(req))
+
+        $.ajax({
+            method: "POST",
+            url: url,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            data: data,
+            headers:{
+                "X-CSRFToken" : getCookieLocal('csrftoken')
+            },
+            async: false,
+            success: function (response) {
+
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        $('#modal').modal('hide')
+                        reload_table()
+                    }, 2000);
+              }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+})
 
 $('#insert').on('click', function() {
       const validationData = formValidation('submit_form');
@@ -148,6 +230,8 @@ function edit_item(e) {
     $("#nombre").val(self.nombre),
     $("#apellidos").val(self.apellidos)
 
+    $("#div_contraseña").hide();
+
     $('.item-form').parent().addClass('focused')
     $('#insert').hide()
     $('#update').show()
@@ -164,7 +248,6 @@ $('#update').click(function() {
       objeto ={
             id: $("#id").val(),
             usuario: $("#usuario").val(),
-            contraseña: $("#contraseña").val(),
             nombre: $("#nombre").val(),
             apellidos: $("#apellidos").val()
       }

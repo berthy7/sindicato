@@ -431,6 +431,8 @@ function limpiar(){
     $(".image-preview").addClass("d-none");
     $(".image-preview").prop("src", "");
 
+    $(".form-control").val("");
+
 }
 
 $('#btn_agregar_linea').on('click', async function() {
@@ -642,7 +644,7 @@ $("#new").click(function () {
     load_table_lineasAgregadas(lineasAgregadas)
     $('#div_tabla_lineas').show()
     $("#upsert").show();
-    $(".form-control").val("");
+
     $("#submit_form").removeClass('was-validated');
     $("#modal").modal("show");
 });

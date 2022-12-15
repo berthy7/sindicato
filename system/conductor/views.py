@@ -132,9 +132,14 @@ def reporte(request,id):
         p.setFont('Helvetica-Bold',12)
         p.drawString(30,750,'SINDICATO DE TRANSPORTISTAS SANTA CRUZ')
 
+
+        fechaHora = datetime.datetime.now() - datetime.timedelta(hours=4)
+        fechaActual = fechaHora.strftime('%d/%m/%Y %H:%M')
+
+
         # p.setFont('Helvetica-Bold',12)
         p.setFont('Helvetica', 9)
-        p.drawString(450,750,datetime.datetime.now().strftime('%d/%m/%Y %H:%M'))
+        p.drawString(450,750,fechaActual)
 
         nombreUsuario = persona[0].nombre + ' ' + persona[0].apellidos
         p.setFont('Helvetica',9)
@@ -261,11 +266,9 @@ def reporte(request,id):
         c2 = Paragraph('''Interno''', styleBH)
         c3 = Paragraph('''Placa''', styleBH)
         c4 = Paragraph('''Año''', styleBH)
-        c5 = Paragraph('''Carnet''', styleBH)
-        c6 = Paragraph('''Nombre''', styleBH)
-        c7 = Paragraph('''Estado''', styleBH)
+        c5 = Paragraph('''Estado''', styleBH)
 
-        data = [[c1, c2, c3, c4, c5, c6,c7]]
+        data = [[c1, c2, c3, c4, c5]]
 
         # Table
         styles = getSampleStyleSheet()
@@ -296,8 +299,7 @@ def reporte(request,id):
 
 
 
-            data.append([ref.fklinea.codigo,numero,placa,año,
-                         carnet,nombre, estado])
+            data.append([ref.fklinea.codigo,numero,placa,año,estado])
             high = high - 18
 
         # Table size

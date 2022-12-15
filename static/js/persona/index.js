@@ -422,6 +422,7 @@ function reload_table_lista() {
 
 function limpiar(){
     $('#id').val(0);
+    
     $('#fklinea').selectpicker("val", '');
     $('#fkinterno').selectpicker("val", '');
     $('#fechaInscripcion').selectpicker("val", '');
@@ -436,6 +437,7 @@ function limpiar(){
     $(".image-preview").addClass("d-none");
     $(".image-preview").prop("src", "");
 
+     $(".form-control").val("");
 }
 
 $('#btn_agregar_linea').on('click', async function() {
@@ -711,6 +713,7 @@ $("#new").click(function () {
     $("#upsert").show();
     $('#insertfile').hide()
     $("#submit_form").removeClass('was-validated');
+    $(".form-control").val("");
     $("#modal").modal("show");
 });
 $("#newReferencia").click(function () {
