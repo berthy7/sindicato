@@ -965,7 +965,7 @@ function delete_referencias(self) {
 }
 
 $('#socioConductor').change(function () {
-    if($(this).val() == "")
+    if($(this).val() == "No")
     {
         $('#licenciaNro').prop("required", false);
         $('#licenciaCategoria').prop("required", false);
