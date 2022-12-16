@@ -27,6 +27,16 @@ function load_table(data_tb) {
             { title: "ID", data: "id" },
             { title: "Rol", data: "rol" },
             { title: "Linea", data: "linea" },
+            { title: "Foto", data: "foto",
+                render: function(data, type, row) {
+
+                    image = ![null, '', 'None', 'S/I'].includes(data)?
+                            '<a data-fancybox="gallery" href="' + data + '"><img class="d-flex align-self-center rounded img-thumbnail" src="' + data + '" alt="Imagen" height="64"></a>':
+                            "<i class='mdi mdi-account-box mdi-48px'></i>";
+
+                    return '<div class="media mx-auto align-middle">' + image + '</div>'
+                }
+            },
             { title: "Usuario", data: "usuario" },
             { title: "Nombre", data: "nombre" },
             { title: "Apellidos", data: "apellidos" },
@@ -101,12 +111,11 @@ $('#fklinea').selectpicker({
 });
 
 $("#new").click(function () {
-
+$('#id').val(0)
     $('#fkrol').selectpicker("val", '');
     $('#fklinea').selectpicker("val", '');
 
-
-
+  $('#contraseña').prop("required", true);
   $("#div_contraseña").show();
   $('#upsert').show()
   $(".form-control").val("");
@@ -123,6 +132,7 @@ $('#upsert').on('click', async function() {
 
         let req = {
             usuario : {
+                  id: parseInt($("#id").val()),
                   username: $("#username").val(),
                   password: $("#contraseña").val(),
                   first_name: $("#nombre").val(),
@@ -130,6 +140,7 @@ $('#upsert').on('click', async function() {
                   email: $("#email").val()
               },
             persona : {
+                  id: $("#personaid").val(),
                   nombre: $("#nombre").val(),
                   apellidos: $("#apellidos").val(),
                   fkrol: $("#fkrol").val(),
@@ -222,11 +233,14 @@ function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
     // clean_data()
     $('#id').val(self.id)
-    $('#nombre').val(self.nombre)
     $("#username").val(self.usuario)
-        $('#fkrol').selectpicker("val", String(self.fkrol));
+    $("#email").val(self.email)
+    $('#nombre').val(self.nombre)
+    $('#fkrol').selectpicker("val", String(self.fkrol));
     $('#fklinea').selectpicker("val", String(self.fklinea));
+    $('#contraseña').prop("required", false);
 
+    $("#personaid").val(self.personaid),
     $("#nombre").val(self.nombre),
     $("#apellidos").val(self.apellidos)
 

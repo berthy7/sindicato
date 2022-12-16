@@ -34,14 +34,16 @@ def index(request):
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
             lineas = Linea.objects.filter(habilitado=True).filter(id=linea.id).all().order_by('id')
+            foto = persona[0].foto
         else:
             lineaUser = ""
             lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
+            foto = ""
     except Exception as e:
         print(e)
     return render(request, 'conductor/index.html', {'lineas':lineas,'conductores':conductores,
                                                    'usuario': user.first_name + " " + user.last_name,
-                                                   'rol': rol, 'lineaUser': lineaUser})
+                                                   'rol': rol,'foto': foto, 'lineaUser': lineaUser})
 
 @login_required
 def list(request):
@@ -140,9 +142,6 @@ def reporte(request,id):
         # p.setFont('Helvetica-Bold',12)
         p.setFont('Helvetica', 9)
         p.drawString(450,750,fechaActual)
-
-        print(persona[0].id)
-        print(persona[0].nombre + ' ' + persona[0].apellidos)
 
         nombreUsuario = persona[0].nombre + ' ' + persona[0].apellidos
         p.setFont('Helvetica',9)

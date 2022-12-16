@@ -27,17 +27,19 @@ def index(request):
             internos = Interno.objects.filter(fklinea=linea.id).filter(fkvehiculo = None ).all().order_by('id')
             lineas = Linea.objects.filter(habilitado=True).filter(id=linea.id).all().order_by('id')
             lineaUser = linea.codigo
+            foto = persona[0].foto
         else:
             internos = Interno.objects.filter(fkvehiculo = None ).all().order_by('id')
             lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
             lineaUser = ""
+            foto = ""
         categorias = VehiculoCategoria.objects.all().order_by('id')
     except Exception as e:
         print(e)
     return render(request, 'vehiculo/index.html', {'categorias':categorias,
                                                    'lineas':lineas,'internos':internos,
                                                    'usuario': user.first_name + " " + user.last_name,
-                                                   'rol': rol, 'lineaUser': lineaUser})
+                                                   'rol': rol,'foto': foto, 'lineaUser': lineaUser})
 
 @login_required
 def list(request):

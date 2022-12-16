@@ -22,14 +22,17 @@ def index(request):
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineas = Linea.objects.filter(id=linea.id).all().order_by('id')
             lineaUser = linea.codigo
+            foto = persona[0].foto
         else:
             lineas = Linea.objects.all().order_by('id')
             lineaUser = ""
+            foto = ""
+
     except Exception as e:
         print(e)
     return render(request, 'capacitacion/index.html', {'personas': personas, 'cursos':cursos,'lineas':lineas,
                                                    'usuario': user.first_name + " " + user.last_name,
-                                                   'rol': rol, 'lineaUser': lineaUser})
+                                                   'rol': rol,'foto': foto, 'lineaUser': lineaUser})
 
 @login_required
 def list(request):

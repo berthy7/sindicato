@@ -23,12 +23,16 @@ def home(request):
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
+            foto = persona[0].foto
         else:
             lineaUser = ""
+            foto = ""
     else:
         rol = "Administrador"
         lineaUser = ""
-    return render(request, 'home.html', {'lineaUser': lineaUser,'usuario': user.first_name + " " + user.last_name,'rol': rol})
+
+    return render(request, 'home.html', {'lineaUser': lineaUser,'usuario': user.first_name + " " + user.last_name,
+                                         'rol': rol,'foto': foto})
 
 def logon(request):
     if request.method == 'GET':

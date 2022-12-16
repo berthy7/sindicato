@@ -394,6 +394,7 @@ function botones_admin(adm){
 
 function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
+   
 
     $("input[type=file]").fileinput("clear");
     $(".icon-preview").removeClass("d-none");

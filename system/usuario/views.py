@@ -26,13 +26,15 @@ def index(request):
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
+            foto = persona[0].foto
         else:
             lineaUser = ""
+            foto = ""
     except Exception as e:
         print(e)
     return render(request, 'usuario/index.html', {'lineas': lineas,'roles': roles,
                                                   'usuario': user.first_name + " " + user.last_name,
-                                                'rol': rol, 'lineaUser': lineaUser})
+                                                'rol': rol,'foto': foto, 'lineaUser': lineaUser})
 @login_required
 def list(request):
     dt_list = []
@@ -51,7 +53,8 @@ def list(request):
             fklinea = 0
 
 
-        dt_list.append(dict(id=item.id,fkrol=rol.id,rol=rol.name,fklinea=fklinea,linea=linea,usuario=item.username,nombre=persona[0].nombre,apellidos=persona[0].apellidos))
+        dt_list.append(dict(id=item.id,fkrol=rol.id,rol=rol.name,fklinea=fklinea,linea=linea,email=item.email,usuario=item.username,
+                            personaid=persona[0].id,foto=persona[0].foto,nombre=persona[0].nombre,apellidos=persona[0].apellidos))
 
     return JsonResponse(dt_list, safe=False)
 
@@ -78,13 +81,16 @@ def insert(request):
             dicc["persona"]['foto'] = upload_cloudinay(cname)
 
 
+        del dicc["usuario"]["id"]
+
         user = User.objects.create_user(**dicc["usuario"])
         user.save()
         dicc["persona"]["fkusuario"] = user
         dicc["persona"]["fkrol"] = Group.objects.get(id=int(dicc["persona"]["fkrol"]))
+        del dicc["persona"]["id"]
         persona = Persona.objects.create(**dicc["persona"])
         if dicc["persona"]["fklinea"] is not None:
-            LineaPersona.objects.create(**dict(fkpersona=persona,fklinea=Linea.objects.get(id=int(dicc["fklinea"]))))
+            LineaPersona.objects.create(**dict(fkpersona=persona,fklinea=Linea.objects.get(id=int(dicc["persona"]["fklinea"]))))
 
         return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
     except Exception as e:
@@ -94,15 +100,26 @@ def insert(request):
 @login_required
 def update(request):
     try:
-        dicc = json.load(request)['obj']
-        usuario = User.objects.get(id=dicc["id"])
+        dicc = json.loads(request.POST.get('obj'))
+        files = request.FILES
+        fileinfo = files.get('foto', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["persona"]['foto'] = upload_cloudinay(cname)
 
-        usuario.username =dicc["usuario"]
-        usuario.password=dicc["contraseña"]
-        usuario.nombre=dicc["nombre"]
-        usuario.apellidos=dicc["apellidos"]
 
+        usuario = User.objects.get(id=dicc["usuario"]["id"])
+
+        usuario.username =dicc["usuario"]["username"]
+        usuario.first_name=dicc["usuario"]["first_name"]
+        usuario.last_name=dicc["usuario"]["last_name"]
         usuario.save()
+
+        Persona.objects.filter(pk=dicc["persona"]["id"]).update(**dicc["persona"])
+
         return JsonResponse(dict(success=True, mensaje="Modificado Correctamente", tipo="success"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
