@@ -27,7 +27,7 @@ def index(request):
             internos = Interno.objects.filter(fklinea=linea.id).filter(fkvehiculo = None ).all().order_by('id')
             lineas = Linea.objects.filter(habilitado=True).filter(id=linea.id).all().order_by('id')
             lineaUser = linea.codigo
-            foto = persona[0].foto
+            foto = persona[0].foto if persona[0].foto != None else  ""
         else:
             internos = Interno.objects.filter(fkvehiculo = None ).all().order_by('id')
             lineas = Linea.objects.filter(habilitado=True).all().order_by('id')

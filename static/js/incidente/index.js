@@ -71,39 +71,6 @@ $("#recargar").click(function () {
     reload_select_tipo()
 });
 
-function reload_select_tipo() {
-    $.ajax({
-        method: "GET",
-        url: '/incidente/tipoList',
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-
-        $('#fktipo').html('');
-
-        $('#fktipo').selectpicker('destroy');
-        $('#fktipo').selectpicker({
-          size: 10,
-          liveSearch: true,
-          liveSearchPlaceholder: 'Buscar',
-          title: 'Seleccione una opción'
-        });
-
-        var select = document.getElementById("fktipo")
-        for (var i = 0; i < response.length; i++) {
-            var option = document.createElement("OPTION");
-            option.innerHTML = response[i]['nombre'];
-            option.value = response[i]['id'];
-            select.appendChild(option);
-        }
-        $('#fktipo').selectpicker('refresh');
-
-        },
-        error: function (jqXHR, status, err) {
-        }
-    });
-}
-
 function reload_table() {
     $.ajax({
         method: "GET",

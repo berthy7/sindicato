@@ -198,8 +198,6 @@ $("#btnMapas").click(function () {
     $("#modal-mapas").modal("show");
 });
 
-
-
 $("#new").click(function () {
     $('#id').val(0)
         $("input[type=file]").fileinput("clear");

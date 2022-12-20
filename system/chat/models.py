@@ -13,10 +13,10 @@ class Chat(models.Model):
     mensaje = models.CharField(max_length=200)
     mensajeAdjunto = models.CharField(max_length=255, null=True)
 
-    fechar = models.DateTimeField()
-    receptorId = models.IntegerField()
-    receptor = models.CharField(max_length=200)
-    respuesta = models.CharField(max_length=200)
+    fechar = models.DateTimeField(null=True)
+    receptorId = models.IntegerField(null=True)
+    receptor = models.CharField(max_length=200, null=True)
+    respuesta = models.CharField(max_length=200, null=True)
     respuestaAdjunto = models.CharField(max_length=255, null=True)
 
     fkusuario = models.ForeignKey(User, on_delete=models.CASCADE)

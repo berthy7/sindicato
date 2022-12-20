@@ -44,7 +44,7 @@ def index(request):
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
             lineas = Linea.objects.filter(habilitado=True).filter(id=linea.id).all().order_by('id')
-            foto = persona[0].foto
+            foto = persona[0].foto if persona[0].foto != None else  ""
         else:
             lineaUser = ""
             lineas = Linea.objects.filter(habilitado=True).all().order_by('id')

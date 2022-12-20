@@ -30,7 +30,16 @@ def home(request):
             datos = Chat.objects.filter(habilitado=True).all().order_by('-id')
             for item in datos:
                 dicc = model_to_dict(item)
+
+                dicc["fecha"] = item.fecha.strftime('%d/%m/%Y %H:%M')
+
+                if dicc["fechar"] != None:
+                    dicc["fechar"] = item.fechar.strftime('%d/%m/%Y %H:%M')
+                else:
+                    dicc["fechar"] = ""
+
                 dt_list.append(dicc)
+
             # cumpleaños
             for interPer in InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct(
                     'fkpersona').all().select_related('fkpersona').filter(fkpersona__fechaNacimiento=fechaActual).filter(
@@ -51,6 +60,13 @@ def home(request):
             datos = Chat.objects.filter(habilitado=True).all().order_by('-id')
             for item in datos:
                 dicc = model_to_dict(item)
+                dicc["fecha"] = item.fecha.strftime('%d/%m/%Y %H:%M')
+
+                if dicc["fechar"] != None:
+                    dicc["fechar"] = item.fechar.strftime('%d/%m/%Y %H:%M')
+                else:
+                    dicc["fechar"] = ""
+
                 dt_list.append(dicc)
             # cumpleaños
             for item in Persona.objects.filter(habilitado=True).filter(fechaNacimiento=fechaActual):
@@ -66,9 +82,9 @@ def home(request):
                 licencias_list.append(dicc)
     except Exception as e:
         print(e)
-    dicc = dict(chat=[],cumpleaños=cumpleaños_list,licencias=licencias_list)
-    return JsonResponse(dicc, safe=False)
 
+    dicc = dict(userid=user.id, chat=dt_list,cumpleaños=cumpleaños_list,licencias=licencias_list)
+    return JsonResponse(dicc, safe=False)
 
 @login_required
 def index(request):
@@ -87,53 +103,60 @@ def index(request):
         print(e)
     return render(request, 'persona/index.html', {'usuario': user.first_name + " " + user.last_name,
                                                    'rol': rol, 'foto': foto,'lineaUser': lineaUser})
-@login_required
-def list(request):
-    dt_list = []
-    datos = Chat.objects.filter(habilitado=True).filter(tipo="Socio").all().order_by('-id')
-    for item in datos:
-        dicc = model_to_dict(item)
-        dt_list.append(dicc)
-    return JsonResponse(dt_list, safe=False)
 
 @login_required
 def list(request):
+    dt_list = []
     user = request.user
-    dt_list = []
-    try:
-        persona = Persona.objects.filter(fkusuario=user.id)
-        if persona[0].fklinea:
-            datos = Chat.objects.filter(habilitado=True).filter(fkemisor=persona[0].fklinea).all().order_by('-id')
-        else:
-            datos = Chat.objects.filter(habilitado=True).all().order_by('-id')
-
-        for item in datos:
-            # .strftime('%d/%m/%Y')
+    admin = False
+    persona = Persona.objects.filter(fkusuario=user.id)
+    if persona[0].fklinea:
+        admin = False
+        for interPer in  InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct('fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo='Socio').filter(fkpersona__habilitado=True):
+            item = interPer.fkpersona
+            asignaciones = []
+            for interPersona in InternoPersona.objects.filter(habilitado=True).filter(
+                    fkpersona=item.id).all().order_by('id'):
+                interno = interPersona.fkinterno
+                asignaciones.append(
+                    dict(interPersonaId=interPersona.id, fklinea=interno.fklinea_id, linea=interno.fklinea.codigo,
+                         fkinterno=interno.id, interno=interno.numero))
             dicc = model_to_dict(item)
+            dicc["asignaciones"] = asignaciones
             dt_list.append(dicc)
 
-    except Exception as e:
-        print(e)
-    return JsonResponse(dt_list, safe=False)
+        obj = dict(admin=admin, lista=dt_list)
+        return JsonResponse(obj, safe=False)
+    else:
+        datos = Persona.objects.filter(habilitado=True).filter(tipo="Socio").all().order_by('-id')
+        admin = True
+        for item in datos:
+            asignaciones = []
+            for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=item.id).all().order_by('id'):
+                interno = interPersona.fkinterno
+                asignaciones.append(dict(interPersonaId=interPersona.id,fklinea=interno.fklinea_id, linea=interno.fklinea.codigo,
+                                         fkinterno=interno.id, interno=interno.numero))
+            dicc = model_to_dict(item)
+            dicc["asignaciones"] = asignaciones
+            dt_list.append(dicc)
 
+        obj = dict(admin=admin, lista=dt_list)
+        return JsonResponse(obj, safe=False)
 
 @login_required
 def obtain(request,id):
-
     persona = Persona.objects.get(id=id)
-
     if persona.fechaNacimiento:
         persona.fechaNacimiento = persona.fechaNacimiento.strftime('%d/%m/%Y')
     if persona.licenciaFechaVencimiento:
         persona.licenciaFechaVencimiento = persona.licenciaFechaVencimiento.strftime('%d/%m/%Y')
+    if persona.fechaInscripcion:
+        persona.fechaInscripcion = persona.fechaInscripcion.strftime('%d/%m/%Y')
 
     referencias = []
-
     for ref in PersonaReferencia.objects.filter(habilitado=True).filter(fkpersona=persona.id).all().order_by('id'):
         referencias.append(model_to_dict(ref))
-
     asignaciones = []
-
     for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=persona.id).all().order_by('id'):
 
         # interno = interPersona.fkinterno
@@ -151,117 +174,53 @@ def obtain(request,id):
     response = dict(obj=dicc,referencias=referencias,asignaciones=asignaciones)
 
     return JsonResponse(response, safe=False)
+
 def handle_uploaded_file(f,name):
     with open('static/upload/'+ name,'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 @login_required
 def insert(request):
+    user = request.user
     try:
         dicc = json.loads(request.POST.get('obj'))
         files = request.FILES
-        fileinfo = files.get('foto', None)
+        fileinfo = files.get('file', None)
         if fileinfo:
             fname = fileinfo.name
             extn = os.path.splitext(fname)[1]
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo,cname)
-            dicc["obj"]['foto'] = cname
+            dicc['mensajeAdjunto'] = cname
 
-        fileinfo = files.get('file-ci', None)
-        if fileinfo:
-            fname = fileinfo.name
-            extn = os.path.splitext(fname)[1]
-            cname = str(uuid.uuid4()) + extn
-            handle_uploaded_file(fileinfo,cname)
-            dicc["obj"]['fotoCi'] = cname
+        dicc['fkusuario'] = user
 
-        fileinfo = files.get('file-licencia', None)
-        if fileinfo:
-            fname = fileinfo.name
-            extn = os.path.splitext(fname)[1]
-            cname = str(uuid.uuid4()) + extn
-            handle_uploaded_file(fileinfo, cname)
-            dicc["obj"]['fotoLicencia'] = cname
-
-        # dicc = json.load(request)['obj']
-        persona = Persona.objects.filter(ci=dicc["obj"]['ci']).filter(habilitado=True).all()
-
-        if len(persona) == 0:
-            if dicc["obj"]['fechaNacimiento'] != "":
-                dicc["obj"]['fechaNacimiento'] = datetime.datetime.strptime(dicc["obj"]['fechaNacimiento'],'%d/%m/%Y')
-            else:
-                dicc["obj"]['fechaNacimiento'] = None
-
-            if dicc["obj"]['licenciaFechaVencimiento'] != "":
-                dicc["obj"]['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc["obj"]['licenciaFechaVencimiento'],'%d/%m/%Y')
-            else:
-                dicc["obj"]['licenciaFechaVencimiento'] = None
-            del dicc["obj"]['id']
-            persona = Persona.objects.create(**dicc["obj"])
-
-            for ref in dicc["referencias"]:
-                del ref['id']
-                ref["fkpersona"] =  persona
-                PersonaReferencia.objects.create(**ref)
-
-            for asig in dicc["lineas"]:
-                asig["fkinterno"] =  Interno.objects.get(id=asig["fkinterno"])
-                asig["fkpersona"] = persona
-                del asig['interPersonaId']
-                del asig['fklinea']
-                del asig['linea']
-                del asig['interno']
-
-                InternoPersona.objects.create(**asig)
-
-            return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
-        else:
-            return JsonResponse(dict(success=False, mensaje="El Ci ya esta registrado en el sistema", tipo="warning"), safe=False)
+        Chat.objects.create(**dicc)
+        return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
 
     except Exception as e:
         print("error: ", e.args[0])
         return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
 @login_required
 def update(request):
+    user = request.user
     try:
         dicc = json.loads(request.POST.get('obj'))
         files = request.FILES
-        fileinfo = files.get('foto', None)
+        fileinfo = files.get('file', None)
         if fileinfo:
             fname = fileinfo.name
             extn = os.path.splitext(fname)[1]
             cname = str(uuid.uuid4()) + extn
-            handle_uploaded_file(fileinfo, cname)
-            dicc['foto'] = cname
+            handle_uploaded_file(fileinfo,cname)
+            dicc['mensajeAdjunto'] = cname
 
-        fileinfo = files.get('file-ci', None)
-        if fileinfo:
-            fname = fileinfo.name
-            extn = os.path.splitext(fname)[1]
-            cname = str(uuid.uuid4()) + extn
-            handle_uploaded_file(fileinfo, cname)
-            dicc['fotoCi'] = cname
+        dicc['receptorId'] = user.id
+        dicc['receptor'] = user.first_name + " " + user.last_name
 
-        fileinfo = files.get('file-licencia', None)
-        if fileinfo:
-            fname = fileinfo.name
-            extn = os.path.splitext(fname)[1]
-            cname = str(uuid.uuid4()) + extn
-            handle_uploaded_file(fileinfo, cname)
-            dicc['fotoLicencia'] = cname
+        dicc['fechar'] = datetime.datetime.now() - datetime.timedelta(hours=4)
 
-
-        if dicc['fechaNacimiento'] != "":
-            dicc['fechaNacimiento'] = datetime.datetime.strptime(dicc['fechaNacimiento'],'%d/%m/%Y')
-        else:
-            dicc['fechaNacimiento'] = None
-        if dicc['licenciaFechaVencimiento'] != "":
-            dicc['licenciaFechaVencimiento'] = datetime.datetime.strptime(dicc['licenciaFechaVencimiento'], '%d/%m/%Y')
-        else:
-            dicc['licenciaFechaVencimiento'] = None
-
-        Persona.objects.filter(pk=dicc["id"]).update(**dicc)
+        Chat.objects.filter(pk=dicc["id"]).update(**dicc)
         return JsonResponse(dict(success=True, mensaje="Modificado Correctamente", tipo="success"), safe=False)
     except Exception as e:
         print("error: ", e.args[0])

@@ -18,7 +18,7 @@ def index(request):
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
-            foto = persona[0].foto
+            foto = persona[0].foto if persona[0].foto != None else  ""
         else:
             lineaUser = ""
             foto = ""

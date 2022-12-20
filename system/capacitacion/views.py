@@ -22,7 +22,7 @@ def index(request):
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineas = Linea.objects.filter(id=linea.id).all().order_by('id')
             lineaUser = linea.codigo
-            foto = persona[0].foto
+            foto = persona[0].foto if persona[0].foto != None else  ""
         else:
             lineas = Linea.objects.all().order_by('id')
             lineaUser = ""
@@ -66,6 +66,7 @@ def insert(request):
         dicc = json.load(request)['obj']
         dicc["fkcurso"] = CapacitacionCurso.objects.get(id=dicc["fkcurso"])
         dicc["fkpersona"] = Persona.objects.get(id=dicc["fkpersona"])
+        dicc["fklinea"] = Linea.objects.get(id=dicc["fklinea"])
         dicc["fkusuario"] = user
         dicc['fecha'] = datetime.datetime.strptime(dicc['fecha'], '%d/%m/%Y')
         Capacitacion.objects.create(**dicc)
@@ -82,6 +83,7 @@ def update(request):
         dicc = json.load(request)['obj']
         dicc["fkcurso"] = CapacitacionCurso.objects.get(id=dicc["fkcurso"])
         dicc["fkpersona"] = Persona.objects.get(id=dicc["fkpersona"])
+        dicc["fklinea"] = Linea.objects.get(id=dicc["fklinea"])
         dicc["fkusuario"] = user
         dicc['fecha'] = datetime.datetime.strptime(dicc['fecha'], '%d/%m/%Y')
         Capacitacion.objects.filter(pk=dicc["id"]).update(**dicc)

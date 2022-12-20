@@ -26,7 +26,7 @@ def index(request):
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
-            foto = persona[0].foto
+            foto = persona[0].foto if persona[0].foto != None else  ""
         else:
             lineaUser = ""
             foto = ""
@@ -57,6 +57,20 @@ def list(request):
                             personaid=persona[0].id,foto=persona[0].foto,nombre=persona[0].nombre,apellidos=persona[0].apellidos))
 
     return JsonResponse(dt_list, safe=False)
+
+@login_required
+def listar(request):
+    user = request.user
+    persona = Persona.objects.filter(fkusuario=user.id)
+    dt_list = []
+    datos = User.objects.filter(~Q(username="admin")).filter(is_active=True).all().order_by('first_name')
+    for item in datos:
+        dt_list.append(dict(id=item.id,nombre=item.first_name +" "+item.last_name))
+
+
+
+    dicc = dict(userid=user.id,rol=persona[0].fkrol_id,lista=dt_list)
+    return JsonResponse(dicc, safe=False)
 
 def upload_cloudinay(foto):
     resp= cloudinary.uploader.upload('static/upload/'+foto)

@@ -13,12 +13,12 @@
         <div class="card">
           <div class="card-body">
           <h4 class="header-title mb-3">Mensajeria</h4>
-          {% if rol == "Administrador" %}
+
                   <button id="new-chat" type="button" class="btn btn-info mb-3" data-toggle="modal-chat"
                     data-target="#modal-chat" title="Nuevo">
                     <i class="mdi mdi-plus"></i>
                   </button>
-            {% endif %}
+
             <div class="content">
               <table id="data_table_chat" class="table table-striped dt-responsive nowrap w-100"></table>
             </div>
@@ -64,11 +64,37 @@
             <input id="id" name="id" type="hidden" />
           </div>
           <div class="row">
-            <div class="col-12 col-sm-12">
+              <div class="col-12 col-sm-4">
+                <div class="form-group mb-3">
+                    <label>Enviado Por</label>
+
+                    <select id="emisorId" name="emisorId" class="form-control show-tick" disabled>
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-8">
                 <div class="form-group mb-3">
                     <label>Mensaje *</label>
                     <textarea id="mensaje" name="mensaje" type="text" class="form-control form-control-sm"
                         placeholder="" required ></textarea>
+                </div>
+            </div>
+
+          </div>
+         <div id="div_respuesta" class="row">
+             <div class="col-12 col-sm-4">
+                <div class="form-group mb-3">
+                    <label>Respondido Por</label>
+                    <select id="receptorId" name="receptorId" class="form-control show-tick" >
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-8">
+                <div class="form-group mb-3">
+                    <label>Respuesta</label>
+                    <textarea id="respuesta" name="respuesta" type="text" class="form-control form-control-sm"
+                        placeholder="" ></textarea>
                 </div>
             </div>
 
@@ -83,7 +109,7 @@
                       <i class="mdi mdi-content-save mr-1"></i> <span>Enviar</span>
                     </button>
                     <button id="update" type="button" class="btn btn-primary">
-                      <i class="mdi mdi-content-save mr-1"></i> <span>Actualizar</span>
+                      <i class="mdi mdi-content-save mr-1"></i> <span>Responder</span>
                     </button>
                 </div>
             </div>
