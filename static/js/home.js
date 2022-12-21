@@ -53,7 +53,7 @@ function add_columns(userid) {
                 a = ''
 
                 a += `\
-                    <button data-object='${dataObject}'  data-userid='${userid}'  type="button" class="btn btn-primary edit" title="Editar" onclick="edit_chat(this)">\
+                    <button data-object='${dataObject}'  data-userid='${userid}' type="button" class="btn btn-primary edit" title="Editar" onclick="edit_chat(this)">\
                         <i class="mdi mdi-file-document-edit"></i>\
                     </button>`
 
@@ -195,10 +195,7 @@ function reload_select_usuarios(response) {
         optionreceptor.innerHTML = response.lista[i]['nombre'];
         optionreceptor.value = response.lista[i]['id'];
         selectreceptor.appendChild(optionreceptor);
-
     }
-
-    console.log("userId",response.userid)
 
     $('#emisorId').selectpicker('refresh');
     $('#emisorId').selectpicker("val", String(response.userid));
@@ -225,7 +222,17 @@ function cargar_usuarios(){
 }
 
 
+function privilegios_rol(){
+    console.log($('#role').html())
 
+    if($('#role').html() == "Administrador"){
+            $('#div_respondido').show()
+            $('#receptorId').prop("disabled", false);
+    }else{
+            $('#div_respondido').hide()
+            $('#receptorId').prop("disabled", true);
+    }
+}
 
 $('#new-chat').click(function() {
     $('#id').val(0)
@@ -244,9 +251,15 @@ $('#new-chat').click(function() {
     $('#mensaje').val('')
     $('#respuesta').val('')
 
+
+
     $('#insert').show()
     $('#update').hide()
+    $('#div_respondido').hide()
      $('#div_respuesta').hide()
+
+     privilegios_rol()
+
     $('#modal-chat').modal('show')
 });
 
@@ -317,16 +330,12 @@ $('#insert').on('click', async function() {
 function edit_chat(e) {
     const self = JSON.parse(e.dataset.object);
     const userid = JSON.parse(e.dataset.userid);
-
     $("input[type=file]").fileinput("clear");
     $(".icon-preview").removeClass("d-none");
     $(".image-preview").addClass("d-none");
     $(".image-preview").prop("src", "");
 
-    console.log(self.emisorId)
-
     cargar_usuarios()
-
 
     $('#emisorId').selectpicker("val", String(self.emisorId));
 
@@ -343,12 +352,14 @@ function edit_chat(e) {
 
     $('.item-form').parent().addClass('focused')
 
+    $('#div_respondido').show()
     $('#div_respuesta').show()
 
     $('#insert').hide()
     $('#update').show()
 
     privilegios_chat(self,userid)
+
     // botones_admin(admin)
 
     $('#modal-chat').modal('show')
@@ -410,14 +421,17 @@ $('#update').on('click', async function() {
 function privilegios_chat(obj,userid){
 
     if(obj.emisorId == userid){
+
+        $('#receptorId').selectpicker("val", String(obj.receptorId));
         $('#respuesta').prop("disabled", true);
         $('#mensaje').prop("disabled", false);
         $('#update').hide()
 
     }else{
+        $('#receptorId').selectpicker("val", String(userid));
         $('#respuesta').prop("disabled", false);
         $('#mensaje').prop("disabled", true);
-         $('#update').show()
+        $('#update').show()
     }
 
 }

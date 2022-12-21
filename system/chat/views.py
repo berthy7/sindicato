@@ -19,6 +19,11 @@ import io
 @login_required
 def home(request):
     user = request.user
+
+
+
+
+
     dt_list = []
     cumpleaños_list = []
     licencias_list = []
