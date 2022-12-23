@@ -22,8 +22,6 @@ def home(request):
 
 
 
-
-
     dt_list = []
     cumpleaños_list = []
     licencias_list = []
@@ -32,7 +30,9 @@ def home(request):
         fechaActual = datetime.datetime.now().date()
         fecha10dias = fechaActual + datetime.timedelta(days=10)
         if persona[0].fklinea:
-            datos = Chat.objects.filter(habilitado=True).all().order_by('-id')
+
+            datos = Chat.objects.filter(habilitado=True).filter(Q(emisorId=user.id) | Q(receptorId=user.id)).all().order_by('-id')
+
             for item in datos:
                 dicc = model_to_dict(item)
 

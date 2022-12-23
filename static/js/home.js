@@ -223,14 +223,14 @@ function cargar_usuarios(){
 
 
 function privilegios_rol(){
-    console.log($('#role').html())
+
 
     if($('#role').html() == "Administrador"){
-            $('#div_respondido').show()
-            $('#receptorId').prop("disabled", false);
+         console.log("rolrol")
+       $('#div_respondido').show()
+        $('#receptorId').prop("enabled", true);
     }else{
-            $('#div_respondido').hide()
-            $('#receptorId').prop("disabled", true);
+       $('#div_respondido').hide()
     }
 }
 
@@ -240,6 +240,8 @@ $('#new-chat').click(function() {
 
     $('#emisorId').selectpicker("val", '');
     $('#receptorId').selectpicker("val", '');
+
+    $('#respuesta').prop("required", false);
 
     cargar_usuarios()
 
@@ -335,6 +337,11 @@ function edit_chat(e) {
     $(".image-preview").addClass("d-none");
     $(".image-preview").prop("src", "");
 
+
+    $('#respuesta').prop("required", true);
+
+    $('#receptorId').prop("disabled", true);
+    
     cargar_usuarios()
 
     $('#emisorId').selectpicker("val", String(self.emisorId));
@@ -359,6 +366,7 @@ function edit_chat(e) {
     $('#update').show()
 
     privilegios_chat(self,userid)
+
 
     // botones_admin(admin)
 
