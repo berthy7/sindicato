@@ -13,9 +13,17 @@ class Vehiculo(models.Model):
     fkcategoria = models.ForeignKey(VehiculoCategoria, on_delete=models.CASCADE)
     fklinea = models.IntegerField(null=True)
     fkinterno = models.IntegerField(null=True)
+
     ruat = models.CharField(max_length=255, null=True)
     fotofrontal = models.CharField(max_length=255, null=True)
     fotolateral = models.CharField(max_length=255, null=True)
+
+    soat = models.CharField(max_length=255, null=True)
+    soatVencimiento = models.DateField(null=True)
+    inspeccion = models.CharField(max_length=255, null=True)
+    inspeccionVencimiento = models.DateField(null=True)
+    seguro = models.CharField(max_length=255, null=True)
+    seguroVencimiento = models.DateField(null=True)
 
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)

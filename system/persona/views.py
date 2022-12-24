@@ -201,6 +201,23 @@ def insertfile(request):
             handle_uploaded_file(fileinfo, cname)
             obj.fotoLicencia = upload_cloudinay(cname)
 
+        fileinfo = files.get('certificadoInscripcion', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            obj.certificadoInscripcion = upload_cloudinay(cname)
+
+
+        fileinfo = files.get('memorandum', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            obj.memorandum = upload_cloudinay(cname)
+
         obj.save()
         return JsonResponse(dict(success=True, mensaje="Modificado Correctamente",tipo="success"), safe=False)
     except Exception as e:
@@ -234,6 +251,22 @@ def insert(request):
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo, cname)
             dicc["obj"]['fotoLicencia'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('certificadoInscripcion', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['certificadoInscripcion'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('memorandum', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['memorandum'] = upload_cloudinay(cname)
 
         # dicc = json.load(request)['obj']
         persona = Persona.objects.filter(ci=dicc["obj"]['ci']).filter(habilitado=True).all()
@@ -322,6 +355,23 @@ def update(request):
             dicc['fotoLicencia'] = upload_cloudinay(cname)
 
 
+        fileinfo = files.get('certificadoInscripcion', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc['certificadoInscripcion'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('memorandum', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc['memorandum'] = upload_cloudinay(cname)
+
+
         if dicc['fechaNacimiento'] != "":
             dicc['fechaNacimiento'] = datetime.datetime.strptime(dicc['fechaNacimiento'],'%d/%m/%Y')
         else:
@@ -359,15 +409,20 @@ def state(request):
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
 @login_required
 def delete(request):
+    user = request.user
     try:
         dicc = json.load(request)['obj']
         obj = Persona.objects.get(id=dicc["id"])
         obj.estado = False
         obj.habilitado = False
+        obj.fechaEliminado = datetime.datetime.now() - datetime.timedelta(hours=4)
+        obj.fkusuarioEliminado= user.id
+
         obj.save()
-        return JsonResponse(dict(success=True,mensaje="se Eliminio"), safe=False)
+        return JsonResponse(dict(success=True, mensaje="Eliminado Correctamente", tipo="success"),
+                            safe=False)
     except Exception as e:
-        return JsonResponse(dict(success=False, mensaje=e), safe=False)
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
 
 @login_required
 def reporte(request,id):
@@ -711,7 +766,7 @@ def eliminarInternos(request,id):
         interno = InternoPersona.objects.get(id=id)
         interno.estado = False
         interno.habilitado = False
-        interno.fechaRetiro = datetime.datetime.now()
+        interno.fechaRetiro = datetime.datetime.now() - datetime.timedelta(hours=4)
         interno.save()
         return JsonResponse(dict(success=True, mensaje="Eliminado Correctamente",tipo="success"), safe=False)
     except Exception as e:

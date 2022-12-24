@@ -358,8 +358,7 @@ function add_columns_lista() {
             { title: "Apellidos", data: "apellidos" },
             { title: "Domicilio", data: "domicilio" , visible: false},
             { title: "Telefono", data: "telefono" , visible: false},
-            { title: "Linea", data: "linea" },
-            { title: "Interno", data: "interno"}
+            { title: "Linea", data: "linea" }
     );
     return a_cols;
 }

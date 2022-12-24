@@ -22,6 +22,9 @@ class Persona(models.Model):
     fotoCi = models.CharField(max_length=255, null=True)
     fotoLicencia = models.CharField(max_length=255, null=True)
 
+    certificadoInscripcion = models.CharField(max_length=255, null=True)
+    memorandum = models.CharField(max_length=255, null=True)
+
 
     lugarNacimiento = models.CharField(max_length=25, null=True)
     telefono = models.CharField(max_length=15, null=True)
@@ -37,6 +40,9 @@ class Persona(models.Model):
 
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)
+
+    fkusuarioEliminado = models.IntegerField(null=True)
+    fechaEliminado = models.DateTimeField(null=True)
 
     class Meta:
         db_table = "system_persona"

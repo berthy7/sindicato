@@ -19,6 +19,27 @@ $(".app-file").fileinput({
   // allowedFileExtensions: ext_image
 });
 
+$('#soatVencimiento').datepicker({
+    format: 'dd/mm/yyyy',
+    language: "es",
+    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+});
+
+$('#inspeccionVencimiento').datepicker({
+    format: 'dd/mm/yyyy',
+    language: "es",
+    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+});
+
+
+$('#seguroVencimiento').datepicker({
+    format: 'dd/mm/yyyy',
+    language: "es",
+    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+});
+
+
+
 function add_columns(admin) {
     let a_cols = []
     a_cols.push(
@@ -176,7 +197,6 @@ function reload_select_categoria() {
     });
 }
 
-
 function listar_internos(idLinea,idInterno,numInterno){
          $.ajax({
         method: "GET",
@@ -256,12 +276,63 @@ $("#new").click(function () {
     $('#modelo').val('TOYOTA');
     $('#tipo').val('COASTER');
 
+    $('#soat').val('');
+    $('#inspeccion').val('');
+    $('#seguro').val('');
+
     $("#modal").modal("show");
 });
 
 $('#insertfile').on('click', async function() {
 const obj ={
             id: parseInt($("#id").val()),
+                soatVencimiento: $("#soatVencimiento").val(),
+            inspeccionVencimiento: $("#inspeccionVencimiento").val(),
+            seguroVencimiento: $("#seguroVencimiento").val()
+      }
+
+      let url = "/vehiculo/insertfile/";
+
+        const getCookieLocal = (name) => {
+          const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+          return r ? r[1] : undefined;
+        }
+
+        var data = new FormData($('#submit_form').get(0));
+     data.append('obj',JSON.stringify(obj))
+        $.ajax({
+            method: "POST",
+            url: url,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            data: data,
+            headers:{
+                "X-CSRFToken" : getCookieLocal('csrftoken')
+            },
+            async: false,
+            success: function (response) {
+
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        $('#modal').modal('hide')
+                        reload_table()
+                    }, 2000);
+              }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+})
+
+$('#insertfile2').on('click', async function() {
+const obj ={
+            id: parseInt($("#id").val()),
+            soatVencimiento: $("#soatVencimiento").val(),
+            inspeccionVencimiento: $("#inspeccionVencimiento").val(),
+            seguroVencimiento: $("#seguroVencimiento").val()
       }
 
       let url = "/vehiculo/insertfile/";
@@ -316,7 +387,10 @@ $('#upsert').on('click',async function() {
             año: $("#año").val(),
             fkcategoria: parseInt($("#fkcategoria").val()),
             fklinea: parseInt($("#fklinea").val()),
-            fkinterno: parseInt($("#fkinterno").val())
+            fkinterno: parseInt($("#fkinterno").val()),
+            soatVencimiento: $("#soatVencimiento").val(),
+            inspeccionVencimiento: $("#inspeccionVencimiento").val(),
+            seguroVencimiento: $("#seguroVencimiento").val(),
       },
       fklinea:parseInt($("#fklinea").val()),
       fkinterno: parseInt($("#fkinterno").val())
@@ -375,12 +449,19 @@ function botones_admin(adm){
 
 function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
+    
 
     $('#id').val(self.id)
     $('#placa').val(self.placa)
     $('#modelo').val(self.modelo)
     $('#tipo').val(self.tipo)
     $('#año').val(self.año)
+
+    $('#soatVencimiento').val(self.soatVencimiento);
+    $('#inspeccionVencimiento').val(self.inspeccionVencimiento);
+    $('#seguroVencimiento').val(self.seguroVencimiento);
+
+
     $('#fkcategoria').selectpicker("val", String(self.fkcategoria));
 
     $("input[type=file]").fileinput("clear");
@@ -388,7 +469,6 @@ function edit_item(e) {
     $('#fklinea').selectpicker("val", String(self.fklinea));
 
     listar_internos(self.fklinea,self.fkinterno,self.interno)
-
 
     if (self.ruat) {
       $('#icon-ruat').addClass('d-none');
@@ -406,6 +486,25 @@ function edit_item(e) {
       $('#icon-lateral').addClass('d-none');
       $('#img-lateral').prop('src', self.lateral);
       $('#img-lateral').removeClass('d-none');
+    }
+
+            if (self.soat) {
+      $('#icon-soat').addClass('d-none');
+      $('#img-soat').prop('src', self.soat);
+      $('#img-soat').removeClass('d-none');
+    }
+
+                if (self.inspeccion) {
+      $('#icon-inspeccion').addClass('d-none');
+      $('#img-inspeccion').prop('src', self.inspeccion);
+      $('#img-inspeccion').removeClass('d-none');
+    }
+
+
+                if (self.seguro) {
+      $('#icon-seguro').addClass('d-none');
+      $('#img-seguro').prop('src', self.seguro);
+      $('#img-seguro').removeClass('d-none');
     }
 
 

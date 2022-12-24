@@ -44,7 +44,6 @@ def index(request):
     return render(request, 'conductor/index.html', {'lineas':lineas,'conductores':conductores,
                                                    'usuario': user.first_name + " " + user.last_name,
                                                    'rol': rol,'foto': foto, 'lineaUser': lineaUser})
-
 @login_required
 def list(request):
     dt_list = []
@@ -88,15 +87,10 @@ def listAll(request):
                 'fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo="Conductor").filter(
             fkpersona__habilitado=True):
             item = interPer.fkpersona
-            for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=item.id).all().order_by(
+            for interPersona in InternoPersona.objects.filter(fklinea=persona[0].fklinea).filter(habilitado=True).filter(fkpersona=item.id).all().order_by(
                     'id'):
                 dicc = model_to_dict(item)
                 dicc["linea"] = interPersona.fklinea.codigo
-
-                if interPersona.fkinterno:
-                    dicc["interno"] = interPersona.fkinterno.numero
-                else:
-                    dicc["interno"] = "-"
 
                 dt_list.append(dicc)
 
@@ -107,11 +101,6 @@ def listAll(request):
             for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=item.id).all().order_by('id'):
                 dicc = model_to_dict(item)
                 dicc["linea"] = interPersona.fklinea.codigo
-
-                if interPersona.fkinterno:
-                    dicc["interno"] = interPersona.fkinterno.numero
-                else:
-                    dicc["interno"] = "-"
 
                 dt_list.append(dicc)
 

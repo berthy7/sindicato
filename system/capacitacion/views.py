@@ -105,11 +105,17 @@ def state(request):
 
 @login_required
 def delete(request):
+    user = request.user
     try:
         dicc = json.load(request)['obj']
         obj = Capacitacion.objects.get(id=dicc["id"])
         obj.estado = False
         obj.habilitado = False
+
+        obj.fechaEliminado = datetime.datetime.now() - datetime.timedelta(hours=4)
+        obj.fkusuarioEliminado= user.id
+
+
         obj.save()
         return JsonResponse(dict(success=True,mensaje="se Eliminio"), safe=False)
     except Exception as e:

@@ -36,9 +36,9 @@ $('#fkinterno').selectpicker({
 });
 
 
-
 $('#fechaInscripcion').datepicker({
     format: 'dd/mm/yyyy',
+    placerholder:"holaa",
     language: "es",
     daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
 });
@@ -1033,6 +1033,18 @@ function botones_admin(adm){
               $('#img-licencia').removeClass('d-none');
             }
 
+            if (self.certificadoInscripcion) {
+              $('#icon-certificadoInscripcion').addClass('d-none');
+              $('#img-certificadoInscripcion').prop('src', self.certificadoInscripcion);
+              $('#img-certificadoInscripcion').removeClass('d-none');
+            }
+
+            if (self.memorandum) {
+              $('#icon-memorandum').addClass('d-none');
+              $('#img-memorandum').prop('src', self.memorandum);
+              $('#img-memorandum').removeClass('d-none');
+            }
+
             $('#fklinea').selectpicker("val", '');
             $('#fkinterno').selectpicker("val", '');
 
@@ -1058,6 +1070,47 @@ function botones_admin(adm){
 }
 
 $('#insertfile').on('click', async function() {
+const obj ={
+            id: parseInt($("#id").val()),
+      }
+
+      let url = "/persona/insertfile/";
+
+        const getCookieLocal = (name) => {
+          const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+          return r ? r[1] : undefined;
+        }
+
+        var data = new FormData($('#submit_form').get(0));
+     data.append('obj',JSON.stringify(obj))
+        $.ajax({
+            method: "POST",
+            url: url,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            data: data,
+            headers:{
+                "X-CSRFToken" : getCookieLocal('csrftoken')
+            },
+            async: false,
+            success: function (response) {
+
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        $('#modal').modal('hide')
+                        reload_table()
+                    }, 2000);
+              }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+})
+
+$('#insertfile2').on('click', async function() {
 const obj ={
             id: parseInt($("#id").val()),
       }

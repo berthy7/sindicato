@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from system.linea.models import Linea,LineaPersona,Interno,InternoPersona
 from system.incidente.models import Incidente
 from system.persona.models import Persona
+from system.vehiculo.models import Vehiculo
 import json
 import datetime
 import os.path
@@ -19,12 +20,10 @@ import io
 @login_required
 def home(request):
     user = request.user
-
-
-
     dt_list = []
     cumpleaños_list = []
     licencias_list = []
+    vehiculo_list = []
     try:
         persona = Persona.objects.filter(fkusuario=user.id)
         fechaActual = datetime.datetime.now().date()
@@ -53,6 +52,7 @@ def home(request):
                 dicc = model_to_dict(item)
                 cumpleaños_list.append(dicc)
             # licencias
+
             for interPer in InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct(
                     'fkpersona').all().select_related('fkpersona').filter(fkpersona__habilitado=True).filter(
                 Q(fkpersona__licenciaFechaVencimiento__range=(fechaActual, fecha10dias)) | Q(
@@ -61,6 +61,37 @@ def home(request):
                 dicc = model_to_dict(item)
                 dicc["licenciaFechaVencimiento"] = item.licenciaFechaVencimiento.strftime('%d/%m/%Y')
                 licencias_list.append(dicc)
+
+            # vehiculos
+            # soat
+            for vehiculo in Vehiculo.objects.filter(fklinea=persona[0].fklinea).filter(habilitado=True).filter(
+                        Q(soatVencimiento__range=(fechaActual, fecha10dias)) | Q(
+                        soatVencimiento__lt=fechaActual)):
+
+                dicc = model_to_dict(vehiculo)
+                dicc["fecha"] = vehiculo.soatVencimiento.strftime('%d/%m/%Y')
+                dicc["documento"] = "Soat"
+                vehiculo_list.append(dicc)
+
+            # inspeccion
+            for vehiculo in Vehiculo.objects.filter(fklinea=persona[0].fklinea).filter(habilitado=True).filter(
+                            Q(inspeccionVencimiento__range=(fechaActual, fecha10dias)) | Q(
+                        inspeccionVencimiento__lt=fechaActual)):
+                dicc = model_to_dict(vehiculo)
+                dicc["fecha"] = vehiculo.inspeccionVencimiento.strftime('%d/%m/%Y')
+                dicc["documento"] = "Inspección Técnica"
+                vehiculo_list.append(dicc)
+
+            # seguro
+            for vehiculo in Vehiculo.objects.filter(fklinea=persona[0].fklinea).filter(habilitado=True).filter(
+                            Q(seguroVencimiento__range=(fechaActual, fecha10dias)) | Q(
+                        seguroVencimiento__lt=fechaActual)):
+                dicc = model_to_dict(vehiculo)
+                dicc["fecha"] = vehiculo.seguroVencimiento.strftime('%d/%m/%Y')
+                dicc["documento"] = "Seguro"
+                vehiculo_list.append(dicc)
+
+
         else:
             datos = Chat.objects.filter(habilitado=True).all().order_by('-id')
             for item in datos:
@@ -85,10 +116,39 @@ def home(request):
                 dicc = model_to_dict(item)
                 dicc["licenciaFechaVencimiento"] = item.licenciaFechaVencimiento.strftime('%d/%m/%Y')
                 licencias_list.append(dicc)
+
+            # vehiculos
+            # soat
+            for vehiculo in Vehiculo.objects.filter(habilitado=True).filter(
+                        Q(soatVencimiento__range=(fechaActual, fecha10dias)) | Q(
+                        soatVencimiento__lt=fechaActual)):
+
+                dicc = model_to_dict(vehiculo)
+                dicc["fecha"] = vehiculo.soatVencimiento.strftime('%d/%m/%Y')
+                dicc["documento"] = "Soat"
+                vehiculo_list.append(dicc)
+
+            # inspeccion
+            for vehiculo in Vehiculo.objects.filter(habilitado=True).filter(
+                            Q(inspeccionVencimiento__range=(fechaActual, fecha10dias)) | Q(
+                        inspeccionVencimiento__lt=fechaActual)):
+                dicc = model_to_dict(vehiculo)
+                dicc["fecha"] = vehiculo.inspeccionVencimiento.strftime('%d/%m/%Y')
+                dicc["documento"] = "Inspección Técnica"
+                vehiculo_list.append(dicc)
+
+            # seguro
+            for vehiculo in Vehiculo.objects.filter(habilitado=True).filter(
+                            Q(seguroVencimiento__range=(fechaActual, fecha10dias)) | Q(
+                        seguroVencimiento__lt=fechaActual)):
+                dicc = model_to_dict(vehiculo)
+                dicc["fecha"] = vehiculo.seguroVencimiento.strftime('%d/%m/%Y')
+                dicc["documento"] = "Seguro"
+                vehiculo_list.append(dicc)
     except Exception as e:
         print(e)
 
-    dicc = dict(userid=user.id, chat=dt_list,cumpleaños=cumpleaños_list,licencias=licencias_list)
+    dicc = dict(userid=user.id, chat=dt_list,cumpleaños=cumpleaños_list,licencias=licencias_list,vehiculos=vehiculo_list)
     return JsonResponse(dicc, safe=False)
 
 @login_required
@@ -241,13 +301,52 @@ def state(request):
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
 @login_required
-def delete(request):
+def delete(request,id):
+    user = request.user
     try:
-        dicc = json.load(request)['obj']
-        obj = Persona.objects.get(id=dicc["id"])
+        obj = Chat.objects.get(id=id)
         obj.estado = False
         obj.habilitado = False
+
+        obj.fechaEliminado = datetime.datetime.now() - datetime.timedelta(hours=4)
+        obj.fkusuarioEliminado= user.id
+
         obj.save()
-        return JsonResponse(dict(success=True,mensaje="se Eliminio"), safe=False)
+
+        dt_list = []
+        persona = Persona.objects.filter(fkusuario=user.id)
+        if persona[0].fklinea:
+            datos = Chat.objects.filter(habilitado=True).filter(
+                Q(emisorId=user.id) | Q(receptorId=user.id)).all().order_by('-id')
+
+            for item in datos:
+                dicc = model_to_dict(item)
+
+                dicc["fecha"] = item.fecha.strftime('%d/%m/%Y %H:%M')
+
+                if dicc["fechar"] != None:
+                    dicc["fechar"] = item.fechar.strftime('%d/%m/%Y %H:%M')
+                else:
+                    dicc["fechar"] = ""
+
+                dt_list.append(dicc)
+
+        else:
+            datos = Chat.objects.filter(habilitado=True).all().order_by('-id')
+            for item in datos:
+                dicc = model_to_dict(item)
+                dicc["fecha"] = item.fecha.strftime('%d/%m/%Y %H:%M')
+
+                if dicc["fechar"] != None:
+                    dicc["fechar"] = item.fechar.strftime('%d/%m/%Y %H:%M')
+                else:
+                    dicc["fechar"] = ""
+
+                dt_list.append(dicc)
+
+        req = dict(userid=user.id, chat=dt_list)
+
+        return JsonResponse(dict(success=True, response=req, mensaje="Eliminado Correctamente", tipo="success"), safe=False)
+
     except Exception as e:
-        return JsonResponse(dict(success=False, mensaje=e), safe=False)
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)

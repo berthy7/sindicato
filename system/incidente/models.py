@@ -36,6 +36,10 @@ class Incidente(models.Model):
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)
 
+
+    fkusuarioEliminado = models.IntegerField(null=True)
+    fechaEliminado = models.DateTimeField(null=True)
+
     class Meta:
         db_table = "system_incidente"
 

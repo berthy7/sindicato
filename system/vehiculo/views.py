@@ -7,7 +7,7 @@ from .models import Vehiculo
 from system.linea.models import Linea,LineaVehiculo,Interno,LineaPersona,InternoVehiculo
 from django.contrib.auth.models import User
 from system.persona.models import Persona
-
+import datetime
 import os.path
 import uuid
 import io
@@ -71,8 +71,28 @@ def list(request):
             interId = interno.id
             inter = interno.numero
 
-        dt_list.append(dict(id=item.id,fklinea=linId,linea=lin,fkinterno=interId,interno=inter,placa=item.placa,ruat=item.ruat,frontal=item.fotofrontal,lateral=item.fotolateral,
-                            modelo=item.modelo,tipo=item.tipo,año=item.año, categoria = item.fkcategoria.nombre, fkcategoria = item.fkcategoria.id, estado=item.estado))
+
+        soatvenci = None
+        inspeccionvenci = None
+        segurovenci = None
+
+        if item.soatVencimiento != None:
+            soatvenci =item.soatVencimiento.strftime('%d/%m/%Y')
+
+        if item.inspeccionVencimiento != None:
+            inspeccionvenci = item.inspeccionVencimiento.strftime('%d/%m/%Y')
+
+        if item.seguroVencimiento != None:
+            segurovenci = item.seguroVencimiento.strftime('%d/%m/%Y')
+
+
+
+        dt_list.append(dict(id=item.id,fklinea=linId,linea=lin,fkinterno=interId,interno=inter,placa=item.placa,
+                            ruat=item.ruat,frontal=item.fotofrontal,lateral=item.fotolateral,modelo=item.modelo,
+                            tipo=item.tipo,año=item.año, categoria = item.fkcategoria.nombre,soat=item.soat,
+                            soatVencimiento=soatvenci,inspeccion=item.inspeccion,inspeccionVencimiento=inspeccionvenci,
+                            seguro=item.seguro,seguroVencimiento=segurovenci,
+                            fkcategoria = item.fkcategoria.id, estado=item.estado))
 
     obj = dict(admin=admin, lista=dt_list)
     return JsonResponse(obj, safe=False)
@@ -92,6 +112,21 @@ def insertfile(request):
         dicc = json.loads(request.POST.get('obj'))
         obj = Vehiculo.objects.get(id=dicc['id'])
         files = request.FILES
+
+        if dicc['soatVencimiento'] != "":
+            obj.soatVencimiento = datetime.datetime.strptime(dicc['soatVencimiento'], '%d/%m/%Y')
+        else:
+            obj.soatVencimiento = None
+
+        if dicc['inspeccionVencimiento'] != "":
+            obj.inspeccionVencimiento = datetime.datetime.strptime(dicc['inspeccionVencimiento'], '%d/%m/%Y')
+        else:
+            obj.inspeccionVencimiento = None
+
+        if dicc['seguroVencimiento'] != "":
+            obj.seguroVencimiento = datetime.datetime.strptime(dicc['seguroVencimiento'], '%d/%m/%Y')
+        else:
+            obj.seguroVencimiento = None
 
         fileinfo = files.get('ruat', None)
         if fileinfo:
@@ -116,6 +151,30 @@ def insertfile(request):
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo, cname)
             obj.fotolateral = upload_cloudinay(cname)
+
+        fileinfo = files.get('soat', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo,cname)
+            obj.soat = upload_cloudinay(cname)
+
+        fileinfo = files.get('inspeccion', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo,cname)
+            obj.inspeccion = upload_cloudinay(cname)
+
+        fileinfo = files.get('seguro', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo,cname)
+            obj.seguro = upload_cloudinay(cname)
 
         obj.save()
         return JsonResponse(dict(success=True, mensaje="Modificado Correctamente",tipo="success"), safe=False)
@@ -151,6 +210,30 @@ def insert(request):
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo, cname)
             dicc["obj"]['fotolateral'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('soat', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['soat'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('inspeccion', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['inspeccion'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('seguro', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['seguro'] = upload_cloudinay(cname)
 
         dicc["obj"]["fkcategoria"] = VehiculoCategoria.objects.get(id=dicc["obj"]["fkcategoria"])
         del dicc["obj"]['id']
@@ -211,6 +294,30 @@ def update(request):
             handle_uploaded_file(fileinfo, cname)
             dicc["obj"]['fotolateral'] = upload_cloudinay(cname)
 
+        fileinfo = files.get('soat', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['soat'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('inspeccion', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['inspeccion'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('seguro', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['seguro'] = upload_cloudinay(cname)
+
         dicc["obj"]['fkcategoria'] = VehiculoCategoria.objects.get(id=dicc["obj"]["fkcategoria"])
         Vehiculo.objects.filter(pk=dicc["obj"]["id"]).update(**dicc["obj"])
 
@@ -229,7 +336,6 @@ def state(request):
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
 
-
 @login_required
 def delete(request):
     try:
@@ -241,8 +347,6 @@ def delete(request):
         return JsonResponse(dict(success=True,mensaje="se Eliminio"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
-
-
 
 @login_required
 def asignacion(request):
@@ -265,8 +369,6 @@ def asignacion(request):
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
 
-
-
 @login_required
 def retiro(request):
     try:
@@ -281,7 +383,6 @@ def retiro(request):
         return JsonResponse(dict(success=True,mensaje="Se retiro"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
-
 
 
 # Categoria

@@ -20,7 +20,13 @@
                     <li class="nav-item">
                         <a href="#adjuntos" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
                             <i class="mdi mdi-account-circle d-md-none d-block"></i>
-                            <span class="d-none d-md-block">Adjuntos</span>
+                            <span class="d-none d-md-block">Foto y licencias</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#adjuntos2" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                            <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Certificado, Memorándum</span>
                         </a>
                     </li>
                 </ul>
@@ -220,6 +226,7 @@
                                 </button>
                           </div>
                          </div>
+                        <br/>
                         <div class="row">
                             <div class="col-12 col-sm-6">
                               <label for="foto">Foto</label>
@@ -235,6 +242,7 @@
                               </div>
                             </div>
                         </div>
+                        <br/>
                         <div class="row">
                               <div class="col-12 col-sm-6 mb-3">
                               <label for="file-ci">Carnet de Identidad</label>
@@ -251,6 +259,7 @@
                             </div>
 
                           </div>
+                        <br/>
                         <div class="row">
                               <div class="col-12 col-sm-6 mb-3">
                               <label for="file-licencia">Licencia de Conducir</label>
@@ -267,9 +276,48 @@
                             </div>
 
                           </div>
+                    </div>
 
+                    <div class="tab-pane" id="adjuntos2">
+                        <div class="row">
+                              <div class="col-12 col-sm-6">
+                                <button id="insertfile2" type="button" class="btn btn-primary">
+                                  <i class="mdi mdi-content-save mr-1"></i> <span>Guardar Adjuntos</span>
+                                </button>
+                          </div>
+                         </div>
+                     <br/>
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                              <label for="file-certificadoInscripcion">Certificado de Inscripción</label>
+                              <input type="file" id="certificadoInscripcion"  name="certificadoInscripcion" class="app-file">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img id="img-certificadoInscripcion" src="" class="img-thumbnail image-preview d-none" alt="Vista previa" />
+                                  <i id="icon-certificadoInscripcion" class="mdi app-fs-70 mdi-file-account icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                     <br/>
 
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                              <label for="file-memorandum">Memorándum</label>
+                              <input type="file" id="memorandum" name="memorandum" class="app-file">
+                            </div>
 
+                            <div class="col-12 col-sm-6">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img id="img-memorandum" src="" class="img-thumbnail image-preview d-none" alt="Vista previa" />
+                                  <i id="icon-memorandum" class="mdi app-fs-70 mdi-file-account icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

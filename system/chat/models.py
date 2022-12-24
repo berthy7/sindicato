@@ -19,10 +19,14 @@ class Chat(models.Model):
     respuesta = models.CharField(max_length=200, null=True)
     respuestaAdjunto = models.CharField(max_length=255, null=True)
 
+
     fkusuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)
+
+    fkusuarioEliminado = models.IntegerField(null=True)
+    fechaEliminado = models.DateTimeField(null=True)
 
     class Meta:
         db_table = "system_chat"

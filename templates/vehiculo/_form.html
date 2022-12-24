@@ -19,7 +19,13 @@
                     <li class="nav-item">
                         <a href="#adjuntos" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
                             <i class="mdi mdi-account-circle d-md-none d-block"></i>
-                            <span class="d-none d-md-block">Adjuntos</span>
+                            <span class="d-none d-md-block">Ruat y Fotos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#adjuntos2" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                            <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Soat y otros</span>
                         </a>
                     </li>
                 </ul>
@@ -96,13 +102,14 @@
                       </div>
                     </div>
                     <div class="tab-pane" id="adjuntos">
-                            <div class="row">
+                        <div class="row">
                               <div class="col-12 col-sm-6">
                                 <button id="insertfile" type="button" class="btn btn-primary">
                                   <i class="mdi mdi-content-save mr-1"></i> <span>Guardar Adjuntos</span>
                                 </button>
                           </div>
                          </div>
+ <br/>
                         <div class="row">
                           <div class="col-12 col-sm-6">
                               <label for="file-ruat">Ruat</label>
@@ -117,9 +124,10 @@
                               </div>
                             </div>
                         </div>
+                         <br/>
                         <div class="row">
                           <div class="col-12 col-sm-6">
-                              <label for="file-frontal">Frontal</label>
+                              <label for="file-frontal">Foto Frontal</label>
                               <input type="file" id="frontal" name="frontal" class="app-file">
                             </div>
                             <div class="col-12 col-sm-6">
@@ -131,9 +139,10 @@
                               </div>
                             </div>
                         </div>
+                         <br/>
                         <div class="row">
                           <div class="col-12 col-sm-6">
-                              <label for="file-lateral">Lateral</label>
+                              <label for="file-lateral">Foto Lateral</label>
                               <input type="file" id="lateral" name="lateral" class="app-file">
                             </div>
                             <div class="col-12 col-sm-6">
@@ -141,6 +150,68 @@
                                 <div class="col-12 content-preview">
                                   <img id="img-lateral" src="" class="img-thumbnail image-preview d-none" alt="Vista previa lateral" />
                                   <i id="icon-lateral" class="mdi app-fs-70 mdi-file-account icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="tab-pane" id="adjuntos2">
+                        <div class="row">
+                              <div class="col-12 col-sm-6">
+                                <button id="insertfile2" type="button" class="btn btn-primary">
+                                  <i class="mdi mdi-content-save mr-1"></i> <span>Guardar Adjuntos</span>
+                                </button>
+                          </div>
+                         </div>
+                     <br/>
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                              <label for="file-soat">Soat</label>
+                              <input id="soatVencimiento" name="soatVencimiento"  type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="Fecha de vencimiento" autocomplete="off">
+                              <input type="file" id="soat"  name="soat" class="app-file">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img id="img-soat" src="" class="img-thumbnail image-preview d-none" alt="Vista previa soat" />
+                                  <i id="icon-soat" class="mdi app-fs-70 mdi-file-account icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                     <br/>
+
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                              <label for="file-inspeccion">Inspeccion Tecnica</label>
+                              <input id="inspeccionVencimiento" name="inspeccionVencimiento"  type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="Fecha de vencimiento" autocomplete="off">
+
+                              <input type="file" id="inspeccion" name="inspeccion" class="app-file">
+                            </div>
+
+                            <div class="col-12 col-sm-6">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img id="img-inspeccion" src="" class="img-thumbnail image-preview d-none" alt="Vista previa inspeccion" />
+                                  <i id="icon-inspeccion" class="mdi app-fs-70 mdi-file-account icon-preview"></i>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                     <br/>
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                              <label for="file-seguro">Seguro</label>
+                              <input id="seguroVencimiento" name="seguroVencimiento"  type="text" class="form-control form-control-sm item-form current-dt" data-provide="datepicker" placeholder="Fecha de vencimiento" autocomplete="off">
+
+                              <input type="file" id="seguro" name="seguro" class="app-file">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                              <div class="row bg-preview">
+                                <div class="col-12 content-preview">
+                                  <img id="img-seguro" src="" class="img-thumbnail image-preview d-none" alt="Vista previa seguro" />
+                                  <i id="icon-seguro" class="mdi app-fs-70 mdi-file-account icon-preview"></i>
                                 </div>
                               </div>
                             </div>

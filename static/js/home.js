@@ -6,6 +6,7 @@
 let id_table_chat = '#data_table_chat';
 let id_table_cumpleaños = '#data_table_cumpleaños';
 let id_table_licencias = '#data_table_licencia';
+let id_table_vehiculo = '#data_table_vehiculo';
 
 window.addEventListener("load", function () {
    reload_table()
@@ -55,6 +56,12 @@ function add_columns(userid) {
                 a += `\
                     <button data-object='${dataObject}'  data-userid='${userid}' type="button" class="btn btn-primary edit" title="Editar" onclick="edit_chat(this)">\
                         <i class="mdi mdi-file-document-edit"></i>\
+                    </button>`
+
+
+                a += `\
+                    <button data-object='${dataObject}' data-id='${ data}'  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="eliminar_chat(this)">\
+                        <i class="mdi mdi-delete"></i>\
                     </button>`
 
                 if (a === '') a = 'Sin permisos';
@@ -142,6 +149,33 @@ function load_table_licencias(data_tb) {
     tabla.columns.adjust().draw();
 }
 
+function add_columns_vehiculo() {
+    let a_cols = []
+    a_cols.push(
+        { title: "Fecha Expiracion", data: "fecha" },
+        { title: "Documento", data: "documento" },
+        { title: "Placa", data: "placa"}
+    );
+
+    return a_cols;
+}
+function load_table_vehiculo(data_tb) {
+    var tabla = $(id_table_vehiculo).DataTable({
+        paging: false,
+        destroy: true,
+        ordering: false,
+        info: false,
+        searching: false,
+        data: data_tb,
+        columns: add_columns_vehiculo(),
+        order: [ [0, 'asc'] ],
+        // columnDefs: [ { width: '33%', targets: [0, 1,2] } ],
+        initComplete: function() {
+        }
+    });
+    tabla.columns.adjust().draw();
+}
+
 function reload_table() {
    $.ajax({
         method: "GET",
@@ -153,6 +187,7 @@ function reload_table() {
             load_table(response.chat,response.userid)
             load_table_cumpleaños(response.cumpleaños)
             load_table_licencias(response.licencias)
+            load_table_vehiculo(response.vehiculos)
         },
         error: function (jqXHR, status, err) {
         }
@@ -223,7 +258,6 @@ function cargar_usuarios(){
 
 
 function privilegios_rol(){
-
 
     if($('#role').html() == "Administrador"){
          console.log("rolrol")
@@ -372,6 +406,47 @@ function edit_chat(e) {
 
     $('#modal-chat').modal('show')
 }
+
+function eliminar_chat(e) {
+    const self = JSON.parse(e.dataset.object);
+
+    Swal.fire({
+        icon: "warning",
+        title: "¿Está seguro de que desea eliminar?",
+        text: "",
+        showCancelButton: true,
+        allowOutsideClick: false,
+        confirmButtonColor: '#009688',
+        cancelButtonColor: '#ef5350',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.value) {
+        
+        $.ajax({
+            method: "GET",
+            url: '/chat/delete/'+self.id,
+            dataType: 'json',
+            async: false,
+            success: function (response) {
+
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        load_table(response.response.chat,response.response.userid)
+                    }, 2000);
+                }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+        
+    }
+    })
+
+}
+
 
 $('#update').on('click', async function() {
     const validationData = formValidation('submit_form');
