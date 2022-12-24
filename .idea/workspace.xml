@@ -3,27 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="38a875fe-3050-4e43-88c2-97915e025478" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/conductor/index.js" afterPath="$PROJECT_DIR$/static/js/conductor/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/layout.js" afterPath="$PROJECT_DIR$/static/js/layout.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/linea/index.js" afterPath="$PROJECT_DIR$/static/js/linea/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/bitacora/views.py" afterPath="$PROJECT_DIR$/system/bitacora/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/capacitacion/views.py" afterPath="$PROJECT_DIR$/system/capacitacion/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/chat/views.py" afterPath="$PROJECT_DIR$/system/chat/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/conductor/views.py" afterPath="$PROJECT_DIR$/system/conductor/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/incidente/views.py" afterPath="$PROJECT_DIR$/system/incidente/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/linea/models.py" afterPath="$PROJECT_DIR$/system/linea/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/linea/views.py" afterPath="$PROJECT_DIR$/system/linea/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/login/views.py" afterPath="$PROJECT_DIR$/system/login/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/persona/models.py" afterPath="$PROJECT_DIR$/system/persona/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/persona/views.py" afterPath="$PROJECT_DIR$/system/persona/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/rol/views.py" afterPath="$PROJECT_DIR$/system/rol/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/usuario/urls.py" afterPath="$PROJECT_DIR$/system/usuario/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/usuario/views.py" afterPath="$PROJECT_DIR$/system/usuario/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/vehiculo/models.py" afterPath="$PROJECT_DIR$/system/vehiculo/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/vehiculo/views.py" afterPath="$PROJECT_DIR$/system/vehiculo/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/conductor/_form.html" afterPath="$PROJECT_DIR$/templates/conductor/_form.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/layout.html" afterPath="$PROJECT_DIR$/templates/layout.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/linea/_form.html" afterPath="$PROJECT_DIR$/templates/linea/_form.html" />
     </list>
     <ignored path="sindicato.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,7 +27,7 @@
     <favorites_list name="sindicato" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4504673">
+    <splitter split-orientation="horizontal" split-proportion="0.71028036">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
@@ -75,12 +55,24 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/server/settings.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="264">
-                  <caret line="106" column="6" selection-start-line="106" selection-start-column="6" selection-end-line="106" selection-end-column="6" />
+                <state relative-caret-position="281">
+                  <caret line="107" column="13" selection-start-line="107" selection-start-column="13" selection-end-line="107" selection-end-column="13" />
                   <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="_form.html" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/templates/usuario/_form.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="271">
+                  <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
+                  <folding>
+                    <element signature="n#div#0;n#div#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="false" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -127,12 +119,15 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="layout.html" pinned="false" current-in-tab="false">
+          <file leaf-file-name="layout.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/templates/layout.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="222">
-                  <caret line="174" column="67" selection-start-line="174" selection-start-column="67" selection-end-line="174" selection-end-column="82" />
-                  <folding />
+                <state relative-caret-position="279">
+                  <caret line="184" column="35" selection-start-line="184" selection-start-column="35" selection-end-line="184" selection-end-column="35" />
+                  <folding>
+                    <element signature="n#div#0;n#div#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#footer#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+                    <element signature="n#div#1;n#div#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#footer#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -144,47 +139,6 @@
                   <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
                   <folding>
                     <element signature="n#!!block;n#function#0" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/static/js/persona/index.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="281">
-                  <caret line="1023" column="0" selection-start-line="1023" selection-start-column="0" selection-end-line="1027" selection-end-column="13" />
-                  <folding>
-                    <element signature="n#!!block;n#load_table_referencia#0" expanded="false" />
-                    <element signature="n#!!block;n#add_columns_lineasAgregadas#0" expanded="false" />
-                    <element signature="n#!!block;n#load_table_lineasAgregadas#0" expanded="false" />
-                    <element signature="n#!!block;n#delete_reload_table_lineasAgregadas#0" expanded="false" />
-                    <element signature="n#!!block;n#add_reload_table_lineasAgregadas#0" expanded="false" />
-                    <element signature="n#!!block;n#reload_table#0" expanded="false" />
-                    <element signature="n#!!block;n#add_columns_lista#0" expanded="false" />
-                    <element signature="n#!!block;n#load_table_lista#0" expanded="false" />
-                    <element signature="n#!!block;n#reload_table_lista#0" expanded="false" />
-                    <element signature="n#!!block;n#limpiar#0" expanded="false" />
-                    <element signature="n#!!block;n#function#0" expanded="false" />
-                    <element signature="n#!!block;n#add_interno#0" expanded="false" />
-                    <element signature="n#!!block;n#eliminar_linea#0" expanded="false" />
-                    <element signature="n#!!block;n#delete_interno#0" expanded="false" />
-                    <element signature="e#18342#20707#0" expanded="false" />
-                    <element signature="e#20744#21951#0" expanded="false" />
-                    <element signature="e#22082#22709#0" expanded="false" />
-                    <element signature="e#30432#30713#0" expanded="false" />
-                    <element signature="n#!!block;n#botones_admin#0" expanded="false" />
-                    <element signature="n#!!block;n#function#3" expanded="false" />
-                    <element signature="n#!!block;n#function#4" expanded="false" />
-                    <element signature="n#!!block;n#set_enable#0" expanded="false" />
-                    <element signature="n#!!block;n#delete_item#0" expanded="false" />
-                    <element signature="n#!!block;n#reporte_item#0" expanded="false" />
-                    <marker date="1671837948330" expanded="true" signature="2975:3082" placeholder="..." />
-                    <marker date="1671837948330" expanded="true" signature="3352:3447" placeholder="..." />
-                    <marker date="1671837948330" expanded="true" signature="4941:5044" placeholder="..." />
-                    <marker date="1671837948330" expanded="true" signature="8760:8875" placeholder="..." />
-                    <marker date="1671837948330" expanded="true" signature="9134:9237" placeholder="..." />
-                    <marker date="1671837948330" expanded="true" signature="9450:9559" placeholder="..." />
                   </folding>
                 </state>
               </provider>
@@ -357,7 +311,6 @@
         <option value="$PROJECT_DIR$/system/vehiculo/urls.py" />
         <option value="$PROJECT_DIR$/templates/usuario/index.html" />
         <option value="$PROJECT_DIR$/requirements.txt" />
-        <option value="$PROJECT_DIR$/templates/usuario/_form.html" />
         <option value="$PROJECT_DIR$/static/js/usuario/index.js" />
         <option value="$PROJECT_DIR$/static/js/incidente/index.js" />
         <option value="$PROJECT_DIR$/templates/_topbar.html" />
@@ -379,7 +332,6 @@
         <option value="$PROJECT_DIR$/static/js/linea/index.js" />
         <option value="$PROJECT_DIR$/system/vehiculo/models.py" />
         <option value="$PROJECT_DIR$/system/usuario/urls.py" />
-        <option value="$PROJECT_DIR$/templates/layout.html" />
         <option value="$PROJECT_DIR$/static/js/layout.js" />
         <option value="$PROJECT_DIR$/system/login/views.py" />
         <option value="$PROJECT_DIR$/system/bitacora/views.py" />
@@ -393,6 +345,8 @@
         <option value="$PROJECT_DIR$/system/usuario/views.py" />
         <option value="$PROJECT_DIR$/system/vehiculo/views.py" />
         <option value="$PROJECT_DIR$/server/settings.py" />
+        <option value="$PROJECT_DIR$/templates/usuario/_form.html" />
+        <option value="$PROJECT_DIR$/templates/layout.html" />
       </list>
     </option>
   </component>
@@ -461,7 +415,71 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sindicato" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sindicato" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="usuario" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sindicato" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sindicato" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="system" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sindicato" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sindicato" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sindicato" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sindicato" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="upload" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -782,14 +800,14 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1444563" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22751896" sideWeight="0.51599145" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3445287" sideWeight="0.53304905" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6327194" sideWeight="0.4552239" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.4978678" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22751896" sideWeight="0.48400852" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22751896" sideWeight="0.48400852" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3445287" sideWeight="0.46908316" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3445287" sideWeight="0.46695095" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41170096" sideWeight="0.45309168" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -909,13 +927,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="21" column="39" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/usuario/_form.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="51" column="38" selection-start-line="51" selection-start-column="38" selection-end-line="51" selection-end-column="38" />
         </state>
       </provider>
     </entry>
@@ -1253,14 +1264,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/layout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="174" column="67" selection-start-line="174" selection-start-column="67" selection-end-line="174" selection-end-column="82" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/django/contrib/auth/decorators.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -1420,9 +1423,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="106" column="6" selection-start-line="106" selection-start-column="6" selection-end-line="106" selection-end-column="6" />
+        <state relative-caret-position="281">
+          <caret line="107" column="13" selection-start-line="107" selection-start-column="13" selection-end-line="107" selection-end-column="13" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/usuario/_form.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
+          <folding>
+            <element signature="n#div#0;n#div#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="184" column="35" selection-start-line="184" selection-start-column="35" selection-end-line="184" selection-end-column="35" />
+          <folding>
+            <element signature="n#div#0;n#div#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#footer#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#1;n#div#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#footer#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
