@@ -304,20 +304,7 @@ $('#upsert').on('click', async function() {
             error: function (jqXHR, status, err) {
             }
         });
-      // const response = await fetchData(
-      //       url,
-      //       "POST",
-      //       JSON.stringify({'obj':data})
-      // );
-      //
-      //
-      // if(response.success){
-      //      showSmallMessage(response.tipo,response.mensaje,"center");
-      //       setTimeout(function () {
-      //           $('#modal').modal('hide')
-      //           reload_table()
-      //       }, 2000);
-      // }else showSmallMessage(response.tipo,response.mensaje,"center");
+
 })
 
 $('#insertfile').on('click', async function() {
@@ -359,40 +346,20 @@ const obj ={
             error: function (jqXHR, status, err) {
             }
         });
-      // const response = await fetchData(
-      //       url,
-      //       "POST",
-      //       JSON.stringify({'obj':data})
-      // );
-      //
-      //
-      // if(response.success){
-      //      showSmallMessage(response.tipo,response.mensaje,"center");
-      //       setTimeout(function () {
-      //           $('#modal').modal('hide')
-      //           reload_table()
-      //       }, 2000);
-      // }else showSmallMessage(response.tipo,response.mensaje,"center");
 })
 
 function botones_admin(adm){
-
     if(adm){
     $('#upsert').show();
         $('#btn_agregar_internos').show();
-
     }else{
     $('#upsert').hide();
         $('#btn_agregar_internos').hide();
-
     }
-
 }
-
 
 function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
-   
 
     $("input[type=file]").fileinput("clear");
     $(".icon-preview").removeClass("d-none");
@@ -417,7 +384,12 @@ function edit_item(e) {
       $('#img-mapa').removeClass('d-none');
     }
 
-    
+     if (self.fotoOficina) {
+      $('#icon-oficina').addClass('d-none');
+      $('#img-oficina').prop('src',self.fotoOficina);
+      $('#img-oficina').removeClass('d-none');
+    }
+
     $('.item-form').parent().addClass('focused')
     $('#div_internos').hide()
     $('#div_btn_internos').show()

@@ -26,10 +26,11 @@ def index(request):
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
-            foto = persona[0].foto if persona[0].foto != None else  ""
+
         else:
             lineaUser = ""
-            foto = ""
+
+        foto = persona[0].foto if persona[0].foto != None else  ""
     except Exception as e:
         print(e)
 
@@ -54,7 +55,7 @@ def list(request):
             dt_list.append(dict(id=item.id,codigo=item.codigo,
                                 razonSocial=item.razonSocial,fechaFundacion=item.fechaFundacion.strftime('%d/%m/%Y'),
                                 nombre=item.nombre, apellidos=item.apellidos,celular=item.celular,
-                                ubicacion=item.ubicacion,internos=internos,estado=item.estado,mapa=item.mapa))
+                                ubicacion=item.ubicacion,internos=internos,estado=item.estado,mapa=item.mapa,fotoOficina=item.fotoOficina))
     except Exception as e:
         print(e)
     obj = dict(admin=admin,lista=dt_list)
@@ -92,9 +93,18 @@ def insertfile(request):
             handle_uploaded_file(fileinfo,cname)
             linea.mapa = upload_cloudinay(cname)
             linea.save()
-            return JsonResponse(dict(success=True, mensaje="Modificado Correctamente",tipo="success"), safe=False)
-        else:
-            return JsonResponse(dict(success=False, mensaje="no hay adjunto", tipo="warning"), safe=False)
+
+        fileinfo = files.get('oficina', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            linea.fotoOficina = upload_cloudinay(cname)
+            linea.save()
+
+        return JsonResponse(dict(success=True, mensaje="Modificado Correctamente",tipo="success"), safe=False)
+
     except Exception as e:
         print("error: ", e.args[0])
         return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
@@ -111,6 +121,14 @@ def insert(request):
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo,cname)
             dicc['mapa'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('oficina', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo,cname)
+            dicc['fotoOficina'] = upload_cloudinay(cname)
 
         dicc['fechaFundacion'] = datetime.datetime.strptime(dicc['fechaFundacion'], '%d/%m/%Y')
         del dicc['id']
@@ -136,6 +154,14 @@ def update(request):
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo,cname)
             dicc['mapa'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('oficina', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc['fotoOficina'] = upload_cloudinay(cname)
 
         dicc['fechaFundacion'] = datetime.datetime.strptime(dicc['fechaFundacion'],'%d/%m/%Y')
         Linea.objects.filter(pk=dicc["id"]).update(**dicc)

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User, Group
 from system.vehiculoCategoria.models import VehiculoCategoria
 
 # Create your models here.
@@ -27,6 +28,10 @@ class Vehiculo(models.Model):
 
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)
+
+    fkusuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    fechar = models.DateTimeField(auto_now_add=True, null=True)
+
 
     class Meta:
         db_table = "system_vehiculo"

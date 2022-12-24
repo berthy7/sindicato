@@ -34,11 +34,12 @@ def index(request):
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
             lineas = Linea.objects.filter(habilitado=True).filter(id=linea.id).all().order_by('id')
-            foto = persona[0].foto if persona[0].foto != None else  ""
+
         else:
             lineaUser = ""
             lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
-            foto = ""
+
+        foto = persona[0].foto if persona[0].foto != None else  ""
     except Exception as e:
         print(e)
     return render(request, 'conductor/index.html', {'lineas':lineas,'conductores':conductores,

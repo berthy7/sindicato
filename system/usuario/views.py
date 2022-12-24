@@ -26,10 +26,11 @@ def index(request):
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
-            foto = persona[0].foto if persona[0].foto != None else  ""
+
         else:
             lineaUser = ""
-            foto = ""
+
+        foto = persona[0].foto if persona[0].foto != None else  ""
     except Exception as e:
         print(e)
     return render(request, 'usuario/index.html', {'lineas': lineas,'roles': roles,
@@ -124,7 +125,6 @@ def update(request):
             handle_uploaded_file(fileinfo, cname)
             dicc["persona"]['foto'] = upload_cloudinay(cname)
 
-
         usuario = User.objects.get(id=dicc["usuario"]["id"])
 
         usuario.username =dicc["usuario"]["username"]
@@ -153,6 +153,9 @@ def changepassword(request):
     try:
         dicc = json.load(request)['obj']
 
+
+
+
         usuario = User.objects.get(id=dicc["id"])
         usuario.set_password(dicc["newpassword"])
         usuario.save()
@@ -161,9 +164,35 @@ def changepassword(request):
     except Exception as e:
         print("error: ", e.args[0])
         return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
+
+@login_required
+def changefoto(request):
+    try:
+        dicc = json.loads(request.POST.get('obj'))
+
+        obj = Persona.objects.get(fkusuario_id=dicc["id"])
+
+        files = request.FILES
+
+        fileinfo = files.get('perfil-foto', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            obj.foto = upload_cloudinay(cname)
+            obj.save()
+
+            return JsonResponse(dict(success=True, mensaje="Modificado Correctamente", tipo="success"), safe=False)
+        else:
+            return JsonResponse(dict(success=False, mensaje="No se envio Foto", tipo="warning"), safe=False)
+    except Exception as e:
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
+
 @login_required
 def account(request):
     user = request.user
-    response = dict(userid=user.id,username=user.username)
-
+    persona = Persona.objects.filter(fkusuario=user.id)
+    response = dict(userid=user.id,username=user.username,foto=persona[0].foto)
     return JsonResponse(response, safe=False)

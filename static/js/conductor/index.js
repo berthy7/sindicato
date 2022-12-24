@@ -941,6 +941,24 @@ function delete_referencias(self) {
               $('#img-licencia').removeClass('d-none');
             }
 
+             if (self.antecedentes) {
+              $('#icon-antecedentes').addClass('d-none');
+              $('#img-antecedentes').prop('src', self.antecedentes);
+              $('#img-antecedentes').removeClass('d-none');
+            }
+
+            if (self.fotoLuz) {
+              $('#icon-luz').addClass('d-none');
+              $('#img-luz').prop('src', self.fotoLuz);
+              $('#img-luz').removeClass('d-none');
+            }
+
+            if (self.fotoAgua) {
+              $('#icon-agua').addClass('d-none');
+              $('#img-agua').prop('src', self.fotoAgua);
+              $('#img-agua').removeClass('d-none');
+            }
+
             $('#fklinea').selectpicker("val", '');
             $('#fkinterno').selectpicker("val", '');
 

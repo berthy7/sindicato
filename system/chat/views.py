@@ -160,10 +160,11 @@ def index(request):
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
-            foto = persona[0].foto
+
         else:
             lineaUser = ""
-            foto = ""
+
+        foto = persona[0].foto if persona[0].foto != None else  ""
     except Exception as e:
         print(e)
     return render(request, 'persona/index.html', {'usuario': user.first_name + " " + user.last_name,

@@ -27,12 +27,13 @@ def index(request):
             internos = Interno.objects.filter(fklinea=linea.id).filter(fkvehiculo = None ).all().order_by('id')
             lineas = Linea.objects.filter(habilitado=True).filter(id=linea.id).all().order_by('id')
             lineaUser = linea.codigo
-            foto = persona[0].foto if persona[0].foto != None else  ""
+
         else:
             internos = Interno.objects.filter(fkvehiculo = None ).all().order_by('id')
             lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
             lineaUser = ""
-            foto = ""
+
+        foto = persona[0].foto if persona[0].foto != None else  ""
         categorias = VehiculoCategoria.objects.all().order_by('id')
     except Exception as e:
         print(e)
@@ -184,6 +185,7 @@ def insertfile(request):
 
 @login_required
 def insert(request):
+    user = request.user
     try:
         dicc = json.loads(request.POST.get('obj'))
         files = request.FILES
@@ -235,8 +237,25 @@ def insert(request):
             handle_uploaded_file(fileinfo, cname)
             dicc["obj"]['seguro'] = upload_cloudinay(cname)
 
+        if dicc["obj"]['soatVencimiento'] != "":
+            dicc["obj"]['soatVencimiento'] = datetime.datetime.strptime(dicc["obj"]['soatVencimiento'], '%d/%m/%Y')
+        else:
+            dicc["obj"]['soatVencimiento'] = None
+
+        if dicc["obj"]['inspeccionVencimiento'] != "":
+            dicc["obj"]['inspeccionVencimiento'] = datetime.datetime.strptime(dicc["obj"]['inspeccionVencimiento'], '%d/%m/%Y')
+        else:
+            dicc["obj"]['inspeccionVencimiento'] = None
+
+        if dicc["obj"]['seguroVencimiento'] != "":
+            dicc["obj"]['seguroVencimiento'] = datetime.datetime.strptime(dicc["obj"]['seguroVencimiento'], '%d/%m/%Y')
+        else:
+            dicc["obj"]['seguroVencimiento'] = None
+
         dicc["obj"]["fkcategoria"] = VehiculoCategoria.objects.get(id=dicc["obj"]["fkcategoria"])
         del dicc["obj"]['id']
+
+        dicc["obj"]['fkusuario'] = user
         vehiculo = Vehiculo.objects.create(**dicc["obj"])
 
         # registrar linea
@@ -317,6 +336,21 @@ def update(request):
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo, cname)
             dicc["obj"]['seguro'] = upload_cloudinay(cname)
+
+        if dicc["obj"]['soatVencimiento'] != "":
+            dicc["obj"]['soatVencimiento'] = datetime.datetime.strptime(dicc["obj"]['soatVencimiento'], '%d/%m/%Y')
+        else:
+            dicc["obj"]['soatVencimiento'] = None
+
+        if dicc["obj"]['inspeccionVencimiento'] != "":
+            dicc["obj"]['inspeccionVencimiento'] = datetime.datetime.strptime(dicc["obj"]['inspeccionVencimiento'], '%d/%m/%Y')
+        else:
+            dicc["obj"]['inspeccionVencimiento'] = None
+
+        if dicc["obj"]['seguroVencimiento'] != "":
+            dicc["obj"]['seguroVencimiento'] = datetime.datetime.strptime(dicc["obj"]['seguroVencimiento'], '%d/%m/%Y')
+        else:
+            dicc["obj"]['seguroVencimiento'] = None
 
         dicc["obj"]['fkcategoria'] = VehiculoCategoria.objects.get(id=dicc["obj"]["fkcategoria"])
         Vehiculo.objects.filter(pk=dicc["obj"]["id"]).update(**dicc["obj"])

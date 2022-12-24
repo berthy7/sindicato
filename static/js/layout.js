@@ -37,6 +37,14 @@ btnPerfil.addEventListener("click", function () {
 
           $('#perfil-idu').val(response.userid)
          $('#perfil-name-user').val(response.username)
+
+            if (response.foto) {
+              $('#icon-perfil-foto').addClass('d-none');
+              $('#img-perfil-foto').prop('src', response.foto);
+              $('#img-perfil-foto').removeClass('d-none');
+            }
+
+
          $('#modal-perfil').modal('show')
         },
         error: function (jqXHR, status, err) {
@@ -78,4 +86,44 @@ $('#perfil-upd-credentials').on('click',async function() {
 
         }, 2000);
     }else showSmallMessage(response.tipo,response.mensaje,"center");
+});
+
+$('#perfil-upd-foto').on('click',async function() {
+
+    const obj={
+           id: $('#perfil-idu').val()
+      };
+
+        const getCookieLocal = (name) => {
+          const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+          return r ? r[1] : undefined;
+        }
+
+    var data = new FormData($('#submit_form_perfil').get(0));
+     data.append('obj',JSON.stringify(obj))
+        $.ajax({
+            method: "POST",
+            url: "/usuario/changefoto/",
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            data: data,
+            headers:{
+                "X-CSRFToken" : getCookieLocal('csrftoken')
+            },
+            async: false,
+            success: function (response) {
+
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                          $('#modal-perfil').modal('hide')
+                    }, 2000);
+              }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+
 });

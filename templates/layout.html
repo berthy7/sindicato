@@ -85,55 +85,107 @@
                           </div>
                           <div class="modal-body">
                             <form id="submit_form_perfil" class="pl-3 pr-3 needs-validation" novalidate>
-                      <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group mb-3">
-                                    <input id="perfil-idu" name="idu" type="hidden" class="item-form">
-                                    <label for="perfil-name-user">Usuario</label>
-                                    <input id="perfil-name-user" name="user" type="text"  class="form-control form-control-sm item-form" placeholder="" readonly>
+                                        <div class="tab-pane show active" id="bordered-tabs-preview">
+                                            <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                                                <li class="nav-item">
+                                                    <a href="#general" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
+                                                        <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                                                        <span class="d-none d-md-block">Datos Generales</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#adjuntos" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                                                        <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                                                        <span class="d-none d-md-block">Foto</span>
+                                                    </a>
+                                                </li>
 
-                                </div>
-                            </div>
+                                            </ul>
+                                            <div class="tab-content">
+                                                 <div class="tab-pane show active" id="general">
+                                                 <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group mb-3">
+                                                            <input id="perfil-idu" name="idu" type="hidden" class="item-form">
+                                                            <label for="perfil-name-user">Usuario</label>
+                                                            <input id="perfil-name-user" name="user" type="text"  class="form-control form-control-sm item-form" placeholder="" readonly>
 
-                            <div class="col-12 col-sm-12">
-                                <div class="form-group mb-3">
-                                    <label>Nueva Contraseña</label>
-                                    <div class="input-group input-group-merge">
-                                        <input id="perfil-new-pass" name="new-pass" type="password" class="form-control form-control-sm" placeholder="" required>
-                                        <div class="input-group-append" data-password="false">
-                                            <div class="input-group-text">
-                                                <span class="password-eye"></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 col-sm-12">
+                                                        <div class="form-group mb-3">
+                                                            <label>Nueva Contraseña</label>
+                                                            <div class="input-group input-group-merge">
+                                                                <input id="perfil-new-pass" name="new-pass" type="password" class="form-control form-control-sm" placeholder="" required>
+                                                                <div class="input-group-append" data-password="false">
+                                                                    <div class="input-group-text">
+                                                                        <span class="password-eye"></span>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group mb-3">
+                                                            <label>Repetir Contraseña</label>
+                                                            <div class="input-group input-group-merge">
+                                                                <input id="perfil-new-rpass" name="new-rpass" type="password" class="form-control form-control-sm item-form" placeholder="" required>
+                                                                <div class="input-group-append" data-password="false">
+                                                                    <div class="input-group-text">
+                                                                        <span class="password-eye"></span>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <span class="form-text text-muted"><small>La contraseña nueva debe coincidir en ambos campos.</small></span>
+                                                        </div>
+                                                    </div>
+                                                      <div class="col-sm-12">
+                                                          <div class="form-group mb-3">
+                                                              <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                                                                    <i class="mdi mdi-close-box mr-1"></i> <span>Cerrar</span>
+                                                                </button>
+                                                                <button id="perfil-upd-credentials" type="button" class="btn btn-primary">
+                                                                    <i class="mdi mdi-account-key mr-1"></i> <span>Modificar</span>
+                                                                </button>
+
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                </div>
+                                                <div class="tab-pane" id="adjuntos">
+                                                    <div class="row">
+                                                      <div class="col-12 col-sm-6">
+                                                        <button id="perfil-upd-foto" type="button" class="btn btn-primary">
+                                                          <i class="mdi mdi-content-save mr-1"></i> <span>Guardar Foto</span>
+                                                        </button>
+                                                  </div>
+                                                 </div>
+                                                <br/>
+                                                <div class="row">
+                                                    <div class="col-12 col-sm-6">
+                                                      <label>Foto</label>
+                                                      <input type="file" id="perfil-foto" name="perfil-foto" class="app-file">
+                                                     </div>
+                                                    <div class="col-12 col-sm-6">
+                                                      <div class="row bg-preview">
+                                                        <div class="col-12 content-preview">
+                                                          <img id="img-perfil-foto" src="" class="rounded-circle img-thumbnail image-preview d-none" alt="Vista previa foto" />
+
+                                                          <i id="icon-perfil-foto" class="mdi app-fs-70 mdi-account-box icon-preview"></i>
+                                                        </div>
+                                                  </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-
-                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group mb-3">
-                                    <label>Repetir Contraseña</label>
-                                    <div class="input-group input-group-merge">
-                                        <input id="perfil-new-rpass" name="new-rpass" type="password" class="form-control form-control-sm item-form" placeholder="" required>
-                                        <div class="input-group-append" data-password="false">
-                                            <div class="input-group-text">
-                                                <span class="password-eye"></span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <span class="form-text text-muted"><small>La contraseña nueva debe coincidir en ambos campos.</small></span>
-                                </div>
-                            </div>
+                            </form>
                         </div>
-                    </form>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                            <i class="mdi mdi-close-box mr-1"></i> <span>Cerrar</span>
-                        </button>
-                        <button id="perfil-upd-credentials" type="button" class="btn btn-primary">
-                            <i class="mdi mdi-account-key mr-1"></i> <span>Modificar</span>
-                        </button>
+                        <div class="modal-footer">
+
                       </div>
                     </div>
                   </div>

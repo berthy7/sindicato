@@ -18,12 +18,17 @@ class Persona(models.Model):
     licenciaCategoria = models.CharField(max_length=1,null=True)
     licenciaFechaVencimiento = models.DateField(null=True)
     socioConductor = models.CharField(max_length=5, null=True)
+
     foto = models.CharField(max_length=255, null=True)
     fotoCi = models.CharField(max_length=255, null=True)
     fotoLicencia = models.CharField(max_length=255, null=True)
 
     certificadoInscripcion = models.CharField(max_length=255, null=True)
     memorandum = models.CharField(max_length=255, null=True)
+
+    antecedentes = models.CharField(max_length=255, null=True)
+    fotoLuz = models.CharField(max_length=255, null=True)
+    fotoAgua = models.CharField(max_length=255, null=True)
 
 
     lugarNacimiento = models.CharField(max_length=25, null=True)
@@ -34,6 +39,7 @@ class Persona(models.Model):
     tipo = models.CharField(max_length=50,null=True)
     fkusuario = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     fkrol = models.ForeignKey(Group, on_delete=models.CASCADE,null=True)
+    fechar = models.DateTimeField(auto_now_add=True,null=True)
 
     fklinea = models.IntegerField(null=True)
     fkinterno = models.IntegerField(null=True)

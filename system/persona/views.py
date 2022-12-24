@@ -44,11 +44,12 @@ def index(request):
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
             lineas = Linea.objects.filter(habilitado=True).filter(id=linea.id).all().order_by('id')
-            foto = persona[0].foto if persona[0].foto != None else  ""
+
         else:
             lineaUser = ""
             lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
-            foto = ""
+
+        foto = persona[0].foto if persona[0].foto != None else  ""
     except Exception as e:
         print(e)
 
@@ -209,7 +210,6 @@ def insertfile(request):
             handle_uploaded_file(fileinfo, cname)
             obj.certificadoInscripcion = upload_cloudinay(cname)
 
-
         fileinfo = files.get('memorandum', None)
         if fileinfo:
             fname = fileinfo.name
@@ -267,6 +267,31 @@ def insert(request):
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo, cname)
             dicc["obj"]['memorandum'] = upload_cloudinay(cname)
+
+
+        fileinfo = files.get('antecedentes', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['antecedentes'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('luz', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['fotoLuz'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('agua', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc["obj"]['fotoAgua'] = upload_cloudinay(cname)
 
         # dicc = json.load(request)['obj']
         persona = Persona.objects.filter(ci=dicc["obj"]['ci']).filter(habilitado=True).all()
@@ -370,6 +395,30 @@ def update(request):
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo, cname)
             dicc['memorandum'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('antecedentes', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc['antecedentes'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('luz', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc['fotoLuz'] = upload_cloudinay(cname)
+
+        fileinfo = files.get('agua', None)
+        if fileinfo:
+            fname = fileinfo.name
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            handle_uploaded_file(fileinfo, cname)
+            dicc['fotoAgua'] = upload_cloudinay(cname)
 
 
         if dicc['fechaNacimiento'] != "":
