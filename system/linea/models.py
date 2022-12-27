@@ -26,13 +26,30 @@ class Linea(models.Model):
         db_table = "system_linea"
 
 
+class Interno(models.Model):
+    numero = models.IntegerField()
+    fklinea = models.ForeignKey(Linea, on_delete=models.CASCADE)
+    fkpersona = models.ForeignKey(Persona,null=True, on_delete=models.CASCADE)
+    fkvehiculo = models.ForeignKey(Vehiculo, null=True,on_delete=models.CASCADE)
+    observacion = models.CharField(max_length=50, null= True)
+
+    estado = models.BooleanField(default=True)
+    habilitado = models.BooleanField(default=True)
+
+    fechar = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "system_interno"
+
 class LineaVehiculo(models.Model):
     fklinea = models.ForeignKey(Linea, on_delete=models.CASCADE)
+    fkinterno = models.ForeignKey(Interno, on_delete=models.CASCADE,null=True)
     fkvehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
     fechaRetiro = models.DateField(null=True)
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)
 
+    fkusuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     fechar = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -52,23 +69,6 @@ class LineaPersona(models.Model):
 
     class Meta:
         db_table = "system_lineaPersona"
-
-
-class Interno(models.Model):
-    numero = models.IntegerField()
-    fklinea = models.ForeignKey(Linea, on_delete=models.CASCADE)
-    fkpersona = models.ForeignKey(Persona,null=True, on_delete=models.CASCADE)
-    fkvehiculo = models.ForeignKey(Vehiculo, null=True,on_delete=models.CASCADE)
-    observacion = models.CharField(max_length=50, null= True)
-
-    estado = models.BooleanField(default=True)
-    habilitado = models.BooleanField(default=True)
-
-    fechar = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        db_table = "system_interno"
-
 
 class InternoVehiculo(models.Model):
     fkinterno = models.ForeignKey(Interno, on_delete=models.CASCADE)

@@ -215,9 +215,10 @@ function listar_internos(idLinea,idInterno,numInterno){
 
             var select = document.getElementById("fkinterno")
             var option = document.createElement("OPTION");
-            option.innerHTML = numInterno;
-            option.value = idInterno;
-            select.appendChild(option);
+
+            // option.innerHTML = numInterno;
+            // option.value = idInterno;
+            // select.appendChild(option);
 
 
             for (i of response) {
@@ -279,6 +280,8 @@ $("#new").click(function () {
     $('#soat').val('');
     $('#inspeccion').val('');
     $('#seguro').val('');
+
+     $('#div_transferir').prop("hidden", true);
 
     $("#modal").modal("show");
 });
@@ -514,6 +517,8 @@ function edit_item(e) {
     $("#cerrar").show();
 
     botones_admin(admin)
+    
+    $('#div_transferir').prop("hidden", false);
 
     $('#modal').modal('show')
 
@@ -525,6 +530,9 @@ function asignacion_item(e) {
     $('#id').val(self.id)
     $('#lineavehiculoid').val(self.lineavehiculoid)
     $('#fklinea').selectpicker("val", String(self.fklinea));
+
+
+
 
 
     $('#fecha').val(fechahoy)
@@ -791,6 +799,57 @@ $("#new-categoria").click(function () {
   $("#insert-categoria").show();
   $("#submit_form-categoria").removeClass('was-validated');
   $("#modal-categoria").modal("show");
+});
+
+$('#transferir').on('click',async function() {
+
+    const obj = {
+        id: $("#id").val(),
+        fklinea: $("#fklinea").val(),
+        fkinterno: $("#fkinterno").val(),
+    }
+
+
+    Swal.fire({
+        icon: "warning",
+        title: "¿Está seguro de que desea Transferir?",
+        text: "",
+        showCancelButton: true,
+        allowOutsideClick: false,
+        confirmButtonColor: '#009688',
+        cancelButtonColor: '#ef5350',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.value) {
+
+        const getCookieLocal = (name) => {
+          const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+          return r ? r[1] : undefined;
+        }
+        $.ajax({
+            method: "POST",
+            url: '/vehiculo/transferir/',
+            dataType: 'json',
+            data: JSON.stringify({'obj':obj}),
+            headers:{
+                "X-CSRFToken" : getCookieLocal('csrftoken')
+            },
+            async: false,
+            success: function (response) {
+                if(response.success){
+                   showSmallMessage(response.tipo,response.mensaje,"center");
+                    setTimeout(function () {
+                        $('#modal').modal('hide')
+                        reload_table()
+                    }, 2000);
+                }else showSmallMessage(response.tipo,response.mensaje,"center");
+            },
+            error: function (jqXHR, status, err) {
+            }
+        });
+    }
+    })
 });
 $('#insert-categoria').on('click',async function() {
       const validationData = formValidation('submit_form-categoria');

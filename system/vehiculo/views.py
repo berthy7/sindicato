@@ -58,11 +58,9 @@ def list(request):
 
     for item in datos:
         linId = 0
-        lin = "Sin linea"
-        if item.fklinea != None:
-            linea = Linea.objects.get(id=item.fklinea)
-            linId = linea.id
-            lin = linea.codigo
+        linea = Linea.objects.get(id=item.fklinea)
+        linId = linea.id
+        lin = linea.codigo
 
         interId = 0
         inter = "Sin Interno"
@@ -85,7 +83,6 @@ def list(request):
 
         if item.seguroVencimiento != None:
             segurovenci = item.seguroVencimiento.strftime('%d/%m/%Y')
-
 
 
         dt_list.append(dict(id=item.id,fklinea=linId,linea=lin,fkinterno=interId,interno=inter,placa=item.placa,
@@ -353,7 +350,10 @@ def update(request):
             dicc["obj"]['seguroVencimiento'] = None
 
         dicc["obj"]['fkcategoria'] = VehiculoCategoria.objects.get(id=dicc["obj"]["fkcategoria"])
-        Vehiculo.objects.filter(pk=dicc["obj"]["id"]).update(**dicc["obj"])
+
+        del dicc["obj"]['fklinea']
+        del dicc["obj"]['fkinterno']
+
 
         return JsonResponse(dict(success=True,mensaje="Modificado Correctamente"), safe=False)
     except Exception as e:
@@ -417,6 +417,29 @@ def retiro(request):
         return JsonResponse(dict(success=True,mensaje="Se retiro"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
+
+@login_required
+def transferir(request):
+    user = request.user
+    try:
+
+        dicc = json.load(request)['obj']
+        vehiculo = Vehiculo.objects.get(id=dicc["id"])
+        linea = Linea.objects.get(id=dicc["fklinea"])
+        interno = Interno.objects.get(id=dicc["fkinterno"])
+
+        vehiculo.fklinea = dicc["fklinea"]
+        vehiculo.fkinterno = dicc["fkinterno"]
+
+        vehiculo.save()
+
+        LineaVehiculo.objects.create(
+            **dict(fkusuario=user,fkvehiculo=vehiculo, fklinea=linea, fkinterno=interno))
+
+        return JsonResponse(dict(success=True, mensaje="Transferencia Correctamente", tipo="success"), safe=False)
+    except Exception as e:
+        return JsonResponse(dict(success=False, mensaje=e, tipo="error"), safe=False)
+
 
 
 # Categoria

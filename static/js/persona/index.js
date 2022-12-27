@@ -297,6 +297,12 @@ function load_table(_data) {
                             <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="delete_item(this)">\
                                 <i class="mdi mdi-delete"></i>\
                             </button>'
+
+
+                         a += `\
+                            <button data-object='${dataObject}'  type="button" class="btn btn-success " title="Transferir" onclick="transferencia_item(this)">\
+                                <i class="mdi mdi-send"></i>\
+                            </button>`
                     }
                         a += '\
                             <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Reporte" onclick="reporte_item(this)">\
@@ -480,26 +486,6 @@ function add_interno(lineaInterno) {
     }).then((result) => {
         if (result.value) {
         
-
-       //  const response = fetchData(
-       //      "/persona/agregarInternos/",
-       //      "POST",
-       //      JSON.stringify({'obj':lineaInterno})
-       // );
-       //  if(response.success){
-       //     showSmallMessage(response.tipo,response.mensaje,"center");
-       //      setTimeout(function () {
-       //          add_reload_table_lineasAgregadas(lineaInterno)
-       //          reload_table()
-       //      }, 2000);
-       //  }else showSmallMessage(response.tipo,response.mensaje,"center");
-
-        // const response = ajaxCall(
-        //     '/persona/agregarInternos/',
-        //     JSON.stringify({'obj':lineaInterno})
-        // )
-        //
-        // console.log(response)
         const getCookieLocal = (name) => {
           const r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
           return r ? r[1] : undefined;
@@ -693,8 +679,43 @@ $("#lista").click(function () {
     $("#modal-lista").modal("show");
 });
 
+
+
+function transferencia_item(e){
+    const self = JSON.parse(e.dataset.object);
+
+
+
+    swPermiso = true
+      $("#div_transferencia").prop("hidden", true);
+
+     $('#socioConductor').selectpicker("val", "No");
+
+    $("#general").attr("aria-expanded", true);
+    $("#adjuntos").attr("aria-expanded", false);
+
+    limpiar();
+    $("#submit_form").attr("hidden", false);
+    $("#submit_form-referencia").attr("hidden", true);
+
+    referencias = []
+    load_table_referencia(referencias)
+    lineasAgregadas = []
+    load_table_lineasAgregadas(lineasAgregadas)
+    $('#div_tabla_lineas').show()
+
+      $("#idSocio").val(parseInt(self.id));
+  $("#nombreSocio").val(self.nombre + " " + self.apellidos);
+
+  $("#div_transferencia").prop("hidden", false);
+  $("#upsert").hide();
+  $("#modal").modal("show");
+}
+
+
 $("#new").click(function () {
     swPermiso = true
+      $("#div_transferencia").prop("hidden", true);
 
      $('#socioConductor').selectpicker("val", "No");
 
@@ -716,6 +737,9 @@ $("#new").click(function () {
     $(".form-control").val("");
     $("#modal").modal("show");
 });
+
+
+
 $("#newReferencia").click(function () {
 
   $(".referencia").val("");
@@ -996,6 +1020,8 @@ function botones_admin(adm){
         async: false,
         success: function (response) {
             let self = response.obj
+
+             $("#div_transferencia").prop("hidden", true);
             
             limpiar()
             swPermiso = true
