@@ -9,7 +9,7 @@
       </div>
       <div class="modal-body">
         <form id="submit_form" class="pl-3 pr-3 needs-validation" novalidate enctype="multipart/form-data">
-        <div class="tab-pane show active" id="bordered-tabs-preview">
+            <div class="tab-pane show active" id="bordered-tabs-preview">
                 <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
                     <li class="nav-item">
                         <a href="#general" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
@@ -420,8 +420,6 @@
   </div>
 </div>
 
-
-
 <div class="modal fade" id="modal-lista" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -436,6 +434,69 @@
                 <table id="data_table_lista" class="table table-striped dt-responsive nowrap w-100"></table>
             </div>
 
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-transferencia" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Transferencia de Linea Interno</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+      </div>
+      <div class="modal-body">
+        <form id="submit_form-transferencia" class="pl-3 pr-3 needs-validation">
+             <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="form-group mb-6">
+                        <label>Socio</label>
+                        <input id="socioOrigenId" name="socioOrigenId" type="hidden" />
+                        <input id="socioOrigen" name="socioOrigen" type="text" class="form-control referencia form-control-sm"
+                            placeholder="" disabled />
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="form-group mb-6">
+                        <label>Socio a Transferir</label>
+                        <select id="socioTransferencia" name="socioTransferencia" class="form-control show-tick" required>
+
+                        </select>
+                    </div>
+                </div>
+              </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="form-group mb-6">
+                        <label>Linea e Interno</label>
+                        <select id="lineaInternoTrans" name="lineaInternoTrans" class="form-control show-tick" required>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="form-group mb-6">
+                        <label>Nota</label>
+
+                        <input id="nota" name="nota" type="text" class="form-control referencia form-control-sm"
+                            placeholder=""  />
+                    </div>
+                </div>
+
+              </div>
+        </form>
+      </div>
+        <div class="modal-footer">
+
+        <button id="cerrar" type="button" class="btn btn-light" data-bs-dismiss="modal">
+          <i class="mdi mdi-close-box mr-1"></i> <span>Cerrar</span>
+        </button>
+        <button id="btnTransferir" type="button" class="btn btn-primary">
+          <i class="mdi mdi-content-save mr-1"></i> <span>Transferir</span>
+        </button>
       </div>
 
     </div>

@@ -444,9 +444,11 @@ $('#upsert').on('click',async function() {
 function botones_admin(adm){
     if(adm){
         $('#upsert').show();
+        $('#div_transferir').prop("hidden", false);
 
     }else{
         $('#upsert').hide();
+        $('#div_transferir').prop("hidden", true);
     }
 }
 
@@ -516,9 +518,11 @@ function edit_item(e) {
     $('#insertfile').show()
     $("#cerrar").show();
 
-    botones_admin(admin)
+
     
     $('#div_transferir').prop("hidden", false);
+
+    botones_admin(admin)
 
     $('#modal').modal('show')
 

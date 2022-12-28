@@ -223,8 +223,6 @@ def insertfile(request):
     except Exception as e:
         print("error: ", e.args[0])
         return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
-
-
 @login_required
 def insert(request):
     try:
@@ -783,7 +781,6 @@ def listarPersonaXTipo(request,id):
 
         return JsonResponse(dt_list, safe=False)
 
-
 @login_required
 def agregarInternos(request):
     try:
@@ -851,6 +848,20 @@ def modificarReferencia(request):
         dicc['fkpersona'] = Persona.objects.get(id=dicc["fkpersona"])
         PersonaReferencia.objects.filter(pk=dicc["id"]).update(**dicc)
         return JsonResponse(dict(success=True, mensaje="Actualizado Correctamente",tipo="success"), safe=False)
+    except Exception as e:
+        print("error: ", e.args[0])
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
+
+
+@login_required
+def transferencia(request):
+    try:
+        dicc = json.load(request)['obj']
+
+
+        InternoPersona.objects.create(**dicc)
+
+        return JsonResponse(dict(success=True, mensaje="Agregado Correctamente",tipo="success"), safe=False)
     except Exception as e:
         print("error: ", e.args[0])
         return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)

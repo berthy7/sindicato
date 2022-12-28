@@ -25,7 +25,6 @@ class Linea(models.Model):
     class Meta:
         db_table = "system_linea"
 
-
 class Interno(models.Model):
     numero = models.IntegerField()
     fklinea = models.ForeignKey(Linea, on_delete=models.CASCADE)
@@ -101,3 +100,10 @@ class InternoPersona(models.Model):
 
     class Meta:
         db_table = "system_internoPersona"
+
+
+
+
+
+
+

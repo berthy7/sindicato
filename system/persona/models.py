@@ -71,3 +71,22 @@ class PersonaReferencia(models.Model):
         db_table = "system_personaReferencia"
 
 
+
+
+# class PersonaTransferencia(models.Model):
+#
+#     fklinea = models.ForeignKey(Linea,null=True, on_delete=models.CASCADE)
+#     fkinterno = models.ForeignKey(Interno,null=True,  on_delete=models.CASCADE)
+#     fkpersona = models.ForeignKey(Persona, on_delete=models.CASCADE)
+#     tipoPersona = models.CharField(max_length=25, null=True)
+#
+#     fechaAsignacion = models.DateField(null=True)
+#     fechaRetiro = models.DateField(null=True)
+#
+#     fechar = models.DateTimeField(auto_now_add=True)
+#
+#     estado = models.BooleanField(default=True)
+#     habilitado = models.BooleanField(default=True)
+#
+#     class Meta:
+#         db_table = "system_personaTransferencia"

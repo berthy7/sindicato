@@ -16,6 +16,13 @@ $(document).ready( function () {
     reload_table();
 });
 
+$('#socioTransferencia').selectpicker({
+  size: 7,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Buscar Socio'
+});
+
 $('#socios').selectpicker({
   size: 7,
   liveSearch: true,
@@ -112,7 +119,6 @@ $('#lugarNacimiento').selectpicker({
   title: 'Seleccione'
 });
 
-
 function add_columns_referencia() {
     let a_cols = []
     a_cols.push(
@@ -168,7 +174,6 @@ function load_table_referencia(data_tb) {
     });
     tabla.draw()
 }
-
 
 function add_columns_lineasAgregadas() {
     let a_cols = []
@@ -239,6 +244,7 @@ function add_reload_table_lineasAgregadas(lineaInterno){
 }
 
 function load_table(_data) {
+    lista = _data["lista"];
     var tabla = $(id_table).DataTable({
         destroy: true,
         data: _data["lista"],
@@ -424,7 +430,6 @@ function reload_table_lista() {
         }
     });
 }
-
 
 function limpiar(){
     $('#id').val(0);
@@ -679,38 +684,114 @@ $("#lista").click(function () {
     $("#modal-lista").modal("show");
 });
 
-
-
 function transferencia_item(e){
     const self = JSON.parse(e.dataset.object);
 
+    $('#socioOrigenId').val(self.id)
+    $('#socioOrigen').val(self.nombre + " " + self.apellidos)
+
+    $('#socioTransferencia').html('');
+    $('#socioTransferencia').selectpicker('destroy');
+    $('#socioTransferencia').selectpicker({
+      size: 10,
+      liveSearch: true,
+      liveSearchPlaceholder: 'Buscar',
+      title: 'Seleccione una opción'
+    });
+
+    var select = document.getElementById("socioTransferencia")
+    for (var i = 0; i < lista.length; i++) {
+        var option = document.createElement("OPTION");
+        option.innerHTML = lista[i].nombre + " " +lista[i].apellidos ;
+        option.value = lista[i].id;
+        select.appendChild(option);
+    }
+    $('#socioTransferencia').selectpicker('refresh');
 
 
-    swPermiso = true
-      $("#div_transferencia").prop("hidden", true);
+    console.log(self)
 
-     $('#socioConductor').selectpicker("val", "No");
 
-    $("#general").attr("aria-expanded", true);
-    $("#adjuntos").attr("aria-expanded", false);
+    $('#lineaInternoTrans').html('');
+    $('#lineaInternoTrans').selectpicker('destroy');
+    $('#lineaInternoTrans').selectpicker({
+      size: 10,
+      liveSearch: true,
+      liveSearchPlaceholder: 'Buscar',
+      title: 'Seleccione una opción'
+    });
 
-    limpiar();
-    $("#submit_form").attr("hidden", false);
-    $("#submit_form-referencia").attr("hidden", true);
+    var select = document.getElementById("lineaInternoTrans")
+    for (var i = 0; i < self.asignaciones.length; i++) {
+        var option = document.createElement("OPTION");
+        option.innerHTML = self.asignaciones[i].linea + " - " + self.asignaciones[i].interno;
+        option.value = self.asignaciones[i].interPersonaId;
+        select.appendChild(option);
+    }
+    $('#lineaInternoTrans').selectpicker('refresh');
 
-    referencias = []
-    load_table_referencia(referencias)
-    lineasAgregadas = []
-    load_table_lineasAgregadas(lineasAgregadas)
-    $('#div_tabla_lineas').show()
 
-      $("#idSocio").val(parseInt(self.id));
-  $("#nombreSocio").val(self.nombre + " " + self.apellidos);
 
-  $("#div_transferencia").prop("hidden", false);
-  $("#upsert").hide();
-  $("#modal").modal("show");
+  $("#modal-transferencia").modal("show");
 }
+
+$('#btnTransferir').on('click', async function() {
+    const validationData = formValidation('submit_form-transferencia');
+      if (validationData.error) {
+        showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+        return;
+      }
+      const obj ={
+            socioOrigenId: parseInt($("#socioOrigenId").val()),
+            socioTransferencia: parseInt($("#socioTransferencia").val()),
+            lineaInternoId :$("#lineaInternoTrans").val(),
+            nota: $("#nota").val()
+      }
+
+           const response = await fetchData(
+            "/persona/transferencia/",
+            "POST",
+            JSON.stringify({'obj':obj})
+       );
+        if(response.success){
+           showSmallMessage(response.tipo,response.mensaje,"center");
+            setTimeout(function () {
+               $('#modal').modal('hide')
+                reload_table()
+            }, 2000);
+        }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+})
+
+// function transferencia_item(e){
+//     const self = JSON.parse(e.dataset.object);
+//
+//     swPermiso = true
+//
+//     $("#div_transferencia").prop("hidden", true);
+//
+//     $('#socioConductor').selectpicker("val", "No");
+//
+//     $("#general").attr("aria-expanded", true);
+//     $("#adjuntos").attr("aria-expanded", false);
+//
+//     limpiar();
+//     $("#submit_form").attr("hidden", false);
+//     $("#submit_form-referencia").attr("hidden", true);
+//
+//     referencias = []
+//     load_table_referencia(referencias)
+//     lineasAgregadas = []
+//     load_table_lineasAgregadas(lineasAgregadas)
+//     $('#div_tabla_lineas').show()
+//
+//       $("#idSocio").val(parseInt(self.id));
+//   $("#nombreSocio").val(self.nombre + " " + self.apellidos);
+//
+//   $("#div_transferencia").prop("hidden", false);
+//   $("#upsert").hide();
+//   $("#modal").modal("show");
+// }
 
 
 $("#new").click(function () {
@@ -737,9 +818,6 @@ $("#new").click(function () {
     $(".form-control").val("");
     $("#modal").modal("show");
 });
-
-
-
 $("#newReferencia").click(function () {
 
   $(".referencia").val("");
@@ -767,7 +845,6 @@ $("#referencia-atras").click(function () {
   $("#modalLabel").attr("hidden", false);
   $("#modalLabelRefencia").attr("hidden", true);
 });
-
 $("#referencia-insert").on("click", async function () {
   const validationData = formValidation('submit_form-referencia');
   if (validationData.error) {
@@ -796,7 +873,6 @@ $("#referencia-insert").on("click", async function () {
         add_reload_table_referencias(referencia)
 
 });
-
 function add_reload_table_referencias(referencia){
     let sw = 0;
     for (var i = 0; i < referencias.length; i++) {
@@ -819,7 +895,6 @@ function add_reload_table_referencias(referencia){
     $("#upsert").show();
     $("#cerrar").show();
 }
-
 function add_referencia(referencia) {
     Swal.fire({
         icon: "warning",
@@ -864,7 +939,6 @@ function add_referencia(referencia) {
 
     })
 }
-
 function update_referencia(referencia) {
     Swal.fire({
         icon: "warning",
@@ -909,7 +983,6 @@ function update_referencia(referencia) {
 
     })
 }
-
 function eliminar_referencia(e) {
     const self = JSON.parse(e.dataset.object);
     if($('#id').val() !="")
@@ -920,7 +993,6 @@ function eliminar_referencia(e) {
     else
         delete_reload_table_referencias(self)
 }
-
 function edit_referencia(e) {
 
     const self = JSON.parse(e.dataset.object);
@@ -942,7 +1014,6 @@ function edit_referencia(e) {
       $("#modalLabel").attr("hidden", true);
       $("#modalLabelRefencia").attr("hidden", false);
 }
-
 function delete_reload_table_referencias(self){
     for (var i = 0; i < referencias.length; i++) {
         if (referencias[i].ci == self.ci) {
@@ -952,7 +1023,6 @@ function delete_reload_table_referencias(self){
     }
     load_table_referencia(referencias)
 }
-
 function delete_referencias(self) {
     Swal.fire({
         icon: "warning",
@@ -987,7 +1057,6 @@ function delete_referencias(self) {
     }
     })
 }
-
 $('#socioConductor').change(function () {
     if($(this).val() == "No")
     {
@@ -1010,9 +1079,9 @@ function botones_admin(adm){
         $('#upsert').hide();
     }
 }
-
- function edit_item(e) {
+function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
+
      $.ajax({
         method: "GET",
         url: '/persona/'+self.id,
@@ -1094,7 +1163,6 @@ function botones_admin(adm){
         }
     });
 }
-
 $('#insertfile').on('click', async function() {
 const obj ={
             id: parseInt($("#id").val()),
@@ -1135,7 +1203,6 @@ const obj ={
             }
         });
 })
-
 $('#insertfile2').on('click', async function() {
 const obj ={
             id: parseInt($("#id").val()),
@@ -1176,7 +1243,6 @@ const obj ={
             }
         });
 })
-
 $('#upsert').on('click', async function() {
     const validationData = formValidation('submit_form');
       if (validationData.error) {
@@ -1251,7 +1317,6 @@ $('#upsert').on('click', async function() {
             }
         });
 })
-
 function set_enable(e) {
     cb_delete = e
     b = $(e).prop('checked')
@@ -1306,7 +1371,6 @@ function set_enable(e) {
         else if (result.dismiss === 'esc') $(cb_delete).prop('checked', !$(cb_delete).is(':checked'));
     })
 }
-
 function delete_item(e) {
     Swal.fire({
         icon: "warning",
@@ -1341,7 +1405,6 @@ function delete_item(e) {
         }
     })
 }
-
 function reporte_item(e){
     console.log(parseInt(JSON.parse($(e).attr('data-json'))))
     window.location.href = '/persona/reporte/'+parseInt(JSON.parse($(e).attr('data-json')))

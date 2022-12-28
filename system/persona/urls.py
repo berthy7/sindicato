@@ -14,6 +14,9 @@ urlpatterns = [
     path('state/', views.state, name='persona_state'),
     path('delete/', views.delete, name='persona_delete'),
     path('reporte/<int:id>/', views.reporte, name='persona_reporte'),
+
+    path('transferencia/<int:id>', views.transferencia, name='persona_transferencia'),
+
     path('listarPersonaXTipo/<str:id>/', views.listarPersonaXTipo, name='persona_listarPersonaXTipo'),
 
     path('agregarInternos/', views.agregarInternos, name='persona_agregarInternos'),
