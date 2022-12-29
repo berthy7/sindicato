@@ -422,8 +422,7 @@ function reload_table_lista() {
         dataType: 'json',
         async: false,
         success: function (response) {
-
-            console.log(response)
+            
             load_table_lista(response)
         },
         error: function (jqXHR, status, err) {
@@ -663,7 +662,7 @@ $('#fklinea').change(function () {
             // select.appendChild(option);
 
             for (i of response) {
-                console.log("iter")
+           
                 option = document.createElement("OPTION");
                 option.innerHTML = i.numero;
                 option.value = i.id;
@@ -709,9 +708,6 @@ function transferencia_item(e){
     $('#socioTransferencia').selectpicker('refresh');
 
 
-    console.log(self)
-
-
     $('#lineaInternoTrans').html('');
     $('#lineaInternoTrans').selectpicker('destroy');
     $('#lineaInternoTrans').selectpicker({
@@ -720,12 +716,17 @@ function transferencia_item(e){
       liveSearchPlaceholder: 'Buscar',
       title: 'Seleccione una opción'
     });
+    
 
     var select = document.getElementById("lineaInternoTrans")
     for (var i = 0; i < self.asignaciones.length; i++) {
         var option = document.createElement("OPTION");
         option.innerHTML = self.asignaciones[i].linea + " - " + self.asignaciones[i].interno;
         option.value = self.asignaciones[i].interPersonaId;
+        option.setAttribute('fklinea', self.asignaciones[i].fklinea)
+        option.setAttribute('linea', self.asignaciones[i].linea)
+        option.setAttribute('fkinterno', self.asignaciones[i].fkinterno)
+        option.setAttribute('interno', self.asignaciones[i].interno)
         select.appendChild(option);
     }
     $('#lineaInternoTrans').selectpicker('refresh');
@@ -742,9 +743,19 @@ $('#btnTransferir').on('click', async function() {
         return;
       }
       const obj ={
-            socioOrigenId: parseInt($("#socioOrigenId").val()),
-            socioTransferencia: parseInt($("#socioTransferencia").val()),
-            lineaInternoId :$("#lineaInternoTrans").val(),
+            fklinea: parseInt($("#lineaInternoTrans option:selected").attr("fklinea")),
+            linea: $("#lineaInternoTrans option:selected").attr("linea"),
+            fkinterno: parseInt($("#lineaInternoTrans option:selected").attr("fkinterno")),
+            interno: $("#lineaInternoTrans option:selected").attr("interno"),
+
+            lineaInternoId: parseInt($("#lineaInternoTrans").val()),
+
+            fkpersona: parseInt($("#socioOrigenId").val()),
+            persona: $("#socioOrigenId option:selected").text(),
+
+            fkpersonaTrans: parseInt($("#socioTransferencia").val()),
+            personaTrans: $("#socioTransferencia option:selected").text(),
+
             nota: $("#nota").val()
       }
 
@@ -756,7 +767,7 @@ $('#btnTransferir').on('click', async function() {
         if(response.success){
            showSmallMessage(response.tipo,response.mensaje,"center");
             setTimeout(function () {
-               $('#modal').modal('hide')
+               $('#modal-transferencia').modal('hide')
                 reload_table()
             }, 2000);
         }else showSmallMessage(response.tipo,response.mensaje,"center");
@@ -996,7 +1007,6 @@ function eliminar_referencia(e) {
 function edit_referencia(e) {
 
     const self = JSON.parse(e.dataset.object);
-      console.log(self)
 
         $("#referencia-id").val(self.id),
         $('#referencia-Categoria').selectpicker("val", String(self.categoria));
@@ -1406,7 +1416,6 @@ function delete_item(e) {
     })
 }
 function reporte_item(e){
-    console.log(parseInt(JSON.parse($(e).attr('data-json'))))
     window.location.href = '/persona/reporte/'+parseInt(JSON.parse($(e).attr('data-json')))
 }
 

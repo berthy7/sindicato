@@ -73,7 +73,7 @@ function reload_table() {
         dataType: 'json',
         async: false,
         success: function (response) {
-            console.log(response)
+      
             load_table(response)
         },
         error: function (jqXHR, status, err) {
@@ -146,7 +146,7 @@ $('#update').click(function() {
         }, null, function(response) {
 
             self = JSON.parse(response);
-            console.log(self)
+       
             if (self.success) {
                 show_msg_lg('success', self.message, 'center')
                 setTimeout(function () {

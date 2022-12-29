@@ -1,7 +1,7 @@
 from django.shortcuts import render,get_object_or_404
 from django.http import JsonResponse
 from django.conf import settings as django_settings
-from .models import Persona, PersonaReferencia
+from .models import Persona, PersonaReferencia,PersonaTransferencia
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from system.linea.models import Linea,LineaPersona,Interno,InternoPersona
@@ -855,13 +855,38 @@ def modificarReferencia(request):
 
 @login_required
 def transferencia(request):
+    user = request.user
     try:
         dicc = json.load(request)['obj']
 
+        dicc['fkusuario'] = user
 
-        InternoPersona.objects.create(**dicc)
+        lineaInternoid = dicc['lineaInternoId']
 
-        return JsonResponse(dict(success=True, mensaje="Agregado Correctamente",tipo="success"), safe=False)
+        del dicc['lineaInternoId']
+        PersonaTransferencia.objects.create(**dicc)
+
+        # eliminar interno
+        interno = InternoPersona.objects.get(id=lineaInternoid)
+        interno.estado = False
+        interno.habilitado = False
+        interno.fechaRetiro = datetime.datetime.now() - datetime.timedelta(hours=4)
+        interno.save()
+
+        # agregar interno
+
+        dicAdd = dict()
+
+        dicAdd['fkpersona'] = Persona.objects.get(id=dicc["fkpersonaTrans"])
+        dicAdd['fklinea'] = Linea.objects.get(id=dicc["fklinea"])
+        dicAdd['fkinterno'] = Interno.objects.get(id=dicc["fkinterno"])
+
+        dicAdd['tipoPersona'] = "Socio"
+
+        InternoPersona.objects.create(**dicAdd)
+
+
+        return JsonResponse(dict(success=True, mensaje="Transferido Correctamente",tipo="success"), safe=False)
     except Exception as e:
         print("error: ", e.args[0])
         return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)

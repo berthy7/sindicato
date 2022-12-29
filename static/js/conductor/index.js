@@ -215,9 +215,7 @@ function load_table_lineasAgregadas(data_tb) {
 }
 
 function delete_reload_table_lineasAgregadas(self){
-    debugger
-    console.log(lineasAgregadas)
-    console.log(self)
+
     for (var i = 0; i < lineasAgregadas.length; i++) {
             if (parseInt(lineasAgregadas[i].fklinea) == parseInt(self.fklinea) && lineasAgregadas[i].fkinterno == self.fkinterno) {
                 lineasAgregadas.splice(i, 1);
@@ -406,7 +404,6 @@ function reload_table_lista() {
         async: false,
         success: function (response) {
 
-            console.log(response)
             load_table_lista(response)
         },
         error: function (jqXHR, status, err) {
@@ -605,8 +602,7 @@ $('#conductores').change(function () {
             referencias = response.referencias
             load_table_referencia(referencias)
             lineasAgregadas = response.asignaciones
-
-            console.log(lineasAgregadas)
+            
             load_table_lineasAgregadas(lineasAgregadas)
 
             $("#submit_form").attr("hidden", false);
@@ -831,7 +827,6 @@ function eliminar_referencia(e) {
 function edit_referencia(e) {
 
     const self = JSON.parse(e.dataset.object);
-      console.log(self)
 
         $("#referencia-id").val(self.id),
         $('#referencia-Categoria').selectpicker("val", String(self.categoria));
@@ -965,8 +960,7 @@ function delete_referencias(self) {
             referencias = response.referencias
             load_table_referencia(referencias)
             lineasAgregadas = response.asignaciones
-
-            console.log(lineasAgregadas)
+            
             load_table_lineasAgregadas(lineasAgregadas)
 
             $("#submit_form").attr("hidden", false);
@@ -1160,7 +1154,6 @@ function delete_item(e) {
 }
 
 function reporte_item(e){
-    console.log(parseInt(JSON.parse($(e).attr('data-json'))))
     window.location.href = '/conductor/reporte/'+parseInt(JSON.parse($(e).attr('data-json')))
 }
 

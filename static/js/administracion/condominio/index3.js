@@ -53,7 +53,7 @@ const reloadTable = async () => {
     getFormData()
   );
 
-    console.log("response",response)
+ 
   if (response.hasOwnProperty("data")) {
     loadTable({
       tableId: "data_table",
