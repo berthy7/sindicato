@@ -354,10 +354,11 @@ def update(request):
         del dicc["obj"]['fklinea']
         del dicc["obj"]['fkinterno']
 
+        Vehiculo.objects.filter(pk=dicc["obj"]["id"]).update(**dicc["obj"])
 
-        return JsonResponse(dict(success=True,mensaje="Modificado Correctamente"), safe=False)
+        return JsonResponse(dict(success=True, mensaje="Modificado Correctamente", tipo="success"), safe=False)
     except Exception as e:
-        return JsonResponse(dict(success=False, mensaje=e), safe=False)
+        return JsonResponse(dict(success=False, mensaje="Ocurrió un error", tipo="error"), safe=False)
 
 @login_required
 def state(request):
