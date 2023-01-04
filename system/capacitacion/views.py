@@ -44,7 +44,7 @@ def list(request):
     try:
         persona = Persona.objects.filter(fkusuario=user.id)
         if persona[0].fklinea:
-            datos = Capacitacion.objects.filter(habilitado=True).all().order_by('-id')
+            datos = Capacitacion.objects.filter(habilitado=True).filter(fklinea=persona[0].fklinea).all().order_by('-id')
         else:
             datos = Capacitacion.objects.filter(habilitado=True).all().order_by('-id')
 

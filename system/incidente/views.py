@@ -137,6 +137,7 @@ def state(request):
         obj = Incidente.objects.get(id=dicc["id"])
         obj.estado = dicc["estado"]
         obj.save()
+
         return JsonResponse(dict(success=True,mensaje="cambio de estado"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
@@ -156,7 +157,6 @@ def delete(request):
         return JsonResponse(dict(success=True,mensaje="se Eliminio"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)
-
 
 # Tipo
 @login_required

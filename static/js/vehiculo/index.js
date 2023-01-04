@@ -46,7 +46,7 @@ function add_columns(admin) {
         { title: "ID", data: "id" },
         { title: "Categoria", data: "categoria" },
         { title: "Placa", data: "placa" },
-        { title: "Modelo", data: "modelo" },
+        { title: "Marca", data: "modelo" },
         { title: "Tipo", data: "tipo" },
         { title: "Año", data: "año" },
         { title: "Linea", data: "linea" },
@@ -69,6 +69,11 @@ function add_columns(admin) {
                         <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="delete_item(this)">\
                             <i class="mdi mdi-delete"></i>\
                         </button>'
+
+                     a += `\
+                        <button data-object='${dataObject}'  type="button" class="btn btn-success " title="Transferir" onclick="transferencia_item(this)">\
+                            <i class="mdi mdi-send"></i>\
+                        </button>`
                 }
 
                 //     a += `\
@@ -164,6 +169,34 @@ $("#recargar").click(function () {
     reload_select_categoria()
 });
 
+function transferencia_item(e){
+    const self = JSON.parse(e.dataset.object);
+
+
+    $('#vehiculoId').val(self.id)
+    $('#vehiculoPlaca').val(self.placa + " " + self.categoria)
+
+    $('#lineaId').val(self.fklinea)
+    $('#linea').val(self.linea)
+    
+    $('#internoId').val(self.fkinterno)
+    $('#interno').val(self.interno)
+
+    $('#tipo-trans').val(self.tipo + " " + self.año)
+    $('#modelo-trans').val(self.modelo)
+
+    $('#vehiculoTransferencia').html('');
+    $('#vehiculoTransferencia').selectpicker('destroy');
+    $('#vehiculoTransferencia').selectpicker({
+      size: 10,
+      liveSearch: true,
+      liveSearchPlaceholder: 'Buscar',
+      title: 'Seleccione una opción'
+    });
+
+  $("#modal-transferencia").modal("show");
+}
+
 function reload_select_categoria() {
     $.ajax({
         method: "GET",
@@ -240,10 +273,48 @@ function listar_internos(idLinea,idInterno,numInterno){
 }
 
 $('#fklinea').change(function () {
-
     listar_internos($(this).val(),'','');
-
 });
+
+
+$('#btnTransferir').on('click', async function() {
+    const validationData = formValidation('submit_form-transferencia');
+      if (validationData.error) {
+        showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+        return;
+      }
+      const obj ={
+            fklinea: parseInt($("#lineaInternoTrans option:selected").attr("fklinea")),
+            linea: $("#lineaInternoTrans option:selected").attr("linea"),
+            fkinterno: parseInt($("#lineaInternoTrans option:selected").attr("fkinterno")),
+            interno: $("#lineaInternoTrans option:selected").attr("interno"),
+
+            lineaInternoId: parseInt($("#lineaInternoTrans").val()),
+
+            fkpersona: parseInt($("#socioOrigenId").val()),
+            persona: $("#socioOrigenId option:selected").text(),
+
+            fkpersonaTrans: parseInt($("#socioTransferencia").val()),
+            personaTrans: $("#socioTransferencia option:selected").text(),
+
+            nota: $("#nota").val()
+      }
+
+           const response = await fetchData(
+            "/vehiculo/transferencia/",
+            "POST",
+            JSON.stringify({'obj':obj})
+       );
+        if(response.success){
+           showSmallMessage(response.tipo,response.mensaje,"center");
+            setTimeout(function () {
+               $('#modal-transferencia').modal('hide')
+                reload_table()
+            }, 2000);
+        }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+})
+
 
 $("#new").click(function () {
 
@@ -454,7 +525,6 @@ function botones_admin(adm){
 
 function edit_item(e) {
     const self = JSON.parse(e.dataset.object);
-    
 
     $('#id').val(self.id)
     $('#placa').val(self.placa)
@@ -534,9 +604,6 @@ function asignacion_item(e) {
     $('#id').val(self.id)
     $('#lineavehiculoid').val(self.lineavehiculoid)
     $('#fklinea').selectpicker("val", String(self.fklinea));
-
-
-
 
 
     $('#fecha').val(fechahoy)

@@ -35,3 +35,24 @@ class Vehiculo(models.Model):
 
     class Meta:
         db_table = "system_vehiculo"
+
+
+class VehiculoTransferencia(models.Model):
+    fklinea = models.IntegerField(null=True)
+    linea = models.CharField(max_length=50,null=True)
+    fkinterno = models.IntegerField(null=True)
+    interno = models.CharField(max_length=50,null=True)
+
+    fkvehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE, related_name='vehiculo')
+    fkvehiculoTrans = models.ForeignKey(Vehiculo, on_delete=models.CASCADE, related_name='vehiculo_trans',null=True)
+
+    nota = models.CharField(max_length=250,null=True)
+
+    fkusuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    fechar = models.DateTimeField(auto_now_add=True)
+
+    estado = models.BooleanField(default=True)
+    habilitado = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = "system_vehiculoTransferencia"
