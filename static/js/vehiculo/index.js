@@ -2,6 +2,7 @@ let id_table = '#data_table';
 let id_table_categoria = '#data_table_categoria';
 let fechahoy = new Date();
 let admin = null;
+let vehiculos = [];
 
 $(document).ready( function () {
     reload_table();
@@ -136,7 +137,10 @@ function reload_table() {
         dataType: 'json',
         async: false,
         success: function (response) {
+            console.log(response)
             admin = response["admin"];
+            vehiculos = response["vehiculos"];
+
             load_table(response)
         },
         error: function (jqXHR, status, err) {
@@ -193,6 +197,20 @@ function transferencia_item(e){
       liveSearchPlaceholder: 'Buscar',
       title: 'Seleccione una opción'
     });
+
+
+    console.log(vehiculos)
+
+
+    var select = document.getElementById("vehiculoTransferencia")
+        for (var i = 0; i < vehiculos; i++) {
+            var option = document.createElement("OPTION");
+            option.innerHTML = response[i]['placa'];
+            option.value = response[i]['id'];
+            select.appendChild(option);
+        }
+        $('#vehiculoTransferencia').selectpicker('refresh');
+
 
   $("#modal-transferencia").modal("show");
 }

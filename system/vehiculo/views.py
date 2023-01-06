@@ -92,7 +92,18 @@ def list(request):
                             seguro=item.seguro,seguroVencimiento=segurovenci,
                             fkcategoria = item.fkcategoria.id, estado=item.estado))
 
-    obj = dict(admin=admin, lista=dt_list)
+
+
+
+    vehiculos = []
+
+
+    for vehiculo in Vehiculo.objects.filter(fklinea=persona[0].fklinea).filter(habilitado=True).all().order_by('placa'):
+        vehiculos.append(dict(id=vehiculo.id,placa=vehiculo.placa))
+
+    obj = dict(admin=admin, lista=dt_list,vehiculos=vehiculos)
+
+
     return JsonResponse(obj, safe=False)
 
 def upload_cloudinay(foto):
@@ -379,6 +390,12 @@ def delete(request):
         obj.estado = False
         obj.habilitado = False
         obj.save()
+
+        objInterno = Interno.objects.get(id=obj.fkinterno)
+        objInterno.fkvehiculo = None
+        objInterno.save()
+
+
         return JsonResponse(dict(success=True,mensaje="se Eliminio"), safe=False)
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e), safe=False)

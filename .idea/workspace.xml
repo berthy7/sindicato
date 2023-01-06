@@ -3,13 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="38a875fe-3050-4e43-88c2-97915e025478" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/settings.py" afterPath="$PROJECT_DIR$/server/settings.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/vehiculo/index.js" afterPath="$PROJECT_DIR$/static/js/vehiculo/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/capacitacion/views.py" afterPath="$PROJECT_DIR$/system/capacitacion/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/incidente/views.py" afterPath="$PROJECT_DIR$/system/incidente/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/vehiculo/models.py" afterPath="$PROJECT_DIR$/system/vehiculo/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/layout.html" afterPath="$PROJECT_DIR$/templates/layout.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/vehiculo/_form.html" afterPath="$PROJECT_DIR$/templates/vehiculo/_form.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/conductor/views.py" afterPath="$PROJECT_DIR$/system/conductor/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/persona/views.py" afterPath="$PROJECT_DIR$/system/persona/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/vehiculo/views.py" afterPath="$PROJECT_DIR$/system/vehiculo/views.py" />
     </list>
     <ignored path="sindicato.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,85 +30,69 @@
     <favorites_list name="sindicato" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.47662416">
+    <splitter split-orientation="horizontal" split-proportion="0.81375533">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="_form.html" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/templates/vehiculo/_form.html">
+          <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/system/conductor/views.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="366">
-                  <caret line="409" column="8" selection-start-line="409" selection-start-column="8" selection-end-line="409" selection-end-column="8" />
-                  <folding>
-                    <marker date="1672833139129" expanded="true" signature="20822:20924" placeholder="..." />
-                  </folding>
+                <state relative-caret-position="357">
+                  <caret line="61" column="47" selection-start-line="61" selection-start-column="47" selection-end-line="61" selection-end-column="47" />
+                  <folding />
                 </state>
               </provider>
             </entry>
           </file>
           <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/system/incidente/views.py">
+            <entry file="file://$PROJECT_DIR$/system/persona/views.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="578">
-                  <caret line="52" column="61" selection-start-line="52" selection-start-column="61" selection-end-line="52" selection-end-column="96" />
+                <state relative-caret-position="296">
+                  <caret line="69" column="37" selection-start-line="69" selection-start-column="37" selection-end-line="69" selection-end-column="37" />
                   <folding>
-                    <element signature="e#4930#5268#0" expanded="false" />
-                    <element signature="e#5310#5815#0" expanded="false" />
-                    <element signature="e#5865#6104#0" expanded="false" />
-                    <element signature="e#6150#6575#0" expanded="false" />
-                    <element signature="e#6621#7011#0" expanded="false" />
-                    <element signature="e#7056#7397#0" expanded="false" />
-                    <element signature="e#7443#7801#0" expanded="false" />
+                    <element signature="e#4232#5608#0" expanded="false" />
+                    <element signature="e#5653#7140#0" expanded="false" />
+                    <element signature="e#7473#9406#0" expanded="false" />
+                    <element signature="e#9448#14427#0" expanded="false" />
+                    <element signature="e#14469#18134#0" expanded="false" />
+                    <element signature="e#18175#18510#0" expanded="false" />
+                    <element signature="e#18552#19140#0" expanded="false" />
+                    <element signature="e#19187#29595#0" expanded="false" />
+                    <element signature="e#29653#30438#0" expanded="false" />
+                    <element signature="e#31914#32349#0" expanded="false" />
+                    <element signature="e#32402#32864#0" expanded="false" />
+                    <element signature="e#32919#33382#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/static/js/vehiculo/index.js">
+          <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/system/linea/models.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2329">
-                  <caret line="181" column="39" selection-start-line="181" selection-start-column="39" selection-end-line="181" selection-end-column="39" />
+                <state relative-caret-position="304">
+                  <caret line="86" column="6" selection-start-line="86" selection-start-column="6" selection-end-line="86" selection-end-column="6" />
                   <folding>
-                    <element signature="n#!!block;n#load_table#0" expanded="false" />
-                    <element signature="n#!!block;n#reload_table#0" expanded="false" />
-                    <element signature="n#!!block;n#reload_select_categoria#0" expanded="false" />
-                    <element signature="n#!!block;n#listar_internos#0" expanded="false" />
-                    <element signature="n#!!block;n#function#0" expanded="false" />
-                    <element signature="e#9599#10608#0" expanded="false" />
-                    <element signature="n#!!block;n#function#1" expanded="false" />
-                    <element signature="n#!!block;n#function#2" expanded="false" />
-                    <element signature="n#!!block;n#function#3" expanded="false" />
-                    <element signature="n#!!block;n#botones_admin#0" expanded="false" />
-                    <element signature="n#!!block;n#edit_item#0" expanded="false" />
-                    <element signature="n#!!block;n#asignacion_item#0" expanded="false" />
-                    <element signature="e#18215#19097#0" expanded="false" />
-                    <element signature="n#!!block;n#set_enable#0" expanded="false" />
-                    <element signature="n#!!block;n#delete_item#0" expanded="false" />
-                    <element signature="e#21858#22608#0" expanded="false" />
-                    <element signature="e#22642#23336#0" expanded="false" />
-                    <marker date="1672786297379" expanded="true" signature="1703:1810" placeholder="..." />
-                    <marker date="1672786297379" expanded="true" signature="2043:2138" placeholder="..." />
-                    <marker date="1672786297379" expanded="true" signature="2324:2417" placeholder="..." />
-                    <marker date="1672786297379" expanded="true" signature="24252:24552" placeholder="..." />
-                    <marker date="1672786297379" expanded="true" signature="25012:25127" placeholder="..." />
-                    <marker date="1672786297379" expanded="true" signature="25394:25497" placeholder="..." />
+                    <element signature="e#219#925#0" expanded="false" />
+                    <element signature="e#960#1483#0" expanded="false" />
+                    <element signature="e#2109#2556#0" expanded="false" />
+                    <element signature="e#2599#3045#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/system/vehiculo/views.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="833">
-                  <caret line="64" column="19" selection-start-line="64" selection-start-column="19" selection-end-line="64" selection-end-column="19" />
+                <state relative-caret-position="474">
+                  <caret line="398" column="0" selection-start-line="398" selection-start-column="0" selection-end-line="398" selection-end-column="0" />
                   <folding>
-                    <element signature="e#4095#6893#0" expanded="false" />
-                    <element signature="e#6936#10963#0" expanded="false" />
-                    <element signature="e#11006#14128#0" expanded="false" />
-                    <element signature="e#14170#14506#0" expanded="false" />
-                    <element signature="e#14549#14902#0" expanded="false" />
-                    <element signature="e#15687#16114#0" expanded="false" />
+                    <element signature="e#4331#7129#0" expanded="false" />
+                    <element signature="e#7172#11199#0" expanded="false" />
+                    <element signature="e#11242#14364#0" expanded="false" />
+                    <element signature="e#14406#14742#0" expanded="false" />
+                    <element signature="e#15310#16005#0" expanded="false" />
+                    <element signature="e#16048#16475#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -121,11 +102,21 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/system/capacitacion/views.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="442">
-                  <caret line="43" column="8" selection-start-line="43" selection-start-column="8" selection-end-line="43" selection-end-column="8" />
+                <state relative-caret-position="527">
+                  <caret line="39" column="18" selection-start-line="39" selection-start-column="18" selection-end-line="39" selection-end-column="18" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/system/vehiculo/models.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="102">
+                  <caret line="8" column="9" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="9" />
                   <folding />
                 </state>
               </provider>
@@ -177,7 +168,6 @@
         <option value="$PROJECT_DIR$/system/login/views.py" />
         <option value="$PROJECT_DIR$/system/bitacora/views.py" />
         <option value="$PROJECT_DIR$/system/chat/views.py" />
-        <option value="$PROJECT_DIR$/system/conductor/views.py" />
         <option value="$PROJECT_DIR$/system/linea/views.py" />
         <option value="$PROJECT_DIR$/system/rol/views.py" />
         <option value="$PROJECT_DIR$/system/usuario/views.py" />
@@ -186,20 +176,21 @@
         <option value="$PROJECT_DIR$/system/linea/models.py" />
         <option value="$PROJECT_DIR$/templates/persona/_form.html" />
         <option value="$PROJECT_DIR$/system/persona/urls.py" />
-        <option value="$PROJECT_DIR$/system/persona/views.py" />
         <option value="$PROJECT_DIR$/static/js/administracion/condominio/index.js" />
         <option value="$PROJECT_DIR$/static/js/administracion/condominio/index3.js" />
         <option value="$PROJECT_DIR$/static/js/conductor/index.js" />
         <option value="$PROJECT_DIR$/static/js/persona/index.js" />
-        <option value="$PROJECT_DIR$/system/vehiculo/views.py" />
         <option value="$PROJECT_DIR$/system/incidente/views.py" />
         <option value="$PROJECT_DIR$/system/persona/models.py" />
         <option value="$PROJECT_DIR$/system/vehiculo/models.py" />
-        <option value="$PROJECT_DIR$/server/settings.py" />
         <option value="$PROJECT_DIR$/templates/layout.html" />
-        <option value="$PROJECT_DIR$/static/js/vehiculo/index.js" />
         <option value="$PROJECT_DIR$/system/capacitacion/views.py" />
         <option value="$PROJECT_DIR$/templates/vehiculo/_form.html" />
+        <option value="$PROJECT_DIR$/server/settings.py" />
+        <option value="$PROJECT_DIR$/static/js/vehiculo/index.js" />
+        <option value="$PROJECT_DIR$/system/persona/views.py" />
+        <option value="$PROJECT_DIR$/system/conductor/views.py" />
+        <option value="$PROJECT_DIR$/system/vehiculo/views.py" />
       </list>
     </option>
   </component>
@@ -241,6 +232,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -269,7 +261,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
+              <option name="myItemId" value="system" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -283,7 +275,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
+              <option name="myItemId" value="system" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -301,17 +293,16 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
+              <option name="myItemId" value="system" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="capacitacion" />
+              <option name="myItemId" value="persona" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -621,26 +612,26 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.122068234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.124200426" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38244852" sideWeight="0.42697227" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28602383" sideWeight="0.5618337" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.4978678" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28060672" sideWeight="0.5298507" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38244852" sideWeight="0.57302773" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38244852" sideWeight="0.5682303" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28602383" sideWeight="0.43816632" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14626218" sideWeight="0.4520256" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30877572" sideWeight="0.45095947" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28602383" sideWeight="0.4424307" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -708,7 +699,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/system/vehiculo/views.py</url>
-          <line>251</line>
+          <line>262</line>
           <option name="timeStamp" value="292" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
@@ -721,8 +712,13 @@
           <line>156</line>
           <option name="timeStamp" value="297" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/system/vehiculo/views.py</url>
+          <line>387</line>
+          <option name="timeStamp" value="307" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="307" />
+      <option name="time" value="308" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -815,13 +811,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="23" column="8" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/conductor/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="38" column="26" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -979,36 +968,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Temp/37f1fe0d-9139-4210-be23-055f0117ff27.jpg" />
-    <entry file="file://$PROJECT_DIR$/system/linea/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="54" selection-end-column="41" />
-          <folding>
-            <element signature="e#219#925#0" expanded="false" />
-            <element signature="e#960#1483#0" expanded="false" />
-            <element signature="e#2109#2556#0" expanded="false" />
-            <element signature="e#2599#3045#0" expanded="false" />
-            <element signature="e#3087#3677#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/persona/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="61" column="44" selection-start-line="61" selection-start-column="44" selection-end-line="61" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="112" column="35" selection-start-line="112" selection-start-column="35" selection-end-line="112" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1024,52 +992,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5287">
           <caret line="685" column="0" selection-start-line="685" selection-start-column="0" selection-end-line="736" selection-end-column="1" />
-          <folding>
-            <element signature="n#!!block;n#add_columns_referencia#0" expanded="false" />
-            <element signature="n#!!block;n#load_table_referencia#0" expanded="false" />
-            <element signature="n#!!block;n#add_columns_lineasAgregadas#0" expanded="false" />
-            <element signature="n#!!block;n#load_table_lineasAgregadas#0" expanded="false" />
-            <element signature="n#!!block;n#delete_reload_table_lineasAgregadas#0" expanded="false" />
-            <element signature="n#!!block;n#add_reload_table_lineasAgregadas#0" expanded="false" />
-            <element signature="n#!!block;n#add_columns_lista#0" expanded="false" />
-            <element signature="n#!!block;n#load_table_lista#0" expanded="false" />
-            <element signature="n#!!block;n#reload_table_lista#0" expanded="false" />
-            <element signature="n#!!block;n#limpiar#0" expanded="false" />
-            <element signature="n#!!block;n#function#0" expanded="false" />
-            <element signature="n#!!block;n#add_interno#0" expanded="false" />
-            <element signature="n#!!block;n#eliminar_linea#0" expanded="false" />
-            <element signature="n#!!block;n#delete_interno#0" expanded="false" />
-            <element signature="e#18065#20430#0" expanded="false" />
-            <element signature="e#21683#21749#0" expanded="false" />
-            <element signature="n#!!block;n#transferencia_item#0" expanded="false" />
-            <element signature="n#!!block;n#function#1" expanded="false" />
-            <element signature="e#25060#25094#0" expanded="false" />
-            <element signature="e#25965#26644#0" expanded="false" />
-            <element signature="e#26685#27085#0" expanded="false" />
-            <element signature="e#27129#27450#0" expanded="false" />
-            <element signature="n#!!block;n#function#2" expanded="false" />
-            <element signature="n#!!block;n#add_reload_table_referencias#0" expanded="false" />
-            <element signature="n#!!block;n#add_referencia#0" expanded="false" />
-            <element signature="n#!!block;n#update_referencia#0" expanded="false" />
-            <element signature="n#!!block;n#eliminar_referencia#0" expanded="false" />
-            <element signature="n#!!block;n#delete_reload_table_referencias#0" expanded="false" />
-            <element signature="n#!!block;n#delete_referencias#0" expanded="false" />
-            <element signature="e#34334#34615#0" expanded="false" />
-            <element signature="n#!!block;n#botones_admin#0" expanded="false" />
-            <element signature="n#!!block;n#edit_item#0" expanded="false" />
-            <element signature="n#!!block;n#function#3" expanded="false" />
-            <element signature="n#!!block;n#function#4" expanded="false" />
-            <element signature="n#!!block;n#function#5" expanded="false" />
-            <element signature="n#!!block;n#set_enable#0" expanded="false" />
-            <element signature="n#!!block;n#delete_item#0" expanded="false" />
-            <marker date="1672311324784" expanded="true" signature="3109:3216" placeholder="..." />
-            <marker date="1672311324784" expanded="true" signature="3486:3581" placeholder="..." />
-            <marker date="1672311324784" expanded="true" signature="5074:5177" placeholder="..." />
-            <marker date="1672311324784" expanded="true" signature="8921:9036" placeholder="..." />
-            <marker date="1672311324784" expanded="true" signature="9295:9398" placeholder="..." />
-            <marker date="1672311324784" expanded="true" signature="9593:9694" placeholder="..." />
-            <marker date="1672311324784" expanded="true" signature="9907:10016" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1094,93 +1016,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/persona/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1207">
-          <caret line="96" column="46" selection-start-line="96" selection-start-column="46" selection-end-line="96" selection-end-column="46" />
-          <folding>
-            <element signature="e#4173#5549#0" expanded="false" />
-            <element signature="e#5594#7081#0" expanded="false" />
-            <element signature="e#7414#9347#0" expanded="false" />
-            <element signature="e#9389#14368#0" expanded="false" />
-            <element signature="e#14410#18075#0" expanded="false" />
-            <element signature="e#18116#18451#0" expanded="false" />
-            <element signature="e#18493#19081#0" expanded="false" />
-            <element signature="e#19128#29536#0" expanded="false" />
-            <element signature="e#29594#30379#0" expanded="false" />
-            <element signature="e#31855#32290#0" expanded="false" />
-            <element signature="e#32343#32805#0" expanded="false" />
-            <element signature="e#32860#33323#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/vehiculo/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="9" column="10" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/vehiculo/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2329">
-          <caret line="181" column="39" selection-start-line="181" selection-start-column="39" selection-end-line="181" selection-end-column="39" />
-          <folding>
-            <element signature="n#!!block;n#load_table#0" expanded="false" />
-            <element signature="n#!!block;n#reload_table#0" expanded="false" />
-            <element signature="n#!!block;n#reload_select_categoria#0" expanded="false" />
-            <element signature="n#!!block;n#listar_internos#0" expanded="false" />
-            <element signature="n#!!block;n#function#0" expanded="false" />
-            <element signature="e#9599#10608#0" expanded="false" />
-            <element signature="n#!!block;n#function#1" expanded="false" />
-            <element signature="n#!!block;n#function#2" expanded="false" />
-            <element signature="n#!!block;n#function#3" expanded="false" />
-            <element signature="n#!!block;n#botones_admin#0" expanded="false" />
-            <element signature="n#!!block;n#edit_item#0" expanded="false" />
-            <element signature="n#!!block;n#asignacion_item#0" expanded="false" />
-            <element signature="e#18215#19097#0" expanded="false" />
-            <element signature="n#!!block;n#set_enable#0" expanded="false" />
-            <element signature="n#!!block;n#delete_item#0" expanded="false" />
-            <element signature="e#21858#22608#0" expanded="false" />
-            <element signature="e#22642#23336#0" expanded="false" />
-            <marker date="1672786297379" expanded="true" signature="1703:1810" placeholder="..." />
-            <marker date="1672786297379" expanded="true" signature="2043:2138" placeholder="..." />
-            <marker date="1672786297379" expanded="true" signature="2324:2417" placeholder="..." />
-            <marker date="1672786297379" expanded="true" signature="24252:24552" placeholder="..." />
-            <marker date="1672786297379" expanded="true" signature="25012:25127" placeholder="..." />
-            <marker date="1672786297379" expanded="true" signature="25394:25497" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/vehiculo/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="64" column="19" selection-start-line="64" selection-start-column="19" selection-end-line="64" selection-end-column="19" />
-          <folding>
-            <element signature="e#4095#6893#0" expanded="false" />
-            <element signature="e#6936#10963#0" expanded="false" />
-            <element signature="e#11006#14128#0" expanded="false" />
-            <element signature="e#14170#14506#0" expanded="false" />
-            <element signature="e#14549#14902#0" expanded="false" />
-            <element signature="e#15687#16114#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/capacitacion/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="43" column="8" selection-start-line="43" selection-start-column="8" selection-end-line="43" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/incidente/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
+        <state relative-caret-position="629">
           <caret line="52" column="61" selection-start-line="52" selection-start-column="61" selection-end-line="52" selection-end-column="96" />
           <folding>
             <element signature="e#4930#5268#0" expanded="false" />
@@ -1196,10 +1034,120 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/vehiculo/_form.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
+        <state relative-caret-position="6953">
           <caret line="409" column="8" selection-start-line="409" selection-start-column="8" selection-end-line="409" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/capacitacion/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="39" column="18" selection-start-line="39" selection-start-column="18" selection-end-line="39" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1581">
+          <caret line="98" column="16" selection-start-line="98" selection-start-column="16" selection-end-line="98" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/vehiculo/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="8" column="9" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/vehiculo/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="139" column="32" selection-start-line="139" selection-start-column="32" selection-end-line="139" selection-end-column="32" />
           <folding>
-            <marker date="1672833139129" expanded="true" signature="20822:20924" placeholder="..." />
+            <element signature="n#!!block;n#add_columns#0" expanded="false" />
+            <element signature="n#!!block;n#load_table#0" expanded="false" />
+            <element signature="n#!!block;n#listar_internos#0" expanded="false" />
+            <element signature="n#!!block;n#function#0" expanded="false" />
+            <element signature="e#10114#11123#0" expanded="false" />
+            <element signature="n#!!block;n#function#1" expanded="false" />
+            <element signature="n#!!block;n#function#2" expanded="false" />
+            <element signature="n#!!block;n#function#3" expanded="false" />
+            <element signature="n#!!block;n#botones_admin#0" expanded="false" />
+            <element signature="n#!!block;n#edit_item#0" expanded="false" />
+            <element signature="n#!!block;n#asignacion_item#0" expanded="false" />
+            <element signature="e#18730#19612#0" expanded="false" />
+            <element signature="n#!!block;n#set_enable#0" expanded="false" />
+            <element signature="n#!!block;n#delete_item#0" expanded="false" />
+            <element signature="e#22373#23123#0" expanded="false" />
+            <element signature="e#23157#23851#0" expanded="false" />
+            <marker date="1672994599677" expanded="true" signature="1723:1830" placeholder="..." />
+            <marker date="1672994599677" expanded="true" signature="2063:2158" placeholder="..." />
+            <marker date="1672994599677" expanded="true" signature="2344:2437" placeholder="..." />
+            <marker date="1672994599677" expanded="true" signature="24767:25067" placeholder="..." />
+            <marker date="1672994599677" expanded="true" signature="25527:25642" placeholder="..." />
+            <marker date="1672994599677" expanded="true" signature="25909:26012" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/linea/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="86" column="6" selection-start-line="86" selection-start-column="6" selection-end-line="86" selection-end-column="6" />
+          <folding>
+            <element signature="e#219#925#0" expanded="false" />
+            <element signature="e#960#1483#0" expanded="false" />
+            <element signature="e#2109#2556#0" expanded="false" />
+            <element signature="e#2599#3045#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/persona/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="69" column="37" selection-start-line="69" selection-start-column="37" selection-end-line="69" selection-end-column="37" />
+          <folding>
+            <element signature="e#4232#5608#0" expanded="false" />
+            <element signature="e#5653#7140#0" expanded="false" />
+            <element signature="e#7473#9406#0" expanded="false" />
+            <element signature="e#9448#14427#0" expanded="false" />
+            <element signature="e#14469#18134#0" expanded="false" />
+            <element signature="e#18175#18510#0" expanded="false" />
+            <element signature="e#18552#19140#0" expanded="false" />
+            <element signature="e#19187#29595#0" expanded="false" />
+            <element signature="e#29653#30438#0" expanded="false" />
+            <element signature="e#31914#32349#0" expanded="false" />
+            <element signature="e#32402#32864#0" expanded="false" />
+            <element signature="e#32919#33382#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/conductor/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="61" column="47" selection-start-line="61" selection-start-column="47" selection-end-line="61" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/vehiculo/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="474">
+          <caret line="398" column="0" selection-start-line="398" selection-start-column="0" selection-end-line="398" selection-end-column="0" />
+          <folding>
+            <element signature="e#4331#7129#0" expanded="false" />
+            <element signature="e#7172#11199#0" expanded="false" />
+            <element signature="e#11242#14364#0" expanded="false" />
+            <element signature="e#14406#14742#0" expanded="false" />
+            <element signature="e#15310#16005#0" expanded="false" />
+            <element signature="e#16048#16475#0" expanded="false" />
           </folding>
         </state>
       </provider>

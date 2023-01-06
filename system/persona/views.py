@@ -66,10 +66,10 @@ def list(request):
     persona = Persona.objects.filter(fkusuario=user.id)
     if persona[0].fklinea:
         admin = False
-        for interPer in  InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct('fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo='Socio').filter(fkpersona__habilitado=True):
+        for interPer in  InternoPersona.objects.filter(habilitado=True).filter(fklinea=persona[0].fklinea).distinct('fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo='Socio').filter(fkpersona__habilitado=True):
             item = interPer.fkpersona
             asignaciones = []
-            for interPersona in InternoPersona.objects.filter(habilitado=True).filter(
+            for interPersona in InternoPersona.objects.filter(habilitado=True).filter(fklinea=persona[0].fklinea).filter(
                     fkpersona=item.id).all().order_by('id'):
                 interno = interPersona.fkinterno
                 asignaciones.append(
