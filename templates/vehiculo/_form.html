@@ -32,7 +32,18 @@
 
                 <div class="tab-content">
                     <div class="tab-pane show active" id="general">
-                        <div class="row">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                        <div class="form-group mb-6">
+                            <label >Seleccione</label>
+                            <select id="seleccion" name="seleccion" class="form-control show-tick" required>
+                              <option value="1">Selección de linea / Interno disponible</option>
+                              <option value="2">Transferir Linea de otro vehiculo</option>
+                            </select>
+                        </div>
+                        </div>
+                    </div>
+                    <div id="div_linea" class="row">
                         <div class="col-12 col-sm-4">
                             <div class="form-group mb-3">
                                 <label for="fklinea">Linea *</label>
@@ -60,6 +71,30 @@
                                   <i class="mdi mdi-content-save mr-1"></i>
                                 </button>
 
+                            </div>
+                        </div>
+                    </div>
+                    <div id="div_vehiculo" class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group mb-6">
+                                <label>Vehiculo</label>
+                                <select id="listaVehiculo" name="listaVehiculo" class="form-control show-tick">
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-3">
+                            <div class="form-group mb-3">
+                                <label>Linea</label>
+                                <input id="lineaVehiculo" name="lineaVehiculo" type="text" class="form-control form-control-sm"
+                                    placeholder="" disabled />
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-3">
+                            <div class="form-group mb-3">
+                                <label>Interno</label>
+                                <input id="internoVehiculo" name="internoVehiculo" type="text" class="form-control form-control-sm"
+                                    placeholder="" disabled />
                             </div>
                         </div>
                     </div>
@@ -374,6 +409,7 @@
                 </div>
 
               </div>
+
             <div class="row">
                 <div class="col-12 col-sm-3">
                     <div class="form-group mb-3">

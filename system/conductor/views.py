@@ -122,7 +122,7 @@ def reporte(request,id):
         # Header
         p.setLineWidth(.3)
         p.setFont('Helvetica-Bold',12)
-        p.drawString(30,750,'SINDICATO DE TRANSPORTISTAS SANTA CRUZ')
+        p.drawString(30,750,'REGISTRO DE CONDUCTORES')
 
 
         fechaHora = datetime.datetime.now() - datetime.timedelta(hours=4)

@@ -268,15 +268,20 @@ def insert(request):
 
         # registrar linea
         linea = Linea.objects.get(id=dicc["fklinea"])
+        interno = Interno.objects.get(id=dicc["fkinterno"])
+
         lineavehiculo = LineaVehiculo.objects.filter(estado=True) \
             .filter(fkvehiculo=vehiculo).all()
+
         if len(lineavehiculo) >0:
             lineavehiculo[0].estado = False
             lineavehiculo[0].save()
-        LineaVehiculo.objects.create(**dict(fkvehiculo=vehiculo,fklinea=linea))
+
+
+        LineaVehiculo.objects.create(**dict(fkvehiculo=vehiculo,fklinea=linea,fkinterno=interno))
 
         # registrar interno
-        interno = Interno.objects.get(id=dicc["fkinterno"])
+
         internoVehiculo = InternoVehiculo.objects.filter(estado=True) \
             .filter(fkvehiculo=vehiculo).all()
         if len(internoVehiculo) >0:

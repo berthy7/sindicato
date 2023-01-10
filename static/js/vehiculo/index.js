@@ -137,16 +137,71 @@ function reload_table() {
         dataType: 'json',
         async: false,
         success: function (response) {
-            console.log(response)
-            admin = response["admin"];
-            vehiculos = response["vehiculos"];
 
+            admin = response["admin"];
             load_table(response)
+            load_select(response["lista"])
         },
         error: function (jqXHR, status, err) {
         }
     });
 }
+
+
+function load_select(lista){
+
+    $('#listaVehiculo').html('');
+        $('#listaVehiculo').selectpicker('destroy');
+        $('#listaVehiculo').selectpicker({
+          size: 10,
+          liveSearch: true,
+          liveSearchPlaceholder: 'Buscar',
+          title: 'Seleccione una opción'
+        });
+
+        var select = document.getElementById("listaVehiculo")
+        var option = document.createElement("OPTION");
+        // option.innerHTML = "Seleccione una opcióna";
+        // option.value = 0;
+        // select.appendChild(option);
+
+        console.log(lista)
+        for (i of lista) {
+            option = document.createElement("OPTION");
+            option.innerHTML = i.placa;
+            option.value = i.id;
+            option.setAttribute('data-fklinea', i.fklinea)
+            option.setAttribute('data-linea', i.linea)
+            option.setAttribute('data-fkinterno', i.fkinterno)
+            option.setAttribute('data-interno', i.interno)
+            select.appendChild(option);
+        }
+        $('#listaVehiculo').selectpicker('refresh');
+}
+
+
+
+$('#listaVehiculo').change(function () {
+
+    $("#lineaVehiculo").val($("#listaVehiculo option:selected").attr("data-linea"))
+    $("#internoVehiculo").val($("#listaVehiculo option:selected").attr("data-interno"))
+
+});
+
+$('#listaVehiculo').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione una opción'
+});
+
+
+$('#seleccion').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione una opción'
+});
 
 $('#fkcategoria').selectpicker({
   size: 10,
@@ -294,6 +349,22 @@ $('#fklinea').change(function () {
     listar_internos($(this).val(),'','');
 });
 
+$('#seleccion').change(function () {
+
+
+    if($(this).val() != "1"){
+
+        $('#div_vehiculo').show()
+        $('#div_linea').hide()
+
+    }else{
+
+        $('#div_vehiculo').hide()
+        $('#div_linea').show()
+
+    }
+
+});
 
 $('#btnTransferir').on('click', async function() {
     const validationData = formValidation('submit_form-transferencia');
@@ -340,6 +411,12 @@ $("#new").click(function () {
     $("#adjuntos").attr("aria-expanded", false);
     $('#id').val(0)
     $('#fklinea').selectpicker("val", '');
+    $('#seleccion').selectpicker("val", '');
+
+
+
+        $('#div_vehiculo').hide()
+        $('#div_linea').hide()
 
     $('#fkinterno').html('');
     $('#fkinterno').selectpicker('destroy');
@@ -483,9 +560,16 @@ $('#upsert').on('click',async function() {
             soatVencimiento: $("#soatVencimiento").val(),
             inspeccionVencimiento: $("#inspeccionVencimiento").val(),
             seguroVencimiento: $("#seguroVencimiento").val(),
+
       },
       fklinea:parseInt($("#fklinea").val()),
-      fkinterno: parseInt($("#fkinterno").val())
+      fkinterno: parseInt($("#fkinterno").val()),
+
+      seleccion: parseInt($("#seleccion").val()),
+      transfklinea:parseInt($("#listaVehiculo option:selected").attr("data-linea")),
+      transfkinterno: parseInt($("#listaVehiculo option:selected").attr("data-interno")),
+      transvehiculo: parseInt($("#listaVehiculo").val())
+
     }
 
     $('#upsert').hide();

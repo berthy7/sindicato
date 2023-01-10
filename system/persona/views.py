@@ -768,7 +768,7 @@ def listarPersonaXTipo(request,id):
     user = request.user
     persona = Persona.objects.filter(fkusuario=user.id)
     if persona[0].fklinea:
-        for interPer in InternoPersona.objects.filter(fklinea=persona[0].fklinea).distinct(
+        for interPer in InternoPersona.objects.filter(habilitado=True).filter(fklinea=persona[0].fklinea).distinct(
                 'fkpersona').all().select_related('fkpersona').filter(fkpersona__tipo=id).filter(fkpersona__habilitado=True):
             item = interPer.fkpersona
             dt_list.append(dict(id=item.id, nombre=item.nombre + " " + item.apellidos))

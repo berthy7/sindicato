@@ -11,9 +11,13 @@ from system.persona.models import Persona
 from system.vehiculo.models import Vehiculo
 import json
 import datetime
+
 import os.path
 import uuid
 import io
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Create your views here.
 
@@ -241,6 +245,10 @@ def obtain(request,id):
 
     return JsonResponse(response, safe=False)
 
+def upload_cloudinay(foto):
+    resp= cloudinary.uploader.upload('static/upload/'+foto)
+    return resp["secure_url"]
+
 def handle_uploaded_file(f,name):
     with open('static/upload/'+ name,'wb+') as destination:
         for chunk in f.chunks():
@@ -257,7 +265,7 @@ def insert(request):
             extn = os.path.splitext(fname)[1]
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo,cname)
-            dicc['mensajeAdjunto'] = cname
+            dicc['mensajeAdjunto'] = upload_cloudinay(cname)
 
         dicc['fkusuario'] = user
 
@@ -279,7 +287,7 @@ def update(request):
             extn = os.path.splitext(fname)[1]
             cname = str(uuid.uuid4()) + extn
             handle_uploaded_file(fileinfo,cname)
-            dicc['mensajeAdjunto'] = cname
+            dicc['mensajeAdjunto'] = upload_cloudinay(cname)
 
         dicc['receptorId'] = user.id
         dicc['receptor'] = user.first_name + " " + user.last_name
