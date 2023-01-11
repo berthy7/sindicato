@@ -32,7 +32,7 @@
 
                 <div class="tab-content">
                     <div class="tab-pane show active" id="general">
-                    <div class="row">
+                    <div id="div_seleccion" class="row">
                         <div class="col-12 col-sm-6">
                         <div class="form-group mb-6">
                             <label >Seleccione</label>
@@ -58,24 +58,15 @@
                         <div class="col-12 col-sm-4">
                             <div class="form-group mb-3">
                                 <label for="fkinterno">Internos *</label>
-                                <select id="fkinterno" name="fkinterno" class="form-control show-tick">
+                                <select id="fkinterno" name="fkinterno" class="form-control show-tick" required>
 
                                 </select>
                             </div>
                         </div>
-                        <div id="div_transferir" class="col-12 col-sm-2" hidden>
-                             <label>Tranferir</label>
-                            <div class="form-group mb-3">
 
-                                  <button id="transferir" type="button" class="btn btn-primary">
-                                  <i class="mdi mdi-content-save mr-1"></i>
-                                </button>
-
-                            </div>
-                        </div>
                     </div>
                     <div id="div_vehiculo" class="row">
-                        <div class="col-12 col-sm-6">
+                        <div id="div_listaVehiculo" class="col-12 col-sm-6">
                             <div class="form-group mb-6">
                                 <label>Vehiculo</label>
                                 <select id="listaVehiculo" name="listaVehiculo" class="form-control show-tick">
@@ -373,17 +364,7 @@
                             placeholder="" disabled />
                     </div>
                 </div>
-                <div class="col-12 col-sm-6">
-                    <div class="form-group mb-6">
-                        <label>Vehiculo a Transferir</label>
-                        <select id="vehiculoTransferencia" name="vehiculoTransferencia" class="form-control show-tick" required>
-
-                        </select>
-                    </div>
-                </div>
-              </div>
-            <div class="row">
-                <div class="col-12 col-sm-3">
+                 <div class="col-12 col-sm-3">
                     <div class="form-group mb-3">
                         <label>Tipo</label>
                         <input id="tipo-trans" name="tipo" type="text" class="form-control referencia form-control-sm"
@@ -399,16 +380,9 @@
                             placeholder="" disabled />
                     </div>
                 </div>
-                <div class="col-12 col-sm-6">
-                    <div class="form-group mb-6">
-                        <label>Nota</label>
-
-                        <input id="nota" name="nota" type="text" class="form-control referencia form-control-sm"
-                            placeholder=""  />
-                    </div>
-                </div>
 
               </div>
+
 
             <div class="row">
                 <div class="col-12 col-sm-3">
@@ -430,6 +404,32 @@
                 </div>
 
               </div>
+            <div class="row">
+                <label >Selección de linea / Interno disponible</label>
+            </div>
+                <div  class="row">
+                        <div class="col-12 col-sm-4">
+                            <div class="form-group mb-3">
+                                <label >Linea *</label>
+                                <select id="fklinea-trans" name="fklinea-trans" class="form-control show-tick" required>
+                               {% for i in lineas %}
+                                  <option value="{{ i.id }}">{{ i.codigo }}</option>
+                               {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-4">
+                            <div class="form-group mb-3">
+                                <label >Internos *</label>
+                                <select id="fkinterno-trans" name="fkinterno-trans" class="form-control show-tick" required>
+
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+
         </form>
       </div>
         <div class="modal-footer">
@@ -437,9 +437,9 @@
         <button id="cerrar" type="button" class="btn btn-light" data-bs-dismiss="modal">
           <i class="mdi mdi-close-box mr-1"></i> <span>Cerrar</span>
         </button>
-{#        <button id="btnTransferir" type="button" class="btn btn-primary">#}
-{#          <i class="mdi mdi-content-save mr-1"></i> <span>Transferir</span>#}
-{#        </button>#}
+        <button id="btnTransferir" type="button" class="btn btn-primary">
+          <i class="mdi mdi-content-save mr-1"></i> <span>Transferir</span>
+        </button>
       </div>
 
     </div>

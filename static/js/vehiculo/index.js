@@ -188,6 +188,21 @@ $('#listaVehiculo').change(function () {
 
 });
 
+$('#fklinea-trans').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione una opción'
+});
+
+
+$('#fkinterno-trans').selectpicker({
+  size: 10,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Seleccione una opción'
+});
+
 $('#listaVehiculo').selectpicker({
   size: 10,
   liveSearch: true,
@@ -345,9 +360,49 @@ function listar_internos(idLinea,idInterno,numInterno){
     });
 }
 
+
+function listar_internosTrans(idLinea){
+         $.ajax({
+        method: "GET",
+        url: '/linea/listarInternosXLinea/'+idLinea,
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            $('#fkinterno-trans').html('');
+            $('#fkinterno-trans').selectpicker('destroy');
+            $('#fkinterno-trans').selectpicker({
+              size: 10,
+              liveSearch: true,
+              liveSearchPlaceholder: 'Buscar',
+              title: 'Seleccione una opción'
+            });
+
+            var select = document.getElementById("fkinterno-trans")
+            var option = document.createElement("OPTION");
+
+            for (i of response) {
+
+                option = document.createElement("OPTION");
+                option.innerHTML = i.numero;
+                option.value = i.id;
+                // option.setAttribute('data-state', '')
+                select.appendChild(option);
+            }
+            $('#fkinterno-trans').selectpicker('refresh');
+        },
+        error: function (jqXHR, status, err) {
+        }
+    });
+}
+
 $('#fklinea').change(function () {
     listar_internos($(this).val(),'','');
 });
+
+$('#fklinea-trans').change(function () {
+    listar_internosTrans($(this).val());
+});
+
 
 $('#seleccion').change(function () {
 
@@ -373,24 +428,18 @@ $('#btnTransferir').on('click', async function() {
         return;
       }
       const obj ={
-            fklinea: parseInt($("#lineaInternoTrans option:selected").attr("fklinea")),
-            linea: $("#lineaInternoTrans option:selected").attr("linea"),
-            fkinterno: parseInt($("#lineaInternoTrans option:selected").attr("fkinterno")),
-            interno: $("#lineaInternoTrans option:selected").attr("interno"),
 
-            lineaInternoId: parseInt($("#lineaInternoTrans").val()),
+          fkvehiculo: parseInt($("#vehiculoId").val()),
+          fklinea: parseInt($("#lineaId").val()),
+          fkinterno: parseInt($("#internoId").val()),
 
-            fkpersona: parseInt($("#socioOrigenId").val()),
-            persona: $("#socioOrigenId option:selected").text(),
+          fklineatrans: parseInt($("#fklinea-trans").val()),
+          fkinternotrans: parseInt($("#fkinterno-trans").val())
 
-            fkpersonaTrans: parseInt($("#socioTransferencia").val()),
-            personaTrans: $("#socioTransferencia option:selected").text(),
-
-            nota: $("#nota").val()
       }
 
            const response = await fetchData(
-            "/vehiculo/transferencia/",
+            "/vehiculo/transferir/",
             "POST",
             JSON.stringify({'obj':obj})
        );
@@ -413,10 +462,12 @@ $("#new").click(function () {
     $('#fklinea').selectpicker("val", '');
     $('#seleccion').selectpicker("val", '');
 
+    $('#div_seleccion').show()
 
+    $('#div_vehiculo').hide()
+    $('#div_listaVehiculo').show()
 
-        $('#div_vehiculo').hide()
-        $('#div_linea').hide()
+    $('#div_linea').hide()
 
     $('#fkinterno').html('');
     $('#fkinterno').selectpicker('destroy');
@@ -446,8 +497,6 @@ $("#new").click(function () {
     $('#soat').val('');
     $('#inspeccion').val('');
     $('#seguro').val('');
-
-     $('#div_transferir').prop("hidden", true);
 
     $("#modal").modal("show");
 });
@@ -566,8 +615,8 @@ $('#upsert').on('click',async function() {
       fkinterno: parseInt($("#fkinterno").val()),
 
       seleccion: parseInt($("#seleccion").val()),
-      transfklinea:parseInt($("#listaVehiculo option:selected").attr("data-linea")),
-      transfkinterno: parseInt($("#listaVehiculo option:selected").attr("data-interno")),
+      transfklinea:parseInt($("#listaVehiculo option:selected").attr("data-fklinea")),
+      transfkinterno: parseInt($("#listaVehiculo option:selected").attr("data-fkinterno")),
       transvehiculo: parseInt($("#listaVehiculo").val())
 
     }
@@ -614,14 +663,30 @@ $('#upsert').on('click',async function() {
         });
 });
 
+
+$('#seleccion').change(function () {
+
+    if(parseInt($(this).val()) == 1)
+    {
+        $('#fklinea').prop("required", true);
+        $('#fkinterno').prop("required", true);
+        $('#listaVehiculo').prop("required", false);
+    }
+    else
+    {
+        $('#fklinea').prop("required", false);
+        $('#fkinterno').prop("required", false);
+        $('#listaVehiculo').prop("required", true);
+    }
+
+});
+
 function botones_admin(adm){
     if(adm){
         $('#upsert').show();
-        $('#div_transferir').prop("hidden", false);
-
     }else{
         $('#upsert').hide();
-        $('#div_transferir').prop("hidden", true);
+       
     }
 }
 
@@ -644,6 +709,9 @@ function edit_item(e) {
     $("input[type=file]").fileinput("clear");
 
     $('#fklinea').selectpicker("val", String(self.fklinea));
+
+    $('#lineaVehiculo').val(self.linea);
+    $('#internoVehiculo').val(self.interno);
 
     listar_internos(self.fklinea,self.fkinterno,self.interno)
 
@@ -684,6 +752,14 @@ function edit_item(e) {
       $('#img-seguro').removeClass('d-none');
     }
 
+$('#div_linea').hide();
+    $('#div_seleccion').hide();
+
+     $('#div_vehiculo').show();
+    $('#div_listaVehiculo').hide();
+
+
+
 
     $('.item-form').parent().addClass('focused')
     $('#upsert').show()
@@ -691,13 +767,9 @@ function edit_item(e) {
     $("#cerrar").show();
 
 
-    
-    $('#div_transferir').prop("hidden", false);
-
     botones_admin(admin)
 
     $('#modal').modal('show')
-
 }
 
 function asignacion_item(e) {
