@@ -11,23 +11,18 @@ import json
 
 
 def funcion():
-
     vehiculos = Vehiculo.objects.filter(estado = True).filter(habilitado=True)
-
     print("inicio funcion")
-
     for vehiculo in vehiculos:
         interno = Interno.objects.get(id=vehiculo.fkinterno)
         interno.fkvehiculo =vehiculo
         interno.save()
-
     print ("fin funcion")
-
 
 # Create your views here.
 @login_required
 def index(request):
-    funcion()
+    # funcion()
 
     user = request.user
     try:

@@ -13,6 +13,7 @@ let swPermiso = true
 
 $(document).ready( function () {
     reload_table();
+    init_map()
 });
 
 $('#conductores').selectpicker({

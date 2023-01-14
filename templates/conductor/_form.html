@@ -17,6 +17,12 @@
                             <span class="d-none d-md-block">Datos Generales</span>
                         </a>
                     </li>
+                     <li class="nav-item">
+                        <a href="#direccion" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                            <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Dirección</span>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="#adjuntos" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
                             <i class="mdi mdi-account-circle d-md-none d-block"></i>
@@ -240,6 +246,30 @@
 
                           </div>
                     </div>
+                <div class="tab-pane" id="direccion">
+                    <div class="row">
+                        <div class="col-sm-12">
+                                    <label class="form-label">Ubicación</label>
+                                    <div id="map" class="m-t-5 m-b-5" style="height: 400px"></div>
+                                </div>
+                                <div class="col-sm-6 mt-pro-25px">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" id="latitud" name="latitud" class="form-control item-form">
+                                            <label for="latitud" class="form-label">Latitud</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mt-pro-25px">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" id="longitud" name="longitud" class="form-control item-form">
+                                            <label for="longitud" class="form-label">Longitud</label>
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>
+                </div>
                 <div class="tab-pane" id="adjuntos2">
 
                         <div class="row">
