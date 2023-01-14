@@ -56,3 +56,4 @@ class VehiculoTransferencia(models.Model):
 
     class Meta:
         db_table = "system_vehiculoTransferencia"
+
