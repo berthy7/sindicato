@@ -414,17 +414,17 @@
         <form id="submit_form_asignacion" class="pl-3 pr-3 needs-validation" novalidate>
 
         <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-3">
-                    <label for="fklinea">Linea *</label>
-                    <input id="lineapersonaid" name="lineapersonaid" type="hidden" />
-                    <select id="fklinea" name="fklinea" class="form-control show-tick" required>
-                   {% for i in lineas %}
-                      <option value="{{ i.id }}">{{ i.codigo }}</option>
-                   {% endfor %}
-                    </select>
-                </div>
-            </div>
+{#            <div class="col-12 col-sm-6">#}
+{#                <div class="form-group mb-3">#}
+{#                    <label for="fklinea">Linea *</label>#}
+{#                    <input id="lineapersonaid" name="lineapersonaid" type="hidden" />#}
+{#                    <select id="fklinea" name="fklinea" class="form-control show-tick" required>#}
+{#                   {% for i in lineas %}#}
+{#                      <option value="{{ i.id }}">{{ i.codigo }}</option>#}
+{#                   {% endfor %}#}
+{#                    </select>#}
+{#                </div>#}
+{#            </div>#}
 
           </div>
         <div class="row">
