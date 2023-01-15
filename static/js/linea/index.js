@@ -114,8 +114,6 @@ function reload_table() {
     });
 }
 
-
-
 function abrir_form_interno(){
 
     $('#form_interno').prop("hidden", false);

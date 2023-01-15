@@ -2,16 +2,77 @@
 {% load static %}
 
 {% block content %}
+    <link href='{% static "app/plugins/bootstrap-select-1.14.0-beta3/css/bootstrap-select.min.css" %}' rel='stylesheet' type='text/css'/>
+    <link href='{% static "css/site.css" %}' rel='stylesheet' type='text/css'/>
 
 
  <div class="container-fluid">
-    <div class="row">
+ <div class="row">
 {#      {% if 'ciudad_query' in privileges %}#}
       <div class="col-12">
-        <div class="card">
+        <div id="div_card" class="card">
           <div class="card-body">
 
-              <img src='{% static "imagen/sitioencontruccion.jpg" %}'>
+              <h4 class="header-title mb-3">Bitacora</h4>
+
+              <div class="row">
+                    <div class="col-12 col-sm-3">
+                    <div class="form-group mb-3">
+                        <label>Opcion de Menu</label>
+                        <select id="opciones" name="opciones" class="form-control show-tick" required>
+                          <option value="Linea">Linea</option>
+                          <option value="Socios">Socios</option>
+                          <option value="TransferenciaSocios">Transferencia de Socios</option>
+                          <option value="Vehiculos">Vehiculos</option>
+                          <option value="TransferenciaVehiculos">Transferencia de Vehiculos</option>
+                          <option value="Conductores">Conductores</option>
+                          <option value="TransferenciaConductores">Transferencia de Conductores</option>
+                          <option value="Incidentes">Incidentes</option>
+                          <option value="Capacitaciones">Capacitaciones</option>
+                        </select>
+                    </div>
+                    </div>
+                  <div class="col-12 col-sm-3">
+                    <div class="form-group mb-3">
+                        <label>Funcion</label>
+                        <select id="acciones" name="acciones" class="form-control show-tick" required>
+                          <option value="Registro">Registró</option>
+                          <option value="Elimino">Eliminó</option>
+                        </select>
+                    </div>
+                    </div>
+                  <div class="col-12 col-sm-3">
+                    <div class="form-group mb-3">
+                        <label>Usuarios</label>
+                        <select id="usuarios" name="usuarios" class="form-control show-tick" >
+
+                            {% for i in usuarios %}
+                              <option value="{{ i.id }}">{{ i.first_name }} {{ i.last_name }}</option>
+                           {% endfor %}
+                        </select>
+                    </div>
+                    </div>
+              </div>
+
+
+                <div class="row">
+                  <div class="col-12 col-sm-3">
+                        <div class="form-group mb-3">
+                           <button id="btnBuscar" type="button" class="btn btn-primary">
+                              <span>Buscar</span>
+                            </button>
+                        </div>
+                    </div>
+
+
+
+
+                 </div>
+
+                <div class="content">
+                  <table id="data_table" class="table table-striped dt-responsive nowrap w-100"></table>
+                </div>
+
 
           </div>
         </div>
@@ -27,5 +88,6 @@
 {% endblock %}
 
 {% block extrajs %}
+    <script src='{% static "app/plugins/bootstrap-select-1.14.0-beta3/js/bootstrap-select.js" %}' type='text/javascript'></script>
     <script src='{% static "js/bitacora/index.js" %}'></script>
 {% endblock %}

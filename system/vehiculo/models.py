@@ -51,6 +51,9 @@ class VehiculoTransferencia(models.Model):
     fkusuario = models.ForeignKey(User, on_delete=models.CASCADE)
     fechar = models.DateTimeField(auto_now_add=True)
 
+    fkusuarioEliminado = models.IntegerField(null=True)
+    fechaEliminado = models.DateTimeField(null=True)
+
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)
 

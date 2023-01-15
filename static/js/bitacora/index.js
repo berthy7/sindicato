@@ -4,6 +4,57 @@ $(document).ready( function () {
     // reload_table();
 });
 
+$('#opciones').selectpicker({
+  size: 7,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Buscar Opción'
+});
+
+$('#acciones').selectpicker({
+  size: 7,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Buscar Funcion'
+});
+
+$('#usuarios').selectpicker({
+  size: 7,
+  liveSearch: true,
+  liveSearchPlaceholder: 'Buscar',
+  title: 'Buscar Usuario'
+});
+
+
+$('#btnBuscar').on('click', async function() {
+
+    const validationData = formValidation('div_card');
+      if (validationData.error) {
+        showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
+        return;
+      }
+      objeto ={
+            opcion: $("#opciones").val(),
+            accion: $("#acciones").val(),
+            usuario: $("#usuarios").val()
+      }
+       const response = await fetchData(
+            "/bitacora/list/",
+            "POST",
+            JSON.stringify({'obj':objeto})
+       );
+
+        if(response.success){
+           showSmallMessage(response.tipo,response.mensaje,"center");
+            setTimeout(function () {
+
+                load_table(response.response)
+            }, 2000);
+        }else showSmallMessage(response.tipo,response.mensaje,"center");
+
+})
+
+
 function load_table(data_tb) {
     var tabla = $(id_table).DataTable({
         destroy: true,
@@ -12,52 +63,16 @@ function load_table(data_tb) {
         scrollCollapse: true,
         scroller:       true,
         columns: [
-            { title: "ID", data: "id" },
-            { title: "Categoria", data: "categoria" },
-            { title: "Placa", data: "placa" },
-            { title: "Modelo", data: "modelo" },
-            { title: "Tipo", data: "tipo" },
-            { title: "Año", data: "año" },
-            { title: "Estado", data: "estado",
-                render: function(data, type, row) {
-                    let check = data ? 'checked' : ''
-                    return '\
-                    <div title="' + row.estado + '">\
-                        <input id="enabled' + row.id + '" type="checkbox" class="chk-col-indigo enabled" onclick="set_enable(this)" data-id="' + row.id + '" ' + check + ' ' + row.disable + '>\
-                        <label for="enabled' + row.id + '"></label>\
-                    </div>'
-                }
-            },
-            { title: "Acciones", data: "id",
-                render: function(data, type, row) {
-                     const dataObject = JSON.stringify(row);
-                    a = ''
-                    // if (row.disable === '') {
-                        a += `\
-                            <button data-object='${dataObject}'  type="button" class="btn btn-primary edit" title="Editar" onclick="edit_item(this)">\
-                                <i class="mdi mdi-file-document-edit"></i>\
-                            </button>`
-                    // }
-                    // if (row.delete) {
-                        a += '\
-                            <button data-json="' + data + '"  type="button" class="btn btn-danger waves-effect" title="Eliminar" onclick="delete_item(this)">\
-                                <i class="mdi mdi-delete"></i>\
-                            </button>'
-                    // }
-                    if (a === '') a = 'Sin permisos';
-                    return a
-                }
-            },
-            { title: "Estado", visible: false, data: "estado",
-                render: function(data, type, row) {
-                    return data? 'Activo': 'Inactivo'
-                }
-            }
+            { title: "Nro", data: "nro" },
+            { title: "Fecha", data: "fecha" },
+            { title: "Usuario", data: "nombre" },
+            { title: "Registro Id", data: "id" },
+            { title: "Registro", data: "registro" }
         ],
         dom: "Bfrtip",
         buttons: [],
-        "order": [ [0, 'desc'] ],
-        columnDefs: [ { width: '10%', targets: [0] }, { width: '27.5%', targets: [1, 2] }, { width: '20%', targets: [3] }, { width: '15%', targets: [4] } ],
+        "order": [ [0, 'asc'] ],
+        columnDefs: [ { width: '10%', targets: [0] }, { width: '27.5%', targets: [1, 2] }, { width: '15%', targets: [3] }, { width: '20%', targets: [4] } ],
         "initComplete": function() {}
     });
     tabla.draw()

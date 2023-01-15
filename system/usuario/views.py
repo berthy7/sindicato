@@ -33,6 +33,7 @@ def index(request):
         foto = persona[0].foto if persona[0].foto != None else  ""
     except Exception as e:
         print(e)
+
     return render(request, 'usuario/index.html', {'lineas': lineas,'roles': roles,
                                                   'usuario': user.first_name + " " + user.last_name,
                                                 'rol': rol,'foto': foto, 'lineaUser': lineaUser})

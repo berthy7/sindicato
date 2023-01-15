@@ -1,9 +1,9 @@
 const tilesProvider = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-let myMap = L.map('map').setView([-17.78416063196657, -63.181171417236335], 13);
+let myMap = L.map('map').setView([-17.8603, -63.1513], 13);
 let popup = L.popup();
 
 function init_map() {
-    let marker = L.marker([-17.78416063196657,-63.181171417236335], {draggable: true}).addTo(myMap);
+    let marker = L.marker([-17.7838, -63.1808], {draggable: true}).addTo(myMap);
     L.tileLayer(tilesProvider, {
         maxZoom: 18,
     }).addTo(myMap);
@@ -14,10 +14,11 @@ function init_map() {
         $(latitud).parent().addClass('focused')
         $(longitud).parent().addClass('focused')
         //onMarkerClick(e.sourceTarget)
+
+        //myMap.flyTo([-17.8603, -63.1513], 13)
     });
 }
 
 function onMarkerClick(e) {
-    // popup.setLatLng(e._latlng).setContent("Ubicación: " + e._latlng.toString()).openOn(myMap);
     popup.setLatLng(e._latlng).setContent("Ubicación: " + e._latlng.toString()).openOn(myMap);
 }

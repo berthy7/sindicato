@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Linea(models.Model):
+
     codigo = models.CharField(max_length=25)
     razonSocial = models.CharField(max_length=25)
     fechaFundacion = models.DateField()
@@ -20,7 +21,11 @@ class Linea(models.Model):
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)
 
+
     fechar = models.DateTimeField(auto_now_add=True)
+    fkusuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    fkusuarioEliminado = models.IntegerField(null=True)
+    fechaEliminado = models.DateTimeField(null=True)
 
     class Meta:
         db_table = "system_linea"

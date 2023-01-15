@@ -37,9 +37,11 @@ class Persona(models.Model):
     latitud = models.CharField(max_length=50,null=True)
     longitud = models.CharField(max_length=50,null=True)
     tipo = models.CharField(max_length=50,null=True)
-    fkusuario = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    fkusuario = models.ForeignKey(User, on_delete=models.CASCADE,null=True, related_name='fkusuario')
     fkrol = models.ForeignKey(Group, on_delete=models.CASCADE,null=True)
     fechar = models.DateTimeField(auto_now_add=True,null=True)
+
+    fkusuarioCreacion = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='fkusuarioCreacion')
 
     fklinea = models.IntegerField(null=True)
     fkinterno = models.IntegerField(null=True)
