@@ -45,7 +45,7 @@
                     <div class="form-group mb-3">
                         <label>Usuarios</label>
                         <select id="usuarios" name="usuarios" class="form-control show-tick" >
-
+                            <option value="">Todos</option>
                             {% for i in usuarios %}
                               <option value="{{ i.id }}">{{ i.first_name }} {{ i.last_name }}</option>
                            {% endfor %}

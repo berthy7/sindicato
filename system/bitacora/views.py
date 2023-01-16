@@ -9,14 +9,13 @@ from system.linea.models import Linea
 # Create your views here.
 @login_required
 def index(request):
-
     user = request.user
     try:
         # persona = get_object_or_404(Persona, fkusuario=user.id)
         persona = Persona.objects.filter(fkusuario=user.id)
         rol = persona[0].fkrol.name
 
-        usuarios = User.objects.filter(is_active=True).filter(is_superuser=False)
+        usuarios = User.objects.filter(is_active=True).filter(is_superuser=False).order_by('first_name')
 
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
