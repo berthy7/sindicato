@@ -29,6 +29,7 @@ def home(request):
     else:
         rol = "Administrador"
         lineaUser = ""
+        foto = ""
 
     return render(request, 'home.html', {'lineaUser': lineaUser,'usuario': user.first_name + " " + user.last_name,
                                          'rol': rol,'foto': foto})

@@ -375,7 +375,6 @@
                 <div class="col-12 col-sm-3">
                     <div class="form-group mb-3">
                         <label>Marca</label>
-
                         <input id="modelo-trans" name="modelo" type="text" class="form-control referencia form-control-sm"
                             placeholder="" disabled />
                     </div>
@@ -404,30 +403,62 @@
                 </div>
 
               </div>
-            <div class="row">
-                <label >Selección de linea / Interno disponible</label>
-            </div>
-                <div  class="row">
-                        <div class="col-12 col-sm-4">
-                            <div class="form-group mb-3">
-                                <label >Linea *</label>
-                                <select id="fklinea-trans" name="fklinea-trans" class="form-control show-tick" required>
-                               {% for i in lineas %}
-                                  <option value="{{ i.id }}">{{ i.codigo }}</option>
-                               {% endfor %}
-                                </select>
-                            </div>
+                <div id="div_seleccion_trans" class="row">
+                        <div class="col-12 col-sm-6">
+                        <div class="form-group mb-6">
+                            <label >Seleccione</label>
+                            <select id="seleccione_trans" name="seleccione_trans" class="form-control show-tick" required>
+                              <option value="1">Selección de linea / Interno disponible</option>
+                              <option value="2">Transferir Linea de otro vehiculo</option>
+                            </select>
                         </div>
-                        <div class="col-12 col-sm-4">
-                            <div class="form-group mb-3">
-                                <label >Internos *</label>
-                                <select id="fkinterno-trans" name="fkinterno-trans" class="form-control show-tick" required>
-
-                                </select>
-                            </div>
                         </div>
-
                     </div>
+                <div id="div_linea_trans" class="row">
+                    <div class="col-12 col-sm-4">
+                        <div class="form-group mb-3">
+                            <label >Linea *</label>
+                            <select id="fklinea_trans" name="fklinea_trans" class="form-control show-tick" required>
+                           {% for i in lineas %}
+                              <option value="{{ i.id }}">{{ i.codigo }}</option>
+                           {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <div class="form-group mb-3">
+                            <label >Internos *</label>
+                            <select id="fkinterno_trans" name="fkinterno_trans" class="form-control show-tick" required>
+
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="div_vehiculo_trans" class="row">
+                    <div id="div_listaVehiculo_trans" class="col-12 col-sm-6">
+                        <div class="form-group mb-6">
+                            <label>Vehiculo</label>
+                            <select id="listaVehiculo_trans" name="listaVehiculo_trans" class="form-control show-tick">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-3">
+                        <div class="form-group mb-3">
+                            <label>Linea</label>
+                            <input id="lineaVehiculo_trans" name="lineaVehiculo_trans" type="text" class="form-control form-control-sm"
+                                placeholder="" disabled />
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-3">
+                        <div class="form-group mb-3">
+                            <label>Interno</label>
+                            <input id="internoVehiculo_trans" name="internoVehiculo_trans" type="text" class="form-control form-control-sm"
+                                placeholder="" disabled />
+                        </div>
+                    </div>
+                </div>
 
 
         </form>

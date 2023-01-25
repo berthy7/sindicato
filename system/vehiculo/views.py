@@ -268,9 +268,10 @@ def insert(request):
 
         dicc["obj"]['fkusuario'] = user
 
+        vehiculo = Vehiculo.objects.create(**dicc["obj"])
+
         if(int(dicc["seleccion"]) == 1):
 
-            vehiculo = Vehiculo.objects.create(**dicc["obj"])
             # registrar linea
             VehiculoTransferencia.objects.create(**dict(fkvehiculo=vehiculo,fklinea=dicc["fklinea"],fkinterno=dicc["fkinterno"],fkusuario=user))
 
@@ -280,8 +281,6 @@ def insert(request):
         else:
             dicc["obj"]['fklinea'] = dicc["transfklinea"]
             dicc["obj"]['fkinterno'] = dicc["transfkinterno"]
-
-            vehiculo = Vehiculo.objects.create(**dicc["obj"])
 
             interno = Interno.objects.get(id=dicc["transfkinterno"])
             interno.fkvehiculo = vehiculo
@@ -454,27 +453,57 @@ def retiro(request):
 def transferir(request):
     user = request.user
     try:
-
         dicc = json.load(request)['obj']
 
-        vehiculo = Vehiculo.objects.get(id=dicc["fkvehiculo"])
+        vehiculo = Vehiculo.objects.get(id=dicc["obj"]["fkvehiculo"])
 
-        interno = Interno.objects.get(id=dicc["fkinterno"])
-        interno.fkvehiculo = None
-        interno.save()
+        if (int(dicc["seleccion"]) == 1):
 
-        vehiculo.fklinea = dicc["fklineatrans"]
-        vehiculo.fkinterno = dicc["fkinternotrans"]
+            interno = Interno.objects.get(id=vehiculo.fkinterno)
+            interno.fkvehiculo = None
+            interno.save()
 
-        vehiculo.save()
+            vehiculo.fklinea = dicc["fklinea"]
+            vehiculo.fkinterno = dicc["fkinterno"]
+            vehiculo.save()
 
-        VehiculoTransferencia.objects.create(
-            **dict(fkvehiculo=vehiculo, fklinea=dicc["fklineatrans"],
-                   fkinterno=dicc["fkinternotrans"], fkusuario=user))
 
-        interno = Interno.objects.get(id=dicc["fkinternotrans"])
-        interno.fkvehiculo = vehiculo
-        interno.save()
+            interno = Interno.objects.get(id=vehiculo.fkinterno)
+            interno.fkvehiculo = vehiculo
+            interno.save()
+
+            VehiculoTransferencia.objects.create(
+                **dict(fkvehiculo=vehiculo, fklinea=dicc["fklinea"], fkinterno=dicc["fkinterno"], fkusuario=user))
+        else:
+
+            interno = Interno.objects.get(id=vehiculo.fkinterno)
+            interno.fkvehiculo = None
+            interno.save()
+
+            vehiculo.fklinea = dicc["transfklinea"]
+            vehiculo.fkinterno = dicc["transfkinterno"]
+            vehiculo.save()
+
+            vehiculoTrans = Vehiculo.objects.get(id=dicc["transvehiculo"])
+
+            VehiculoTransferencia.objects.create(
+                **dict(fkvehiculo=vehiculo, fkvehiculoTrans=vehiculoTrans, fklinea=dicc["transfklinea"],
+                       fkinterno=dicc["transfkinterno"], fkusuario=user))
+
+
+
+            internoTrans = Interno.objects.get(id=vehiculoTrans.fkinterno)
+            internoTrans.fkvehiculo = vehiculo
+            internoTrans.save()
+
+
+            vehiculoTrans.fklinea = None
+            vehiculoTrans.fkinterno = None
+            vehiculoTrans.save()
+
+            VehiculoTransferencia.objects.create(
+                **dict(fkvehiculo=vehiculoTrans,  linea="Sin Linea",
+                       interno="Sin Interno", fkusuario=user))
 
         return JsonResponse(dict(success=True, mensaje="Transferencia Correctamente", tipo="success"), safe=False)
     except Exception as e:

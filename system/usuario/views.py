@@ -85,6 +85,7 @@ def handle_uploaded_file(f,name):
 
 @login_required
 def insert(request):
+    user = request.user
     try:
         dicc = json.loads(request.POST.get('obj'))
         files = request.FILES
@@ -96,13 +97,14 @@ def insert(request):
             handle_uploaded_file(fileinfo, cname)
             dicc["persona"]['foto'] = upload_cloudinay(cname)
 
-
         del dicc["usuario"]["id"]
 
-        user = User.objects.create_user(**dicc["usuario"])
-        user.save()
-        dicc["persona"]["fkusuario"] = user
+        usuario = User.objects.create_user(**dicc["usuario"])
+        usuario.save()
+        dicc["persona"]["fkusuario"] = usuario
         dicc["persona"]["fkrol"] = Group.objects.get(id=int(dicc["persona"]["fkrol"]))
+        dicc["persona"]["fkusuarioCreacion"] = usuario
+
         del dicc["persona"]["id"]
         persona = Persona.objects.create(**dicc["persona"])
         if dicc["persona"]["fklinea"] is not None:

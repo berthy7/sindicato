@@ -226,6 +226,7 @@ def insertfile(request):
 @login_required
 def insert(request):
     try:
+        user = request.user
         dicc = json.loads(request.POST.get('obj'))
         files = request.FILES
         fileinfo = files.get('foto', None)
@@ -317,6 +318,8 @@ def insert(request):
                 dicc["obj"]['fechaInscripcion'] = None
 
             del dicc["obj"]['id']
+
+            dicc["obj"]['fkusuarioCreacion'] = user
 
             persona = Persona.objects.create(**dicc["obj"])
 
