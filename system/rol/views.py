@@ -5,24 +5,32 @@ from django.contrib.auth.models import User,Group
 from system.linea.models import Linea
 from system.persona.models import Persona
 from system.vehiculo.models import Vehiculo
-from system.linea.models import Interno
+from system.linea.models import Interno,InternoPersona
 import json
 
 
 
 def funcion():
-    vehiculos = Vehiculo.objects.filter(estado = True).filter(habilitado=True)
+
+    socios = Persona.objects.filter(estado = True).filter(habilitado=True).filter(tipo = "Socio")
     print("inicio funcion")
-    for vehiculo in vehiculos:
-        interno = Interno.objects.get(id=vehiculo.fkinterno)
-        interno.fkvehiculo =vehiculo
-        interno.save()
+    for socio in socios:
+
+        for internoPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=socio.id).all().order_by(
+                'id'):
+
+            interno = get_object_or_404(Interno, id=internoPersona.fkinterno_id)
+            # interno = Interno.objects.get(id=internoPer.fkinterno.id).exists()
+            if interno:
+                interno.fkpersona = socio
+                interno.save()
+
     print ("fin funcion")
 
 # Create your views here.
 @login_required
 def index(request):
-    # funcion()
+    funcion()
 
     user = request.user
     try:

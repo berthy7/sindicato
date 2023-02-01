@@ -32,15 +32,7 @@
                         </select>
                     </div>
                     </div>
-                  <div class="col-12 col-sm-3">
-                    <div class="form-group mb-3">
-                        <label>Funcion</label>
-                        <select id="acciones" name="acciones" class="form-control show-tick" required>
-                          <option value="Registro">Registró</option>
-                          <option value="Elimino">Eliminó</option>
-                        </select>
-                    </div>
-                    </div>
+
                   <div class="col-12 col-sm-3">
                     <div class="form-group mb-3">
                         <label>Usuarios</label>
@@ -49,6 +41,15 @@
                             {% for i in usuarios %}
                               <option value="{{ i.id }}">{{ i.first_name }} {{ i.last_name }}</option>
                            {% endfor %}
+                        </select>
+                    </div>
+                    </div>
+              <div class="col-12 col-sm-3">
+                    <div class="form-group mb-3">
+                        <label>Funcion</label>
+                        <select id="acciones" name="acciones" class="form-control show-tick" required>
+                          <option value="Registro">Registró</option>
+                          <option value="Elimino">Eliminó</option>
                         </select>
                     </div>
                     </div>

@@ -229,7 +229,7 @@ def listarInternosXLineaNoVehiculo(request,id):
 @login_required
 def listarTodoInternosXLinea(request,id):
     dt_list = []
-    datos = Interno.objects.filter(habilitado=True).filter(fklinea=int(id)).all().order_by('numero')
+    datos = Interno.objects.filter(habilitado=True).filter(fkpersona=None).filter(fklinea=int(id)).all().order_by('numero')
     for item in datos:
         dt_list.append(dict(id=item.id, numero=item.numero))
 

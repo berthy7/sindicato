@@ -160,7 +160,6 @@ def obtain(request,id):
 
     return JsonResponse(response, safe=False)
 
-
 def upload_cloudinay(foto):
     resp= cloudinary.uploader.upload('static/upload/'+foto)
     return resp["secure_url"]
@@ -169,7 +168,6 @@ def handle_uploaded_file(f,name):
     with open('static/upload/'+ name,'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-
 
 @login_required
 def insertfile(request):
@@ -267,7 +265,6 @@ def insert(request):
             handle_uploaded_file(fileinfo, cname)
             dicc["obj"]['memorandum'] = upload_cloudinay(cname)
 
-
         fileinfo = files.get('antecedentes', None)
         if fileinfo:
             fname = fileinfo.name
@@ -292,7 +289,6 @@ def insert(request):
             handle_uploaded_file(fileinfo, cname)
             dicc["obj"]['fotoAgua'] = upload_cloudinay(cname)
 
-        # dicc = json.load(request)['obj']
         persona = Persona.objects.filter(ci=dicc["obj"]['ci']).filter(habilitado=True).all()
 
         if len(persona) == 0:
@@ -342,6 +338,12 @@ def insert(request):
                 del asig['linea']
                 del asig['interno']
                 InternoPersona.objects.create(**asig)
+
+                if asig["tipoPersona"] == "Socio":
+                    interno = get_object_or_404(Interno, id=asig["fkinterno"].id)
+                    if interno:
+                        interno.fkpersona = persona
+                        interno.save()
 
             return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
         else:
@@ -467,6 +469,17 @@ def delete(request):
         obj.habilitado = False
         obj.fechaEliminado = datetime.datetime.now() - datetime.timedelta(hours=4)
         obj.fkusuarioEliminado= user.id
+
+        if obj.tipo == "Socio":
+
+            for internoPersona in InternoPersona.objects.filter(habilitado=True).filter(fkpersona=obj.id).all().order_by(
+                'id'):
+
+                interno = get_object_or_404(Interno, id=internoPersona.fkinterno_id)
+                # interno = Interno.objects.get(id=internoPer.fkinterno.id).exists()
+                if interno:
+                    interno.fkpersona = None
+                    interno.save()
 
         obj.save()
         return JsonResponse(dict(success=True, mensaje="Eliminado Correctamente", tipo="success"),
@@ -805,6 +818,17 @@ def agregarInternos(request):
         dicc['tipoPersona'] = dicc['fkpersona'].tipo
         InternoPersona.objects.create(**dicc)
 
+        if dicc["tipoPersona"] == "Socio":
+            # interno = Interno.objects.get(id=dicc['fkinterno'].id).exists()
+
+            interno = get_object_or_404(Interno, id=dicc['fkinterno'].id)
+
+            # interno = Interno.objects.filter(id=dicc['fkinterno'].id).first()
+
+            if interno:
+                interno.fkpersona = dicc['fkpersona']
+                interno.save()
+
         return JsonResponse(dict(success=True, mensaje="Agregado Correctamente",tipo="success"), safe=False)
     except Exception as e:
         print("error: ", e.args[0])
@@ -812,11 +836,20 @@ def agregarInternos(request):
 @login_required
 def eliminarInternos(request,id):
     try:
-        interno = InternoPersona.objects.get(id=id)
-        interno.estado = False
-        interno.habilitado = False
-        interno.fechaRetiro = datetime.datetime.now() - datetime.timedelta(hours=4)
-        interno.save()
+        internoPer = InternoPersona.objects.get(id=id)
+        internoPer.estado = False
+        internoPer.habilitado = False
+        internoPer.fechaRetiro = datetime.datetime.now() - datetime.timedelta(hours=4)
+        internoPer.save()
+
+        if internoPer.tipoPersona == "Socio":
+            interno = get_object_or_404(Interno, id=internoPer.fkinterno.id)
+            # interno = Interno.objects.get(id=internoPer.fkinterno.id).exists()
+            if interno:
+                interno.fkpersona = None
+                interno.save()
+
+
         return JsonResponse(dict(success=True, mensaje="Eliminado Correctamente",tipo="success"), safe=False)
     except Exception as e:
         print("error: ", e.args[0])
@@ -854,7 +887,6 @@ def modificarReferencia(request):
     except Exception as e:
         print("error: ", e.args[0])
         return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
-
 
 @login_required
 def transferencia(request):

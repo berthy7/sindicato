@@ -5,29 +5,24 @@ from django.contrib.auth.models import User
 import json
 from system.persona.models import Persona
 from system.linea.models import Linea
+from system.vehiculo.models import Vehiculo,VehiculoTransferencia
 
 # Create your views here.
 @login_required
 def index(request):
     user = request.user
     try:
-        # persona = get_object_or_404(Persona, fkusuario=user.id)
         persona = Persona.objects.filter(fkusuario=user.id)
         rol = persona[0].fkrol.name
-
         usuarios = User.objects.filter(is_active=True).filter(is_superuser=False).order_by('first_name')
-
         if persona[0].fklinea:
             linea = get_object_or_404(Linea, id=persona[0].fklinea)
             lineaUser = linea.codigo
         else:
             lineaUser = ""
-
         foto = persona[0].foto if persona[0].foto != None else  ""
-
     except Exception as e:
         print(e)
-
     return render(request, 'bitacora/index.html', {'usuario': user.first_name + " " + user.last_name,
                                              'usuarios': usuarios,'rol': rol,'foto': foto, 'lineaUser': lineaUser})
 
@@ -87,7 +82,20 @@ def listar_elimino_lineas(usuario):
                             id=item.id,registro=item.codigo))
     return dt_list
 
+def listar_registro_vehiculosTrans(usuario):
 
+    dt_list = []
+    i = 0
+    if usuario != '':
+        datos = VehiculoTransferencia.objects.filter(fkusuario_id=int(usuario)).all().order_by('id')
+    else:
+        datos = VehiculoTransferencia.objects.all().order_by('id')
+    for item in datos:
+        i = i+1
+        dt_list.append(dict(nro=i,fecha=item.fechar.strftime('%d/%m/%Y'),
+                            nombre=item.fkusuario.first_name + " " +item.fkusuario.last_name,
+                            id=item.id,registro=item.codigo))
+    return dt_list
 
 
 
