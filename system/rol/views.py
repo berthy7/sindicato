@@ -30,7 +30,7 @@ def funcion():
 # Create your views here.
 @login_required
 def index(request):
-    funcion()
+    # funcion()
 
     user = request.user
     try:

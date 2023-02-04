@@ -33,6 +33,10 @@ class Vehiculo(models.Model):
     fechar = models.DateTimeField(auto_now_add=True, null=True)
 
 
+    fkusuarioEliminado = models.IntegerField(null=True)
+    fechaEliminado = models.DateTimeField(null=True)
+
+
     class Meta:
         db_table = "system_vehiculo"
 

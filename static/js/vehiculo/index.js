@@ -139,6 +139,7 @@ function reload_table() {
         success: function (response) {
 
             admin = response["admin"];
+            
             load_table(response)
             load_select(response["lista"])
         },

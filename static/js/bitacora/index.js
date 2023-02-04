@@ -35,7 +35,6 @@ $('#btnBuscar').on('click', async function() {
       }
       objeto ={
             opcion: $("#opciones").val(),
-            accion: $("#acciones").val(),
             usuario: $("#usuarios").val()
       }
        const response = await fetchData(
@@ -66,8 +65,11 @@ function load_table(data_tb) {
             { title: "Nro", data: "nro" },
             { title: "Fecha", data: "fecha" },
             { title: "Usuario", data: "nombre" },
+            { title: "Registro", data: "registro" },
             { title: "Registro Id", data: "id" },
-            { title: "Registro", data: "registro" }
+            { title: "Descripcion", data: "descripcion" },
+             { title: "Usuario Eliminacion", data: "usuarioEliminacion" },
+            { title: "Fecha Eliminacion", data: "fechaEliminacion" }
         ],
         dom: "Bfrtip",
         buttons: [],
