@@ -75,6 +75,11 @@ function add_columns(admin) {
                         <button data-object='${dataObject}'  type="button" class="btn btn-success " title="Transferir" onclick="transferencia_item(this)">\
                             <i class="mdi mdi-send"></i>\
                         </button>`
+                    
+                     a += `\
+                        <button data-object='${dataObject}'  type="button" class="btn btn-success " title="historial de Transferencia" onclick="historialTransferencia_item(this)">\
+                            <i class="mdi mdi-history"></i>\
+                        </button>`
                 }
 
                 //     a += `\
@@ -340,16 +345,38 @@ function transferencia_item(e){
       title: 'Seleccione una opción'
     });
 
-
-
-
-
     $('#div_seleccion_trans').show()
     $('#div_vehiculo_trans').hide()
     $('#div_linea_trans').hide()
 
 
   $("#modal-transferencia").modal("show");
+}
+
+function historialTransferencia_item(e){
+
+    const self = JSON.parse(e.dataset.object);
+
+
+        $.ajax({
+        method: "GET",
+        url: '/vehiculo/obtenerTransferencia/'+ self.id,
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+
+            console.log(response)
+
+        },
+        error: function (jqXHR, status, err) {
+        }
+    });
+
+    $('#placa-historialTrans').val(self.placa + " " + self.categoria)
+    $('#tipo-historialTrans').val(self.tipo + " " + self.año)
+    $('#modelo-historialTrans').val(self.modelo)
+
+    $("#modal-historialTransferencia").modal("show");
 }
 
 function reload_select_categoria() {

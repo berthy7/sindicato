@@ -2,6 +2,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render,get_object_or_404
+from django.forms.models import model_to_dict
 from system.vehiculoCategoria.models import VehiculoCategoria
 from .models import Vehiculo,VehiculoTransferencia
 from system.linea.models import Linea,LineaVehiculo,Interno,LineaPersona,InternoVehiculo
@@ -509,6 +510,16 @@ def transferir(request):
     except Exception as e:
         return JsonResponse(dict(success=False, mensaje=e, tipo="error"), safe=False)
 
+def obtenerTransferencia(request, id):
+    dt_list = []
+    lista = VehiculoTransferencia.objects.filter(fkvehiculo=id).all().order_by('-id')
+
+    for item in lista:
+
+        dt_list.append(model_to_dict(item))
+
+
+    return JsonResponse(dt_list, safe=False)
 
 
 # Categoria

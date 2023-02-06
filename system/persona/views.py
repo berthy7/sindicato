@@ -339,6 +339,16 @@ def insert(request):
                 del asig['interno']
                 InternoPersona.objects.create(**asig)
 
+
+                PersonaTransferencia.objects.create(
+                **dict(fkusuario=user,fklinea=asig["fklinea"].id,  linea=asig["fklinea"].codigo,
+                       fkinterno=asig["fkinterno"].id, interno=asig["fkinterno"].numero,
+                       fkpersona=persona.id, persona=persona.nombre + " " + persona.apellidos))
+
+
+
+
+
                 if asig["tipoPersona"] == "Socio":
                     interno = get_object_or_404(Interno, id=asig["fkinterno"].id)
                     if interno:
@@ -796,6 +806,17 @@ def listarPersonaXTipo(request,id):
             dt_list.append(dict(id=item.id, nombre=item.nombre + " " + item.apellidos))
 
         return JsonResponse(dt_list, safe=False)
+
+def obtenerTransferencia(request, id):
+    dt_list = []
+    lista = PersonaTransferencia.objects.filter(fkpersona=id).all().order_by('-id')
+
+    for item in lista:
+        dicc = model_to_dict(item)
+        dicc["fechar"] = item.fechar.strftime('%d/%m/%Y %H:%M')
+        dt_list.append(dicc)
+
+    return JsonResponse(dt_list, safe=False)
 
 @login_required
 def agregarInternos(request):

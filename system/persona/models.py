@@ -82,7 +82,7 @@ class PersonaTransferencia(models.Model):
     fkpersona = models.IntegerField()
     persona = models.CharField(max_length=100)
 
-    fkpersonaTrans = models.IntegerField()
+    fkpersonaTrans = models.IntegerField(null=True)
     personaTrans = models.CharField(max_length=50)
 
     nota = models.CharField(max_length=250,null=True)

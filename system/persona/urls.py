@@ -16,6 +16,7 @@ urlpatterns = [
     path('reporte/<int:id>/', views.reporte, name='persona_reporte'),
 
     path('transferencia/', views.transferencia, name='persona_transferencia'),
+    path('obtenerTransferencia/<int:id>/', views.obtenerTransferencia, name='persona_obtenerTransferencia'),
 
     path('listarPersonaXTipo/<str:id>/', views.listarPersonaXTipo, name='persona_listarPersonaXTipo'),
 

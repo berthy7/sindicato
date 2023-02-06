@@ -1,6 +1,9 @@
 let id_table = '#data_table';
 let id_table_referencia = '#data_table_referencia';
 let id_table_lineasAgregadas = '#data_table_lineas';
+let id_table_historialTransferencia = '#data_table_historialTransferencia';
+
+
 
 let id_table_lista = '#data_table_lista';
 
@@ -42,7 +45,6 @@ $('#fkinterno').selectpicker({
   title: 'Seleccione una opción'
 });
 
-
 $('#fechaInscripcion').datepicker({
     format: 'dd/mm/yyyy',
     placerholder:"holaa",
@@ -50,14 +52,11 @@ $('#fechaInscripcion').datepicker({
     daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
 });
 
-
-
 $('#fechaNacimiento').datepicker({
     format: 'dd/mm/yyyy',
     language: "es",
     daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
 });
-
 
 $('#licenciaFechaVencimiento').datepicker({
     format: 'dd/mm/yyyy',
@@ -315,6 +314,11 @@ function load_table(_data) {
                                 <i class="mdi mdi-file-pdf-box"></i>\
                             </button>'
 
+                         a += `\
+                            <button data-object='${dataObject}'  type="button" class="btn btn-success " title="historial de Transferencia" onclick="historialTransferencia_item(this)">\
+                                <i class="mdi mdi-history"></i>\
+                            </button>`
+
                     if (a === '') a = 'Sin permisos';
                     return a
                 }
@@ -362,6 +366,80 @@ function reload_table() {
         error: function (jqXHR, status, err) {
         }
     });
+}
+
+function add_columns_historialTransferencia() {
+    let a_cols = []
+    a_cols.push(
+        { title: "Persona", data: "persona" },
+        { title: "Fecha", data: "fechar" },
+        { title: "Linea", data: "linea" },
+        { title: "Interno", data: "interno" },
+        { title: "Transferencia", data: "personaTrans" }
+    );
+    return a_cols;
+}
+function load_table_historialTransferencia(data_tb) {
+    var tabla = $(id_table_historialTransferencia).DataTable({
+        destroy: true,
+        paging: false,
+        ordering: true,
+        responsive:true,
+        info: false,
+        searching: false,
+        data: data_tb,
+        deferRender:    true,
+        scrollCollapse: true,
+        scroller:       true,
+        columns: add_columns_historialTransferencia(),
+        dom: "Bfrtip",
+        buttons: [
+            {  extend : 'excelHtml5',
+               exportOptions : { columns : [0,1, 2, 3]},
+                sheetName: 'Historial de Socio',
+               title: 'Historial de Socio'  },
+            {  extend : 'pdfHtml5',
+                orientation: 'landscape',
+               customize: function(doc) {
+                    doc.styles.tableBodyEven.alignment = 'center';
+                    doc.styles.tableBodyOdd.alignment = 'center';
+               },
+               exportOptions : {
+                    columns : [0,1, 2, 3]
+                },
+               title: 'Historial de Socio'
+            }
+        ],
+        "order": [ [0, 'desc'] ],
+        columnDefs: [ { width: '10%', targets: [0,1,2,3] }],
+        "initComplete": function() {}
+    });
+    tabla.draw()
+}
+
+function historialTransferencia_item(e){
+
+    const self = JSON.parse(e.dataset.object);
+
+     $('#socio-historialTrans').val(self.nombre+ " " + self.apellidos)
+
+        $.ajax({
+        method: "GET",
+        url: '/persona/obtenerTransferencia/'+ self.id,
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            load_table_historialTransferencia(response)
+        },
+        error: function (jqXHR, status, err) {
+        }
+    });
+
+    $('#placa-historialTrans').val(self.placa + " " + self.categoria)
+    $('#tipo-historialTrans').val(self.tipo + " " + self.año)
+    $('#modelo-historialTrans').val(self.modelo)
+
+    $("#modal-historialTransferencia").modal("show");
 }
 
 function add_columns_lista() {
