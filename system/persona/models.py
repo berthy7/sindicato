@@ -76,8 +76,8 @@ class PersonaReferencia(models.Model):
 class PersonaTransferencia(models.Model):
     fklinea = models.IntegerField()
     linea = models.CharField(max_length=50)
-    fkinterno = models.IntegerField()
-    interno = models.CharField(max_length=50)
+    fkinterno = models.IntegerField(null=True)
+    interno = models.CharField(max_length=50,null=True)
 
     fkpersona = models.IntegerField()
     persona = models.CharField(max_length=100)

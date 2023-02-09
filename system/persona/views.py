@@ -340,9 +340,19 @@ def insert(request):
                 InternoPersona.objects.create(**asig)
 
 
+
+                interno = None
+                internoNumero = None
+
+                if asig["fkinterno"] != None:
+                    interno = asig["fkinterno"].id
+                    internoNumero = asig["fkinterno"].numero
+
+
+
                 PersonaTransferencia.objects.create(
                 **dict(fkusuario=user,fklinea=asig["fklinea"].id,  linea=asig["fklinea"].codigo,
-                       fkinterno=asig["fkinterno"].id, interno=asig["fkinterno"].numero,
+                       fkinterno=interno, interno=internoNumero,
                        fkpersona=persona.id, persona=persona.nombre + " " + persona.apellidos))
 
 
