@@ -74,6 +74,7 @@ class PersonaReferencia(models.Model):
 
 
 class PersonaTransferencia(models.Model):
+    fkinternoPersona= models.IntegerField(null=True)
     fklinea = models.IntegerField()
     linea = models.CharField(max_length=50)
     fkinterno = models.IntegerField(null=True)
@@ -84,6 +85,17 @@ class PersonaTransferencia(models.Model):
 
     fkpersonaTrans = models.IntegerField(null=True)
     personaTrans = models.CharField(max_length=50)
+
+
+    fkpersonaTransSalida = models.IntegerField(null=True)
+    personaTransSalida = models.CharField(max_length=50,null=True)
+
+
+
+    fechaRetiro = models.DateField(null=True)
+
+
+
 
     nota = models.CharField(max_length=250,null=True)
 

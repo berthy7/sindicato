@@ -63,6 +63,7 @@ function load_table(data_tb) {
         columns: [
             { title: "ID", data: "id" },
             { title: "Fecha", data: "fecha" },
+            { title: "Linea", data: "linea"},
             { title: "Nombre", data: "persona" },
             { title: "Curso", data: "curso" },
             { title: "Dictado por", data: "dictado" },
@@ -91,7 +92,7 @@ function load_table(data_tb) {
         dom: "Bfrtip",
         buttons: [
             {  extend : 'excelHtml5',
-               exportOptions : { columns : [0, 1, 2,3,4,5]},
+               exportOptions : { columns : [0, 1, 2,3,4,5,6]},
                 sheetName: 'Lista de Capacitaciones',
                title: 'Lista de Capacitaciones'  },
             {  extend : 'pdfHtml5',
@@ -101,7 +102,7 @@ function load_table(data_tb) {
                     doc.styles.tableBodyOdd.alignment = 'center';
                },
                exportOptions : {
-                    columns : [0, 1, 2,3,4,5]
+                    columns : [0, 1, 2,3,4,5,6]
                 },
                title: 'Lista de Capacitaciones'
             }

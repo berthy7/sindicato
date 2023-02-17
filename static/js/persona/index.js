@@ -373,6 +373,7 @@ function add_columns_historialTransferencia() {
     a_cols.push(
         { title: "Persona", data: "persona" },
         { title: "Fecha", data: "fechar" },
+         { title: "Fecha Retiro", data: "fechaRetiro" },
         { title: "Linea", data: "linea" },
         { title: "Interno", data: "interno" },
         { title: "Transferencia", data: "personaTrans" }
@@ -828,11 +829,11 @@ $('#btnTransferir').on('click', async function() {
 
             lineaInternoId: parseInt($("#lineaInternoTrans").val()),
 
-            fkpersona: parseInt($("#socioOrigenId").val()),
-            persona: $("#socioOrigenId option:selected").text(),
+            fkpersona: parseInt($("#socioTransferencia").val()),
+            persona: $("#socioTransferencia option:selected").text(),
 
-            fkpersonaTrans: parseInt($("#socioTransferencia").val()),
-            personaTrans: $("#socioTransferencia option:selected").text(),
+            fkpersonaTrans: parseInt($("#socioOrigenId").val()),
+            personaTrans: $("#socioOrigenId option:selected").text(),
 
             nota: $("#nota").val()
       }

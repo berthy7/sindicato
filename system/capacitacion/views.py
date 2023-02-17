@@ -53,6 +53,7 @@ def list(request):
             dicc["fecha"] = item.fecha.strftime('%d/%m/%Y')
             dicc["curso"] = item.fkcurso.nombre
             dicc["persona"] = item.fkpersona.nombre + " " + item.fkpersona.apellidos
+            dicc["linea"] = item.fklinea.codigo
 
             dt_list.append(dicc)
 

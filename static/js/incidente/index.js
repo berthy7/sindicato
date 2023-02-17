@@ -94,6 +94,7 @@ function load_table(data_tb) {
         columns: [
             { title: "Nro.", data: "id" },
             { title: "Fecha", data: "fecha" },
+            { title: "Linea", data: "linea"},
             { title: "Responsable", data: "responsable" },
             { title: "Incidente", data: "tipo" },
             { title: "Descripcion", data: "descripcion" },
@@ -127,7 +128,7 @@ function load_table(data_tb) {
         dom: "Bfrtip",
         buttons: [
             {  extend : 'excelHtml5',
-               exportOptions : { columns : [0, 1, 2,3,4,5]},
+               exportOptions : { columns : [0, 1, 2,3,4,5,6]},
                 sheetName: 'Lista de Incidentes',
                title: 'Lista de Incidentes'  },
             {  extend : 'pdfHtml5',
@@ -137,7 +138,7 @@ function load_table(data_tb) {
                     doc.styles.tableBodyOdd.alignment = 'center';
                },
                exportOptions : {
-                    columns : [0, 1, 2,3,4,5]
+                    columns : [0, 1, 2,3,4,5,6]
                 },
                title: 'Lista de Incidentes'
             }
