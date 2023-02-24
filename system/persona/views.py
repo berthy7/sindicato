@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.conf import settings as django_settings
 from .models import Persona, PersonaReferencia,PersonaTransferencia
 from django.forms.models import model_to_dict
+from django.contrib.auth.models import User,Group
 from django.contrib.auth.decorators import login_required
 from system.linea.models import Linea,LineaPersona,Interno,InternoPersona
 from system.incidente.models import Incidente
@@ -494,6 +495,8 @@ def delete(request):
                     interno.fkpersona = None
                     interno.save()
 
+                internoPersona.delete()
+
         obj.save()
         return JsonResponse(dict(success=True, mensaje="Eliminado Correctamente", tipo="success"),
                             safe=False)
@@ -819,6 +822,8 @@ def obtenerTransferencia(request, id):
         dicc["fechar"] = item.fechar.strftime('%d/%m/%Y %H:%M')
 
         dicc["fechaRetiro"] = item.fechaRetiro.strftime('%d/%m/%Y %H:%M')if item.fechaRetiro else ''
+        usuario = Persona.objects.get(fkusuario=dicc["fkusuario"])
+        dicc["usuario"] =usuario.nombre + " " + usuario.apellidos
         dt_list.append(dicc)
 
     return JsonResponse(dt_list, safe=False)
@@ -843,13 +848,15 @@ def agregarInternos(request):
         dicc['fkpersona'] = Persona.objects.get(id=dicc["fkpersona"])
 
         dicc['tipoPersona'] = dicc['fkpersona'].tipo
-        InternoPersona.objects.create(**dicc)
+        internopersona = InternoPersona.objects.create(**dicc)
+
+        print(internopersona.id)
 
         if dicc["tipoPersona"] == "Socio":
             interno = get_object_or_404(Interno, id=dicc['fkinterno'].id)
             PersonaTransferencia.objects.create(
                 **dict(fkusuario=user, fklinea=interno.fklinea.id, linea=interno.fklinea.codigo,
-                       fkinterno=interno.id, interno=interno.numero,
+                       fkinterno=interno.id, interno=interno.numero,fkinternoPersona=internopersona.id,
                        fkpersona=dicc['fkpersona'].id, persona=dicc['fkpersona'].nombre + " " + dicc['fkpersona'].apellidos))
 
             if interno:
@@ -862,17 +869,20 @@ def agregarInternos(request):
         return JsonResponse(dict(success=False, mensaje="Ocurrió un error",tipo="error"), safe=False)
 @login_required
 def eliminarInternos(request,id):
+    user = request.user
     try:
         internoPer = InternoPersona.objects.get(id=id)
-        internoPer.estado = False
-        internoPer.habilitado = False
-        internoPer.fechaRetiro = datetime.datetime.now() - datetime.timedelta(hours=4)
-        internoPer.save()
+        # internoPer.estado = False
+        # internoPer.habilitado = False
+        # internoPer.fechaRetiro = datetime.datetime.now() - datetime.timedelta(hours=4)
+        # internoPer.save()
 
         personaTransferencia = get_object_or_404(PersonaTransferencia, fkinternoPersona=internoPer.id)
 
         if personaTransferencia:
             personaTransferencia.fechaRetiro = datetime.datetime.now() - datetime.timedelta(hours=4)
+            personaTransferencia.fkusuarioSalida = user.id
+            personaTransferencia.usuarioSalida = user.first_name + " " + user.last_name
             personaTransferencia.save()
 
         if internoPer.tipoPersona == "Socio":
@@ -881,6 +891,7 @@ def eliminarInternos(request,id):
                 interno.fkpersona = None
                 interno.save()
 
+        internoPer.delete()
         return JsonResponse(dict(success=True, mensaje="Eliminado Correctamente",tipo="success"), safe=False)
     except Exception as e:
         print("error: ", e.args[0])
@@ -924,31 +935,12 @@ def transferencia(request):
     user = request.user
     try:
         dicc = json.load(request)['obj']
-
         dicc['fkusuario'] = user
 
         lineaInternoid = dicc['lineaInternoId']
-
         del dicc['lineaInternoId']
 
-        dicc["fkinternoPersona"] = lineaInternoid
-        PersonaTransferencia.objects.create(**dicc)
-
-        # eliminar interno
-        interno = InternoPersona.objects.get(id=lineaInternoid)
-        interno.estado = False
-        interno.habilitado = False
-        interno.fechaRetiro = datetime.datetime.now() - datetime.timedelta(hours=4)
-        interno.save()
-
-        personaTransferencia = get_object_or_404(PersonaTransferencia, fkinternoPersona=lineaInternoid)
-
-        if personaTransferencia:
-            personaTransferencia.fechaRetiro = datetime.datetime.now() - datetime.timedelta(hours=4)
-            personaTransferencia.save()
-
         # agregar interno
-
         dicAdd = dict()
 
         dicAdd['fkpersona'] = Persona.objects.get(id=dicc["fkpersona"])
@@ -957,8 +949,31 @@ def transferencia(request):
 
         dicAdd['tipoPersona'] = "Socio"
 
-        InternoPersona.objects.create(**dicAdd)
+        addInternoPersona = InternoPersona.objects.create(**dicAdd)
+        dicc["fkinternoPersona"] = addInternoPersona.id
 
+        PersonaTransferencia.objects.create(**dicc)
+
+        # eliminar interno
+        interno = InternoPersona.objects.get(id=lineaInternoid)
+        # interno.estado = False
+        # interno.habilitado = False
+        # interno.fechaRetiro = datetime.datetime.now() - datetime.timedelta(hours=4)
+        # interno.save()
+
+        personaTransferencia = get_object_or_404(PersonaTransferencia,fkpersona=dicc["fkpersonaTrans"], fkinternoPersona=lineaInternoid)
+
+        if personaTransferencia:
+            personaTransferencia.fechaRetiro = datetime.datetime.now() - datetime.timedelta(hours=4)
+            personaTransferencia.fkpersonaTransSalida = dicc["fkpersona"]
+            personaTransferencia.personaTransSalida = dicc["persona"]
+
+            personaTransferencia.fkusuarioSalida = user.id
+            personaTransferencia.usuarioSalida = user.first_name + " " + user.last_name
+
+            personaTransferencia.save()
+
+        interno.delete()
         return JsonResponse(dict(success=True, mensaje="Transferido Correctamente",tipo="success"), safe=False)
     except Exception as e:
         print("error: ", e.args[0])

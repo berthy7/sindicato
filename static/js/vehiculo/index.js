@@ -1,5 +1,6 @@
 let id_table = '#data_table';
 let id_table_categoria = '#data_table_categoria';
+let id_table_historialTransferencia = '#data_table_historialTransferencia';
 let fechahoy = new Date();
 let admin = null;
 let vehiculos = [];
@@ -128,7 +129,7 @@ function load_table(_data) {
                title: 'Lista de Vehiculos'
             }
         ],
-        "order": [ [0, 'desc'] ],
+        "order": [ [2, 'asc'] ],
         columnDefs: [ { width: '10%', targets: [0] }, { width: '27.5%', targets: [1, 2] }, { width: '20%', targets: [3] }, { width: '15%', targets: [4] } ],
         "initComplete": function() {}
     });
@@ -151,6 +152,60 @@ function reload_table() {
         error: function (jqXHR, status, err) {
         }
     });
+}
+
+function add_columns_historialTransferencia() {
+    let a_cols = []
+    a_cols.push(
+        { title: "Placa", data: "placa" ,visible:false},
+        { title: "Fecha", data: "fechar" },
+        { title: "Linea", data: "linea" },
+        { title: "Interno", data: "interno" },
+        { title: "Transferencia", data: "placaTrans" },
+        { title: "Fecha Retiro", data: "fechaRetiro" },
+        { title: "Transferencia", data: "placaTransSalida" },
+        { title: "Nota", data: "nota" ,visible:false},
+        { title: "Usuario", data: "usuario" ,visible:false},
+        { title: "Usuario Retiro", data: "usuarioSalida" ,visible:false}
+    );
+    return a_cols;
+}
+function load_table_historialTransferencia(data_tb) {
+    var tabla = $(id_table_historialTransferencia).DataTable({
+        destroy: true,
+        paging: false,
+        ordering: true,
+        responsive:true,
+        info: false,
+        searching: false,
+        data: data_tb,
+        deferRender:    true,
+        scrollCollapse: true,
+        scroller:       true,
+        columns: add_columns_historialTransferencia(),
+        dom: "Bfrtip",
+        buttons: [
+            {  extend : 'excelHtml5',
+               exportOptions : { columns : [0,1, 2, 3,4,5,6,7,8,9]},
+                sheetName: 'Historial de Vehiculo',
+               title: 'Historial de Vehiculo'  },
+            {  extend : 'pdfHtml5',
+                orientation: 'landscape',
+               customize: function(doc) {
+                    doc.styles.tableBodyEven.alignment = 'center';
+                    doc.styles.tableBodyOdd.alignment = 'center';
+               },
+               exportOptions : {
+                    columns : [0,1, 2, 3,4,5,6,7,8,9]
+                },
+               title: 'Historial de Vehiculo'
+            }
+        ],
+        "order": [ [5, 'asc'] ],
+        columnDefs: [ { width: '10%', targets: [0,1,2,3,4,5,6,7,8,9] }],
+        "initComplete": function() {}
+    });
+    tabla.draw()
 }
 
 function load_select(lista){
@@ -225,8 +280,6 @@ $('#listaVehiculo_trans').change(function () {
     $("#internoVehiculo_trans").val($("#listaVehiculo_trans option:selected").attr("data-interno"))
 
 });
-
-
 
 
 $('#listaVehiculo_trans').selectpicker({
@@ -331,8 +384,6 @@ function transferencia_item(e){
     }
     $('#vehiculoTransferencia').selectpicker('refresh');
 
-
-
     $('#seleccione_trans').selectpicker("val", '');
     $('#fklinea_trans').selectpicker("val", '');
 
@@ -366,6 +417,7 @@ function historialTransferencia_item(e){
         success: function (response) {
 
             console.log(response)
+            load_table_historialTransferencia(response)
 
         },
         error: function (jqXHR, status, err) {
@@ -551,11 +603,15 @@ $('#btnTransferir').on('click', async function() {
 
           },
           fklinea:parseInt($("#fklinea_trans").val()),
+          linea:$("#fklinea_trans option:selected").html(),
           fkinterno: parseInt($("#fkinterno_trans").val()),
+          interno: $("#fkinterno_trans option:selected").html(),
 
           seleccion: parseInt($("#seleccione_trans").val()),
           transfklinea:parseInt($("#listaVehiculo_trans option:selected").attr("data-fklinea")),
+          translinea:$("#listaVehiculo_trans option:selected").attr("data-linea"),
           transfkinterno: parseInt($("#listaVehiculo_trans option:selected").attr("data-fkinterno")),
+          transinterno: $("#listaVehiculo_trans option:selected").attr("data-interno"),
           transvehiculo: parseInt($("#listaVehiculo_trans").val())
 
         }
@@ -736,6 +792,8 @@ $('#upsert').on('click',async function() {
       },
       fklinea:parseInt($("#fklinea").val()),
       fkinterno: parseInt($("#fkinterno").val()),
+      linea:$("#fklinea option:selected").html(),
+      interno: $("#fkinterno option:selected").html(),
 
       seleccion: parseInt($("#seleccion").val()),
       transfklinea:parseInt($("#listaVehiculo option:selected").attr("data-fklinea")),

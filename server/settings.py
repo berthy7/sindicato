@@ -95,27 +95,27 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 # DEV
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sindicato',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
-}
-# PROD
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'de1nup42eql0o3',
-#         'USER': 'aiwhtwcdqtuwkv',
-#         'PASSWORD': '6e278d9b612ae3713fbd7af5ead8d99d6106c3b440d5da6ec778c256d313e0e7',
-#         'HOST': 'ec2-44-199-9-102.compute-1.amazonaws.com',
-#         # 'PORT': '5432',
+#         'NAME': 'sindicato',
+#         'USER': 'postgres',
+#         'PASSWORD': 'root',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
 #     }
 # }
+# PROD
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'de1nup42eql0o3',
+        'USER': 'aiwhtwcdqtuwkv',
+        'PASSWORD': '6e278d9b612ae3713fbd7af5ead8d99d6106c3b440d5da6ec778c256d313e0e7',
+        'HOST': 'ec2-44-199-9-102.compute-1.amazonaws.com',
+        # 'PORT': '5432',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

@@ -42,21 +42,27 @@ class Vehiculo(models.Model):
 
 
 class VehiculoTransferencia(models.Model):
+
     fklinea = models.IntegerField(null=True)
     linea = models.CharField(max_length=50,null=True)
     fkinterno = models.IntegerField(null=True)
     interno = models.CharField(max_length=50,null=True)
 
     fkvehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE, related_name='vehiculo')
+    placa = models.CharField(max_length=25, null=True)
     fkvehiculoTrans = models.ForeignKey(Vehiculo, on_delete=models.CASCADE, related_name='vehiculo_trans',null=True)
-
+    placaTrans = models.CharField(max_length=25, null=True)
     nota = models.CharField(max_length=250,null=True)
+
+    fkvehiculoTransSalida = models.IntegerField(null=True)
+    placaTransSalida = models.CharField(max_length=25, null=True)
 
     fkusuario = models.ForeignKey(User, on_delete=models.CASCADE)
     fechar = models.DateTimeField(auto_now_add=True)
 
-    fkusuarioEliminado = models.IntegerField(null=True)
-    fechaEliminado = models.DateTimeField(null=True)
+    fkusuarioSalida = models.IntegerField(null=True)
+    usuarioSalida = models.CharField(max_length=100, null=True)
+    fechaRetiro = models.DateTimeField(null=True)
 
     estado = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)

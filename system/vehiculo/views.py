@@ -274,7 +274,8 @@ def insert(request):
         if(int(dicc["seleccion"]) == 1):
 
             # registrar linea
-            VehiculoTransferencia.objects.create(**dict(fkvehiculo=vehiculo,fklinea=dicc["fklinea"],fkinterno=dicc["fkinterno"],fkusuario=user))
+            VehiculoTransferencia.objects.create(**dict(fkvehiculo=vehiculo,placa=vehiculo.placa,fklinea=dicc["fklinea"],fkinterno=dicc["fkinterno"]
+                                                        ,linea=dicc["linea"], interno=dicc["interno"],fkusuario=user))
 
             interno = Interno.objects.get(id=dicc["fkinterno"])
             interno.fkvehiculo = vehiculo
@@ -290,15 +291,15 @@ def insert(request):
             vehiculoTrans = Vehiculo.objects.get(id=dicc["transvehiculo"])
 
             VehiculoTransferencia.objects.create(
-                **dict(fkvehiculo=vehiculo, fkvehiculoTrans=vehiculoTrans, fklinea=dicc["fklinea"],
-                       fkinterno=dicc["fkinterno"], fkusuario=user))
+                **dict(fkvehiculo=vehiculo,placa=vehiculo.placa, fkvehiculoTrans=vehiculoTrans,placaTrans=vehiculoTrans.placa, fklinea=dicc["fklinea"],
+                       fkinterno=dicc["fkinterno"],linea=dicc["linea"], interno=dicc["interno"], fkusuario=user))
 
             vehiculoTrans.fklinea = None
             vehiculoTrans.fkinterno = None
             vehiculoTrans.save()
 
             VehiculoTransferencia.objects.create(
-                **dict(fkvehiculo=vehiculoTrans,  linea="Sin Linea",
+                **dict(fkvehiculo=vehiculoTrans, placaTrans=vehiculoTrans.placa,  linea="Sin Linea",
                        interno="Sin Interno", fkusuario=user))
 
         return JsonResponse(dict(success=True, mensaje="Registrado Correctamente", tipo="success"), safe=False)
@@ -409,6 +410,8 @@ def delete(request):
         objInterno.fkvehiculo = None
         objInterno.save()
 
+        VehiculoTransferencia.objects.filter(fkvehiculo=obj.id).update(estado=False,habilitado=False)
+
 
         return JsonResponse(dict(success=True,mensaje="se Eliminio"), safe=False)
     except Exception as e:
@@ -473,8 +476,17 @@ def transferir(request):
             interno.fkvehiculo = vehiculo
             interno.save()
 
+            vehiculoTransferencia = get_object_or_404(VehiculoTransferencia, placa=vehiculo.placa, fechaRetiro=None, habilitado=True)
+
+            if vehiculoTransferencia:
+                vehiculoTransferencia.fechaRetiro = datetime.datetime.now() - datetime.timedelta(hours=4)
+                vehiculoTransferencia.fkusuarioSalida = user.id
+                vehiculoTransferencia.usuarioSalida = user.first_name + " " + user.last_name
+                vehiculoTransferencia.save()
+
             VehiculoTransferencia.objects.create(
-                **dict(fkvehiculo=vehiculo, fklinea=dicc["fklinea"], fkinterno=dicc["fkinterno"], fkusuario=user))
+                **dict(fkvehiculo=vehiculo,placa=vehiculo.placa, fklinea=dicc["fklinea"], linea=dicc["linea"], fkinterno=dicc["fkinterno"],
+                       interno=dicc["interno"],fkusuario=user))
         else:
 
             interno = Interno.objects.get(id=vehiculo.fkinterno)
@@ -487,24 +499,40 @@ def transferir(request):
 
             vehiculoTrans = Vehiculo.objects.get(id=dicc["transvehiculo"])
 
-            VehiculoTransferencia.objects.create(
-                **dict(fkvehiculo=vehiculo, fkvehiculoTrans=vehiculoTrans, fklinea=dicc["transfklinea"],
-                       fkinterno=dicc["transfkinterno"], fkusuario=user))
+            vehiculoTransferencia = get_object_or_404(VehiculoTransferencia, placa=vehiculo.placa, fechaRetiro=None, habilitado=True)
 
+            if vehiculoTransferencia:
+                vehiculoTransferencia.fechaRetiro = datetime.datetime.now() - datetime.timedelta(hours=4)
+
+                vehiculoTransferencia.fkusuarioSalida = user.id
+                vehiculoTransferencia.usuarioSalida = user.first_name + " " + user.last_name
+                vehiculoTransferencia.save()
+
+
+            VehiculoTransferencia.objects.create(
+                **dict(fkvehiculo=vehiculo,placa=vehiculo.placa, fkvehiculoTrans=vehiculoTrans,
+                       placaTrans=vehiculoTrans.placa, fklinea=dicc["transfklinea"], linea=dicc["translinea"],
+                       fkinterno=dicc["transfkinterno"],interno=dicc["transinterno"], fkusuario=user))
 
 
             internoTrans = Interno.objects.get(id=vehiculoTrans.fkinterno)
             internoTrans.fkvehiculo = vehiculo
             internoTrans.save()
 
-
             vehiculoTrans.fklinea = None
             vehiculoTrans.fkinterno = None
             vehiculoTrans.save()
 
-            VehiculoTransferencia.objects.create(
-                **dict(fkvehiculo=vehiculoTrans,  linea="Sin Linea",
-                       interno="Sin Interno", fkusuario=user))
+            vehiculoTransferencia = get_object_or_404(VehiculoTransferencia, placa=vehiculoTrans.placa, fechaRetiro=None, habilitado=True)
+
+            if vehiculoTransferencia:
+                vehiculoTransferencia.fechaRetiro = datetime.datetime.now() - datetime.timedelta(hours=4)
+                vehiculoTransferencia.fkvehiculoTransSalida = vehiculo.id
+                vehiculoTransferencia.placaTransSalida = vehiculo.placa
+
+                vehiculoTransferencia.fkusuarioSalida = user.id
+                vehiculoTransferencia.usuarioSalida = user.first_name + " " + user.last_name
+                vehiculoTransferencia.save()
 
         return JsonResponse(dict(success=True, mensaje="Transferencia Correctamente", tipo="success"), safe=False)
     except Exception as e:
@@ -515,8 +543,14 @@ def obtenerTransferencia(request, id):
     lista = VehiculoTransferencia.objects.filter(fkvehiculo=id).all().order_by('-id')
 
     for item in lista:
+        dicc = model_to_dict(item)
+        dicc["fechar"] = item.fechar.strftime('%d/%m/%Y %H:%M')
 
-        dt_list.append(model_to_dict(item))
+        dicc["fechaRetiro"] = item.fechaRetiro.strftime('%d/%m/%Y %H:%M')if item.fechaRetiro else ''
+        usuario = Persona.objects.get(fkusuario=dicc["fkusuario"])
+        dicc["usuario"] =usuario.nombre + " " + usuario.apellidos
+
+        dt_list.append(dicc)
 
 
     return JsonResponse(dt_list, safe=False)

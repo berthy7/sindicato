@@ -84,18 +84,14 @@ class PersonaTransferencia(models.Model):
     persona = models.CharField(max_length=100)
 
     fkpersonaTrans = models.IntegerField(null=True)
-    personaTrans = models.CharField(max_length=50)
-
+    personaTrans = models.CharField(max_length=100)
 
     fkpersonaTransSalida = models.IntegerField(null=True)
-    personaTransSalida = models.CharField(max_length=50,null=True)
+    personaTransSalida = models.CharField(max_length=100,null=True)
 
-
-
-    fechaRetiro = models.DateField(null=True)
-
-
-
+    fechaRetiro = models.DateTimeField(null=True)
+    fkusuarioSalida = models.IntegerField(null=True)
+    usuarioSalida = models.CharField(max_length=100,null=True)
 
     nota = models.CharField(max_length=250,null=True)
 

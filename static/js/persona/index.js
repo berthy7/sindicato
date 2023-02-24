@@ -3,8 +3,6 @@ let id_table_referencia = '#data_table_referencia';
 let id_table_lineasAgregadas = '#data_table_lineas';
 let id_table_historialTransferencia = '#data_table_historialTransferencia';
 
-
-
 let id_table_lista = '#data_table_lista';
 
 let referencias = []
@@ -347,7 +345,7 @@ function load_table(_data) {
                title: 'Lista de Socios'
             }
         ],
-        "order": [ [0, 'desc'] ],
+        "order": [ [2, 'asc'] ],
         columnDefs: [ { width: '10%', targets: [0,1,2,3,4,5,6,7,8] }],
         "initComplete": function() {}
     });
@@ -371,12 +369,16 @@ function reload_table() {
 function add_columns_historialTransferencia() {
     let a_cols = []
     a_cols.push(
-        { title: "Persona", data: "persona" },
+        { title: "Nombre", data: "persona" ,visible:false},
         { title: "Fecha", data: "fechar" },
-         { title: "Fecha Retiro", data: "fechaRetiro" },
         { title: "Linea", data: "linea" },
         { title: "Interno", data: "interno" },
-        { title: "Transferencia", data: "personaTrans" }
+        { title: "Transferencia", data: "personaTrans" },
+        { title: "Fecha Retiro", data: "fechaRetiro" },
+        { title: "Transferencia", data: "personaTransSalida" },
+        { title: "Nota", data: "nota" ,visible:false},
+        { title: "Usuario", data: "usuario" ,visible:false},
+        { title: "Usuario Retiro", data: "usuarioSalida" ,visible:false}
     );
     return a_cols;
 }
@@ -396,7 +398,7 @@ function load_table_historialTransferencia(data_tb) {
         dom: "Bfrtip",
         buttons: [
             {  extend : 'excelHtml5',
-               exportOptions : { columns : [0,1, 2, 3]},
+               exportOptions : { columns : [0,1, 2, 3,4,5,6,7,8,9]},
                 sheetName: 'Historial de Socio',
                title: 'Historial de Socio'  },
             {  extend : 'pdfHtml5',
@@ -406,13 +408,13 @@ function load_table_historialTransferencia(data_tb) {
                     doc.styles.tableBodyOdd.alignment = 'center';
                },
                exportOptions : {
-                    columns : [0,1, 2, 3]
+                    columns : [0,1, 2, 3,4,5,6,7,8,9]
                 },
                title: 'Historial de Socio'
             }
         ],
-        "order": [ [0, 'desc'] ],
-        columnDefs: [ { width: '10%', targets: [0,1,2,3] }],
+        "order": [ [5, 'asc'] ],
+        columnDefs: [ { width: '10%', targets: [0,1,2,3,4,5,6,7,8,9] }],
         "initComplete": function() {}
     });
     tabla.draw()
@@ -435,10 +437,6 @@ function historialTransferencia_item(e){
         error: function (jqXHR, status, err) {
         }
     });
-
-    $('#placa-historialTrans').val(self.placa + " " + self.categoria)
-    $('#tipo-historialTrans').val(self.tipo + " " + self.año)
-    $('#modelo-historialTrans').val(self.modelo)
 
     $("#modal-historialTransferencia").modal("show");
 }
@@ -833,7 +831,7 @@ $('#btnTransferir').on('click', async function() {
             persona: $("#socioTransferencia option:selected").text(),
 
             fkpersonaTrans: parseInt($("#socioOrigenId").val()),
-            personaTrans: $("#socioOrigenId option:selected").text(),
+            personaTrans: $("#socioOrigen").val(),
 
             nota: $("#nota").val()
       }
