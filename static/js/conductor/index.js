@@ -13,7 +13,7 @@ let swPermiso = true
 
 $(document).ready( function () {
     reload_table();
-    init_map()
+
 });
 
 $('#conductores').selectpicker({
@@ -641,6 +641,8 @@ $("#new").click(function () {
     $('#div_tabla_lineas').show()
     $("#upsert").show();
 
+     init_map()
+
     $("#submit_form").removeClass('was-validated');
     $("#modal").modal("show");
 });
@@ -967,9 +969,16 @@ function delete_referencias(self) {
             $("#submit_form").attr("hidden", false);
             $("#submit_form-referencia").attr("hidden", true);
 
+
+            $('#latitud').val(self.latitud)
+            $('#longitud').val(self.longitud)
+
+
+
             $('.item-form').parent().addClass('focused')
             $('#upsert').show()
             $('#modal').modal('show')
+            init_map()
         },
         error: function (jqXHR, status, err) {
         }
@@ -996,7 +1005,9 @@ $('#upsert').on('click', async function() {
             domicilio: $("#domicilio").val(),
             lugarNacimiento: $("#lugarNacimiento").val(),
             socioConductor: $("#socioConductor").val(),
-            tipo: "Conductor"
+            tipo: "Conductor",
+          latitud: $("#latitud").val(),
+          longitud: $("#longitud").val()
       }
 
       let url = "/persona/insert/";

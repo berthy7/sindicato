@@ -13,10 +13,18 @@ function init_map() {
         longitud.value = e.sourceTarget._latlng.lng
         $(latitud).parent().addClass('focused')
         $(longitud).parent().addClass('focused')
+
+
         //onMarkerClick(e.sourceTarget)
 
         //myMap.flyTo([-17.8603, -63.1513], 13)
     });
+
+    // window.dispatchEvent(new Event('resize'));
+    myMap.invalidateSize();
+
+    myMap.flyTo([-17.8603, -63.1513], 13)
+
 }
 
 function onMarkerClick(e) {
