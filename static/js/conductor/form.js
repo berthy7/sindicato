@@ -1,7 +1,3 @@
-const tilesProvider = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-let myMap = L.map('map').setView([-17.78644, -63.1823], 13);
-let popup = L.popup();
-
 let id_table = '#data_table';
 let id_table_referencia = '#data_table_referencia';
 let id_table_lineasAgregadas = '#data_table_lineas';
@@ -16,8 +12,9 @@ let lista = []
 let swPermiso = true
 
 $(document).ready( function () {
-    reload_table();
-
+    // reload_table();
+    console.log("sdf")
+    init_map();
 
 });
 
@@ -646,13 +643,16 @@ $("#new").click(function () {
     $('#div_tabla_lineas').show()
     $("#upsert").show();
 
+     init_map()
+
     $("#submit_form").removeClass('was-validated');
     $("#modal").modal("show");
-
 });
 $("#newMapa").click(function () {
+    console.log("sadf")
     init_map();
 });
+
 
 
 
@@ -990,7 +990,7 @@ function delete_referencias(self) {
             $('.item-form').parent().addClass('focused')
             $('#upsert').show()
             $('#modal').modal('show')
-
+            init_map()
         },
         error: function (jqXHR, status, err) {
         }
@@ -998,6 +998,7 @@ function delete_referencias(self) {
 }
 
 $('#upsert').on('click', async function() {
+
     const validationData = formValidation('submit_form');
       if (validationData.error) {
         showSmallMessage("error", 'Por favor, ingresa todos los campos requeridos (*)');
@@ -1176,37 +1177,6 @@ function delete_item(e) {
         }
     })
 }
-
-function init_map() {
-    let marker = L.marker([-17.78644, -63.1823], {draggable: true}).addTo(myMap);
-    L.tileLayer(tilesProvider, {
-        maxZoom: 18,
-    }).addTo(myMap);
-
-    marker.on('moveend', e => {
-        latitud.value = e.sourceTarget._latlng.lat
-        longitud.value = e.sourceTarget._latlng.lng
-        $(latitud).parent().addClass('focused')
-        $(longitud).parent().addClass('focused')
-
-
-        //onMarkerClick(e.sourceTarget)
-
-        //myMap.flyTo([-17.8603, -63.1513], 13)
-    });
-
-    // window.dispatchEvent(new Event('resize'));
-    myMap.invalidateSize();
-
-    myMap.flyTo([-17.78644, -63.1823], 13)
-
-}
-
-function onMarkerClick(e) {
-    popup.setLatLng(e._latlng).setContent("Ubicación: " + e._latlng.toString()).openOn(myMap);
-}
-
-
 
 function reporte_item(e){
     window.location.href = '/conductor/reporte/'+parseInt(JSON.parse($(e).attr('data-json')))

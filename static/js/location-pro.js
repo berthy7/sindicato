@@ -1,11 +1,11 @@
 const tilesProvider = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-let myMap = L.map('map').setView([-17.8603, -63.1513], 13);
+let myMap = L.map('map').setView([-17.7844, -63.1809], 13);
 // let zoomMap = L.map('map').setView([-17.8603, -63.1513], 13);
 let popup = L.popup();
 // let popup_zm = L.popup();
 let marker, marker_zm;
-var m_lat = -17.860312;
-var m_lng = -63.151347;
+var m_lat = -17.7844;
+var m_lng = -63.1809;
 
 function init_map() {
     // console.log(`Map > ${m_lat} | ${m_lng}`)
@@ -19,6 +19,7 @@ function init_map() {
             onMarkerClick(e.sourceTarget)
         });
         /* Cover whole map area */
+
         window.dispatchEvent(new Event('resize'));
         myMap.invalidateSize();
     }

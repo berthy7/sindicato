@@ -45,6 +45,29 @@ def index(request):
     return render(request, 'conductor/index.html', {'lineas':lineas,'conductores':conductores,
                                                    'usuario': user.first_name + " " + user.last_name,
                                                    'rol': rol,'foto': foto, 'lineaUser': lineaUser})
+
+@login_required
+def form(request,id):
+    user = request.user
+    try:
+        persona = Persona.objects.filter(fkusuario=user.id)
+        rol = persona[0].fkrol.name
+        conductores = Persona.objects.filter(habilitado=True).filter(tipo="Conductor").all().order_by('ci')
+        if persona[0].fklinea:
+            linea = get_object_or_404(Linea, id=persona[0].fklinea)
+            lineaUser = linea.codigo
+            lineas = Linea.objects.filter(habilitado=True).filter(id=linea.id).all().order_by('id')
+
+        else:
+            lineaUser = ""
+            lineas = Linea.objects.filter(habilitado=True).all().order_by('id')
+
+        foto = persona[0].foto if persona[0].foto != None else  ""
+    except Exception as e:
+        print(e)
+    return render(request, 'conductor/form.html', {'lineas':lineas,'conductores':conductores,
+                                                   'usuario': user.first_name + " " + user.last_name,
+                                                   'rol': rol,'foto': foto, 'lineaUser': lineaUser})
 @login_required
 def list(request):
     dt_list = []

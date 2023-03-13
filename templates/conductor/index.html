@@ -7,6 +7,10 @@
     <link href='{% static "app/plugins/bootstrap-fileinput/themes/explorer-fa5/theme.css" %}' rel='stylesheet' type='text/css'/>
     <link href='{% static "app/plugins/bootstrap-select-1.14.0-beta3/css/bootstrap-select.min.css" %}' rel='stylesheet' type='text/css'/>
     <link href='{% static "app/plugins/leaflet/leaflet.css" %}' rel='stylesheet' type='text/css'/>
+{#    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"#}
+{#     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="#}
+{#     crossorigin=""/>#}
+
     <link href='{% static "css/site.css" %}' rel='stylesheet' type='text/css'/>
 
 {#    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />#}
@@ -24,6 +28,12 @@
                 data-target="#modal" title="Nuevo">
                 <i class="mdi mdi-plus"></i>
               </button>
+
+{#                  <div class="row wa-position-absolute">#}
+{#                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">#}
+{#                        <a href="/conductor/form/0" class="btn btn bg-orange">Nuevo</a>#}
+{#                    </div>#}
+{#                </div>#}
 
                <button id="lista" type="button" class="btn btn-info mb-3" data-toggle="modal-lista"
                 data-target="#modal-lista" title="Lista General">
@@ -65,9 +75,12 @@
     <script src='{% static "app/plugins/bootstrap-fileinput/js/locales/es.js" %}' type='text/javascript'></script>
     <script src='{% static "app/plugins/bootstrap-select-1.14.0-beta3/js/bootstrap-select.js" %}' type='text/javascript'></script>
     <script src='{% static "app/plugins/leaflet/leaflet.js" %}' type='text/javascript'></script>
+{#    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"#}
+{#     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="#}
+{#     crossorigin=""></script>#}
 
     <script src='{% static "js/conductor/index.js" %}'></script>
 
 {#    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>#}
-    <script src='{% static "js/location-pro.js" %}'></script>
+{#    <script src='{% static "js/location-pro.js" %}'></script>#}
 {% endblock %}
