@@ -14,6 +14,7 @@ let lineasAgregadas = []
 let lista = []
 
 let swPermiso = true
+swMapa = true;
 
 $(document).ready( function () {
     reload_table();
@@ -651,7 +652,10 @@ $("#new").click(function () {
 
 });
 $("#newMapa").click(function () {
-    init_map();
+    if(swMapa){
+        init_map();
+        swMapa = false;
+    }
 });
 
 
